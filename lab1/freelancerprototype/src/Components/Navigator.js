@@ -3,6 +3,7 @@ import './App.css';
 import SignIn from './SignIn'
 import SignUp from './SignUp'
 import {Link} from 'react-router-dom'
+import AddProject from './AddProject'
 
 class Navigator extends Component {
     render() {
@@ -20,7 +21,7 @@ class Navigator extends Component {
                             <li><Link to="/SignUp"> Sign Up </Link></li>
                         </ul>
                         <ul className="nav navbar-nav navbar-right">
-                            <li><Link to="#" className="btn btn-primary"> Post a Project </Link></li>
+                            <li><Link to="/AddProject" className="btn btn-primary"> Post a Project </Link></li>
                         </ul>
                     </div>
                 </nav>

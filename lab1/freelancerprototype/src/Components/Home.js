@@ -10,6 +10,7 @@ const Home = () => (
       <Route exact path = '/' component = {Navigator} />
       <Route exact path = '/SignIn' component = {SignIn} />
       <Route exact path = '/SignUp' component = {SignUp} />
+      <Route exact path = '/AddProject' component = {AddProject} />
       <Route exact path='*' component={NotFound} /> 
     </Switch>
 )
