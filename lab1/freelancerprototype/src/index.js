@@ -7,9 +7,9 @@ import Bootstrap from 'bootstrap/dist/css/bootstrap.css';
 import { BrowserRouter } from 'react-router-dom';
 
 ReactDOM.render(
-(<BrowserRouter>
+<BrowserRouter>
     <App />
-</BrowserRouter>), 
+</BrowserRouter>, 
 document.getElementById('root'));
 
 registerServiceWorker();
