@@ -1,9 +1,10 @@
-import React, { Component } from 'react'
+import React from 'react'
 import './App.css'
 import { Switch,Route,Link } from 'react-router-dom'
 import SignIn from './SignIn'
 import Navigator from './Navigator'
 import SignUp from './SignUp'
+import AddProject from './AddProject'
 
 const Home = () => (
     <Switch>
