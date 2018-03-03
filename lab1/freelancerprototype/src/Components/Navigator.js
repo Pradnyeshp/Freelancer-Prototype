@@ -1,9 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
-import SignIn from './SignIn'
-import SignUp from './SignUp'
 import {Link} from 'react-router-dom'
-import AddProject from './AddProject'
 
 class Navigator extends Component {
     render() {
@@ -12,7 +9,7 @@ class Navigator extends Component {
                 <nav className="navbar navbar-inverse" >
                     <div className="container-fluid">
                         <div className="navbar-header">
-                            <a className="navbar-brand" href="#">Freelancer Logo</a>
+                            <a className="navbar-brand" >Freelancer Logo</a>
                         </div>
                         <ul className="nav navbar-nav navbar-right" styles={{ float: 'right', paddingRight: '5px' }}>
                             <li><Link to="/SignIn"> Login </Link></li>
