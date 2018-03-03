@@ -5,12 +5,14 @@ class SignUp extends Component {
 
     constructor(){
         super();
-        this.state={
+        this.state = {
             email: '',
             username: '',
-            pwd: ''
+            pwd: '',
+            radioResponce: ''
         }
         this.handleChange.bind(this)
+        this.handleSubmit.bind(this)
     }
 
     handleChange = (e) => {
@@ -21,20 +23,29 @@ class SignUp extends Component {
         this.setState({
             [name] : value
         })
-
-        console.log(this.state);
-        
+        // console.log(this.state.email);
     }
 
-    handleSubmit(e){
-        
+    handleSubmit = (e) => {
+        e.preventDefault(); 
+
+        const userData = {
+            username : this.state.username,
+            email : this.state.email,
+            pwd : this.state.pwd,
+            radioResponce : this.state.radioResponce
+        }
+
+        console.log(userData);
+        //console.log(userData);
+    
     }
     
     render() {
         return (
             <div className="signup">
-                <form onSubmit={this.handleSubmit}>
-                    <h2>Please enter you details</h2><br/><br/>
+                <form onSubmit={this.handleSubmit}><br/>
+                    <h2>Please enter your details</h2><br/><br/>
                     <div className="form-group">
                         <label>Email:</label>
                         <input type="text" className="form-control" name="email" placeholder='Email Address' 
