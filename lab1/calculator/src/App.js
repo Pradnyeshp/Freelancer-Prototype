@@ -33,6 +33,7 @@ class App extends Component {
       op2: this.state.val2,
       op: val
     }
+    
     axios.post('http://localhost:3001/operations', operation)
       .then((response) => {
         console.log(response.data)
