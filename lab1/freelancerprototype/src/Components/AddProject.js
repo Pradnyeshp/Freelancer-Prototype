@@ -5,23 +5,23 @@ class AddProject extends Component {
     render() {
         return (
             <div className="project">
-                <form>
+                <form><br />
                     <label>Project Name :
                         <input type="text" ref="projectname" required />
-                    </label>
+                    </label><br/>
                     <label>Description :
                         <input type="text" ref="projectdesc" required />
-                    </label>
+                    </label><br />
                     <label>Files Upload:
                         <input type="text" ref="fileupload" required />
-                    </label>
+                    </label><br />
                     <label>Skills Required:
                         <input type="text" ref="skillsreq" required />
-                    </label>
+                    </label><br />
                     <label>Budget Required:
                         <input type="text" ref="budget" required />
-                    </label>
-                    <button>Post</button>
+                    </label><br />
+                    <button className="btn btn-primary" >Post</button>
                 </form>
             </div>
         );
