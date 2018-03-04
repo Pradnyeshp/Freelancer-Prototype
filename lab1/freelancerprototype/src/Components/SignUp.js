@@ -60,9 +60,7 @@ class SignUp extends Component {
                             <label>Password:</label>
                         <input type="password" className="form-control" name="pwd" placeholder='Password' 
                             onChange={this.handleChange} required/>
-                    </div>    
-                    <label className="radio-inline"><input type="radio" name="hire" /> Hire </label> &nbsp;&nbsp;
-                    <label className="radio-inline"><input type="radio" name="work"/> Work </label> <br/> <br/>
+                    </div>    <br/>
                     <button className="btn btn-primary"> Create Account</button>
                 </form>
             </div>
