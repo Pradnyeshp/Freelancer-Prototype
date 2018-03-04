@@ -1,5 +1,8 @@
 import React, { Component } from 'react';
 import './App.css';
+import { axios } from 'axios' ;
+import { Redirect } from 'react-router-dom' ;
+import { connect } from 'react-redux' ;
 
 class SignIn extends Component {
 
@@ -32,9 +35,15 @@ class SignIn extends Component {
             pwd: this.state.pwd
         }
         console.log(userData);
+        this.props.login(userData);
     }
     
     render() {
+        let valid = null;
+        if(this.props.login !== null){
+            valid = <Redirect to='/profile' />
+        }
+
         return (
             <div className="center">
                 <div>
@@ -59,4 +68,29 @@ class SignIn extends Component {
     }
 }
 
-export default SignIn;
+
+function mapStateToProps(state) {
+    return {
+        username: state.username,
+        pwd: state.pwd,
+        logindata: state.logindata
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return {
+        login: (userData) => {
+            axios.post('http://localhost:3001/signin', userData)
+                .then((response) => {
+                    console.log(response.data[0]);
+                    if (response.data = 'ERROR') {
+                        dispatch({type: 'ERROR', payload: response })
+                    }
+                    else
+                        dispatch({ type: 'SIGNIN_SUCCESS', payload: response })
+                });
+        }
+    };
+}
+
+export default (mapStateToProps,mapDispatchToProps) (SignIn);
