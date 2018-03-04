@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.css';
+import { connect } from 'react-redux' ;
 
 class SignUp extends Component {
 
@@ -68,4 +69,17 @@ class SignUp extends Component {
     }
 }
 
-export default SignUp;
+function mapStateToProps() {
+    return{
+
+    };
+}
+
+function mapDispatchToProps(dispatch) {
+    return{
+
+    };
+
+}
+
+export default connect(mapStateToProps, mapDispatchToProps) (SignUp);
