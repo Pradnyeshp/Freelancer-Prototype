@@ -1,18 +1,20 @@
-import React from 'react'
-import './App.css'
-import { Switch,Route,Link } from 'react-router-dom'
-import SignIn from './SignIn'
-import Navigator from './Navigator'
-import SignUp from './SignUp'
-import AddProject from './AddProject'
+import React from 'react';
+import './App.css';
+import { Switch } from 'react-router-dom';
+import { Route } from 'react-router-dom' ;
+import { Link } from 'react-router-dom';
+import SignIn from './SignIn';
+import Navigator from './Navigator';
+import SignUp from './SignUp';
+import AddProject from './AddProject';
 
 const Home = () => (
     <Switch>
       <Route exact path = '/' component = {Navigator} />
-      <Route exact path = '/SignIn' component = {SignIn} />
-      <Route exact path = '/SignUp' component = {SignUp} />
-      <Route exact path = '/AddProject' component = {AddProject} />
-      <Route exact path='*' component={NotFound} /> 
+      <Route path = '/SignIn' component = {SignIn} />
+      <Route path = '/SignUp' component = {SignUp} />
+      <Route path = '/AddProject' component = {AddProject} />
+      <Route path='*' component={NotFound} /> 
     </Switch>
 )
 
