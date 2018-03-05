@@ -39,9 +39,9 @@ class SignIn extends Component {
     }
     
     render() {
-        let valid = null;
+        let profile = null ;
         if(this.props.login !== null){
-            valid = <Redirect to='/profile' />
+            profile = <Redirect to = '/profile' />
         }
 
         return (
@@ -83,7 +83,7 @@ function mapDispatchToProps(dispatch) {
             axios.post('http://localhost:3001/signin', userData)
                 .then((response) => {
                     console.log(response.data[0]);
-                    if (response.data = 'ERROR') {
+                    if (response.data === 'ERROR') {
                         dispatch({type: 'ERROR', payload: response })
                     }
                     else

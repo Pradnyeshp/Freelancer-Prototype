@@ -5,10 +5,11 @@ import App from './App';
 import registerServiceWorker from './registerServiceWorker';
 import Bootstrap from 'bootstrap/dist/css/bootstrap.css';
 import { BrowserRouter } from 'react-router-dom';
-import Store from './Store';
 import { Provider } from 'react-redux';
+import { createStore } from 'redux' ;
+import reducer from './Reducer';
 
-const store = Store();
+const store = createStore(reducer);
 
 ReactDOM.render(
 <Provider store={store}>

@@ -13,8 +13,14 @@ class SignUp extends Component {
             username: '',
             pwd: '',
         }
-        this.handleChange.bind(this)
-        this.handleSubmit.bind(this)
+        this.handleChange.bind(this);
+        this.handleSubmit.bind(this);
+    }
+
+    getInitialState = () => {
+    return {
+        post: null // Or some other default value that you fancy
+    };
     }
 
     handleChange = (e) => {
@@ -36,7 +42,7 @@ class SignUp extends Component {
             pwd : this.state.pwd
         }
         console.log(userData);
-        this.props.addUser(userData);
+        // this.props.insertUser(userData);
     }
     
     render() {
@@ -82,14 +88,15 @@ function mapStateToProps(state) {
 
 function mapDispatchToProps(dispatch) {
     return{
-        addUser : (newUser) => {
+        userData : (newUser) => {
+            console.log(newUser);
             axios.post('http://localhost:3001/signup', newUser)
                 .then( (response) => {
-                    console.log(response.body);
+                    console.log(response);
                     dispatch({type : 'SIGNUP_SUCCESS', payload : response})
                 });
         }
-    };
+    }
 }
 
 export default connect(mapStateToProps, mapDispatchToProps) (SignUp) ;
