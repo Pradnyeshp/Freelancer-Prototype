@@ -12,11 +12,11 @@ import reducer from './Reducer';
 const store = createStore(reducer);
 
 ReactDOM.render(
-<Provider store={store}>
     <BrowserRouter>
-        <App />
-    </BrowserRouter>
-</Provider>, 
+        <Provider store={store}>
+            <App />
+        </Provider> 
+    </BrowserRouter>, 
 document.getElementById('root'));
 
 registerServiceWorker();
