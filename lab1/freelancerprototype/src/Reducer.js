@@ -1,7 +1,8 @@
 
 const initialState = {
     login_data : null,
-    signup_success : null
+    signup_success : null,
+    error : null
 }
 
 const reducer = (state = initialState, action) => {
