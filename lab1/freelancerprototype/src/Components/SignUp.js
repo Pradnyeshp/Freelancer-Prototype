@@ -1,102 +1,107 @@
 import React, { Component } from 'react';
-import './App.css';
-import { connect } from 'react-redux' ;
-import { axios } from 'axios' ;
-import { Redirect } from 'react-router-dom' ;
+import { connect } from 'react-redux';
+import { Redirect } from 'react-router-dom';
 
-class SignUp extends Component {
+import axios from 'axios';
 
-    constructor(){
+
+
+class Signup extends Component {
+    constructor() {
         super();
         this.state = {
-            email: '',
-            username: '',
-            pwd: '',
+            username: "",
+            password: "",
+            emailid: ""
         }
-        this.handleChange.bind(this);
-        this.handleSubmit.bind(this);
     }
 
-    getInitialState = () => {
-    return {
-        post: null // Or some other default value that you fancy
-    };
-    }
-
-    handleChange = (e) => {
-        const name = e.target.name
-        const value = e.target.value
+    handleChange = (events) => {
 
         this.setState({
-            [name] : value
+            [events.target.name]: events.target.value
         })
-        // console.log(this.state.email);
+
+
     }
 
-    handleSubmit = (e) => {
-        e.preventDefault(); 
+    createUser = (events) => {
+        events.preventDefault();
 
-        const userData = {
-            username : this.state.username,
-            email : this.state.email,
-            pwd : this.state.pwd
+        console.log(this.state.username + " " + this.state.password);
+        const userDetails = {
+            username: this.state.username,
+            password: this.state.password,
+            emailid: this.state.emailid
         }
-        console.log(userData);
-        // this.props.insertUser(userData);
+        this.props.insertUser(userDetails);
     }
-    
+
     render() {
-        let  invalid = null;
-        if(this.props.signup === 'SIGNUP_SUCCESS' ) {
-            invalid = <Redirect to='/login' />
+        let authRedirect = null;
+        if (this.props.signupSuccess === 'SIGNUP_SUCCESS') {
+            authRedirect = <Redirect to='/SignIn' />
         }
-
         return (
-            <div className="signup">
-                <form onSubmit={this.handleSubmit}><br/>
-                    <h2>Please enter your details</h2><br/><br/>
-                    <div className="form-group">
-                        <label>Email:</label>
-                        <input type="text" className="form-control" name="email" placeholder='Email Address' 
-                            onChange={this.handleChange} required/>
+
+            <div className="Signup">
+                {authRedirect}
+                <div id="mainDiv">
+                    <div className="center">
+                        <div>
+                            <h1> Freelancer logo here </h1>
+                            <h3> SignUp for free today </h3>
+                            <hr />
+                        </div>
+                        <div id="divSignupForm">
+                            <form onSubmit={this.createUser.bind(this)}>
+                                <div className="form-group">
+                                    <input type="email" ref="emailid" onChange={this.handleChange} className="form-control" id="txtEmailId" placeholder="Enter Email" name="emailid" />
+                                </div>
+                                <div className="form-group">
+                                    <input type="text" ref="username" onChange={this.handleChange} className="form-control" id="txtUserName" placeholder="Enter Username" name="username" />
+                                </div>
+                                <div className="form-group">
+                                    <input type="password" ref="password" onChange={this.handleChange} className="form-control" id="txtPassword" placeholder="Enter Password" name="password" />
+                                </div>
+                                <div className="form-group">
+                                </div>
+                                <div className="form-group">
+                                    <input type="submit" className="form-control btn btn-primary" id="btnSubmitSignUpForm" value="Create Account" />
+                                </div>
+
+                            </form>
+                        </div>
                     </div>
-                    <div className="form-group">
-                        <label>Name:</label>
-                        <input type="text" className="form-control" name="username" placeholder='Username' 
-                            onChange={this.handleChange} required />
-                    </div>
-                    <div className="form-group">
-                        <label>Password:</label>
-                        <input type="password" className="form-control" name="pwd" placeholder='Password' 
-                            onChange={this.handleChange} required/>
-                    </div>    <br/>
-                    <button className="btn btn-primary"> Create Account</button>
-                </form>
+                </div>
+
             </div>
         );
     }
 }
 
+
+
 function mapStateToProps(state) {
-    return{
-        username : state.username,
-        email : state.email,
-        pwd : state.pwd,
-        signup : state.signup
-    };
+    return {
+        username: state.username,
+        password: state.password,
+        emailid: state.emailid,
+        signupSuccess: state.signup_success
+    }
 }
 
 function mapDispatchToProps(dispatch) {
-    return{
-        userData : (newUser) => {
+    return {
+        insertUser: (newUser) => {
             console.log(newUser);
             axios.post('http://localhost:3001/signup', newUser)
-                .then( (response) => {
+                .then((response) => {
                     console.log(response);
-                    dispatch({type : 'SIGNUP_SUCCESS', payload : response})
+                    dispatch({ type: 'SIGNUP_SUCCESS', payload: response })
                 });
         }
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps) (SignUp) ;
+export default connect(mapStateToProps, mapDispatchToProps)(Signup);
