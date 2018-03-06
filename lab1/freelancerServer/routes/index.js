@@ -75,11 +75,12 @@ router.post('/signin', function (req, res, next) {
         else {
           console.log("User details found in database");
           console.log(result);
-          res.json('SIGNIN_SUCCESS');
+          res.json(result);
         }
       });
     }
   })
+
 
 });
 module.exports = router;
