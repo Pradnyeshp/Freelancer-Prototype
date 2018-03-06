@@ -19,7 +19,7 @@ router.post('/signup', function(req, res, next) {
   console.log(req.body);
  
   const usr = req.body.username;
-  const email = req.body.emailid;
+  const email = req.body.email;
   const pwd = req.body.password;
   
   con.getConnection((err, connection) => {
@@ -49,4 +49,36 @@ router.post('/signup', function(req, res, next) {
  
 } );
 
+router.post('/signin', function (req, res, next) {
+  console.log(req.body);
+
+  const usr = req.body.username;
+  const pwd = req.body.password;
+
+  con.getConnection((err, connection) => {
+    if (err) {
+      res.json({
+        code: 100,
+        status: "Not able to connect to database"
+      });
+    }
+
+    else {
+      var sql = 'SELECT * from user WHERE username = ? AND password = ?';
+      con.query(sql, [usr, pwd], (err, result) => {
+
+        if (err) {
+          console.log(err.name);
+          console.log(err.message);
+          res.json('ERROR');
+        }
+        else {
+          console.log("User details found in database");
+          res.json(usr);
+        }
+      });
+    }
+  })
+
+});
 module.exports = router;
