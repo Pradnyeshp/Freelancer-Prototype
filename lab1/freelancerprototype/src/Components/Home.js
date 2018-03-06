@@ -8,6 +8,7 @@ import Navigator from './Navigator';
 import SignUp from './SignUp';
 import AddProject from './AddProject';
 import Profile from './Profile'
+import Userhome from './Userhome'
 
 const Home = () => (
   <div>
@@ -16,17 +17,17 @@ const Home = () => (
       <Route path = '/signin' component = {SignIn} />
       <Route path = '/signup' component = {SignUp} />
       <Route path = '/AddProject' component = {AddProject} />
-      <Route path='/Profile' component={Profile} />
-      <Route path='*' component={NotFound} />
+      <Route path = '/Profile' component = {Profile} />
+      <Route path = '/Userhome' component = {Userhome} /> 
+      <Route path = '*' component = {NotFound} />
     </Switch>
   </div>
 )
 
 const NotFound = () => (
-  <div>
-{/* <Route path='*' component={NotFound} />  */ }
+  <div><br/>
     <h2> 404... This page is not found</h2>
-    <p>Whoops! Sorry, there is nothing to see here</p>
+    <p> Whoops! Sorry, there is nothing to see here</p>
     <p><Link to="/">Back to Home</Link></p>
   </div>
 )
