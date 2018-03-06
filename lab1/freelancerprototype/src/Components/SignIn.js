@@ -10,7 +10,8 @@ class SignIn extends Component {
         this.state = {
             username: "",
             password: "",
-            error: ""
+            error: "",
+            signin_success: "null"
         }
     }
 
@@ -32,17 +33,19 @@ class SignIn extends Component {
 
     render() {
         let profile = null;
-        if (this.props.signin_success === 'SIGNIN_SUCCESS') {
+ 
+        
+        if (this.props.signin_success !== 'null') {
             profile = <Redirect to="/Profile" />
         }
 
         return (
             <div className="Login">
-                {profile}
+            {profile}
                 <div id="mainDiv">
                     <div className="center">
                         <div>
-                            <h1> Login  </h1>
+                            <h1> Login </h1>
                         </div>
                         <div id="divLoginForm">
                             <form onSubmit={this.handleSignIn.bind(this)}>
@@ -80,12 +83,14 @@ function mapDispatchToProps(dispatch) {
             console.log("In Login dispatch", userData);
             axios.post('http://localhost:3001/signin', userData)
                 .then((response) => {
-                    //console.log(response);
+                    console.log(response.data[0].Username);
                     console.log("After login dispatch", response.data);
                     if (response.data === 'ERROR')
                         dispatch({ type: 'ERROR', payload: response })
-                    else {
-                        //sessionStorage.setItem('username', response.data[0].username)
+                    else {                        
+                        sessionStorage.setItem('username', response.data[0].username)
+                        console.log(sessionStorage.username);
+                
                         dispatch({ type: 'SIGNIN_SUCCESS', payload: response })
                     }
 
