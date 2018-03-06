@@ -32,7 +32,7 @@ class SignIn extends Component {
 
     render() {
         let profile = null;
-        if (this.props.loginData !== null) {
+        if (this.props.signin_success === 'SIGNIN_SUCCESS') {
             profile = <Redirect to="/Profile" />
         }
 
@@ -70,7 +70,7 @@ function mapStateToProps(state) {
     return {
         username: state.username,
         password: state.password,
-        loginData: state.login_data
+        signin_success: state.signin_success
     }
 }
 
