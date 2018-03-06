@@ -5,6 +5,7 @@ import axios from 'axios';
 
 
 class Signup extends Component {
+    
     constructor() {
         super();
         this.state = {
@@ -12,6 +13,8 @@ class Signup extends Component {
             password: "",
             email: ""
         }
+
+        this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange = (events) => {
@@ -20,13 +23,11 @@ class Signup extends Component {
             [events.target.name]: events.target.value
         })
 
-
     }
 
     createUser = (events) => {
         events.preventDefault();
 
-        console.log(this.state.username + " " + this.state.password);
         const userDetails = {
             username: this.state.username,
             password: this.state.password,
@@ -36,14 +37,16 @@ class Signup extends Component {
     }
 
     render() {
-        let authRedirect = null;
+        let validUser = null;
+
         if (this.props.signupSuccess === 'SIGNUP_SUCCESS') {
-            authRedirect = <Redirect to='/SignIn' />
+            validUser = <Redirect to='/SignIn' />
         }
+
         return (
 
             <div className="Signup">
-                {authRedirect}
+                {validUser}
                 <div id="mainDiv">
                     <div className="center">
                         <div>
