@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-
 import axios from 'axios';
-
 
 
 class Signup extends Component {
@@ -12,7 +10,7 @@ class Signup extends Component {
         this.state = {
             username: "",
             password: "",
-            emailid: ""
+            email: ""
         }
     }
 
@@ -32,7 +30,7 @@ class Signup extends Component {
         const userDetails = {
             username: this.state.username,
             password: this.state.password,
-            emailid: this.state.emailid
+            email: this.state.email
         }
         this.props.insertUser(userDetails);
     }
@@ -56,7 +54,7 @@ class Signup extends Component {
                         <div id="divSignupForm">
                             <form onSubmit={this.createUser.bind(this)}>
                                 <div className="form-group">
-                                    <input type="email" ref="emailid" onChange={this.handleChange} className="form-control" id="txtEmailId" placeholder="Enter Email" name="emailid" />
+                                    <input type="email" ref="email" onChange={this.handleChange} className="form-control" id="txtemail" placeholder="Enter Email" name="email" />
                                 </div>
                                 <div className="form-group">
                                     <input type="text" ref="username" onChange={this.handleChange} className="form-control" id="txtUserName" placeholder="Enter Username" name="username" />
@@ -86,7 +84,7 @@ function mapStateToProps(state) {
     return {
         username: state.username,
         password: state.password,
-        emailid: state.emailid,
+        email: state.email,
         signupSuccess: state.signup_success
     }
 }
