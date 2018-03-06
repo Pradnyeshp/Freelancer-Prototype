@@ -7,6 +7,7 @@ import SignIn from './SignIn';
 import Navigator from './Navigator';
 import SignUp from './SignUp';
 import AddProject from './AddProject';
+import Profile from './Profile'
 
 const Home = () => (
   <div>
@@ -15,6 +16,7 @@ const Home = () => (
       <Route path = '/signin' component = {SignIn} />
       <Route path = '/signup' component = {SignUp} />
       <Route path = '/AddProject' component = {AddProject} />
+      <Route path='/Profile' component={Profile} />
       <Route path='*' component={NotFound} />
     </Switch>
   </div>
