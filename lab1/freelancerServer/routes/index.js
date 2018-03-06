@@ -74,7 +74,8 @@ router.post('/signin', function (req, res, next) {
         }
         else {
           console.log("User details found in database");
-          res.json(usr);
+          console.log(result);
+          res.json('SIGNIN_SUCCESS');
         }
       });
     }

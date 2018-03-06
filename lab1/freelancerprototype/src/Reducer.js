@@ -15,9 +15,10 @@ const reducer = (state = initialState, action) => {
                 }
 
             case 'SIGNIN_SUCCESS' :
+                console.log(action.payload.data);
                 return {
                     ...state,
-                    signin_success : action.payload.data
+                    signin_success : action.payload.data 
                 }
         
             default:
