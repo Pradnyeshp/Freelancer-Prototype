@@ -6,12 +6,13 @@ class Profile extends Component {
 
     constructor() {
         super();
-        this.handleSubmit.bind(this);
+        this.handleSubmit = this.handleSubmit.bind(this);
     }
 
     handleSubmit = () =>
     {
-        sessionStorage.clear() ;
+        //sessionStorage.clear() ;
+        sessionStorage.removeItem('username');
         console.log(sessionStorage);        
     }
 
@@ -29,7 +30,7 @@ class Profile extends Component {
                         <input type="text" ref="phone"  />
                     </label><br />
                     <label>About Me :
-                        <input type="text" ref="aboutme"  />
+                        <input type="text" ref="aboutme" />
                     </label><br />
                     <label>Skills :
                         <input type="text" ref="email"  />
