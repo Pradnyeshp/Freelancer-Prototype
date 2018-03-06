@@ -3,6 +3,18 @@ import './App.css';
 import {Link} from 'react-router-dom';
 
 class Profile extends Component {
+
+    constructor() {
+        super();
+        this.handleSubmit.bind(this);
+    }
+
+    handleSubmit = () =>
+    {
+        sessionStorage.clear() ;
+        console.log(sessionStorage);        
+    }
+
     render() {
         return (
             <div className="profile">
@@ -25,8 +37,8 @@ class Profile extends Component {
                     <label>Profile Image :
                         <input type="text" ref="email"  />
                     </label><br />
-                    <button>Edit</button>
-                    <Link to='/' className='btn btn-danger'>LogOut</Link>
+                    <button>Edit</button><br/>
+                    <Link to='/' className='btn btn-danger' onClick={this.handleSubmit}>LogOut</Link>
                 </form>
             </div>
         );
