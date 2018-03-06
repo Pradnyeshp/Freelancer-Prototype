@@ -7,7 +7,7 @@ import Bootstrap from 'bootstrap/dist/css/bootstrap.css';
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore } from 'redux' ;
-import reducer from './Reducer';
+import reducer from './reducer';
 
 const store = createStore(reducer);
 
