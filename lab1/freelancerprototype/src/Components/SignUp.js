@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import axios from 'axios';
+import './signin.css';
+import { Link } from 'react-router-dom';
 
 
 class Signup extends Component {
-    
+
     constructor() {
         super();
         this.state = {
@@ -13,8 +15,8 @@ class Signup extends Component {
             password: "",
             email: ""
         }
-
         this.handleChange = this.handleChange.bind(this);
+        this.createUser = this.createUser.bind(this);
     }
 
     handleChange = (events) => {
@@ -44,44 +46,34 @@ class Signup extends Component {
         }
 
         return (
-
-            <div className="Signup">
+            <div className="signup">
                 {validUser}
                 <div id="mainDiv">
                     <div className="center">
-                        <div>
-                            <h1> Freelancer logo here </h1>
-                            <h3> SignUp for free today </h3>
-                            <hr />
+                        <div><br />
                         </div>
                         <div id="divSignupForm">
-                            <form onSubmit={this.createUser.bind(this)}>
-                                <div className="form-group">
-                                    <input type="email" ref="email" onChange={this.handleChange} className="form-control" id="txtemail" placeholder="Enter Email" name="email" />
-                                </div>
-                                <div className="form-group">
-                                    <input type="text" ref="username" onChange={this.handleChange} className="form-control" id="txtUserName" placeholder="Enter Username" name="username" />
-                                </div>
-                                <div className="form-group">
-                                    <input type="password" ref="password" onChange={this.handleChange} className="form-control" id="txtPassword" placeholder="Enter Password" name="password" />
-                                </div>
-                                <div className="form-group">
-                                </div>
-                                <div className="form-group">
-                                    <input type="submit" className="form-control btn btn-primary" id="btnSubmitSignUpForm" value="Create Account" />
-                                </div>
-
-                            </form>
+                            <div className="form">
+                                <h1> Freelancer logo </h1>
+                                <form className="login-form" onSubmit={this.createUser}>
+                                    <input type="text" onChange={this.handleChange} className="form-control"
+                                        id="txtemail" placeholder="Enter Email" name="email" required />
+                                    <input type="text" onChange={this.handleChange} className="form-control"
+                                        id="txtUserName" placeholder="Enter Username" name="username" required/>
+                                    <input type="password" onChange={this.handleChange} className="form-control"
+                                        id="txtPassword" placeholder="Enter Password" name="password" required />
+                                    <button className="form-control btn btn-primary" id="btnSubmitSignUpForm" 
+                                        value="Create Account">Create Account</button>
+                                    <p className="message">Already have an account <Link to='/SignIn'>Sign In</Link></p>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-
             </div>
         );
     }
 }
-
-
 
 function mapStateToProps(state) {
     return {
