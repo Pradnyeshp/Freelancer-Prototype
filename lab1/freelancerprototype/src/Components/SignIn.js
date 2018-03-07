@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
-
+import './signin.css';
+import { Link } from 'react-router-dom';
 
 class SignIn extends Component {
     constructor() {
@@ -23,6 +24,7 @@ class SignIn extends Component {
 
     handleSignIn = (e) => {
         e.preventDefault();
+
         const userData = {
             username: this.state.username,
             password: this.state.password
@@ -33,37 +35,26 @@ class SignIn extends Component {
 
     render() {
         let profile = null;
- 
-        
-        if (this.props.signin_success !== 'null') {
-            profile = <Redirect to="/Profile" />
+         
+        if (sessionStorage.getItem('username') !== null ) {
+            profile = <Redirect to="/Userhome" />
         }
 
         return (
             <div className="Login">
             {profile}
-                <div id="mainDiv">
-                    <div className="center">
-                        <div>
-                            <h1> Login </h1>
-                        </div>
-                        <div id="divLoginForm">
-                            <form onSubmit={this.handleSignIn.bind(this)}>
-                                <div className="form-group">
-                                    <input type="text" value={this.state.username} onChange={this.handleChange} className="form-control" id="txtUserName" placeholder="Email or Username" ref="uname" name="username" required />
-                                </div>
-                                <div className="form-group">
-                                    <input type="password" value={this.state.password} onChange={this.handleChange} className="form-control" id="txtPassword" placeholder="Enter Password" ref="pass" name="password" required />
-                                </div>
-                                <div className="form-group">
-                                    <input type="submit" className="form-control btn btn-primary" id="btnSubmitSignUpForm" value="Login" />
-                                </div>
-
-                            </form>
-                        </div>
+                <div className="login-page">
+                    <div className="form">
+                        <form className="login-form" onSubmit={this.handleSignIn.bind(this)}>
+                            <input type="text" placeholder="Email or Username" value={this.state.username} onChange={this.handleChange} 
+                                className="form-control" id="txtUserName" name="username" required />
+                            <input type="password" placeholder="Password" value={this.state.password} onChange={this.handleChange} 
+                                className="form-control" id="txtPassword" name="password" required/>
+                            <button className="form-control btn btn-primary" value="Login">login</button>
+                            <p className="message"> Don't have an account? <Link to="/SignUp"> Create an account </Link></p>
+                        </form>
                     </div>
                 </div>
-
             </div>
         );
     }
@@ -90,7 +81,6 @@ function mapDispatchToProps(dispatch) {
                     else {                        
                         sessionStorage.setItem('username', response.data[0].username)
                         console.log(sessionStorage.username);
-                
                         dispatch({ type: 'SIGNIN_SUCCESS', payload: response })
                     }
 
