@@ -33,14 +33,15 @@ class Userhome extends Component {
                         <div className="nav">
                             <ul>
                                 <li className="Home"><a href="#">Home</a></li>
-                                <li className="Dashboard"><a className="active" href="#">Tutorials</a></li>
+                                <li className="Dashboard"><a className="active" href="#">Dashboard</a></li>
                                 <li></li><li></li>
-                                <li className="contact" className='class="btn btn-warning"'>
+                                <li className="contact" className="btn btn-warning">
                                     <Link to="/Project" >Post a Project</Link></li>
                             </ul>
                         </div>
                     </header>
                 </body>
+                
             </div>
         );
     }
