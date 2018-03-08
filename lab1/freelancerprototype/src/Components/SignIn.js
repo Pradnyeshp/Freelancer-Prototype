@@ -12,7 +12,7 @@ class SignIn extends Component {
             username: "",
             password: "",
             error: "",
-            signin_success: "null"
+            signin_success: ""
         }
     }
 
