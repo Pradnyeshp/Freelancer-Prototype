@@ -46,12 +46,29 @@ class SignIn extends Component {
                 <div className="login-page">
                     <div className="form">
                         <form className="login-form" onSubmit={this.handleSignIn.bind(this)}>
-                            <input type="text" placeholder="Email or Username" value={this.state.username} onChange={this.handleChange} 
-                                className="form-control" id="txtUserName" name="username" required />
-                            <input type="password" placeholder="Password" value={this.state.password} onChange={this.handleChange} 
-                                className="form-control" id="txtPassword" name="password" required/>
-                            <button className="form-control btn btn-primary" value="Login">login</button>
-                            <p className="message"> Don't have an account? <Link to="/SignUp"> Create an account </Link></p>
+                            <input type="text" 
+                                placeholder="Email or Username" 
+                                value={this.state.username} 
+                                onChange={this.handleChange} 
+                                className="form-control" 
+                                id="txtUserName" 
+                                name="username" required />
+                            <input type="password" 
+                                placeholder="Password" 
+                                value={this.state.password} 
+                                onChange={this.handleChange} 
+                                className="form-control" 
+                                id="txtPassword" 
+                                name="password" required/>
+                            <button className="form-control btn btn-primary" 
+                                value="Login">login
+                            </button>
+                            <p className="message"> 
+                                Don't have an account? 
+                                <Link to="/SignUp"> 
+                                    Create an account 
+                                </Link>
+                            </p>
                         </form>
                     </div>
                 </div>

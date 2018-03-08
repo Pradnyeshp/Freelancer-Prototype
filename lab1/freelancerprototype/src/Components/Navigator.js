@@ -23,7 +23,6 @@ class Navigator extends Component {
                             </ul>
                         </div>
                     </nav>
-                
             </div>
         );
     }
