@@ -18,6 +18,7 @@ router.get('/', function(req, res, next) {
 router.post('/signup', function(req, res, next) {
   console.log(req.body);
  
+  const name = req.body.name;
   const usr = req.body.username;
   const email = req.body.email;
   const pwd = req.body.password;
@@ -31,8 +32,8 @@ router.post('/signup', function(req, res, next) {
     }
 
     else {
-      var sql = 'INSERT INTO user (Username, Email, Password ) VALUES ( ?, ?, ?)';
-      con.query(sql , [usr, email, pwd] , (err,result) => {
+      var sql = 'INSERT INTO user (Name, Username, Email, Password ) VALUES (?, ?, ?, ?)';
+      con.query(sql , [name, usr, email, pwd] , (err,result) => {
         
         if(err) {
           console.log(err.name);
