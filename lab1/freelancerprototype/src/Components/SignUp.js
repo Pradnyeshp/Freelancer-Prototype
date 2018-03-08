@@ -10,11 +10,14 @@ class Signup extends Component {
 
     constructor() {
         super();
+
         this.state = {
+            name : "",
             username: "",
             password: "",
             email: ""
         }
+
         this.handleChange = this.handleChange.bind(this);
         this.createUser = this.createUser.bind(this);
     }
@@ -31,6 +34,7 @@ class Signup extends Component {
         events.preventDefault();
 
         const userDetails = {
+            name : this.state.name,
             username: this.state.username,
             password: this.state.password,
             email: this.state.email
@@ -57,11 +61,13 @@ class Signup extends Component {
                                 <h1> Freelancer logo </h1>
                                 <form className="login-form" onSubmit={this.createUser}>
                                     <input type="text" onChange={this.handleChange} className="form-control"
-                                        id="txtemail" placeholder="Enter Email" name="email" required />
+                                        id="txtFirstName" placeholder="Name" name="name" required />
                                     <input type="text" onChange={this.handleChange} className="form-control"
-                                        id="txtUserName" placeholder="Enter Username" name="username" required/>
+                                        id="txtemail" placeholder="Email" name="email" required />
+                                    <input type="text" onChange={this.handleChange} className="form-control"
+                                        id="txtUserName" placeholder="Username" name="username" required/>
                                     <input type="password" onChange={this.handleChange} className="form-control"
-                                        id="txtPassword" placeholder="Enter Password" name="password" required />
+                                        id="txtPassword" placeholder="Password" name="password" required />
                                     <button className="form-control btn btn-primary" id="btnSubmitSignUpForm" 
                                         value="Create Account">Create Account</button>
                                     <p className="message">Already have an account <Link to='/SignIn'>Sign In</Link></p>
@@ -77,6 +83,7 @@ class Signup extends Component {
 
 function mapStateToProps(state) {
     return {
+        name : state.name,
         username: state.username,
         password: state.password,
         email: state.email,
