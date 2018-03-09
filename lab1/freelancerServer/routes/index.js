@@ -81,7 +81,23 @@ router.post('/signin', function (req, res, next) {
       });
     }
   })
-
-
 });
+
+router.get('/profile', (req, res) => {
+
+  var sql = 'SELECT * FROM user WHERE username = ? AND password = ?';
+  con.query(sql,[], (err, results) => {
+      if(err){
+        return res.json('ERROR')
+      }
+      else{
+        return res.json({
+          data : results
+        })
+      }
+    })
+  console.log(req.body);
+
+})
+
 module.exports = router;
