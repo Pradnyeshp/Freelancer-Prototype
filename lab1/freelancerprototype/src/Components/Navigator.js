@@ -13,13 +13,19 @@ class Navigator extends Component {
                                 <a className="navbar-brand"> Freelancer Logo </a>
                             </div>
                             <ul className="nav navbar-nav navbar-right" >
-                                <li><Link to="/SignIn"><font color="black"> Login </font></Link></li>
+                                <li>
+                                    <Link to="/SignIn"><font color="black"> Login </font></Link>
+                                </li>
                             </ul>
                             <ul className="nav navbar-nav navbar-right">
-                                <li><p><Link to="/SignUp"><font color="black"> Sign Up </font></Link></p></li>
+                                <li>
+                                    <Link to="/SignUp"><font color="black"> Sign Up </font></Link>
+                                </li>
                             </ul>
                             <ul className="nav navbar-nav navbar-right">
-                                <li><Link to="/AddProject" className="btn btn-primary"> Post a Project </Link></li>
+                                <li>
+                                    <Link to="/AddProject" className="btn btn-primary"> Post a Project </Link>
+                                </li>
                             </ul>
                         </div>
                     </nav>
