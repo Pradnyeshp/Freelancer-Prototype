@@ -20,7 +20,14 @@ const reducer = (state = initialState, action) => {
                     ...state,
                     signin_success: action.payload.data[0] 
                 }
-        
+
+            case 'PROFILE_UPDATE' :
+                console.log(action.payload.data);
+                return {
+                    ...state,
+                    profile_updation: action.payload.data[0]
+                }
+                
             default:
                 return state;
         }
