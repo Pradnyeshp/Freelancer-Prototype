@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import './userhome.css'
 import { Link } from 'react-router-dom'
 import Bootstrap from 'bootstrap/dist/css/bootstrap.css';
+import axios from 'axios';
+import { connect } from 'react-redux';
 
 class Userhome extends Component {
 
@@ -32,19 +34,30 @@ class Userhome extends Component {
                     <header>
                         <div className="nav">
                             <ul>
-                                <li className="Home"><a href="#">Home</a></li>
-                                <li className="Dashboard"><a className="active" href="#">Dashboard</a></li>
-                                <li></li><li></li>
+                                <li className="Home">
+                                    <a href="#">Home</a>
+                                </li>
+                                <li className="Dashboard">
+                                    <a className="active" href="#">Dashboard</a>
+                                </li>
                                 <li className="contact" className="btn btn-warning">
-                                    <Link to="/Project" >Post a Project</Link></li>
+                                    <Link to="/Project" >Post a Project</Link>
+                                </li>
                             </ul>
                         </div>
                     </header>
                 </body>
-                
             </div>
         );
     }
 }
 
-export default Userhome;
+function mapStateToProps(state) {
+
+}
+
+function mapDispatchToProps(dispatch) {
+    
+}
+
+export default connect(mapStateToProps,mapDispatchToProps) (Userhome);
