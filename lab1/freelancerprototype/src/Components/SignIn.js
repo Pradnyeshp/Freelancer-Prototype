@@ -24,7 +24,6 @@ class SignIn extends Component {
 
     handleSignIn = (e) => {
         e.preventDefault();
-
         const userData = {
             username: this.state.username,
             password: this.state.password
@@ -96,11 +95,10 @@ function mapDispatchToProps(dispatch) {
                     if (response.data === 'ERROR')
                         dispatch({ type: 'ERROR', payload: response })
                     else {                        
-                        sessionStorage.setItem('username', response.data[0].username)
+                        sessionStorage.setItem('username', response.data[0].Username)
                         console.log(sessionStorage.username);
                         dispatch({ type: 'SIGNIN_SUCCESS', payload: response })
                     }
-
                 });
         }
     }
