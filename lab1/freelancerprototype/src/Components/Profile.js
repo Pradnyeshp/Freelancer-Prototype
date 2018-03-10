@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import './App.css';
-import {Link} from 'react-router-dom';
 import { connect } from 'react-redux';
 import axios from 'axios'
 
@@ -8,22 +7,46 @@ class Profile extends Component {
 
     constructor() {
         super();
-
-        this.state={
-            name : "",
-            email : "",
-            phone : "",
-            aboutme : "",
-            skills : "", 
-            image : ""
-        }
+        this.state = ({
+            isEditing : false,
+            username : '',
+            name : '',
+            email : '',
+            phone : '',
+            aboutme : '',
+            skills : '', 
+            image : ''
+        });
         this.handleSave = this.handleSave.bind(this);
         this.handleChange = this.handleChange.bind(this);
+        this.handleEdit = this.handleEdit.bind(this)
+    }
+
+    componentWillMount() {
+        let username = sessionStorage.getItem('username');
+        const usernameJSON = {
+            username: username
+        }
+        axios.post('http://localhost:3001/getprofile', usernameJSON )
+            .then((response)=>{
+                console.log("User Details from Database :", response.data[0]);
+                console.log(response.data[0].Email);
+                
+                this.setState ({
+                        username : response.data[0].Username,
+                        name : response.data[0].Name,
+                        email : response.data[0].Email
+                    }, () => {
+                        console.log('After setState', this.state)
+                    }
+                )
+                
+            })
     }
 
     handleChange = (e) => {
         e.preventDefault();
-        this.setState=({
+        this.setState ({
             [e.target.name] : [e.target.value]
         })
     }
@@ -40,7 +63,16 @@ class Profile extends Component {
         this.props.profileUpdate(profile);
     }
 
+    handleEdit = (e) => {
+        e.preventDefault()
+        this.setState ( {isEditing : true });
+        
+    }
+
     render() {
+        if(this.state.isEditing)
+        {
+            
         return (
             <div className="profile">
                 <form>
@@ -77,7 +109,38 @@ class Profile extends Component {
                     </button>
                 </form>
             </div>
-        );
+        )}
+
+        else {
+            
+            return(
+                < div className = "profile" >
+                <form>
+                    <label>Name :
+                            
+                    </label><br />
+                    <label>Email :
+                            
+                    </label><br />
+                    <label>Phone Number :
+                            
+                    </label><br />
+                    <label>About Me :
+                            
+                    </label><br />
+                    <label>Skills :
+                        
+                    </label><br />
+                    <label>Profile Image :
+                        
+                    </label><br />
+                    <button className='btn btn-primary'
+                        onClick={this.handleEdit} > Edit
+                        </button>
+                </form>
+                </div >
+        )
+    }
     }
 }
 
@@ -90,18 +153,18 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         profileUpdate : (profile) => {
-            console.log("In profile Updation", profile);
-            axios.post('http://localhost:3001/profile', profile)
+            let username = sessionStorage.getItem('username');
+            console.log(sessionStorage);
+            axios.post('http://localhost:3001/updateprofile', username)
                 .then((response) => {
                     console.log(response.data[0].Username);
                     if (response.data === 'ERROR')
                         dispatch({ type: 'ERROR', payload: response })
                     else {
-                        sessionStorage.setItem('username', response.data[0].username)
                         dispatch({ type: 'PROFILE_UPDATE', payload: response })
                     }
                 }
-                );
+            );
         }
     }
 }
