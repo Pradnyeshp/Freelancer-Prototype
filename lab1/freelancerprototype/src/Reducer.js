@@ -2,6 +2,8 @@
 const initialState = {
     login_data : null,
     signup_success : null,
+    signin_success : null,
+    profile_updation : null,
     error : null
 }
 
