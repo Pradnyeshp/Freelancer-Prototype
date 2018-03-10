@@ -46,6 +46,8 @@ class Profile extends Component {
 
     handleChange = (e) => {
         e.preventDefault();
+        console.log(e.target.value);
+        
         this.setState ({
             [e.target.name] : [e.target.value]
         })
@@ -157,7 +159,8 @@ function mapDispatchToProps(dispatch) {
             console.log(sessionStorage);
             axios.post('http://localhost:3001/updateprofile', username)
                 .then((response) => {
-                    console.log(response.data[0].Username);
+                    console.log(response);
+                    
                     if (response.data === 'ERROR')
                         dispatch({ type: 'ERROR', payload: response })
                     else {
