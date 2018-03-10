@@ -114,9 +114,10 @@ router.post('/getprofile', (req, res, next) => {
 router.post('/updateprofile', (req, res, next) => {
   console.log(req.body);
   const usr = req.body.username;
+  
 
   var sql = 'INSERT INTO user (name, email, phone, about me, skills) WHERE username = ? VALUES (?,?,?,?,?)';
-  con.query(sql,[user], [ req.body ], (err, results) => {
+  con.query(sql, [user], [  ], (err, results) => {
       if(err){
         return res.json('ERROR')
       }
