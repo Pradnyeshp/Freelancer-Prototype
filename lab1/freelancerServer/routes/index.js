@@ -83,14 +83,45 @@ router.post('/signin', function (req, res, next) {
   })
 });
 
-router.get('/profile', (req, res) => {
+router.post('/getprofile', (req, res, next) => {
+  const username = req.body.username
+  console.log(username);
+  
+  con.getConnection((err, connection) => {
+    if (err) {
+      res.json(
+        { code: 100,
+          status: "Not able to connect to database"
+        });
+    }
+    else {
+      var sql = 'SELECT * FROM user WHERE username = ?' ;
+      con.query(sql, [username], (err, result) => {
+        if(err) {
+          console.log(err.message);
+          res.json('Error')
+        }
+        else {
+          console.log("Found user in database");
+          console.log(result);
+          res.json(result);
+        }
+      });
+    }
+  })
+});
 
-  var sql = 'SELECT * FROM user WHERE username = ? AND password = ?';
-  con.query(sql,[], (err, results) => {
+router.post('/updateprofile', (req, res, next) => {
+  console.log(req.body);
+  const usr = req.body.username;
+
+  var sql = 'INSERT INTO user (name, email, phone, about me, skills) WHERE username = ? VALUES (?,?,?,?,?)';
+  con.query(sql,[user], [ req.body ], (err, results) => {
       if(err){
         return res.json('ERROR')
       }
       else{
+        console.log("Profile Details Inserted");
         return res.json({
           data : results
         })
