@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import './userhome.css'
 import { Link } from 'react-router-dom'
 import Bootstrap from 'bootstrap/dist/css/bootstrap.css';
-import axios from 'axios';
+//import axios from 'axios';
 import { connect } from 'react-redux';
 
 class Userhome extends Component {
@@ -13,7 +13,7 @@ class Userhome extends Component {
 
     render() {
         return (
-            <div className="userhome"><br/>
+            <div className="userhome">
                 <div className="container-fluid" >
                     <nav className="navbar navbar-inverse" >
                         <div className="container-fluid">
@@ -21,32 +21,28 @@ class Userhome extends Component {
                                 <a className="navbar-brand"> Freelancer Logo </a>
                             </div>
                             <ul className="nav navbar-nav navbar-right">
-                                <li><Link to="/Profile" className="btn btn-primary"> Profile </Link></li>
-                            </ul>
-                            <ul className="nav navbar-nav navbar-right">
-                                <li><Link to="/" className='btn btn-danger' onClick={this.handleSubmit}> 
+                                <li><Link to="/Profile" className="btn btn-primary"> Profile </Link> &nbsp;
+                                <Link to="/" className='btn btn-danger' onClick={this.handleSubmit}> 
                                 Sign Out </Link></li>
                             </ul>
                         </div>
                     </nav>
-                </div>
-                <body className="news">
-                    <header>
-                        <div className="nav">
-                            <ul>
-                                <li className="Home">
-                                    <a href="#">Home</a>
-                                </li>
-                                <li className="Dashboard">
-                                    <a className="active" href="#">Dashboard</a>
-                                </li>
-                                <li className="contact" className="btn btn-warning">
-                                    <Link to="/Project" >Post a Project</Link>
-                                </li>
-                            </ul>
+                </div> <br/>
+                <div className="container-fluid">
+                    <div className="row">
+                        <div className="col-1" > Home
                         </div>
-                    </header>
-                </body>
+                        <div className="col-1" > Dashboard
+                        </div>
+                        {/* <div class="col-md-auto">
+                            Variable width content
+                        </div> */}
+                        <div className="col-4 offset-6">Post a Project</div>
+                    </div>
+                
+                
+                </div>
+                
             </div>
         );
     }
@@ -56,8 +52,6 @@ function mapStateToProps(state) {
 
 }
 
-function mapDispatchToProps(dispatch) {
-    
-}
+function mapDispatchToProps(dispatch) {}
 
 export default connect(mapStateToProps,mapDispatchToProps) (Userhome);
