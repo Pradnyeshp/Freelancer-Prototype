@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 class Userhome extends Component {
 
-    handleSubmit=()=>{
+    handleSubmit = () => {
         sessionStorage.removeItem('username');
     }
 
@@ -37,12 +37,13 @@ class Userhome extends Component {
                         {/* <div class="col-md-auto">
                             Variable width content
                         </div> */}
-                        <div className="col-4 offset-6">Post a Project</div>
+                        <div className="col-4 offset-6" >
+                            <Link to='/AddProject' className='btn btn-warning' >
+                            Post a Project
+                            </Link>
+                        </div>
                     </div>
-                
-                
                 </div>
-                
             </div>
         );
     }
