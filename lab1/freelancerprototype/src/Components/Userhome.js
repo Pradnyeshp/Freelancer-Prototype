@@ -27,23 +27,21 @@ class Userhome extends Component {
                             </ul>
                         </div>
                     </nav>
-                </div> <br/>
-                <div className="container-fluid">
-                    <div className="row">
-                        <div className="col-1" > Home
-                        </div>
-                        <div className="col-1" > Dashboard
-                        </div>
-                        {/* <div class="col-md-auto">
-                            Variable width content
-                        </div> */}
-                        <div className="col-4 offset-6" >
-                            <Link to='/AddProject' className='btn btn-warning' >
-                            Post a Project
+                </div>
+                <nav class="navbar navbar-inverse">
+                    <div class="container-fluid">
+                        <ul class="nav navbar-nav"> &nbsp;
+                            <li class="active"><a href="#">Home</a> &nbsp; &nbsp;
+                                <a href="#">Dashboard</a>
+                            </li>
+                        </ul>
+                        <div class="navbar-btn">
+                            <Link to='/AddProject' 
+                                className='btn btn-warning' > Post a Project
                             </Link>
                         </div>
                     </div>
-                </div>
+                </nav>
             </div>
         );
     }
@@ -53,6 +51,8 @@ function mapStateToProps(state) {
 
 }
 
-function mapDispatchToProps(dispatch) {}
+function mapDispatchToProps(dispatch) {
+
+}
 
 export default connect(mapStateToProps,mapDispatchToProps) (Userhome);
