@@ -35,7 +35,11 @@ class Profile extends Component {
                 this.setState ({
                         username : response.data[0].Username,
                         name : response.data[0].Name,
-                        email : response.data[0].Email
+                        email : response.data[0].Email,
+                        phone: response.data[0].Phone,
+                        aboutme: response.data[0].AboutMe,
+                        skills: response.data[0].Skills,
+                        image: response.data[0].Image
                     }, () => {
                         console.log('After setState :', this.state)
                     }
@@ -124,19 +128,18 @@ class Profile extends Component {
             return(
                 < div className = "profile" >
                     <form>
-                        <label>Name :
+                        <label >Name : {this.state.name}
+                        </label><br />
+                        <label>Email :  {this.state.email}
                                 
                         </label><br />
-                        <label>Email :
+                        <label>Phone Number :  {this.state.phone}
                                 
                         </label><br />
-                        <label>Phone Number :
+                        <label>About Me :  {this.state.aboutme}
                                 
                         </label><br />
-                        <label>About Me :
-                                
-                        </label><br />
-                        <label>Skills :
+                        <label>Skills :  {this.state.skills}
                             
                         </label><br />
                         <label>Profile Image :
