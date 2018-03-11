@@ -2,6 +2,21 @@ var express = require('express');
 var router = express.Router();
 var mysql = require('mysql');
 
+var crypto = require('crypto'),
+
+  algorithm = 'aes192',
+  password = '!QAZ@WSX';
+
+
+
+function decrypt(text) {
+  var decipher = crypto.createDecipher(algorithm, password)
+  var dec = decipher.update(text, 'hex', 'utf8')
+  dec += decipher.final('utf8');
+  return dec;
+}
+
+
 var con = mysql.createPool({
   connectionLimit: 500,
   host: "127.0.0.1",
@@ -23,6 +38,22 @@ router.post('/signup', function(req, res, next) {
   const email = req.body.email;
   const pwd = req.body.password;
   
+  function encrypt(pwd) {
+    console.log("asdfghjkk");
+    
+    var cipher = crypto.createCipher(algorithm, password)
+    var crypted = cipher.update(pwd, 'utf8', 'hex')
+    crypted += cipher.final('hex');
+    console.log(crypted);
+    
+    return crypted;
+  }
+
+  const encryptpwd = encrypt(pwd)
+
+  console.log(encryptpwd);
+  
+
   con.getConnection((err, connection) => {
     if(err) {
       res.json({
@@ -33,7 +64,7 @@ router.post('/signup', function(req, res, next) {
 
     else {
       var sql = 'INSERT INTO user (Name, Username, Email, Password ) VALUES (?, ?, ?, ?)';
-      con.query(sql , [name, usr, email, pwd] , (err,result) => {
+      con.query(sql , [name, usr, email, encryptpwd] , (err,result) => {
         
         if(err) {
           console.log(err.name);
@@ -112,11 +143,15 @@ router.post('/getprofile', (req, res, next) => {
 });
 
 router.post('/updateprofile', (req, res, next) => {
+  console.log("hello");
+  
   console.log(req.body);
   const usr = req.body.username;
+  console.log(usr);
   
 
-  var sql = 'INSERT INTO user (name, email, phone, about me, skills) WHERE username = ? VALUES (?,?,?,?,?)';
+
+  var sql = 'INSERT INTO user (name, email, phone, about me, skills) VALUES (?,?,?,?,?) WHERE username = ? ';
   con.query(sql, [user], [  ], (err, results) => {
       if(err){
         return res.json('ERROR')
