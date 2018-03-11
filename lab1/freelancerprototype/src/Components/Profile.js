@@ -17,8 +17,8 @@ class Profile extends Component {
             skills : '', 
             image : ''
         });
-        this.handleSave = this.handleSave.bind(this);
-        this.handleChange = this.handleChange.bind(this);
+        this.handleSave = this.handleSave.bind(this)
+        this.handleChange = this.handleChange.bind(this)
         this.handleEdit = this.handleEdit.bind(this)
     }
 
@@ -35,26 +35,31 @@ class Profile extends Component {
                 this.setState ({
                         username : response.data[0].Username,
                         name : response.data[0].Name,
-                        email : response.data[0].Email
+                        email : response.data[0].Email,
+                        phone: response.data[0].Phone,
+                        aboutme: response.data[0].AboutMe,
+                        skills: response.data[0].Skills,
+                        image: response.data[0].Image
                     }, () => {
-                        console.log('After setState', this.state)
+                        console.log('After setState :', this.state)
                     }
-                )
-                
-            })
+                )        
+            }
+        )
     }
 
     handleChange = (e) => {
         e.preventDefault();
         console.log(e.target.value);
-        
         this.setState ({
             [e.target.name] : [e.target.value]
         })
     }
 
     handleSave = () => {
+        
         const profile = {
+            username : this.state.username,
             name : this.state.name,
             email: this.state.email,
             phone: this.state.phone,
@@ -62,7 +67,9 @@ class Profile extends Component {
             skills: this.state.skills,
             image: this.state.image
         }
+        
         this.props.profileUpdate(profile);
+        console.log(profile);
     }
 
     handleEdit = (e) => {
@@ -73,76 +80,78 @@ class Profile extends Component {
 
     render() {
         if(this.state.isEditing)
-        {
-            
-        return (
-            <div className="profile">
-                <form>
-                    <label>Name :
-                        <input type="text" ref="name"
-                            value={this.state.value}
-                            onChange={this.handleChange}  />
-                    </label><br/>
-                    <label>Email :
-                        <input type="text" ref="email"
-                            value={this.state.value}
-                            onChange={this.handleChange}  />
-                    </label><br />
-                    <label>Phone Number :
-                        <input type="text" ref="phone" 
-                            value={this.state.value}
-                            onChange={this.handleChange} />
-                    </label><br />
-                    <label>About Me :
-                        <input type="text" ref="aboutme" 
-                            value={this.state.value}
-                            onChange={this.handleChange} />
-                    </label><br />
-                    <label>Skills :
-                        <input type="text" ref="email"
-                            value={this.state.value}
-                            onChange={this.handleChange}  />
-                    </label><br />
-                    <label>Profile Image :
-                        <input type="text" ref="email"  />
-                    </label><br />
-                    <button className='btn btn-primary'
-                        onClick={this.handleSave} > Save 
-                    </button>
-                </form>
-            </div>
-        )}
+        {   
+            return (
+                <div className="profile">
+                    <form>
+                        <label> Name :
+                            <input type="text" ref="name"
+                                name= "name"
+                                value={this.state.value}
+                                onChange={this.handleChange}  />
+                        </label><br/>
+                        <label> Email :
+                            <input type="text" ref="email"
+                                name = "email"
+                                value={this.state.value}
+                                onChange={this.handleChange}  />
+                        </label><br />
+                        <label> Phone Number :
+                            <input type="text" ref="phone" 
+                                name = "phone"
+                                value={this.state.value}
+                                onChange={this.handleChange} />
+                        </label><br />
+                        <label>About Me :
+                            <input type="text" ref="aboutme"
+                                name = "aboutme"
+                                value={this.state.value}
+                                onChange={this.handleChange} />
+                        </label><br />
+                        <label>Skills :
+                            <input type="text" ref="email" 
+                                name = "skills"
+                                value={this.state.value}
+                                onChange={this.handleChange}  />
+                        </label><br />
+                        <label>Profile Image :
+                            <input type="text" ref="email"  />
+                        </label><br />
+                        <button className='btn btn-primary'
+                            onClick={this.handleSave} > Save 
+                        </button>
+                    </form>
+                </div>
+            )}
 
         else {
-            
             return(
                 < div className = "profile" >
-                <form>
-                    <label>Name :
+                    <form>
+                        <label >Name : {this.state.name}
+                        </label><br />
+                        <label>Email :  {this.state.email}
+                                
+                        </label><br />
+                        <label>Phone Number :  {this.state.phone}
+                                
+                        </label><br />
+                        <label>About Me :  {this.state.aboutme}
+                                
+                        </label><br />
+                        <label>Skills :  {this.state.skills}
                             
-                    </label><br />
-                    <label>Email :
+                        </label><br />
+                        <label>Profile Image :
                             
-                    </label><br />
-                    <label>Phone Number :
-                            
-                    </label><br />
-                    <label>About Me :
-                            
-                    </label><br />
-                    <label>Skills :
-                        
-                    </label><br />
-                    <label>Profile Image :
-                        
-                    </label><br />
-                    <button className='btn btn-primary'
-                        onClick={this.handleEdit} > Edit
+                        </label><br />
+                        <button className='btn btn-primary'
+                            onClick={this.handleEdit} > Edit
                         </button>
-                </form>
+                    </form>
                 </div >
-        )
-    }
+            )
+        }
     }
 }
 
@@ -155,12 +164,11 @@ function mapStateToProps(state) {
 function mapDispatchToProps(dispatch) {
     return {
         profileUpdate : (profile) => {
-            let username = sessionStorage.getItem('username');
-            console.log(sessionStorage);
-            axios.post('http://localhost:3001/updateprofile', username)
+            console.log('Updated User', profile);
+            
+            axios.post('http://localhost:3001/updateprofile', profile)
                 .then((response) => {
                     console.log(response);
-                    
                     if (response.data === 'ERROR')
                         dispatch({ type: 'ERROR', payload: response })
                     else {
