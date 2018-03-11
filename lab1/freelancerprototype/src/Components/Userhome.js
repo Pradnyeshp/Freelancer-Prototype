@@ -28,14 +28,14 @@ class Userhome extends Component {
                         </div>
                     </nav>
                 </div>
-                <nav class="navbar navbar-inverse">
-                    <div class="container-fluid">
-                        <ul class="nav navbar-nav"> &nbsp;
-                            <li class="active"><a href="#">Home</a> &nbsp; &nbsp;
+                <nav className="navbar navbar-inverse">
+                    <div className="container-fluid">
+                        <ul className="nav navbar-nav"> &nbsp;
+                            <li className="active"><a href="#">Home</a> &nbsp; &nbsp;
                                 <a href="#">Dashboard</a>
                             </li>
                         </ul>
-                        <div class="navbar-btn">
+                        <div className="navbar-btn">
                             <Link to='/AddProject' 
                                 className='btn btn-warning' > Post a Project
                             </Link>
