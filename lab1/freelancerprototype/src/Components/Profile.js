@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import { connect } from 'react-redux';
 import axios from 'axios'
+import { Link } from 'react-router-dom' ;
 
 class Profile extends Component {
 
@@ -74,7 +75,7 @@ class Profile extends Component {
 
     handleEdit = (e) => {
         e.preventDefault()
-        this.setState ( {isEditing : true });
+        this.setState ( {isEditing : !this.state.isEditing });
         
     }
 
@@ -83,6 +84,20 @@ class Profile extends Component {
         {   
             return (
                 <div className="profile">
+                    <div className="container-fluid" >
+                        <nav className="navbar navbar-inverse" >
+                            <div className="container-fluid">
+                                <div className="navbar-header">
+                                    <a className="navbar-brand"> Freelancer Logo </a>
+                                </div>
+                                <ul className="nav navbar-nav navbar-right">
+                                    <li><Link to="/Profile" className="btn btn-primary"> Profile </Link> &nbsp;
+                                <Link to="/" className='btn btn-danger' onClick={this.handleSubmit}>
+                                            Sign Out </Link></li>
+                                </ul>
+                            </div>
+                        </nav>
+                    </div>
                     <form>
                         <label> Name :
                             <input type="text" ref="name"
@@ -120,6 +135,9 @@ class Profile extends Component {
                         <button className='btn btn-primary'
                             onClick={this.handleSave} > Save 
                         </button>
+                        <button className='btn'
+                        > <Link to='/profile' onClick={this.handleEdit} > Cancel </Link>
+                        </button>
                     </form>
                 </div>
             )}
@@ -127,23 +145,32 @@ class Profile extends Component {
         else {
             return(
                 < div className = "profile" >
+                    <div className="container-fluid" >
+                        <nav className="navbar navbar-inverse" >
+                            <div className="container-fluid">
+                                <div className="navbar-header">
+                                    <a className="navbar-brand"> Freelancer Logo </a>
+                                </div>
+                                <ul className="nav navbar-nav navbar-right">
+                                    <li><Link to="/Profile" className="btn btn-primary"> Profile </Link> &nbsp;
+                                <Link to="/" className='btn btn-danger' onClick={this.handleSubmit}>
+                                            Sign Out </Link></li>
+                                </ul>
+                            </div>
+                        </nav>
+                    </div>
                     <form>
                         <label >Name : {this.state.name}
                         </label><br />
-                        <label>Email :  {this.state.email}
-                                
+                        <label>Email :  {this.state.email}             
                         </label><br />
-                        <label>Phone Number :  {this.state.phone}
-                                
+                        <label>Phone Number :  {this.state.phone}      
                         </label><br />
                         <label>About Me :  {this.state.aboutme}
-                                
                         </label><br />
                         <label>Skills :  {this.state.skills}
-                            
                         </label><br />
                         <label>Profile Image :
-                            
                         </label><br />
                         <button className='btn btn-primary'
                             onClick={this.handleEdit} > Edit
