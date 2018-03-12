@@ -169,4 +169,9 @@ router.post('/updateprofile', (req, res, next) => {
 
 })
 
+router.post('/addproject', (req, res, next) => {
+  console.log(req.body);
+  
+} )
+
 module.exports = router;
