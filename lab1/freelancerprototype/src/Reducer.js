@@ -27,7 +27,7 @@ const reducer = (state = initialState, action) => {
                 console.log(action.payload.data);
                 return {
                     ...state,
-                    profile_updation: action.payload.data[0]
+                    profile_updation: action.payload.data
                 }
                 
             default:
