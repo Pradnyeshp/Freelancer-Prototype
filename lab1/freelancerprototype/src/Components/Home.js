@@ -7,8 +7,9 @@ import SignIn from './SignIn';
 import Navigator from './Navigator';
 import SignUp from './SignUp';
 import AddProject from './AddProject';
-import Profile from './Profile'
-import Userhome from './Userhome'
+import Profile from './Profile';
+import Userhome from './Userhome';
+import Navbar from './Navbar';
 
 const Home = () => (
   <div>
@@ -19,6 +20,7 @@ const Home = () => (
       <Route path = '/AddProject' component = {AddProject} />
       <Route path = '/Profile' component = {Profile} />
       <Route path = '/Userhome' component = {Userhome} /> 
+      <Route path = '/Navbar' component = {Navbar} />
       <Route path = '*' component = {NotFound} />
     </Switch>
   </div>
