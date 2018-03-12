@@ -90,6 +90,8 @@ function mapDispatchToProps(dispatch) {
             console.log("In Login dispatch", userData);
             axios.post('http://localhost:3001/signin', userData)
                 .then((response) => {
+                    console.log(response);
+                    
                     console.log(response.data[0].Username);
                     console.log("After login dispatch", response.data);
                     if (response.data === 'ERROR')

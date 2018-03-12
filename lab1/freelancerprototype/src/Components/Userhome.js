@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import Bootstrap from 'bootstrap/dist/css/bootstrap.css';
 //import axios from 'axios';
 import { connect } from 'react-redux';
+import Navbar from './Navbar';
 
 class Userhome extends Component {
 
@@ -31,8 +32,9 @@ class Userhome extends Component {
                 <nav className="navbar navbar-inverse">
                     <div className="container-fluid">
                         <ul className="nav navbar-nav"> &nbsp;
-                            <li className="active"><a href="#">Home</a> &nbsp; &nbsp;
-                                <a href="#">Dashboard</a>
+
+                            <li className="active"><Link to="#">Home</Link> &nbsp; &nbsp;
+                                <Link to="#">Dashboard</Link>
                             </li>
                         </ul>
                         <div className="navbar-btn">
