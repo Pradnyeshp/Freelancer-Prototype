@@ -9,7 +9,7 @@ class AddProject extends Component {
             projectname : "",
             projectdesc : "",
             skillsreq : "",
-            budget : ""
+            budgetrange : ""
         })
         this.handleSubmit = this.handleSubmit.bind(this)
         this.handleChange = this.handleChange.bind(this)
@@ -53,7 +53,7 @@ class AddProject extends Component {
                             onChange={this.handleChange}required />
                     </label><br />
                     <label> What is your estimated budget? <br/>
-                        <input type="text" name="budget" 
+                        <input type="text" name="budgetrange" 
                             onChange={this.handleChange} required />
                     </label> <br /> <br/>
                     <button className="btn btn-primary" onSubmit={this.handleSubmit} >Post My Project</button>
