@@ -9,6 +9,7 @@ class AddProject extends Component {
     constructor() {
         super();
         this.state = ({
+            userid : '',
             projectname : '',
             projectdesc : '',
             skillsreq : '' ,
@@ -28,13 +29,21 @@ class AddProject extends Component {
             username: username
         }
 
-        axios.post()
+        axios.post('http://localhost:3001/getuserid', usernameJSON )
+            .then((response => {
+                console.log(response.data);
+                this.setState( {
+                    userid: response.data[0].UserId
+                })
+                console.log(this.state);   
+            })) 
     }
 
     postProject = (e) => {
         e.preventDefault
 
         const projectDetails = {
+            userid : this.state.userid,
             projectname: this.state.projectname,
             projectdesc: this.state.projectdesc,
             skillsreq: this.state.skillsreq,
@@ -114,6 +123,7 @@ class AddProject extends Component {
 
 function mapStateToProps(state) {
     return {
+        userid : state.userid,
         projectname: state.projectname,
         projectdesc: state.projectdesc,
         skillsreq: state.skillsreq,
@@ -133,7 +143,7 @@ function mapDispatchToProps(dispatch) {
                     console.log(response);
                     dispatch({ type: 'SIGNUP_SUCCESS', payload: response })
                 }
-                );
+            );
         }
     }
 }
