@@ -133,8 +133,7 @@ router.post('/getprofile', (req, res, next) => {
           res.json('Error')
         }
         else {
-          console.log("Found user in database");
-          console.log(result);
+          console.log("Found user in database :", result);
           res.json(result);
         }
       });
@@ -189,13 +188,41 @@ router.post('/updateprofile', (req, res, next) => {
       }
       else{
         console.log("Profile Details Inserted")
-        return res.json({
+        return res.json ({
           data : results
         })
       }
     })
   console.log(req.body);
 
+})
+
+router.post('/getprojects', (req, res, next) => {
+    console.log(req.body);
+
+    con.getConnection((err, connection) => {
+      if(err) {
+        console.log("Can't Establish a Connection to the Database");
+        res.json ({
+          code : 100,
+          status : 'notable to connect to database'
+        })
+      }
+      else {
+        let sql = "SELECT * FROM project"
+        con.query(sql, (err,result) => {
+          if(err) {
+            console.log(err.message);
+            res.json('ERROR')
+          }
+          else{
+            console.log("Project from Database in getprojects",result);
+            res.json(result)
+          }
+        })
+      }
+    })
+  
 })
 
 router.post('/addproject', (req, res, next) => {
@@ -233,5 +260,6 @@ router.post('/addproject', (req, res, next) => {
     }
   })
 } )
+
 
 module.exports = router;
