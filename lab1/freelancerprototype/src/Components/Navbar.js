@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import Bootstrap from 'bootstrap/dist/css/bootstrap.css';
+
 import { Link } from 'react-router-dom'
 
 class Navbar extends Component {
@@ -26,8 +26,8 @@ class Navbar extends Component {
                     <nav class="navbar navbar-inverse">
                         <div class="container-fluid">
                             <ul class="nav navbar-nav"> &nbsp;
-                            <li class="active"><a href="#">Home</a> &nbsp; &nbsp;
-                                <a href="#">Dashboard</a>
+                            <li class="active"><a href="">Home</a> &nbsp; &nbsp;
+                                <a href="">Dashboard</a>
                                 </li>
                             </ul>
                             <div class="navbar-btn">
