@@ -56,8 +56,8 @@ class Projects extends Component {
                         <button>Bid Now</button>
                     </div>
                 </div>
-                <div class="table-responsive">
-                    <table class="table">
+                <div className="table-responsive">
+                    <table className="table">
                         <thead>
                             <tr>
                                 <th>#</th>
