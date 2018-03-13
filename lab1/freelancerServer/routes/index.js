@@ -222,7 +222,6 @@ router.post('/getprojects', (req, res, next) => {
         })
       }
     })
-  
 })
 
 router.post('/addproject', (req, res, next) => {

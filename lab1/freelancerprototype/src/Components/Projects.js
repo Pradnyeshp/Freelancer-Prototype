@@ -11,56 +11,43 @@ class Projects extends Component {
     }
 
     componentWillMount() {
-        let id = this.props.id
+        // let id = this.props.id
         axios.post('http://localhost:3001/getprojects')
             .then((response) => {
+                console.log(response.data);
                 this.setState ({
-                    projects : this.state.projects
+                    projects : response.data
+                }, () => {
+                    console.log("After Component will mount", this.state.projects);
                 })
             })
+
     }
     
     render() {
 
         let projects = this.state.projects.map(project => {
             return(
-                <tr>
-                
+                <tr key={project.ProjectId} >
+                    <td style={{ marginRight: 1 + 'em'}}> 
+                        <b>{project.Title}</b> <br/> 
+                            {project.Description} <br/> 
+                            {project.Skills}
+                    </td>
+                    <td> {project.Employer} </td>
+                    <td> {project.bids} </td>
+                    <td> {project.BudgetMin} </td>
+                    <td> <button>Bid Now</button> </td>
                 </tr>
             )
         })
 
         return (
             <div className="projects"><br/>
-                <div>
-                    Project Content will be displayed Here
-                    <div className="row-1" >
-                        Project Name : {this.state.projectname}
-                    </div>
-                    <div className="row-2">
-                        Description : {this.state.projectdesc}
-                    </div>
-                    <div>
-                        Skills Required : {this.state.skillsreq}
-                    </div>
-                    <div>
-                        Employer : {this.state.employer}
-                    </div>
-                    <div>
-                        Budget Range : {this.state.budgetrange}
-                    </div>
-                    <div>
-                        Number of Bids yet : {this.state.bids}
-                    </div>
-                    <div>
-                        <button>Bid Now</button>
-                    </div>
-                </div>
                 <div className="table-responsive">
                     <table className="table">
                         <thead>
                             <tr>
-                                <th>#</th>
                                 <th>Project Name</th>
                                 <th>Employer</th>
                                 <th>Number of Bids</th>
@@ -69,14 +56,7 @@ class Projects extends Component {
                             </tr>
                         </thead>
                         <tbody>
-                            <tr>
-                                <td>1</td>
-                                <td>Anna</td>
-                                <td>Pitt</td>
-                                <td>35</td>
-                                <td>New York</td>
-                                <td>USA</td>
-                            </tr>
+                                {projects}
                         </tbody>
                     </table>
                 </div>

@@ -4,7 +4,6 @@ import { Link } from 'react-router-dom'
 import Bootstrap from 'bootstrap/dist/css/bootstrap.css';
 //import axios from 'axios';
 import { connect } from 'react-redux';
-import Navbar from './Navbar';
 import Projects from './Projects';
 
 class Userhome extends Component {
