@@ -101,7 +101,8 @@ function mapDispatchToProps(dispatch) {
                         console.log(sessionStorage.username);
                         dispatch({ type: 'SIGNIN_SUCCESS', payload: response })
                     }
-                });
+                }
+            );
         }
     }
 }
