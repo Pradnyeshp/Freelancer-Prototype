@@ -141,6 +141,35 @@ router.post('/getprofile', (req, res, next) => {
   })
 });
 
+router.post('/getuserid', (req, res, next) => {
+  console.log("In GetUserID", req.body);
+  
+  let username = req.body.username
+
+  con.getConnection((err, connection) => {
+    if(err){
+      res.json( {
+        code : 100,
+        status : "Not able to establish a connection" 
+      }
+      )
+    }
+    else {
+      let sql = "SELECT UserId FROM user WHERE username = ?"
+      con.query(sql, [username], (err, result) => {
+        if(err) {
+          console.log(err.message);
+          res.json("Error");
+        }
+        else {
+          console.log("Found ID in Database", result);
+          res.json(result)
+        }
+      })
+    }
+  })
+})
+
 router.post('/updateprofile', (req, res, next) => {
   console.log("In Update profile");
   console.log("request ", req.body);
@@ -195,5 +224,42 @@ router.post('/getprojects', (req, res, next) => {
     })
   
 })
+
+router.post('/addproject', (req, res, next) => {
+  console.log("In AddProject, Received Request for Posting a new Project",req.body);
+  console.log(req.body.skillsreq);
+  
+  let id = req.body.userid;
+  let title = req.body.projectname;
+  let desc = req.body.projectdesc;
+  let skill = req.body.skillsreq;
+  let budmin = req.body.budgetrange;
+  let startdt = req.body.startdate;
+  let compdt = req.body.compdate;
+
+  con.getConnection((err,connection) => {
+    if(err){
+      res.json({
+        code: 100,
+        status: "Not able to connect to database"
+      })
+    }
+    else {
+      let sql = 'INSERT INTO project (Employer, Title, Description, Skills, BudgetMin, StartDate, CompletionDate) VALUES (?, ?, ?, ?, ?, ?, ?)'
+      con.query(sql, [id, title, desc, skill, budmin, startdt, compdt], (err,result) => {
+        if (err) {
+          console.log(err.name);
+          console.log(err.message);
+          res.json('ERROR');
+        }
+        else {
+          console.log("New Project added in database");
+          res.json('PROJECTPOST_SUCCESS');
+        }
+      })
+    }
+  })
+} )
+
 
 module.exports = router;

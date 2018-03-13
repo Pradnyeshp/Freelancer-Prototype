@@ -4,6 +4,7 @@ const initialState = {
     signup_success : null,
     signin_success : null,
     profile_updation : null,
+    projectpost_success : null,
     error : null
 }
 
@@ -30,6 +31,13 @@ const reducer = (state = initialState, action) => {
                     profile_updation: action.payload.data
                 }
                 
+            case 'PROJECTPOST_SUCCESS' :
+                console.log(action.payload.data);
+                return {
+                    ...state,
+                    projectpost_success: action.payload.data
+                }
+
             default:
                 return state;
         }
