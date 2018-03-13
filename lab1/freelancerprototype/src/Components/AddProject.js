@@ -40,7 +40,7 @@ class AddProject extends Component {
     }
 
     postProject = (e) => {
-        e.preventDefault
+        e.preventDefault();
 
         const projectDetails = {
             userid : this.state.userid,
@@ -66,9 +66,9 @@ class AddProject extends Component {
 
     render() {
         let projectpost = null;
-
         if (this.props.projectpost_success === 'PROJECTPOST_SUCCESS') {
-            projectpost = <Redirect to='/Userhome' />
+            console.log(this.state.projectpost_success);     
+            projectpost = <Redirect to="/Userhome" />
         }
 
         return (
@@ -140,8 +140,8 @@ function mapDispatchToProps(dispatch) {
             console.log(project);
             axios.post('http://localhost:3001/addproject', project)
                 .then((response) => {
-                    console.log(response);
-                    dispatch({ type: 'SIGNUP_SUCCESS', payload: response })
+                    console.log("Receive response in after add project", response);
+                    dispatch({ type: 'PROJECTPOST_SUCCESS', payload: response })
                 }
             );
         }

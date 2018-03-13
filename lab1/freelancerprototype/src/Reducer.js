@@ -4,6 +4,7 @@ const initialState = {
     signup_success : null,
     signin_success : null,
     profile_updation : null,
+    projectpost_success : null,
     error : null
 }
 
