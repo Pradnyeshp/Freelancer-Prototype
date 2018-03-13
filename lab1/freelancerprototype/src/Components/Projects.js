@@ -1,21 +1,35 @@
 import React, { Component } from 'react';
+import axios from 'axios'
 
 class Projects extends Component {
     
     constructor() {
         super();
         this.state = ({
-            projectname: '',
-            projectdesc: '',
-            skillsreq: '',
-            employer: '',
-            budgetrange: '',
-            bids: ''
+            projects : [] 
         })
+    }
 
+    componentWillMount() {
+        let id = this.props.id
+        axios.post('http://localhost:3001/getprojects')
+            .then((response) => {
+                this.setState ({
+                    projects : this.state.projects
+                })
+            })
     }
     
     render() {
+
+        let projects = this.state.projects.map(project => {
+            return(
+                <tr>
+                
+                </tr>
+            )
+        })
+
         return (
             <div className="projects"><br/>
                 <div>
@@ -39,9 +53,35 @@ class Projects extends Component {
                         Number of Bids yet : {this.state.bids}
                     </div>
                     <div>
-
+                        <button>Bid Now</button>
                     </div>
                 </div>
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th>Project Name</th>
+                                <th>Employer</th>
+                                <th>Number of Bids</th>
+                                <th>Budget</th>
+                                <th>Bid Now</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>Anna</td>
+                                <td>Pitt</td>
+                                <td>35</td>
+                                <td>New York</td>
+                                <td>USA</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
             </div>
         );
     }
