@@ -170,6 +170,35 @@ router.post('/getuserid', (req, res, next) => {
   })
 })
 
+router.post('/getprojectid', (req, res, next) => {
+  console.log("In GetProjectID", req.body);
+
+  // let username = req.body.username
+
+  // con.getConnection((err, connection) => {
+  //   if (err) {
+  //     res.json({
+  //       code: 100,
+  //       status: "Not able to establish a connection"
+  //     }
+  //     )
+  //   }
+  //   else {
+  //     let sql = "SELECT UserId FROM user WHERE username = ?"
+  //     con.query(sql, [username], (err, result) => {
+  //       if (err) {
+  //         console.log(err.message);
+  //         res.json("Error");
+  //       }
+  //       else {
+  //         console.log("Found ID in Database", result);
+  //         res.json(result)
+  //       }
+  //     })
+  //   }
+  // })
+})
+
 router.post('/updateprofile', (req, res, next) => {
   console.log("In Update profile");
   console.log("request ", req.body);
@@ -259,6 +288,25 @@ router.post('/addproject', (req, res, next) => {
       })
     }
   })
+})
+
+router.post('/updatebid', (req, res, next) => {
+  console.log('In Update Bid', req.body);
+  
+  let bid = req.body.bid
+
+  let sql = 'UPDATE bid SET UserId = ?, ProjectId = ?, Bid = ?, Date = ?'
+
+  con.query(sql, [], (err, result) => {
+    if(err) {
+      console.log(err.message);
+      res.json("Error");
+    }
+    else{
+      console.log("Bid Table updated",result);
+      res.json(result);
+    }
+  } )
 })
 
 module.exports = router;
