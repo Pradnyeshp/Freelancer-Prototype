@@ -93,7 +93,7 @@ class Profile extends Component {
                                 <ul className="nav navbar-nav navbar-right">
                                     <li><Link to="/Profile" className="btn btn-primary"> Profile </Link> &nbsp;
                                 <Link to="/userhome" className='btn btn-danger'>
-                                            Cancel </Link></li>
+                                            Sign Out </Link></li>
                                 </ul>
                             </div>
                         </nav>
@@ -136,9 +136,9 @@ class Profile extends Component {
                         </label><br />
                         <button className='btn btn-primary'
                             onClick={this.handleSave} > Save 
-                        </button>
-                        <button className='btn'
-                        > <Link to='/profile' onClick={this.handleEdit} > Cancel </Link>
+                        </button> &nbsp;
+                        <button className='btn btn-danger'> 
+                            <Link to='/profile' onClick={this.handleEdit} ><font color="white">Cancel</font></Link>
                         </button>
                     </form>
                 </div>
@@ -146,6 +146,7 @@ class Profile extends Component {
         else {
             return(
                 < div className = "profile" >
+                    
                     <div className="container-fluid" >
                         <nav className="navbar navbar-inverse" >
                             <div className="container-fluid">
@@ -160,23 +161,27 @@ class Profile extends Component {
                             </div>
                         </nav>
                     </div>
-                    <form>
-                        <label >Name : {this.state.name}
-                        </label><br />
-                        <label>Email :  {this.state.email}             
-                        </label><br />
-                        <label>Phone Number :  {this.state.phone}      
-                        </label><br />
-                        <label>About Me :  {this.state.aboutme}
-                        </label><br />
-                        <label>Skills :  {this.state.skills}
-                        </label><br />
-                        <label>Profile Image : 
-                        </label><br />
-                        <button className='btn btn-primary'
-                            onClick={this.handleEdit} > Edit
-                        </button>
-                    </form>
+
+                    <div className="container-fluid ">
+                        <br /><br />
+                        <div className="row content ">
+                            <div className="col-sm-3 divStyle ">
+                                <img className="img-rounded imageStyle" alt="Insert Photo here"></img>      
+                            </div>
+                            <div className="col-sm-6 divStyle">
+                                <h3>{this.state.name}</h3>
+                                <h5>Email : {this.state.email}</h5>
+                                <h5>Phone : {this.state.phone}</h5>
+                                <h5>{this.state.aboutme}</h5>
+                                <h5>Skills : {this.state.skills} </h5>
+                            </div>
+                            <div className="col-sm-2 div3Style">
+                                <button className='btn btn-primary'
+                                    onClick={this.handleEdit} > Edit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                 </div >
             )
         }
