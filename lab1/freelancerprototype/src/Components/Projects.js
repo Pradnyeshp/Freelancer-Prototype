@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios'
+import { Link } from 'react-router-dom' ;
 
 class Projects extends Component {
     
@@ -29,15 +30,16 @@ class Projects extends Component {
         let projects = this.state.projects.map(project => {
             return(
                 <tr key={project.ProjectId} >
-                    <td style={{ marginRight: 1 + 'em'}}> 
-                        <b>{project.Title}</b> <br/> 
+                    <td className="text-left"> 
+                        <b> <Link to='/ProjectDetails'> {project.Title} </Link>
+                        </b> <br/> 
                             {project.Description} <br/> 
                             {project.SkillsReq}
                     </td>
                     <td> {project.Name} </td>
                     <td> {project.Bids} </td>
                     <td> {project.BudgetMin} </td>
-                    <td> <button>Bid Now</button> </td>
+                    <td> <button className="btn btn-success">Bid Now</button> </td>
                 </tr>
             )
         })
@@ -48,10 +50,10 @@ class Projects extends Component {
                     <table className="table">
                         <thead>
                             <tr>
-                                <th>Project Name</th>
+                                <th className="text-left" >Project Name</th>
                                 <th>Employer</th>
                                 <th>Number of Bids</th>
-                                <th>Budget</th>
+                                <th>Budget Range</th>
                                 <th>Bid Now</th>
                             </tr>
                         </thead>
@@ -66,5 +68,7 @@ class Projects extends Component {
         );
     }
 }
+
+
 
 export default Projects;

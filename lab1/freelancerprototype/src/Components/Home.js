@@ -10,6 +10,7 @@ import AddProject from './AddProject';
 import Profile from './Profile';
 import Userhome from './Userhome';
 import Navbar from './Navbar';
+import ProjectDetails from './ProjectDetails'
 
 const Home = () => (
   <div>
@@ -21,6 +22,7 @@ const Home = () => (
       <Route path = '/Profile' component = {Profile} />
       <Route path = '/Userhome' component = {Userhome} /> 
       <Route path = '/Navbar' component = {Navbar} />
+      <Route path = '/ProjectDetails' component={ProjectDetails} />
       <Route path = '*' component = {NotFound} />
     </Switch>
   </div>
