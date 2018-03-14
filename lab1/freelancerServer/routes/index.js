@@ -22,6 +22,15 @@ var con = mysql.createPool({
   database: "freelancer_db"
 });
 
+
+var session = require('client-sessions');
+app.use(session({
+  cookieName: 'session',
+  secret: '!QAZ@WSX',
+  duration: 30 * 60 * 1000,
+  activeDuration: 5 * 60 * 1000,
+}));
+
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -76,6 +85,9 @@ router.post('/signin', function (req, res, next) {
 
   const usr = req.body.username;
   const pwd = req.body.password;
+
+  req.session.username = username; 
+  req.session.email_address = email_address;
 
   function encrypt(pwd) {
     var cipher = crypto.createCipher(algorithm, password)
