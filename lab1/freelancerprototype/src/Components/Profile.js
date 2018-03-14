@@ -93,7 +93,7 @@ class Profile extends Component {
                                 <ul className="nav navbar-nav navbar-right">
                                     <li><Link to="/Profile" className="btn btn-primary"> Profile </Link> &nbsp;
                                 <Link to="/userhome" className='btn btn-danger'>
-                                            Sign Out </Link></li>
+                                            Back to Home </Link></li>
                                 </ul>
                             </div>
                         </nav>
@@ -173,8 +173,8 @@ class Profile extends Component {
                                 </div>
                                 <ul className="nav navbar-nav navbar-right">
                                     <li><Link to="/Profile" className="btn btn-primary"> Profile </Link> &nbsp;
-                                <Link to="/" className='btn btn-danger' onClick={this.handleSubmit}>
-                                            Sign Out </Link></li>
+                                <Link to="/Userhome" className='btn btn-danger' onClick={this.handleSubmit}>
+                                            Back to Home </Link></li>
                                 </ul>
                             </div>
                         </nav>
