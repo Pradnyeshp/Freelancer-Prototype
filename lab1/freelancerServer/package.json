@@ -7,14 +7,15 @@
   },
   "dependencies": {
     "body-parser": "~1.18.2",
+    "client-sessions": "^0.8.0",
     "cookie-parser": "~1.4.3",
+    "crypto": "*",
     "debug": "~2.6.9",
     "ejs": "~2.5.7",
     "express": "~4.15.5",
     "morgan": "~1.9.0",
     "mysql": "^2.15.0",
     "nodemon": "^1.17.1",
-    "serve-favicon": "~2.4.5",
-    "crypto": "*"
+    "serve-favicon": "~2.4.5"
   }
 }
