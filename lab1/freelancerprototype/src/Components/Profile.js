@@ -92,8 +92,8 @@ class Profile extends Component {
                                 </div>
                                 <ul className="nav navbar-nav navbar-right">
                                     <li><Link to="/Profile" className="btn btn-primary"> Profile </Link> &nbsp;
-                                <Link to="/" className='btn btn-danger' onClick={this.handleSubmit}>
-                                            Sign Out </Link></li>
+                                <Link to="/userhome" className='btn btn-danger'>
+                                            Cancel </Link></li>
                                 </ul>
                             </div>
                         </nav>

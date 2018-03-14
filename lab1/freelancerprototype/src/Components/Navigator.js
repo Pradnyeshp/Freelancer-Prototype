@@ -1,11 +1,19 @@
 import React, { Component } from 'react';
 import {Link} from 'react-router-dom'
 import './navigator.css'
+import {Redirect} from 'react-router'
 
 class Navigator extends Component {
     render() {
+        let profile = null;
+
+        if (sessionStorage.getItem('username') !== null) {
+            profile = <Redirect to="/Userhome" />
+        }
+
         return (
-            <div className="container-fluid" >
+            <div className="container-fluid" > <br/>
+                {profile}
                     <nav className="navbar navbar-inverse" >
                         <div className="container-fluid">
                             <div className="navbar-header">
