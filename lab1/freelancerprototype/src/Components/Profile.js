@@ -130,7 +130,9 @@ class Profile extends Component {
                                 onChange={this.handleChange}  />
                         </label><br />
                         <label>Profile Image :
-                            <input type="text" ref="email"  />
+                             <input type="file" 
+                                className="form-control-file" 
+                                name="avatar" />
                         </label><br />
                         <button className='btn btn-primary'
                             onClick={this.handleSave} > Save 
@@ -141,7 +143,6 @@ class Profile extends Component {
                     </form>
                 </div>
             )}
-
         else {
             return(
                 < div className = "profile" >
@@ -170,7 +171,7 @@ class Profile extends Component {
                         </label><br />
                         <label>Skills :  {this.state.skills}
                         </label><br />
-                        <label>Profile Image :
+                        <label>Profile Image : 
                         </label><br />
                         <button className='btn btn-primary'
                             onClick={this.handleEdit} > Edit

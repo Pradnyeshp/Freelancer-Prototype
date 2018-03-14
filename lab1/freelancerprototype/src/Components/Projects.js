@@ -32,10 +32,10 @@ class Projects extends Component {
                     <td style={{ marginRight: 1 + 'em'}}> 
                         <b>{project.Title}</b> <br/> 
                             {project.Description} <br/> 
-                            {project.Skills}
+                            {project.SkillsReq}
                     </td>
-                    <td> {project.Employer} </td>
-                    <td> {project.bids} </td>
+                    <td> {project.Name} </td>
+                    <td> {project.Bids} </td>
                     <td> {project.BudgetMin} </td>
                     <td> <button>Bid Now</button> </td>
                 </tr>

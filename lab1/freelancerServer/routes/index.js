@@ -22,15 +22,6 @@ var con = mysql.createPool({
   database: "freelancer_db"
 });
 
-
-var session = require('client-sessions');
-app.use(session({
-  cookieName: 'session',
-  secret: '!QAZ@WSX',
-  duration: 30 * 60 * 1000,
-  activeDuration: 5 * 60 * 1000,
-}));
-
 /* GET home page. */
 router.get('/', function(req, res, next) {
   res.render('index', { title: 'Express' });
@@ -86,9 +77,6 @@ router.post('/signin', function (req, res, next) {
   const usr = req.body.username;
   const pwd = req.body.password;
 
-  req.session.username = username; 
-  req.session.email_address = email_address;
-
   function encrypt(pwd) {
     var cipher = crypto.createCipher(algorithm, password)
     var crypted = cipher.update(pwd, 'utf8', 'hex')
@@ -106,7 +94,6 @@ router.post('/signin', function (req, res, next) {
         status: "Not able to connect to database"
       });
     }
-
     else {
       var sql = 'SELECT * from user WHERE username = ? AND password = ?';
       con.query(sql, [usr, encryptpwd], (err, result) => {
@@ -145,7 +132,8 @@ router.post('/getprofile', (req, res, next) => {
           res.json('Error')
         }
         else {
-          console.log("Found user in database :", result);
+          console.log("Found user in database");
+          console.log(result);
           res.json(result);
         }
       });
@@ -155,21 +143,21 @@ router.post('/getprofile', (req, res, next) => {
 
 router.post('/getuserid', (req, res, next) => {
   console.log("In GetUserID", req.body);
-  
+
   let username = req.body.username
 
   con.getConnection((err, connection) => {
-    if(err){
-      res.json( {
-        code : 100,
-        status : "Not able to establish a connection" 
+    if (err) {
+      res.json({
+        code: 100,
+        status: "Not able to establish a connection"
       }
       )
     }
     else {
       let sql = "SELECT UserId FROM user WHERE username = ?"
       con.query(sql, [username], (err, result) => {
-        if(err) {
+        if (err) {
           console.log(err.message);
           res.json("Error");
         }
@@ -221,7 +209,7 @@ router.post('/getprojects', (req, res, next) => {
         })
       }
       else {
-        let sql = "SELECT * FROM project"
+        let sql = "SELECT * FROM project LEFT JOIN user ON project.Employer=user.UserId"
         con.query(sql, (err,result) => {
           if(err) {
             console.log(err.message);
@@ -234,12 +222,13 @@ router.post('/getprojects', (req, res, next) => {
         })
       }
     })
+  
 })
 
 router.post('/addproject', (req, res, next) => {
-  console.log("In AddProject, Received Request for Posting a new Project",req.body);
+  console.log("In AddProject, Received Request for Posting a new Project", req.body);
   console.log(req.body.skillsreq);
-  
+
   let id = req.body.userid;
   let title = req.body.projectname;
   let desc = req.body.projectdesc;
@@ -248,16 +237,16 @@ router.post('/addproject', (req, res, next) => {
   let startdt = req.body.startdate;
   let compdt = req.body.compdate;
 
-  con.getConnection((err,connection) => {
-    if(err){
+  con.getConnection((err, connection) => {
+    if (err) {
       res.json({
         code: 100,
         status: "Not able to connect to database"
       })
     }
     else {
-      let sql = 'INSERT INTO project (Employer, Title, Description, Skills, BudgetMin, StartDate, CompletionDate) VALUES (?, ?, ?, ?, ?, ?, ?)'
-      con.query(sql, [id, title, desc, skill, budmin, startdt, compdt], (err,result) => {
+      let sql = 'INSERT INTO project (Employer, Title, Description, SkillsReq, BudgetMin, StartDate, CompletionDate) VALUES (?, ?, ?, ?, ?, ?, ?)'
+      con.query(sql, [id, title, desc, skill, budmin, startdt, compdt], (err, result) => {
         if (err) {
           console.log(err.name);
           console.log(err.message);
@@ -270,7 +259,6 @@ router.post('/addproject', (req, res, next) => {
       })
     }
   })
-} )
-
+})
 
 module.exports = router;
