@@ -98,42 +98,60 @@ class Profile extends Component {
                             </div>
                         </nav>
                     </div>
+                    <div className="container-fluid ">
+                        <br /><br />
+                        <div className="row content ">
+                            <div className="col-sm-3 divStyle">
+                                <img className="img-rounded imageStyle" alt="Insert Photo here"></img>
+                                <label>Profile Image :
+                                <input type="file"
+                                        className="form-control-file"
+                                        name="avatar" />
+                                </label>
+                            </div>
+                            <div className="col-sm-6 divStyle">
+                                <div className='text-left' disabled='true' >
+                                    <h3> <label> Name : &nbsp;
+                                        <input type="text" ref="name"
+                                            name= "name"
+                                            value={this.state.name}
+                                            onChange={this.handleChange}  />
+                                        </label></h3>
+                                    <h5> <label> Email : &nbsp;
+                                        <input type="text" ref="email"
+                                            name="email"
+                                            value={this.state.email}
+                                            onChange={this.handleChange} />
+                                        </label></h5>
+                                    <h5> Phone : &nbsp;
+                                        <input type="text" ref="phone"
+                                            name="phone"
+                                            value={this.state.phone}
+                                            onChange={this.handleChange} />
+                                    </h5>
+                                    <h5> About Me : 
+                                        <input type="text" ref="aboutme"
+                                            name="aboutme"
+                                            value={this.state.aboutme}
+                                            onChange={this.handleChange} />
+                                         </h5>
+                                    <h5> Skills :
+                                        <input type="text" ref="email"
+                                            name="skills"
+                                            value={this.state.skills}
+                                            onChange={this.handleChange} />
+                                    </h5>
+                                </div>
+                            </div>
+                            <div className="col-sm-2 div3Style">
+                                <button className='btn btn-primary'
+                                    onClick={this.handleEdit} > Edit
+                                </button>
+                            </div>
+                        </div>
+                    </div>
                     <form>
-                        <label> Name :
-                            <input type="text" ref="name"
-                                name= "name"
-                                value={this.state.value}
-                                onChange={this.handleChange}  />
-                        </label><br/>
-                        <label> Email :
-                            <input type="text" ref="email"
-                                name = "email"
-                                value={this.state.value}
-                                onChange={this.handleChange}  />
-                        </label><br />
-                        <label> Phone Number :
-                            <input type="text" ref="phone" 
-                                name = "phone"
-                                value={this.state.value}
-                                onChange={this.handleChange} />
-                        </label><br />
-                        <label>About Me :
-                            <input type="text" ref="aboutme"
-                                name = "aboutme"
-                                value={this.state.value}
-                                onChange={this.handleChange} />
-                        </label><br />
-                        <label>Skills :
-                            <input type="text" ref="email" 
-                                name = "skills"
-                                value={this.state.value}
-                                onChange={this.handleChange}  />
-                        </label><br />
-                        <label>Profile Image :
-                             <input type="file" 
-                                className="form-control-file" 
-                                name="avatar" />
-                        </label><br />
+                        <br />
                         <button className='btn btn-primary'
                             onClick={this.handleSave} > Save 
                         </button> &nbsp;
