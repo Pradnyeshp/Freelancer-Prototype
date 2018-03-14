@@ -165,15 +165,17 @@ class Profile extends Component {
                     <div className="container-fluid ">
                         <br /><br />
                         <div className="row content ">
-                            <div className="col-sm-3 divStyle ">
+                            <div className="col-sm-3 divStyle">
                                 <img className="img-rounded imageStyle" alt="Insert Photo here"></img>      
                             </div>
                             <div className="col-sm-6 divStyle">
-                                <h3>{this.state.name}</h3>
-                                <h5>Email : {this.state.email}</h5>
-                                <h5>Phone : {this.state.phone}</h5>
-                                <h5>{this.state.aboutme}</h5>
-                                <h5>Skills : {this.state.skills} </h5>
+                                <div className='text-left'>
+                                    <h3> {this.state.name}</h3>
+                                    <h5> Email : {this.state.email}</h5>
+                                    <h5> Phone : {this.state.phone}</h5>
+                                    <h5> About Me : {this.state.aboutme} </h5>
+                                    <h5> Skills : {this.state.skills} </h5>
+                                </div>
                             </div>
                             <div className="col-sm-2 div3Style">
                                 <button className='btn btn-primary'
