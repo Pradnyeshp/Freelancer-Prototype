@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios'
+import { Link } from 'react-router-dom' ;
 
 class Projects extends Component {
     
@@ -30,7 +31,8 @@ class Projects extends Component {
             return(
                 <tr key={project.ProjectId} >
                     <td style={{ marginRight: 1 + 'em'}}> 
-                        <b>{project.Title}</b> <br/> 
+                        <b> <Link to='/ProjectDetails'> {project.Title} </Link>
+                        </b> <br/> 
                             {project.Description} <br/> 
                             {project.SkillsReq}
                     </td>
