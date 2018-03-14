@@ -23,7 +23,7 @@ class Userhome extends Component {
                             </div>
                             <ul className="nav navbar-nav navbar-right">
                                 <li><Link to="/Profile" className="btn btn-primary"> Profile </Link> &nbsp;
-                                <Link to="/" className='btn btn-danger' onClick={this.handleSubmit}> 
+                                <Link to="/signin" className='btn btn-danger' onClick={this.handleSubmit}> 
                                 Sign Out </Link></li>
                             </ul>
                         </div>
