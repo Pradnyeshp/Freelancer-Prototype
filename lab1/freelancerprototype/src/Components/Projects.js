@@ -41,6 +41,10 @@ class Projects extends Component {
                 })
             })
 
+        // let pid = projects.map( (id) => {
+
+        // })
+
         axios.post('http://localhost:3001/getprojectid', usernameJSON)
             .then((response => {
                 console.log(response.data);
@@ -56,7 +60,7 @@ class Projects extends Component {
         console.log(e.target.value);        
         this.setState({
             [e.target.name] : [e.target.value]
-        },()=>{
+        }, () => {
             console.log(this.state);       
         })
     }
@@ -74,18 +78,18 @@ class Projects extends Component {
     
     render() {
 
-        let projects = this.state.projects.map(project => {
+        let projects = this.state.projects.map(p => {
             return(
-                <tr key={project.ProjectId} >
+                <tr key={p.ProjectId} >
                     <td className="text-left"> 
-                        <b> <Link to='/ProjectDetails'> {project.Title} </Link>
+                        <b> <Link to={`/ProjectDetails/${p.ProjectId}`}> {p.Title} </Link>
                         </b> <br/> 
-                            {project.Description} <br/> 
-                            {project.SkillsReq}
+                            {p.Description} <br/> 
+                            {p.SkillsReq}
                     </td>
-                    <td> {project.Name} </td>
-                    <td> {project.Bids} </td>
-                    <td> {project.BudgetMin} </td>
+                    <td> {p.Name} </td>
+                    <td> {p.Bids} </td>
+                    <td> {p.BudgetMin} </td>
                     <td> <button className="btn btn-success" data-toggle="modal" data-target="#myModal" >Bid Now</button> </td>
                 </tr>
             )

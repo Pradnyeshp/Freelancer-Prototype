@@ -100,26 +100,27 @@ class AddProject extends Component {
                         <input type="text" name="skillsreq" 
                             placeholder="What skills are required?" 
                             onChange={this.handleChange}required />
-                    </label><br />
-                    <label> What is your estimated budget? <br/>
+                    </label><br /><br/>
+                    <label> <h5> What is your estimated budget? </h5> <br/>
                         <select defaultValue="Micro Project ($10 - 30 USD)" name="budgetrange" onChange={this.handleChange} required>
                                 <option value="Micro Project ($10 - 30 USD)">Micro Project ($10 - 30 USD)</option>
                                 <option value="Simple project ($30 - 250 USD)">Simple project ($30 - 250 USD)</option>
                                 <option value="Very small project ($250 - 750 USD)">Very small project ($250 - 750 USD)</option>
                                 <option value="Small project ($750 - 1500 USD)">Small project ($750 - 1500 USD)</option>
                             </select>
-                    </label> <br />
-                    <label> <dt>Starting Date</dt> <br />
+                    </label> <br /> <br/>
+                    <label> <h5>Starting Date</h5> <br />
                         <input type="date" name="startdate"
                             onChange={this.handleChange} required />
-                    </label> <br />
-                    <label> Completion Date <br />
+                    </label> <br /><br/>
+                    <label> <h5> Completion Date </h5> <br />
                         <input type="date" name="compdate"
                             onChange={this.handleChange} required />
                     </label> <br />
                     <br/> <br/>
-                    <button className="btn btn-primary" onSubmit={this.handleSubmit} >Post My Project</button>
+                    <button className="btn btn-primary" onSubmit={this.handleSubmit} >Post My Project</button> 
                 </form>
+                <br/> <br/>
             </div>
         );
     }

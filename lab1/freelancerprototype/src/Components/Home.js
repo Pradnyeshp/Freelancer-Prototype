@@ -22,7 +22,7 @@ const Home = () => (
       <Route path = '/Profile' component = {Profile} />
       <Route path = '/Userhome' component = {Userhome} /> 
       <Route path = '/Navbar' component = {Navbar} />
-      <Route path = '/ProjectDetails' component={ProjectDetails} />
+      <Route path = '/ProjectDetails/:value/' component={ProjectDetails} />
       <Route path = '*' component = {NotFound} />
     </Switch>
   </div>

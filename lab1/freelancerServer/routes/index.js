@@ -294,10 +294,14 @@ router.post('/updatebid', (req, res, next) => {
   console.log('In Update Bid', req.body);
   
   let bid = req.body.bid
-
+  let date = new Date;
+  let userid = req.body
+  let pid = req.body 
+  console.log(date);
+   
   let sql = 'UPDATE bid SET UserId = ?, ProjectId = ?, Bid = ?, Date = ?'
 
-  con.query(sql, [], (err, result) => {
+  con.query(sql, [userid, pid, bid, date], (err, result) => {
     if(err) {
       console.log(err.message);
       res.json("Error");
