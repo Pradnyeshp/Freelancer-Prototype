@@ -273,6 +273,25 @@ router.post('/getproject', (req, res, next) => {
   })
 })
 
+router.post( '/getallbids', (req, res, next) => {
+  console.log("In Get All bids", req.body);
+  
+  let pid = req.body.projectid
+
+  sql = "SELECT * FROM bid WHERE ProjectId = ? "
+
+  con.query(sql, [pid], (err,result) => {
+    if (err) {
+      console.log(err.message);
+      res.json('ERROR')
+    }
+    else {
+      console.log("Bids for Selected Projects", result);
+      res.json(result)
+    }
+  })
+})
+
 router.post('/addproject', (req, res, next) => {
   console.log("In AddProject, Received Request for Posting a new Project", req.body);
   console.log(req.body.skillsreq);
@@ -365,5 +384,6 @@ router.post('/updatebid', (req, res, next) => {
 
 
 })
+
 
 module.exports = router;
