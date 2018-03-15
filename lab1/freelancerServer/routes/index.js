@@ -155,7 +155,7 @@ router.post('/getuserid', (req, res, next) => {
       )
     }
     else {
-      let sql = "SELECT UserId FROM user WHERE username = ?"
+      let sql = "SELECT UserId,Username FROM user WHERE username = ?"
       con.query(sql, [username], (err, result) => {
         if (err) {
           console.log(err.message);
@@ -251,7 +251,6 @@ router.post('/getprojects', (req, res, next) => {
         })
       }
     })
-  
 })
 
 router.post('/getproject', (req, res, next) => {
@@ -297,6 +296,7 @@ router.post('/addproject', (req, res, next) => {
   console.log(req.body.skillsreq);
 
   let id = req.body.userid;
+  let freelancer = req.body.freelancer
   let title = req.body.projectname;
   let desc = req.body.projectdesc;
   let skill = req.body.skillsreq;
@@ -312,8 +312,8 @@ router.post('/addproject', (req, res, next) => {
       })
     }
     else {
-      let sql = 'INSERT INTO project (Employer, Title, Description, SkillsReq, BudgetMin, StartDate, CompletionDate) VALUES (?, ?, ?, ?, ?, ?, ?)'
-      con.query(sql, [id, title, desc, skill, budmin, startdt, compdt], (err, result) => {
+      let sql = 'INSERT INTO project (Employer, Freelancer, Title, Description, SkillsReq, BudgetMin, StartDate, CompletionDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+      con.query(sql, [id, freelancer, title, desc, skill, budmin, startdt, compdt], (err, result) => {
         if (err) {
           console.log(err.name);
           console.log(err.message);

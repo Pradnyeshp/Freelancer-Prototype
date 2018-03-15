@@ -10,6 +10,7 @@ class AddProject extends Component {
         super();
         this.state = ({
             userid : '',
+            freelancer : '',
             projectname : '',
             projectdesc : '',
             skillsreq : '' ,
@@ -31,9 +32,10 @@ class AddProject extends Component {
 
         axios.post('http://localhost:3001/getuserid', usernameJSON )
             .then((response => {
-                console.log(response.data);
+                console.log('In Get UserId ',response.data);
                 this.setState( {
-                    userid: response.data[0].UserId
+                    userid: response.data[0].UserId,
+                    freelancer : response.data[0].Username
                 })
                 console.log(this.state);   
             })) 
@@ -44,6 +46,7 @@ class AddProject extends Component {
 
         const projectDetails = {
             userid : this.state.userid,
+            freelancer : this.state.freelancer,
             projectname: this.state.projectname,
             projectdesc: this.state.projectdesc,
             skillsreq: this.state.skillsreq,
@@ -129,6 +132,7 @@ class AddProject extends Component {
 function mapStateToProps(state) {
     return {
         userid : state.userid,
+        freelancer : state.freelancer,
         projectname: state.projectname,
         projectdesc: state.projectdesc,
         skillsreq: state.skillsreq,
