@@ -295,22 +295,26 @@ router.post('/updatebid', (req, res, next) => {
   
   let bid = req.body.bid
   let date = new Date;
-  let userid = req.body
-  let pid = req.body 
+  let userid = req.body.userid
+  let pid = req.body.projectid
+  let dd = req.body.deliveryDays
   console.log(date);
    
-  let sql = 'UPDATE bid SET UserId = ?, ProjectId = ?, Bid = ?, Date = ?'
+  let sql = 'INSERT INTO bid (UserId , ProjectId, Bid, Date, DeliveryDays) VALUES (?, ?, ?, ?, ?)'
 
-  con.query(sql, [userid, pid, bid, date], (err, result) => {
+  con.query(sql, [userid, pid, bid, date, dd], (err, result) => {
     if(err) {
+      console.log(err.name);
       console.log(err.message);
-      res.json("Error");
+      res.json("ERROR");
     }
     else{
-      console.log("Bid Table updated",result);
-      res.json(result);
+      console.log("Bid Table updated", result);
+      res.json("BID_PLACED");
     }
   } )
+
+
 })
 
 module.exports = router;
