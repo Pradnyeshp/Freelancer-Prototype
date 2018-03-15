@@ -10,7 +10,9 @@ class BidNow extends Component {
         this.state = ({
             bid: '',
             userid: '',
-            deliveryDays: ''
+            deliveryDays: '',
+            pname : '',
+            projectid : ''
         })
     }
 
@@ -40,7 +42,27 @@ class BidNow extends Component {
     handleClick = (e) => {
         localStorage.setItem("ProjectId", e.target.dataset.id)
 
-    }
+        let pid = localStorage.getItem("ProjectId")
+        console.log(pid);
+        
+        this.setState({
+            projectid: pid
+        }, () => {
+            const pid = {
+                projectid: this.state.projectid
+            }
+            axios.post('http://localhost:3001/getproject', pid)
+                .then( (response) => {
+                    console.log("In project details : ", response.data);
+                    this.setState({
+                        pname : response.data[0].Title,
+                    }, () => {
+                        console.log(this.state.pname);
+                    })
+                })
+        })
+}
+
 
     handleBid = (e) => {
         e.preventDefault()
@@ -69,7 +91,8 @@ class BidNow extends Component {
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">
-                                <h4 className="modal-title">Placing your Bid</h4>
+                                <h4 className="modal-title">Placing your Bid {this.props.pname} </h4>
+                                <h5> {this.state.pname} </h5>
                             </div>
                             <div className="modal-body">
                                 <div className='form-group'>
