@@ -102,7 +102,7 @@ class Profile extends Component {
                         <br /><br />
                         <div className="row content ">
                             <div className="col-sm-3 divStyle">
-                                <img className="img-rounded imageStyle" alt="Insert Photo here"></img>
+                                {/* <img className="img-rounded imageStyle" alt="Insert Photo here"></img> */}
                                 <label>Profile Image :
                                 <input type="file"
                                         className="form-control-file"
@@ -184,7 +184,7 @@ class Profile extends Component {
                         <br /><br />
                         <div className="row content ">
                             <div className="col-sm-3 divStyle">
-                                <img className="img-rounded imageStyle" alt="Insert Photo here"></img>      
+                                {/* <img className="img-rounded imageStyle" alt="Insert Photo here"></img>       */}
                             </div>
                             <div className="col-sm-6 divStyle">
                                 <div className='text-left'>

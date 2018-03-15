@@ -19,7 +19,7 @@ const Home = () => (
       <Route path = '/signin' component = {SignIn} />
       <Route path = '/signup' component = {SignUp} />
       <Route path = '/AddProject' component = {AddProject} />
-      <Route path = '/Profile' component = {Profile} />
+      <Route path = '/Profile/:value/' component = {Profile} />
       <Route path = '/Userhome' component = {Userhome} /> 
       <Route path = '/Navbar' component = {Navbar} />
       <Route path = '/ProjectDetails/:value/' component={ProjectDetails} />
