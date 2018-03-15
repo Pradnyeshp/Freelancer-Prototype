@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom'
 import axios from 'axios';
 import BidNow from './BidNow';
+import ListAllBids from './ListAllBids'
 
 class ProjectDetails extends Component {
 
@@ -102,7 +103,7 @@ class ProjectDetails extends Component {
                                 <BidNow id={this.state.projectid} />
                             </div>
                         </div>
-                        {/* <ListAllBids id={this.state.projectId} owner={this.state.employer} /> */}
+                        <ListAllBids id={this.state.projectid} employer={this.state.employer} />
                     </div>
                 </div>
             </div>
