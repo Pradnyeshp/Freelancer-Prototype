@@ -52,8 +52,8 @@ class ListAllBids extends Component {
                     </td>
                     <td> <Link to={`/Profile/${b.UserId}`}> {b.Name} </Link> </td>
                     <td> {b.Bid} </td>
-                    <td> {b.Period} </td>
-                    <td>  />
+                    <td> {b.DeliveryDays} </td>
+                    <td> <button className='btn btn-success' >Hire Now</button>
                     </td>
                 </tr>
             )
