@@ -254,6 +254,25 @@ router.post('/getprojects', (req, res, next) => {
   
 })
 
+router.post('/getproject', (req, res, next) => {
+  console.log("In get project",req.body);
+  
+  let pid = req.body.projectid
+
+  sql = "SELECT * FROM project WHERE ProjectId = ?"
+
+  con.query(sql, pid, (err, result) => {
+    if (err) {
+      console.log(err.message);
+      res.json("ERROR");
+    }
+    else {
+      console.log("Project Found in Database", result);
+      res.json(result)
+    }
+  })
+})
+
 router.post('/addproject', (req, res, next) => {
   console.log("In AddProject, Received Request for Posting a new Project", req.body);
   console.log(req.body.skillsreq);
@@ -298,8 +317,9 @@ router.post('/updatebid', (req, res, next) => {
   let userid = req.body.userid
   let pid = req.body.projectid
   let dd = req.body.deliveryDays
+
   console.log(date);
-   
+  
   let sql = 'INSERT INTO bid (UserId , ProjectId, Bid, Date, DeliveryDays) VALUES (?, ?, ?, ?, ?)'
 
   con.query(sql, [userid, pid, bid, date, dd], (err, result) => {
@@ -309,10 +329,39 @@ router.post('/updatebid', (req, res, next) => {
       res.json("ERROR");
     }
     else{
-      console.log("Bid Table updated", result);
+      
+      console.log("Bid Table updated");
+      bidnum = "SELECT COUNT(bid) AS num FROM bid WHERE ProjectId = ?"
+      con.query(bidnum, pid, (err, result) => {
+        if (err) {
+          console.log(err.name);
+          console.log(err.message);
+          res.json("ERROR");
+        }
+        else {
+          console.log("Count of Bids Updated to ", result);
+          let num = 0;
+          num = result[0].num
+          console.log(num);
+          con.query("UPDATE project SET bids = ? WHERE ProjectId = ? ", [num, pid], (err, result) => {
+            if (err) {
+              console.log(err.name);
+              console.log(err.message);
+              res.json("ERROR");
+            }
+            else {
+              console.log("Bids value set in project", result);
+            }
+          })
+        }
+      })
       res.json("BID_PLACED");
+      
     }
   } )
+
+  
+
 
 
 })
