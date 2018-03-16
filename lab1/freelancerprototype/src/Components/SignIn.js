@@ -63,9 +63,9 @@ class SignIn extends Component {
                                 value="Login">login
                             </button>
                             <p className="message"> 
-                                Don't have an account? 
+                                Don't have an account? &nbsp; 
                                 <Link to="/SignUp"> 
-                                    Create an account 
+                                Sign Up Here 
                                 </Link>
                             </p>
                         </form>

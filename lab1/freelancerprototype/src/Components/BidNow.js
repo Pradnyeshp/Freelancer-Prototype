@@ -41,15 +41,13 @@ class BidNow extends Component {
 
     handleClick = (e) => {
         localStorage.setItem("ProjectId", e.target.dataset.id)
-
         let pid = localStorage.getItem("ProjectId")
         console.log(pid);
-        
         this.setState({
-            projectid: pid
+            projectid : pid
         }, () => {
             const pid = {
-                projectid: this.state.projectid
+                projectid : this.state.projectid
             }
             axios.post('http://localhost:3001/getproject', pid)
                 .then( (response) => {
@@ -63,12 +61,10 @@ class BidNow extends Component {
         })
 }
 
-
     handleBid = (e) => {
         e.preventDefault()
-
         let pid = localStorage.getItem("ProjectId");
-        console.log("In HandleBid pid = ",pid);
+        console.log("In HandleBid pid = ", pid);
     
         const bid = {
             bid: this.state.bid,
@@ -83,7 +79,7 @@ class BidNow extends Component {
     render() {
         return (
             <div className="bidnow">
-                <button className="btn btn-success" data-toggle="modal" data-id={this.props.id}
+                <button className="btn btn-success" data-toggle="modal" data-id = {this.props.id}
                     data-target="#myModal" onClick={this.handleClick} > Bid Now 
                 </button>
 
@@ -91,8 +87,7 @@ class BidNow extends Component {
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header">
-                                <h4 className="modal-title">Placing your Bid {this.props.pname} </h4>
-                                <h5> {this.state.pname} </h5>
+                                <h4 className="modal-title"> Placing your Bid </h4>
                             </div>
                             <div className="modal-body">
                                 <div className='form-group'>

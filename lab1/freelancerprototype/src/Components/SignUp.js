@@ -86,8 +86,8 @@ class Signup extends Component {
                                         id="btnSubmitSignUpForm" 
                                         value="Create Account"> Create Account
                                     </button>
-                                    <p className="message"> Already have an account 
-                                        <Link to='/SignIn'>Sign In</Link>
+                                    <p className="message"> Already have an account &nbsp; 
+                                        <Link to='/SignIn'> Sign In </Link>
                                     </p>
                                 </form>
                             </div>

@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import './userhome.css'
 import { Link } from 'react-router-dom'
 import Bootstrap from 'bootstrap/dist/css/bootstrap.css';
-//import axios from 'axios';
 import { connect } from 'react-redux';
 import Projects from './Projects';
 import Navigator from './Navigator'
