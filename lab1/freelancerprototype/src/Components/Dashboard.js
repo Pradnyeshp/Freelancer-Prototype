@@ -16,7 +16,7 @@ class Dashboard extends Component {
     componentWillMount() {
         console.log('In Dashboard');
         const userDetails = {
-            username: localStorage.getItem('username')
+            username : localStorage.getItem('username')
         }
         axios.post('http://localhost:3001/getmypostedprojects', userDetails)
             .then((response) => {
@@ -31,11 +31,11 @@ class Dashboard extends Component {
                     this.setState({
                         projects: response.data
                     }, () => {
-                        console.log(this.state);
-                        
+                        console.log(this.state); 
                     })
                 }
-            })
+            }
+        )
     }
 
     handleFreelancer() {
@@ -43,8 +43,6 @@ class Dashboard extends Component {
             freelancerButton: true
         })
     }
-
-
 
     handleSubmit = () => {
         localStorage.removeItem('username');

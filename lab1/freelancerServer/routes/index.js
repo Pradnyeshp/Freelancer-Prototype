@@ -342,7 +342,7 @@ router.post('/getmypostedprojects', (req, res, next) => {
       )
     }
     else {
-      let sql = "SELECT * FROM project WHERE Freelancer = ? "
+      let sql = "select * from project left join (select ProjectId, sum(Bid)/count(ProjectId) as Average from bid group by ProjectId ) as b on project.ProjectId = b.ProjectId where Freelancer = ? "
       con.query(sql, [username], (err, result) => {
         if (err) {
           console.log(err.message);
