@@ -62,7 +62,7 @@ class Projects extends Component {
         return (
             <div className="projects"><br/>
                 <div className="table-responsive">
-                    <table className="table">
+                    <table className='table table-hover'>
                         <thead>
                             <tr>
                                 <th className="text-left" >Project Name</th>
