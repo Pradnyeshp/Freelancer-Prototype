@@ -81,7 +81,7 @@ class FreelancerDashboard extends Component {
                     </td>
                     <td>
                         <div>
-                            <p>{p.Open}</p>
+                            <p>{p.Status}</p>
                         </div>
                     </td>
                 </tr>
@@ -141,7 +141,7 @@ class FreelancerDashboard extends Component {
                     <table className='table table-hover'>
                         <thead>
                             <tr>
-                                <th>Project Name</th>
+                                <th className='text-left'>Project Name</th>
                                 <th>Average Bid</th>
                                 <th>Employer Name</th>
                                 <th>Your Bid</th>
