@@ -22,10 +22,10 @@ class Dashboard extends Component {
             .then((response) => {
                 console.log(response.data);
                 if (response.data === 'ERROR') {
-                    let emptyProject = [];
-                    emptyProject.push('No projects to show');
+                    let temp = [];
+                    temp.push('No projects to show');
                     this.setState({
-                        projects: emptyProject
+                        projects: temp
                     })
                 } else {
                     this.setState({
@@ -50,8 +50,9 @@ class Dashboard extends Component {
 
     render() {
 
-        // if (this.state.freelancerButtonClicked === true)
-        //     this.props.history.push('/dashboardfreelancer');
+        if (this.state.freelancerButton === true)
+            this.props.history.push('/freelancerdashboard');
+
         let projects = [];
         projects = this.state.projects.map( p => {
             // var finalDate = null
@@ -159,7 +160,6 @@ class Dashboard extends Component {
                         </tbody>
                     </table>
                 </div>
-
             </div>
         );
     }
