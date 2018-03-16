@@ -57,7 +57,7 @@ class ProjectDetails extends Component {
                                     <a className="navbar-brand"> Freelancer Logo </a>
                                 </div>
                                 <ul className="nav navbar-nav navbar-right">
-                                    <li><Link to="/Profile" className="btn btn-primary"> Profile </Link> &nbsp;
+                                    <li><Link to="/profile" className="btn btn-primary"> Profile </Link> &nbsp;
                                         <Link to="/signin" className='btn btn-danger'> Sign Out </Link> 
                                     </li>
                                 </ul>

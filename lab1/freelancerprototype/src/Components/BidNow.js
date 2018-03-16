@@ -18,7 +18,7 @@ class BidNow extends Component {
 
     componentWillMount() {
 
-        let username = sessionStorage.getItem('username');
+        let username = localStorage.getItem('username');
         const usernameJSON = {
             username: username
         }

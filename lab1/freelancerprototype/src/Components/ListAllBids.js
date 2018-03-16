@@ -50,7 +50,7 @@ class ListAllBids extends Component {
                     <td className="text-left">
                         <b> Profile Image Here </b> 
                     </td>
-                    <td> <Link to={`/Profile/${b.UserId}`}> {b.Name} </Link> </td>
+                    <td> <Link to={`/profile/${b.Freelancer}`}> {b.Freelancer} </Link> </td>
                     <td> {b.Bid} </td>
                     <td> {b.DeliveryDays} </td>
                     <td> <button className='btn btn-success' >Hire Now</button>

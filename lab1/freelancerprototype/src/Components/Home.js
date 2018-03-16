@@ -11,6 +11,7 @@ import Profile from './Profile';
 import Userhome from './Userhome';
 import Navbar from './Navbar';
 import ProjectDetails from './ProjectDetails'
+import Dashboard from './Dashboard'
 
 const Home = () => (
   <div>
@@ -18,11 +19,12 @@ const Home = () => (
       <Route exact path = '/' component = {Navigator} />
       <Route path = '/signin' component = {SignIn} />
       <Route path = '/signup' component = {SignUp} />
-      <Route path = '/AddProject' component = {AddProject} />
-      <Route path = '/Profile/:value/' component = {Profile} />
-      <Route path = '/Userhome' component = {Userhome} /> 
+      <Route path = '/addproject' component = {AddProject} />
+      <Route path = '/profile' component = {Profile} />
+      <Route path = '/dashboard' component={Dashboard} />
+      <Route path = '/userhome' component = {Userhome} /> 
       <Route path = '/Navbar' component = {Navbar} />
-      <Route path = '/ProjectDetails/:value/' component={ProjectDetails} />
+      <Route path = '/projectdetails/:value/' component={ProjectDetails} />
       <Route path = '*' component = {NotFound} />
     </Switch>
   </div>
