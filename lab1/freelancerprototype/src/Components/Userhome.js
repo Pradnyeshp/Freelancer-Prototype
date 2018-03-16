@@ -5,6 +5,7 @@ import Bootstrap from 'bootstrap/dist/css/bootstrap.css';
 //import axios from 'axios';
 import { connect } from 'react-redux';
 import Projects from './Projects';
+import Navigator from './Navigator'
 
 class Userhome extends Component {
 
@@ -13,6 +14,25 @@ class Userhome extends Component {
     }
 
     render() {
+        let bar = null
+
+        if (localStorage.getItem('username') === null) {
+            bar = ( <Navigator /> )
+        }
+        else {
+            bar = (
+            <ul className="nav navbar-nav navbar-right">
+                <li>
+                    <Link to={`/profile/${localStorage.getItem('username')}`}
+                        className="btn btn-primary"> Profile </Link> &nbsp;
+                    <Link to="/signin"
+                        className='btn btn-danger' onClick={this.handleSubmit}>
+                        Sign Out </Link>
+                </li>
+            </ul>
+            )
+        }
+
         return (
             <div className="userhome">
                 <div className="container-fluid" >
@@ -22,14 +42,12 @@ class Userhome extends Component {
                                 <a className="navbar-brand"> Freelancer Logo </a>
                             </div>
                             <ul className="nav navbar-nav navbar-right">
-                                <li><Link to="/profile" className="btn btn-primary"> Profile </Link> &nbsp;
-                                <Link to="/signin" className='btn btn-danger' onClick={this.handleSubmit}> 
-                                Sign Out </Link></li>
+                                {bar}
                             </ul>
                         </div>
                     </nav>
                 </div> <br/>
-              
+            
                 <nav className="navbar navbar-expand-lg navbar-light bg-light">               
                     <button className="navbar-toggler" type="button" data-toggle="collapse" 
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
