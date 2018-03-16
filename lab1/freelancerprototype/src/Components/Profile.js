@@ -24,7 +24,9 @@ class Profile extends Component {
     }
 
     componentWillMount() {
-        let username = localStorage.getItem('username');
+        console.log(this.props.match.params);
+        
+        let username = this.props.match.params.value ;
         const usernameJSON = {
             username: username
         }

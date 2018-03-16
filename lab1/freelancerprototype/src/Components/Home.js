@@ -21,7 +21,7 @@ const Home = () => (
       <Route path = '/signin' component = {SignIn} />
       <Route path = '/signup' component = {SignUp} />
       <Route path = '/addproject' component = {AddProject} />
-      <Route path = '/profile' component = {Profile} />
+      <Route path = '/profile/:value/' component = {Profile} />
       <Route path = '/dashboard' component={Dashboard} />
       <Route path = '/freelancerdashboard' component={FreelancerDashboard} />
       <Route path = '/userhome' component = {Userhome} /> 

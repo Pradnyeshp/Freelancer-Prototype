@@ -7,7 +7,7 @@ class Navigator extends Component {
     render() {
         let profile = null;
 
-        if (sessionStorage.getItem('username') !== null) {
+        if (localStorage.getItem('username') !== null) {
             profile = <Redirect to="/userhome" />
         }
 

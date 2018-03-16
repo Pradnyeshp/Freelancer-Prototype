@@ -276,7 +276,7 @@ router.post( '/getallbids', (req, res, next) => {
   
   let pid = req.body.projectid
 
-  sql = "SELECT * FROM bid WHERE ProjectId = ? "
+  sql = "SELECT * from bid inner join user on bid.UserId = user.UserId WHERE bid.ProjectId = ? "
 
   con.query(sql, [pid], (err,result) => {
     if (err) {
