@@ -93,9 +93,10 @@ class Profile extends Component {
                                     <a className="navbar-brand"> Freelancer Logo </a>
                                 </div>
                                 <ul className="nav navbar-nav navbar-right">
-                                    <li><Link to="/profile" className="btn btn-primary"> Profile </Link> &nbsp;
-                                <Link to="/userhome" className='btn btn-danger'>
-                                            Back to Home </Link></li>
+                                    <li>
+                                        <Link to="/userhome" className='btn btn-danger'>
+                                            Back to Home </Link>
+                                    </li>
                                 </ul>
                             </div>
                         </nav>
@@ -174,9 +175,9 @@ class Profile extends Component {
                                     <a className="navbar-brand"> Freelancer Logo </a>
                                 </div>
                                 <ul className="nav navbar-nav navbar-right">
-                                    <li><Link to="/profile" className="btn btn-primary"> Profile </Link> &nbsp;
-                                <Link to="/userhome" className='btn btn-danger' onClick={this.handleSubmit}>
-                                            Back to Home </Link></li>
+                                    <li> <Link to="/userhome" className='btn btn-danger' onClick={this.handleSubmit}>
+                                            Back to Home </Link>
+                                    </li>
                                 </ul>
                             </div>
                         </nav>

@@ -88,7 +88,7 @@ class Dashboard extends Component {
                     </td>
                     <td>
                         <div>
-                            <p>{p.open}</p>
+                            <p>{p.Status}</p>
                         </div>
                     </td>
                 </tr>
@@ -147,7 +147,7 @@ class Dashboard extends Component {
                     <table className='table table-hover'>
                         <thead>
                             <tr>
-                                <th>Project Name</th>
+                                <th className='text-left'>Project Name</th>
                                 <th>Average Bid</th>
                                 <th>Freelancer Name</th>
                                 <th>Estimated Completion Date</th>

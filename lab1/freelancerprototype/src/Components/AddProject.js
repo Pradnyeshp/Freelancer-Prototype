@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './App.css';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
@@ -27,17 +26,18 @@ class AddProject extends Component {
         
         let username = localStorage.getItem('username');
         const usernameJSON = {
-            username: username
+            username : username
         }
 
         axios.post('http://localhost:3001/getuserid', usernameJSON )
             .then((response => {
                 console.log('In Get UserId ',response.data);
                 this.setState( {
-                    userid: response.data[0].UserId,
+                    userid : response.data[0].UserId,
                     freelancer : response.data[0].Username
+                }, () => {
+                    console.log(this.state);
                 })
-                console.log(this.state);   
             })) 
     }
 
@@ -61,69 +61,96 @@ class AddProject extends Component {
         e.preventDefault();
         console.log(e.target.value);
         this.setState({
-            [e.target.name]: [e.target.value]
+            [e.target.name] : [e.target.value]
+        }, () => {
+            console.log(this.state);
         })
-        console.log(this.state);
-        
     }
 
     render() {
         let projectpost = null;
         if (this.props.projectpost_success === 'PROJECTPOST_SUCCESS') {
-            console.log(this.state.projectpost_success);     
+            console.log(this.state.projectpost_success); 
+            alert('Project Posted Successfully')    
             projectpost = <Redirect to="/Userhome" />
         }
 
         return (
             <div className="project">
                 {projectpost}
+                <div className='container' >
                 <form onSubmit={this.postProject} ><br />
                     <h2>Tell us what you need done</h2>
                     <p>Get free quotes from skilled freelancers within minutes</p><br/>
-                    <label><h5>Choose a name for your project</h5> <br/>
-                        <input type="text" 
-                            name="projectname" 
-                            placeholder="Build me a website" 
-                            onChange={this.handleChange} required />
-                    </label><br/><br/>
-                    <label><h5>Tell us more about your project</h5> <br />
-                        <textarea className="form-control" 
-                            id="exampleFormControlTextarea1" 
-                            rows="3" name="projectdesc"
-                            placeholder = 'Describe your Project here...'
-                            onChange={this.handleChange} required>
-                        </textarea>
-                    </label><br /><br/>
-                    <label><h5>Upload your Files here </h5><br/>
-                        <input type="file" className="form-control-file" 
-                            id="exampleFormControlFile1"
-                            name="fileupload" />
-                    </label><br /><br />    
-                    <label><h5>What skills are required?</h5> <br/>
-                        <input type="text" name="skillsreq" 
-                            placeholder="What skills are required?" 
-                            onChange={this.handleChange}required />
-                    </label><br /><br/>
-                    <label> <h5> What is your estimated budget? </h5> <br/>
-                        <select defaultValue="Micro Project ($10 - 30 USD)" name="budgetrange" onChange={this.handleChange} required>
-                                <option value="Micro Project ($10 - 30 USD)">Micro Project ($10 - 30 USD)</option>
-                                <option value="Simple project ($30 - 250 USD)">Simple project ($30 - 250 USD)</option>
-                                <option value="Very small project ($250 - 750 USD)">Very small project ($250 - 750 USD)</option>
-                                <option value="Small project ($750 - 1500 USD)">Small project ($750 - 1500 USD)</option>
-                            </select>
-                    </label> <br /> <br/>
-                    <label> <h5>Starting Date</h5> <br />
-                        <input type="date" name="startdate"
-                            onChange={this.handleChange} required />
-                    </label> <br /><br/>
-                    <label> <h5> Completion Date </h5> <br />
-                        <input type="date" name="compdate"
-                            onChange={this.handleChange} required />
-                    </label> <br />
-                    <br/> <br/>
-                    <button className="btn btn-primary" onSubmit={this.handleSubmit} >Post My Project</button> 
+                    <div className='form-group' >
+                        <label><h5>Choose a name for your project</h5> <br/>
+                            <input type="text" 
+                                className="form-control"
+                                name="projectname" 
+                                placeholder="Build me a website" 
+                                onChange={this.handleChange} required />
+                        </label><br/>
+                    </div>
+                    <div className='form-group'>
+                        <label><h5>Tell us more about your project</h5> <br />
+                            <textarea className="form-control" 
+                                rows="3" name="projectdesc"
+                                placeholder = 'Describe your Project here...'
+                                onChange={this.handleChange} required>
+                            </textarea>
+                        </label><br />
+                    </div>
+                    <div className='form-group'>
+                        <label><h5>Upload your Files here </h5><br/>
+                            <input type="file" 
+                                className="form-control" 
+                                name="fileupload" />
+                        </label><br />
+                    </div> 
+                    <div className='form-group' >   
+                        <label><h5>What skills are required?</h5> <br/>
+                            <input type="text" 
+                                className="form-control"
+                                name="skillsreq" 
+                                placeholder="What skills are required?" 
+                                onChange={this.handleChange}required />
+                        </label><br />
+                    </div>
+                    <div className='form-group' >
+                        <label> <h5> What is your estimated budget? </h5> <br/>
+                                <select className="form-control" defaultValue="Micro Project ($10 - 30 USD)" name="budgetrange" onChange={this.handleChange} required>
+                                    <option value="Micro Project ($10 - 30 USD)">
+                                        Micro Project ($10 - 30 USD)</option>
+                                    <option value="Simple project ($30 - 250 USD)">
+                                        Simple project ($30 - 250 USD)</option>
+                                    <option value="Very small project ($250 - 750 USD)">
+                                        Very small project ($250 - 750 USD)</option>
+                                    <option value="Small project ($750 - 1500 USD)">
+                                        Small project ($750 - 1500 USD)</option>
+                                </select>
+                        </label> <br />
+                    </div>
+                    <div className='form-group' >
+                        <label> <h5>Starting Date</h5> <br />
+                            <input type="date" 
+                                className="form-control"
+                                name="startdate"
+                                onChange={this.handleChange} required />
+                        </label> <br />
+                    </div>
+                    <div className='form-group' >
+                        <label> <h5> Completion Date </h5> <br />
+                            <input type="date" 
+                                className="form-control"
+                                name="compdate"
+                                onChange={this.handleChange} required />
+                        </label> <br />
+                    </div>
+                    <br/> 
+                    <button className="btn btn-success" onSubmit={this.handleSubmit} >Post My Project</button> 
                 </form>
                 <br/> <br/>
+                </div>
             </div>
         );
     }
