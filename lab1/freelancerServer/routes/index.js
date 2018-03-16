@@ -15,7 +15,7 @@ var crypto = require('crypto'),
 // }
 
 var con = mysql.createPool({
-  connectionLimit: 500,
+  connectionLimit: 100,
   host: "127.0.0.1",
   user: "root",
   password: "root",
@@ -68,8 +68,8 @@ router.post('/signup', function(req, res, next) {
     });
   }
   })
- 
-} );
+} 
+);
 
 router.post('/signin', function (req, res, next) {
   console.log(req.body);
@@ -209,20 +209,28 @@ router.post('/updateprofile', (req, res, next) => {
   let aboutme = req.body.aboutme
   let skills = req.body.skills
 
-  var sql = ' UPDATE user SET Name=?, Email=?, Phone=?, AboutMe=?, Skills=? WHERE Username = ? ';
-  con.query(sql, [name, email, phone, aboutme, skills, user], (err, results) => {
-      if(err){
-        return res.json('ERROR')
-      }
-      else{
-        console.log("Profile Details Inserted")
-        return res.json ({
-          data : results
-        })
-      }
-    })
-  console.log(req.body);
-
+  con.getConnection((err, connection) => {
+    if (err) {
+      res.json({
+        code: 100,
+        status: "Not able to connect to database"
+      });
+    }
+    else {
+      var sql = ' UPDATE user SET Name=?, Email=?, Phone=?, AboutMe=?, Skills=? WHERE Username = ? ';
+      con.query(sql, [name, email, phone, aboutme, skills, user], (err, results) => {
+        if (err) {
+          return res.json('ERROR')
+        }
+        else {
+          console.log("Profile Details Inserted")
+          return res.json({
+            data: results
+          })
+        }
+      })
+    }
+  })
 })
 
 router.post('/getprojects', (req, res, next) => {
@@ -257,16 +265,26 @@ router.post('/getproject', (req, res, next) => {
   
   let pid = req.body.projectid
 
-  sql = "select * FROM project as p left join ((select ProjectId, sum(Bid)/count(ProjectId) as Average from bid group by ProjectId) as b) on p.ProjectId = b.ProjectId where p.ProjectId = ?"
-
-  con.query(sql, pid, (err, result) => {
+  con.getConnection((err, connection) => {
     if (err) {
-      console.log(err.message);
-      res.json("ERROR");
+      res.json({
+        code: 100,
+        status: "Not able to connect to database"
+      });
     }
     else {
-      console.log("Project Found in Database", result);
-      res.json(result)
+      sql = "select * FROM project as p left join ((select ProjectId, sum(Bid)/count(ProjectId) as Average from bid group by ProjectId) as b) on p.ProjectId = b.ProjectId where p.ProjectId = ?"
+
+      con.query(sql, pid, (err, result) => {
+        if (err) {
+          console.log(err.message);
+          res.json("ERROR");
+        }
+        else {
+          console.log("Project Found in Database", result);
+          res.json(result)
+        }
+      })
     }
   })
 })
@@ -276,16 +294,26 @@ router.post( '/getallbids', (req, res, next) => {
   
   let pid = req.body.projectid
 
-  sql = "SELECT * from bid inner join user on bid.UserId = user.UserId WHERE bid.ProjectId = ? "
-
-  con.query(sql, [pid], (err,result) => {
+  con.getConnection((err, connection) => {
     if (err) {
-      console.log(err.message);
-      res.json('ERROR')
+      res.json({
+        code: 100,
+        status: "Not able to connect to database"
+      });
     }
     else {
-      console.log("Bids for Selected Projects", result);
-      res.json(result)
+      sql = "SELECT * from bid inner join user on bid.UserId = user.UserId WHERE bid.ProjectId = ? "
+
+      con.query(sql, [pid], (err, result) => {
+        if (err) {
+          console.log(err.message);
+          res.json('ERROR')
+        }
+        else {
+          console.log("Bids for Selected Projects", result);
+          res.json(result)
+        }
+      })
     }
   })
 })
@@ -396,50 +424,55 @@ router.post('/updatebid', (req, res, next) => {
 
   console.log(date);
   
-  let sql = 'INSERT INTO bid (UserId , ProjectId, Bid, Date, DeliveryDays) VALUES (?, ?, ?, ?, ?)'
-
-  con.query(sql, [userid, pid, bid, date, dd], (err, result) => {
-    if(err) {
-      console.log(err.name);
-      console.log(err.message);
-      res.json("ERROR");
+  con.getConnection((err, connection) => {
+    if (err) {
+      res.json({
+        code: 100,
+        status: "Not able to connect to database"
+      });
     }
-    else{
-      
-      console.log("Bid Table updated");
-      bidnum = "SELECT COUNT(bid) AS num FROM bid WHERE ProjectId = ?"
-      con.query(bidnum, pid, (err, result) => {
+    else {
+      let sql = 'INSERT INTO bid (UserId , ProjectId, Bid, Date, DeliveryDays) VALUES (?, ?, ?, ?, ?)'
+
+      con.query(sql, [userid, pid, bid, date, dd], (err, result) => {
         if (err) {
           console.log(err.name);
           console.log(err.message);
           res.json("ERROR");
         }
         else {
-          console.log("Count of Bids Updated to ", result);
-          let num = 0;
-          num = result[0].num
-          console.log(num);
-          con.query("UPDATE project SET bids = ? WHERE ProjectId = ? ", [num, pid], (err, result) => {
+
+          console.log("Bid Table updated");
+          bidnum = "SELECT COUNT(bid) AS num FROM bid WHERE ProjectId = ?"
+          con.query(bidnum, pid, (err, result) => {
             if (err) {
               console.log(err.name);
               console.log(err.message);
               res.json("ERROR");
             }
             else {
-              console.log("Bids value set in project", result);
+              console.log("Count of Bids Updated to ", result);
+              let num = 0;
+              num = result[0].num
+              console.log(num);
+              con.query("UPDATE project SET bids = ? WHERE ProjectId = ? ", [num, pid], (err, result) => {
+                if (err) {
+                  console.log(err.name);
+                  console.log(err.message);
+                  res.json("ERROR");
+                }
+                else {
+                  console.log("Bids value set in project", result);
+                }
+              })
             }
           })
+          res.json("BID_PLACED");
+
         }
       })
-      res.json("BID_PLACED");
-      
     }
-  } )
-
-  
-
-
-
+  })
 })
 
 
