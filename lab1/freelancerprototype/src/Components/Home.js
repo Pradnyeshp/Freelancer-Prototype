@@ -12,6 +12,7 @@ import Userhome from './Userhome';
 import Navbar from './Navbar';
 import ProjectDetails from './ProjectDetails'
 import Dashboard from './Dashboard'
+import FreelancerDashboard from './FreelancerDashboard'
 
 const Home = () => (
   <div>
@@ -22,6 +23,7 @@ const Home = () => (
       <Route path = '/addproject' component = {AddProject} />
       <Route path = '/profile' component = {Profile} />
       <Route path = '/dashboard' component={Dashboard} />
+      <Route path = '/freelancerdashboard' component={FreelancerDashboard} />
       <Route path = '/userhome' component = {Userhome} /> 
       <Route path = '/Navbar' component = {Navbar} />
       <Route path = '/projectdetails/:value/' component={ProjectDetails} />

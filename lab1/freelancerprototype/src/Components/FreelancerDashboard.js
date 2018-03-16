@@ -1,29 +1,30 @@
 import React, { Component } from 'react';
-import { Link } from 'react-router-dom' ;
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './userhome.css'
 
-class Dashboard extends Component {
-
+class FreelancerDashboard extends Component {
+    
     constructor() {
         super();
         this.state = {
             projects: [],
-            freelancerButton: false
+            employerButton: false
         }
     }
 
     componentWillMount() {
-        console.log('In Dashboard');
+
+        console.log('In Freelancer Dashboard');
         const userDetails = {
             username : localStorage.getItem('username')
         }
-        axios.post('http://localhost:3001/getmypostedprojects', userDetails)
+        axios.post('http://localhost:3001/getmybiddedprojects', userDetails)
             .then((response) => {
-                console.log(response.data);
+                console.log("Your Bidded Projects : ", response.data);
                 if (response.data === 'ERROR') {
                     let temp = [];
-                    temp.push('No projects to show');
+                    temp.push('No projects');
                     this.setState({
                         projects: temp
                     })
@@ -38,27 +39,24 @@ class Dashboard extends Component {
         )
     }
 
-    handleFreelancer() {
+    handleEmployer() {
         this.setState({
-            freelancerButton: true
+            employerButton: true
         })
     }
 
     handleSubmit = () => {
         localStorage.removeItem('username');
     }
-
+    
     render() {
 
-        if (this.state.freelancerButton === true)
-            this.props.history.push('/freelancerdashboard');
+        if (this.state.employerButton === true)
+            this.props.history.push('/dashboard');
 
         let projects = [];
-        projects = this.state.projects.map( p => {
-            // var finalDate = null
-            // if (p.estimated_completion_date !== null) {
-            //     finalDate = p.estimated_completion_date.slice(0, 10);
-            // }
+        projects = this.state.projects.map(p => {
+
             return (
                 <tr key={p.ProjectId}>
                     <td className='text-left' >
@@ -73,22 +71,17 @@ class Dashboard extends Component {
                     </td>
                     <td>
                         <div>
-                            <p><Link to={`/profile/${p.Freelancer}`}>{p.Freelancer}</Link></p>
+                            <p><Link to={`/profile/${p.Employee}`}>{p.Employee}</Link></p>
                         </div>
                     </td>
                     <td>
                         <div>
-                            {/* <p> {finalDate} </p> */}
+                            <p>{p.Bid}</p>
                         </div>
                     </td>
                     <td>
                         <div>
-                            <p>{p.Bids}</p>
-                        </div>
-                    </td>
-                    <td>
-                        <div>
-                            <p>{p.open}</p>
+                            <p>{p.Open}</p>
                         </div>
                     </td>
                 </tr>
@@ -135,23 +128,23 @@ class Dashboard extends Component {
                             </button>
                         </form>
                     </div>
-                </nav><br/>
+                </nav><br />
 
                 <div className='EmployerOrFreelancer'>
                     <div className="btn-group" role="group" aria-label="Basic example">
-                        <button onClick={() => this.componentWillMount()} type="button" className="btn btn-secondary">Employer</button>
-                        <button onClick={() => this.handleFreelancer()} type="button"  className="btn btn-secondary">Freelancer</button>
+                        <button onClick={() => this.handleEmployer()} 
+                            type="button" className="btn btn-secondary">Employer</button>
+                        <button type="button" className="btn btn-secondary">Freelancer</button>
                     </div>
-                </div><br/>
+                </div><br />
                 <div className='dashboardprojecttable'>
                     <table className='table table-hover'>
                         <thead>
                             <tr>
                                 <th>Project Name</th>
                                 <th>Average Bid</th>
-                                <th>Freelancer Name</th>
-                                <th>Estimated Completion Date</th>
-                                <th>Number of Bids</th>
+                                <th>Employer Name</th>
+                                <th>Your Bid</th>
                                 <th>Status</th>
                             </tr>
                         </thead>
@@ -160,9 +153,10 @@ class Dashboard extends Component {
                         </tbody>
                     </table>
                 </div>
+
             </div>
         );
     }
 }
 
-export default Dashboard;
+export default FreelancerDashboard;
