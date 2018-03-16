@@ -97,7 +97,6 @@ router.post('/signin', function (req, res, next) {
     else {
       var sql = 'SELECT * from user WHERE username = ? AND password = ?';
       con.query(sql, [usr, encryptpwd], (err, result) => {
-
         if (err) {
           console.log(err.name);
           console.log(err.message);
@@ -356,6 +355,34 @@ router.post('/getmypostedprojects', (req, res, next) => {
     }
   })
 
+})
+
+router.post('/getmybiddedprojects', (req, res, next) => {
+  console.log(req.body);
+  
+  let username = req.body.username
+  con.getConnection((err, connection) => {
+    if (err) {
+      res.json({
+        code: 100,
+        status: "Not able to establish a connection"
+      }
+      )
+    }
+    else {
+      let sql = ""
+      con.query(sql, [username], (err, result) => {
+        if (err) {
+          console.log(err.message);
+          res.json("ERROR");
+        }
+        else {
+          console.log("Found All Posted Projects", result);
+          res.json(result)
+        }
+      })
+    }
+  })
 })
 
 router.post('/updatebid', (req, res, next) => {
