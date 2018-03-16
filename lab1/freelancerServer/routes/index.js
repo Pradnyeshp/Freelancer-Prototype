@@ -258,7 +258,7 @@ router.post('/getproject', (req, res, next) => {
   
   let pid = req.body.projectid
 
-  sql = "SELECT * FROM project WHERE ProjectId = ?"
+  sql = "select * FROM project as p left join ((select ProjectId, sum(Bid)/count(ProjectId) as Average from bid group by ProjectId) as b) on p.ProjectId = b.ProjectId where p.ProjectId = ?"
 
   con.query(sql, pid, (err, result) => {
     if (err) {
