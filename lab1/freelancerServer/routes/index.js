@@ -328,6 +328,12 @@ router.post('/addproject', (req, res, next) => {
   })
 })
 
+router.post('/getmypostedprojects', (req, res, next) => {
+  console.log(req.body);
+  
+  
+})
+
 router.post('/updatebid', (req, res, next) => {
   console.log('In Update Bid', req.body);
   
