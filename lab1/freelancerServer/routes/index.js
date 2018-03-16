@@ -328,6 +328,36 @@ router.post('/addproject', (req, res, next) => {
   })
 })
 
+router.post('/getmypostedprojects', (req, res, next) => {
+  console.log(req.body);
+  
+  let username = req.body.username
+
+  con.getConnection((err, connection) => {
+    if (err) {
+      res.json({
+        code: 100,
+        status: "Not able to establish a connection"
+      }
+      )
+    }
+    else {
+      let sql = "SELECT * FROM project WHERE Freelancer = ? "
+      con.query(sql, [username], (err, result) => {
+        if (err) {
+          console.log(err.message);
+          res.json("ERROR");
+        }
+        else {
+          console.log("Found All Posted Projects", result);
+          res.json(result)
+        }
+      })
+    }
+  })
+
+})
+
 router.post('/updatebid', (req, res, next) => {
   console.log('In Update Bid', req.body);
   

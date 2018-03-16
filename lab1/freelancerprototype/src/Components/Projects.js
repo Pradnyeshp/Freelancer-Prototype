@@ -45,7 +45,7 @@ class Projects extends Component {
             return(
                 <tr key={p.ProjectId} >
                     <td className="text-left"> 
-                        <b> <Link to={`/ProjectDetails/${p.ProjectId}`}> {p.Title} </Link>
+                        <b> <Link to={`/projectdetails/${p.ProjectId}`}> {p.Title} </Link>
                         </b> <br/> 
                             {p.Description} <br/> 
                             {p.SkillsReq}

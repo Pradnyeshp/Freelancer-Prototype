@@ -35,7 +35,7 @@ class SignIn extends Component {
     render() {
         let profile = null;
          
-        if (sessionStorage.getItem('username') !== null ) {
+        if (localStorage.getItem('username') !== null ) {
             profile = <Redirect to="/Userhome" />
         }
 
@@ -97,8 +97,8 @@ function mapDispatchToProps(dispatch) {
                     if (response.data === 'ERROR')
                         dispatch({ type: 'ERROR', payload: response })
                     else {                        
-                        sessionStorage.setItem('username', response.data[0].Username)
-                        console.log(sessionStorage.username);
+                        localStorage.setItem('username', response.data[0].Username)
+                        console.log(localStorage.username);
                         dispatch({ type: 'SIGNIN_SUCCESS', payload: response })
                     }
                 }

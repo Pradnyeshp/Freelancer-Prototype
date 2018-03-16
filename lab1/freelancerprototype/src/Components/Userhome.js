@@ -9,7 +9,7 @@ import Projects from './Projects';
 class Userhome extends Component {
 
     handleSubmit = () => {
-        sessionStorage.removeItem('username');
+        localStorage.removeItem('username');
     }
 
     render() {
@@ -22,7 +22,7 @@ class Userhome extends Component {
                                 <a className="navbar-brand"> Freelancer Logo </a>
                             </div>
                             <ul className="nav navbar-nav navbar-right">
-                                <li><Link to="/Profile" className="btn btn-primary"> Profile </Link> &nbsp;
+                                <li><Link to="/profile" className="btn btn-primary"> Profile </Link> &nbsp;
                                 <Link to="/signin" className='btn btn-danger' onClick={this.handleSubmit}> 
                                 Sign Out </Link></li>
                             </ul>
@@ -39,15 +39,17 @@ class Userhome extends Component {
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav mr-auto">
                             <li className="nav-item active">
-                                <a className="nav-link" href=""> Home <span className="sr-only">(current)</span></a> 
+                                <Link to='/userhome' 
+                                    className="nav-link" > Home <span className="sr-only">(current)</span>
+                                </Link> 
                             </li>
                             <li className="nav-item">
-                                <a className="nav-link" href="">Dashboard</a>
+                                <Link to='/dashboard' className="nav-link" href=""> Dashboard </Link>
                             </li>
                         </ul>
                         <form className="form-inline my-2 my-lg-0">
                                 <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
-                                    <Link to='/AddProject' > Post a Project </Link>
+                                    <Link to='/addproject' > Post a Project </Link>
                                 </button>
                         </form>
                     </div>

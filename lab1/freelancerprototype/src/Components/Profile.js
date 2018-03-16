@@ -24,7 +24,7 @@ class Profile extends Component {
     }
 
     componentWillMount() {
-        let username = sessionStorage.getItem('username');
+        let username = localStorage.getItem('username');
         const usernameJSON = {
             username: username
         }
@@ -91,7 +91,7 @@ class Profile extends Component {
                                     <a className="navbar-brand"> Freelancer Logo </a>
                                 </div>
                                 <ul className="nav navbar-nav navbar-right">
-                                    <li><Link to="/Profile" className="btn btn-primary"> Profile </Link> &nbsp;
+                                    <li><Link to="/profile" className="btn btn-primary"> Profile </Link> &nbsp;
                                 <Link to="/userhome" className='btn btn-danger'>
                                             Back to Home </Link></li>
                                 </ul>
@@ -172,8 +172,8 @@ class Profile extends Component {
                                     <a className="navbar-brand"> Freelancer Logo </a>
                                 </div>
                                 <ul className="nav navbar-nav navbar-right">
-                                    <li><Link to="/Profile" className="btn btn-primary"> Profile </Link> &nbsp;
-                                <Link to="/Userhome" className='btn btn-danger' onClick={this.handleSubmit}>
+                                    <li><Link to="/profile" className="btn btn-primary"> Profile </Link> &nbsp;
+                                <Link to="/userhome" className='btn btn-danger' onClick={this.handleSubmit}>
                                             Back to Home </Link></li>
                                 </ul>
                             </div>

@@ -8,7 +8,7 @@ class Navigator extends Component {
         let profile = null;
 
         if (sessionStorage.getItem('username') !== null) {
-            profile = <Redirect to="/Userhome" />
+            profile = <Redirect to="/userhome" />
         }
 
         return (
@@ -21,11 +21,11 @@ class Navigator extends Component {
                             </div>
                             <ul className="nav navbar-nav navbar-right" >
                                 <li>
-                                    <Link to="/SignIn"><font color="black"> Login </font></Link> &nbsp;
+                                    <Link to="/signIn"><font color="black"> Login </font></Link> &nbsp;
                            
-                                    <Link to="/SignUp"><font color="black"> Sign Up </font></Link> &nbsp;
+                                    <Link to="/signUp"><font color="black"> Sign Up </font></Link> &nbsp;
 
-                                    <Link to="/AddProject" className="btn btn-primary"> Post a Project </Link>
+                                    <Link to="/addproject" className="btn btn-primary"> Post a Project </Link>
                                 </li>
                             </ul>
                         </div>
