@@ -35,7 +35,7 @@ const Home = () => (
 const NotFound = () => (
   <div><br/>
     <h2> 404... This page is not found</h2>
-    <p> Whoops! Sorry, there is nothing to see here</p>
+    <p> Whoops! Sorry, there is nothing to see here </p>
     <p><Link to="/">Back to Home</Link></p>
   </div>
 )
