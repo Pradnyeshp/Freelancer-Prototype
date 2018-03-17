@@ -18,6 +18,7 @@ class ProjectDetails extends Component {
             budgetrange: '',
             bids: '',
             avg: '',
+            freelancer : ''
         })
     }
 
@@ -41,7 +42,8 @@ class ProjectDetails extends Component {
                         employee : response.data[0].Employee,
                         budgetrange: response.data[0].BudgetMin,
                         bids : response.data[0].Bids,
-                        avg : response.data[0].Average
+                        avg : response.data[0].Average,
+                        freelancer : response.data[0].Freelancer
                     })
                 })
         })
