@@ -16,7 +16,7 @@ const reducer = (state = initialState, action) => {
                     ...state,
                     signup_success : action.payload.data
                 }
-
+                
             case 'SIGNIN_SUCCESS' :
                 console.log(action.payload.data);
                 return {
