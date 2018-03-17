@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.css';
 import axios from 'axios';
 import { Button } from 'react-bootstrap';
+import { Helmet } from 'react-helmet'
 
 class App extends Component {
   constructor(props) {
@@ -46,14 +47,17 @@ class App extends Component {
   render() {
     return (
       <div className="App" ><br/>
+        <Helmet>
+          <style>{'body { background-color: 	rgb(245,245,245); }'}</style>
+        </Helmet>
         <h1>Basic Calculator</h1><br/>
           <form>
           <div className="form-group">
-            <label> Value 1:
+            <label> Value 1 :
               <input type="text" className="form-control" name="val1" onChange={this.handleChange.bind(this)} required />
             </label>
               <br /><br />
-            <label> Value 2:
+            <label> Value 2 :
               <input type="text" className="form-control" name='val2' onChange={this.handleChange.bind(this)} required />
             </label><br/><br />
             <div className="btn-group">
@@ -62,7 +66,7 @@ class App extends Component {
               <button className='btn btn-primary' onClick={this.handleOp.bind(this)} id="mul">Multiplication</button>
               <button className='btn btn-primary' onClick={this.handleOp.bind(this)} id="div">Division</button>
             </div><br /> <br />
-            <label> Result:
+            <label> Result :
                 <input type="text" className="form-control" ref="result" value={this.state.result} readOnly/>
             </label>
           </div>
