@@ -4,7 +4,7 @@ import { Redirect } from 'react-router-dom';
 import axios from 'axios';
 import './signin.css';
 import { Link } from 'react-router-dom';
-
+import image from '../Image/freelancerlogo.png'
 
 class Signup extends Component {
 
@@ -56,7 +56,7 @@ class Signup extends Component {
                         </div>
                         <div id="divSignupForm">
                             <div className="form">
-                                <h1> Freelancer logo </h1>
+                                <h1> <img src={image} alt="Freelancer Logo" /> <br/> <br/> </h1>
                                 <form className="login-form" onSubmit={this.createUser}>
                                     <input type="text" 
                                         onChange={this.handleChange} 

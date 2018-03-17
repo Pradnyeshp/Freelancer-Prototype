@@ -4,6 +4,7 @@ import { connect } from 'react-redux';
 import { Redirect } from 'react-router-dom';
 import './signin.css';
 import { Link } from 'react-router-dom';
+import image from '../Image/freelancerlogo.png'
 
 class SignIn extends Component {
     constructor() {
@@ -44,6 +45,7 @@ class SignIn extends Component {
             {profile}
                 <div className="login-page">
                     <div className="form">
+                        <img src={image} alt="Freelancer Logo" /><br/><br/>
                         <form className="login-form" onSubmit={this.handleSignIn.bind(this)}>
                             <input type="text" 
                                 placeholder="Email or Username" 
