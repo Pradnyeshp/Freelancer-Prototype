@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
+import { Helmet } from 'react-helmet'
 
 class AddProject extends Component {
 
@@ -77,6 +78,9 @@ class AddProject extends Component {
 
         return (
             <div className="project">
+                <Helmet>
+                    <style>{'body { background-color: lightblue; }'}</style>
+                </Helmet>
                 {projectpost}
                 <div className='container' >
                 <form onSubmit={this.postProject} ><br />
@@ -94,7 +98,7 @@ class AddProject extends Component {
                     <div className='form-group'>
                         <label><h5>Tell us more about your project</h5> <br />
                             <textarea className="form-control" 
-                                rows="3" name="projectdesc"
+                                rows="4" name="projectdesc"
                                 placeholder = 'Describe your Project here...'
                                 onChange={this.handleChange} required>
                             </textarea>

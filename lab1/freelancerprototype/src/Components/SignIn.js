@@ -5,6 +5,7 @@ import { Redirect } from 'react-router-dom';
 import './signin.css';
 import { Link } from 'react-router-dom';
 import image from '../Image/freelancerlogo.png'
+import { Helmet } from 'react-helmet'
 
 class SignIn extends Component {
     constructor() {
@@ -44,8 +45,11 @@ class SignIn extends Component {
             <div className="Login">
             {profile}
                 <div className="login-page">
+                    <Helmet>
+                        <style>{'body { background-color: rgb(220,220,220); }'}</style>
+                    </Helmet>
                     <div className="form">
-                        <img src={image} alt="Freelancer Logo" /><br/><br/>
+                        <h1><img src={image} alt="Freelancer Logo" /><br /><br /> </h1>
                         <form className="login-form" onSubmit={this.handleSignIn.bind(this)}>
                             <input type="text" 
                                 placeholder="Email or Username" 

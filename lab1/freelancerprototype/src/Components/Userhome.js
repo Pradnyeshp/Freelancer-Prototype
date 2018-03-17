@@ -5,6 +5,7 @@ import Bootstrap from 'bootstrap/dist/css/bootstrap.css';
 import { connect } from 'react-redux';
 import Projects from './Projects';
 import Navigator from './Navigator'
+import image from '../Image/freelancerlogo.png'
 
 class Userhome extends Component {
 
@@ -38,7 +39,7 @@ class Userhome extends Component {
                     <nav className="navbar navbar-inverse" >
                         <div className="container-fluid">
                             <div className="navbar-header">
-                                <a className="navbar-brand"> Freelancer Logo </a>
+                                <a className="navbar-brand"> <img src={image} alt="Freelancer Logo" /> </a>
                             </div>
                             <ul className="nav navbar-nav navbar-right">
                                 {bar}

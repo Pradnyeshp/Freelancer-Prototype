@@ -5,6 +5,7 @@ import axios from 'axios';
 import './signin.css';
 import { Link } from 'react-router-dom';
 import image from '../Image/freelancerlogo.png'
+import { Helmet } from 'react-helmet'
 
 class Signup extends Component {
 
@@ -51,6 +52,9 @@ class Signup extends Component {
             <div className="signup">
                 {validUser}
                 <div id="mainDiv">
+                    <Helmet>
+                        <style>{'body { background-color: rgb(220,220,220); }'}</style>
+                    </Helmet>
                     <div className="center">
                         <div><br />
                         </div>

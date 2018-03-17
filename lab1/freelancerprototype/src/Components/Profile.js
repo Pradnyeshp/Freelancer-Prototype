@@ -3,6 +3,7 @@ import './App.css';
 import { connect } from 'react-redux';
 import axios from 'axios'
 import { Link } from 'react-router-dom' ;
+import image from '../Image/freelancerlogo.png'
 
 class Profile extends Component {
 
@@ -90,7 +91,7 @@ class Profile extends Component {
                         <nav className="navbar navbar-inverse" >
                             <div className="container-fluid">
                                 <div className="navbar-header">
-                                    <a className="navbar-brand"> Freelancer Logo </a>
+                                    <a className="navbar-brand"> <img src={image} alt="Freelancer Logo" /> </a>
                                 </div>
                                 <ul className="nav navbar-nav navbar-right">
                                     <li>
@@ -172,7 +173,7 @@ class Profile extends Component {
                         <nav className="navbar navbar-inverse" >
                             <div className="container-fluid">
                                 <div className="navbar-header">
-                                    <a className="navbar-brand"> Freelancer Logo </a>
+                                    <a className="navbar-brand"> <img src={image} alt="Freelancer Logo" /> </a>
                                 </div>
                                 <ul className="nav navbar-nav navbar-right">
                                     <li> <Link to="/userhome" className='btn btn-danger' onClick={this.handleSubmit}>
