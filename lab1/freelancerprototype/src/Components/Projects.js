@@ -50,7 +50,7 @@ class Projects extends Component {
                             {p.Description} <br/> 
                             {p.SkillsReq}
                     </td>
-                    <td> {p.Name} </td>
+                    <td> <Link to={`/projectdetails/${p.Name}`}> {p.Name} </Link> </td>
                     <td> {p.Bids} </td>
                     <td> {p.BudgetMin} </td>
                     <td> <BidNow id={p.ProjectId} /> 
