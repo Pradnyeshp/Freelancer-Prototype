@@ -117,30 +117,35 @@ class Profile extends Component {
                                 <div className='text-left' disabled='true' >
                                     <h3> <label> Name : &nbsp;
                                         <input type="text" ref="name"
+                                            className="form-control"
                                             name= "name"
                                             value={this.state.name}
                                             onChange={this.handleChange}  />
                                         </label></h3>
                                     <h5> <label> Email : &nbsp;
                                         <input type="text" ref="email"
+                                            className="form-control"
                                             name="email"
                                             value={this.state.email}
                                             onChange={this.handleChange} />
                                         </label></h5>
                                     <h5> Phone : &nbsp;
                                         <input type="text" ref="phone"
+                                            className="form-control"
                                             name="phone"
                                             value={this.state.phone}
                                             onChange={this.handleChange} />
                                     </h5>
                                     <h5> About Me : 
-                                        <input type="text" ref="aboutme"
+                                        <textarea type="text-area" ref="aboutme"
+                                            className="form-control"
                                             name="aboutme"
                                             value={this.state.aboutme}
                                             onChange={this.handleChange} />
                                          </h5>
                                     <h5> Skills :
                                         <input type="text" ref="email"
+                                            className="form-control"
                                             name="skills"
                                             value={this.state.skills}
                                             onChange={this.handleChange} />

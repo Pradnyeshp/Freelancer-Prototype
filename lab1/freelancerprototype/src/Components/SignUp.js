@@ -68,7 +68,7 @@ class Signup extends Component {
                                         id="txtFirstName" 
                                         placeholder="Name" 
                                         name="name" required />
-                                    <input type="text" 
+                                    <input type="email" 
                                         onChange={this.handleChange} 
                                         className="form-control"
                                         id="txtemail" 
@@ -90,9 +90,9 @@ class Signup extends Component {
                                         id="btnSubmitSignUpForm" 
                                         value="Create Account"> Create Account
                                     </button>
-                                    <p className="message"> Already have an account &nbsp; 
+                                    <dt className="message"> Already have an account &nbsp; 
                                         <Link to='/SignIn'> Sign In </Link>
-                                    </p>
+                                    </dt>
                                 </form>
                             </div>
                         </div>

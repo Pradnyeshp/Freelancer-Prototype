@@ -52,7 +52,7 @@ class SignIn extends Component {
                         <h1><img src={image} alt="Freelancer Logo" /><br /><br /> </h1>
                         <form className="login-form" onSubmit={this.handleSignIn.bind(this)}>
                             <input type="text" 
-                                placeholder="Email or Username" 
+                                placeholder="Username" 
                                 value={this.state.username} 
                                 onChange={this.handleChange} 
                                 className="form-control" 
@@ -68,12 +68,12 @@ class SignIn extends Component {
                             <button className="form-control btn btn-primary" 
                                 value="Login">login
                             </button>
-                            <p className="message"> 
+                            <dt className="message"> 
                                 Don't have an account? &nbsp; 
                                 <Link to="/SignUp"> 
                                 Sign Up Here 
                                 </Link>
-                            </p>
+                            </dt>
                         </form>
                     </div>
                 </div>
@@ -104,6 +104,7 @@ function mapDispatchToProps(dispatch) {
                         dispatch({ type: 'ERROR', payload: response })
                     else {                        
                         localStorage.setItem('username', response.data[0].Username)
+                        localStorage.setItem('userid', response.data[0].UserId )
                         console.log(localStorage.username);
                         dispatch({ type: 'SIGNIN_SUCCESS', payload: response })
                     }

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom' ;
 import axios from 'axios';
 import './userhome.css'
+import image from '../Image/freelancerlogo.png'
 
 class Dashboard extends Component {
 
@@ -78,7 +79,7 @@ class Dashboard extends Component {
                     </td>
                     <td>
                         <div>
-                            {/* <p> {finalDate} </p> */}
+                            <p>  </p>
                         </div>
                     </td>
                     <td>
@@ -101,7 +102,7 @@ class Dashboard extends Component {
                     <nav className="navbar navbar-inverse" >
                         <div className="container-fluid">
                             <div className="navbar-header">
-                                <a className="navbar-brand"> Freelancer Logo </a>
+                                <a className="navbar-brand"> <img src={image} alt="Freelancer Logo" /> </a>
                             </div>
                             <ul className="nav navbar-nav navbar-right">
                                 <li><Link to="/profile" className="btn btn-primary"> Profile </Link> &nbsp;
