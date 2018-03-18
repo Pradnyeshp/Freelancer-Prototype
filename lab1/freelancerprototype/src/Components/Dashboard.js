@@ -55,7 +55,7 @@ class Dashboard extends Component {
             this.props.history.push('/freelancerdashboard');
 
         let projects = [];
-        projects = this.state.projects.map( p => {
+        projects = this.state.projects.map ( p => {
             // var finalDate = null
             // if (p.estimated_completion_date !== null) {
             //     finalDate = p.estimated_completion_date.slice(0, 10);
@@ -140,13 +140,13 @@ class Dashboard extends Component {
 
                 <div className='EmployerOrFreelancer'>
                     <div className="btn-group" role="group" aria-label="Basic example">
-                        <button onClick={() => this.componentWillMount()} type="button" className="btn btn-secondary">Employer</button>
-                        <button onClick={() => this.handleFreelancer()} type="button"  className="btn btn-secondary">Freelancer</button>
+                        <button onClick={() => this.componentWillMount()} type="button" className="btn btn-dark">Employer</button>
+                        <button onClick={() => this.handleFreelancer()} type="button"  className="btn btn-dark">Freelancer</button>
                     </div>
                 </div><br/>
                 <div className='dashboardprojecttable'>
                     <table className='table table-hover'>
-                        <thead>
+                        <thead className="thead-dark">
                             <tr>
                                 <th className='text-left'>Project Name</th>
                                 <th>Average Bid</th>

@@ -139,13 +139,13 @@ class FreelancerDashboard extends Component {
                 <div className='EmployerOrFreelancer'>
                     <div className="btn-group" role="group" aria-label="Basic example">
                         <button onClick={() => this.handleEmployer()} 
-                            type="button" className="btn btn-secondary">Employer</button>
-                        <button type="button" className="btn btn-secondary">Freelancer</button>
+                            type="button" className="btn btn-dark">Employer</button>
+                        <button type="button" className="btn btn-dark">Freelancer</button>
                     </div>
                 </div><br />
                 <div className='dashboardprojecttable'>
                     <table className='table table-hover'>
-                        <thead>
+                        <thead className="thead-dark">
                             <tr>
                                 <th className='text-left'>Project Name</th>
                                 <th>Average Bid</th>

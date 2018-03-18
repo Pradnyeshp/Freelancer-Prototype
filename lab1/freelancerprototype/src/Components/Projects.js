@@ -53,7 +53,7 @@ class Projects extends Component {
                     <td> <Link to={`/projectdetails/${p.Name}`}> {p.Name} </Link> </td>
                     <td> {p.Bids} </td>
                     <td> {p.BudgetMin} </td>
-                    <td> <BidNow id={p.ProjectId} /> 
+                    <td> <BidNow id={p.ProjectId}  /> 
                      </td>
                 </tr>
             )
@@ -63,7 +63,7 @@ class Projects extends Component {
             <div className="projects"><br/>
                 <div className="table-responsive">
                     <table className='table table-hover'>
-                        <thead>
+                        <thead className="thead-dark" >
                             <tr>
                                 <th className="text-left" >Project Name</th>
                                 <th>Employer</th>
