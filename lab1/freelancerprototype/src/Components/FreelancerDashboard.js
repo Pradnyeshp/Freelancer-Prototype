@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './userhome.css'
+import image from '../Image/freelancerlogo.png'
 
 class FreelancerDashboard extends Component {
     
@@ -9,17 +10,22 @@ class FreelancerDashboard extends Component {
         super();
         this.state = {
             projects: [],
-            employerButton: false
+            employerButton: false,
+            userid : ''
         }
     }
 
     componentWillMount() {
 
+        
         console.log('In Freelancer Dashboard');
         const userDetails = {
-            username : localStorage.getItem('username')
+            username : localStorage.getItem('username'),
+            userid : localStorage.getItem('userid')
         }
-        axios.post('http://localhost:3001/getmybiddedprojects', userDetails)
+
+
+        axios.post('http://localhost:3001/getmybiddedprojects', userDetails )
             .then((response) => {
                 console.log("Your Bidded Projects : ", response.data);
                 if (response.data === 'ERROR') {
@@ -66,12 +72,12 @@ class FreelancerDashboard extends Component {
                     </td>
                     <td>
                         <div>
-                            <p> {p.Average} </p>
+                            <p> $ {p.AvgBid} </p>
                         </div>
                     </td>
                     <td>
                         <div>
-                            <p><Link to={`/profile/${p.Employee}`}>{p.Employee}</Link></p>
+                            <p><Link to={`/profile/${p.Freelancer}`}>{p.Freelancer}</Link></p>
                         </div>
                     </td>
                     <td>
@@ -94,7 +100,7 @@ class FreelancerDashboard extends Component {
                     <nav className="navbar navbar-inverse" >
                         <div className="container-fluid">
                             <div className="navbar-header">
-                                <a className="navbar-brand"> Freelancer Logo </a>
+                                <a className="navbar-brand"> <img src={image} alt="Freelancer Logo" /> </a>
                             </div>
                             <ul className="nav navbar-nav navbar-right">
                                 <li><Link to="/profile" className="btn btn-primary"> Profile </Link> &nbsp;
