@@ -15,7 +15,7 @@ class App extends Component {
     this.handleOp = this.handleOp.bind(this);
     this.handleChange = this.handleChange.bind(this);
   }
-
+  
   handleChange(e) {
     const name = e.target.name
     const value = e.target.value
@@ -38,9 +38,14 @@ class App extends Component {
     axios.post('http://localhost:3001/operations', operation)
       .then((response) => {
         console.log(response.data)
-        this.setState({
-          result: response.data
-        })
+        if (response.data === null ) {
+          alert('Division by zero is not allowed');
+        }
+        else {
+          this.setState({
+            result: response.data
+          })
+        } 
       })
   }
 
@@ -48,7 +53,7 @@ class App extends Component {
     return (
       <div className="App" ><br/>
         <Helmet>
-          <style>{'body { background-color: 	rgb(245,245,245); }'}</style>
+          <style>{'body { background-color: rgb(245,245,245); }'}</style>
         </Helmet>
         <h1>Basic Calculator</h1><br/>
           <form>
@@ -61,13 +66,13 @@ class App extends Component {
               <input type="text" className="form-control" name='val2' onChange={this.handleChange.bind(this)} required />
             </label><br/><br />
             <div className="btn-group">
-              <Button className='btn btn-primary' onClick={this.handleOp.bind(this)} id="add">Addition</Button> 
-              <button className='btn btn-primary' onClick={this.handleOp.bind(this)} id="sub">Subtraction</button>
-              <button className='btn btn-primary' onClick={this.handleOp.bind(this)} id="mul">Multiplication</button>
-              <button className='btn btn-primary' onClick={this.handleOp.bind(this)} id="div">Division</button>
+              <Button className='btn btn-primary' onClick={this.handleOp.bind(this)} id="+">Addition</Button> 
+              <button className='btn btn-primary' onClick={this.handleOp.bind(this)} id="-">Subtraction</button>
+              <button className='btn btn-primary' onClick={this.handleOp.bind(this)} id="*">Multiplication</button>
+              <button className='btn btn-primary' onClick={this.handleOp.bind(this)} id="/">Division</button>
             </div><br /> <br />
             <label> Result :
-                <input type="text" className="form-control" ref="result" value={this.state.result} readOnly/>
+                <input type="text" className="form-control" ref="result" value = {this.state.result} readOnly/>
             </label>
           </div>
           </form>
