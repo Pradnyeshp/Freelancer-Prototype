@@ -39,7 +39,7 @@ router.post('/signup', function(req, res, next) {
     var cipher = crypto.createCipher(algorithm, password)
     var crypted = cipher.update(pwd, 'utf8', 'hex')
     crypted += cipher.final('hex');
-    console.log(crypted);
+    console.log("Encrypted Password :",crypted);
     return crypted;
   }
 
@@ -388,7 +388,8 @@ router.post('/getmypostedprojects', (req, res, next) => {
 router.post('/getmybiddedprojects', (req, res, next) => {
   console.log(req.body);
   
-  let username = req.body.username
+  let username = req.body.userid
+
   con.getConnection((err, connection) => {
     if (err) {
       res.json({
@@ -398,7 +399,7 @@ router.post('/getmybiddedprojects', (req, res, next) => {
       )
     }
     else {
-      let sql = ""
+      let sql = "SELECT P.Title, P.Freelancer, Q1.Bid, P.Status, P.ProjectId, Q2.AvgBid FROM (SELECT * FROM bid WHERE userId = ? ) AS Q1 JOIN project P ON P.ProjectId = Q1.ProjectId JOIN(SELECT ProjectId, avg(bid) as AvgBid from bid group by ProjectId) AS Q2 ON P.ProjectId = Q2.ProjectId"
       con.query(sql, [username], (err, result) => {
         if (err) {
           console.log(err.message);
