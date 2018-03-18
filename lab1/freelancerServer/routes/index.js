@@ -289,6 +289,25 @@ router.post('/getproject', (req, res, next) => {
   })
 })
 
+router.post('/setworkerforproject', (req, res, next) => {
+  console.log(req.body);
+  connectionPool.getConnection((err, connection) => {
+    if (err) {
+      res.json('Error connecting to database...')
+    } else {
+      var sql = 'update project set Employee = ' + mysql.escape(req.body.freelancer) + ' where ProjectId = ' + mysql.escape(req.body.pid);
+      connection.query(sql, (err, result) => {
+        if (err) {
+          res.json('Error updating the worker for this project');
+        } else {
+          res.json('Worker set successfully for this project');
+        }
+      });
+
+    }
+  })
+})
+
 router.post( '/getallbids', (req, res, next) => {
   console.log("In Get All bids", req.body);
   

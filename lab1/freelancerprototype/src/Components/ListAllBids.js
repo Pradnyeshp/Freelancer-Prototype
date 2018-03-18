@@ -9,7 +9,8 @@ class ListAllBids extends Component {
         this.state = ({
             userid : '',
             projectid : '',
-            bids : []
+            bids : [],
+            display: "none"
         })
     }
 
@@ -30,6 +31,11 @@ class ListAllBids extends Component {
                 } 
                 else 
                 {
+                    if (response.data[0].Username === localStorage.getItem('username')) {
+                        this.setState({
+                            display: "block"
+                        })
+                    }
                     this.setState({
                         bids: response.data
                     }, () => {
@@ -40,9 +46,27 @@ class ListAllBids extends Component {
         )
     }
 
+    handleClick(freelancer) {
+        console.log("Hire button click and freelancer is :" + freelancer, this.props.id);
+        const details = {
+            pid: this.props.projectid,
+            freelancer: freelancer
+        }
+        axios.post('http://localhost:3001/setworkerforproject', details )
+            .then((response) => {
+                console.log("In hire button handle click", response.data);
+                alert('Freelancer hired...check in your dashboard now...thanks');
+            })
+    }
+
     render() {
 
         let allbids = []
+
+        var displayStyle = this.state.display;
+        const divStyle = {
+            display: displayStyle
+        }
 
         allbids = this.state.bids.map( b => {
             return (
@@ -53,7 +77,10 @@ class ListAllBids extends Component {
                     <td> <Link to={`/profile/${b.Username}`}> {b.Username} </Link> </td>
                     <td> {b.Bid} </td>
                     <td> {b.DeliveryDays} </td>
-                    <td> <button className='btn btn-success' >Hire Now</button>
+                    <td> 
+                            <input type="button" id="btnHire" 
+                                className='btn btn-success' value="Hire Now" 
+                                onClick={this.handleClick.bind(this, b.freelancer)} />
                     </td>
                 </tr>
             )
