@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import axios from 'axios';
 import BidNow from './BidNow';
 import ListAllBids from './ListAllBids'
+import image from '../Image/freelancerlogo.png'
 
 class ProjectDetails extends Component {
 
@@ -56,7 +57,7 @@ class ProjectDetails extends Component {
                         <nav className="navbar navbar-inverse" >
                             <div className="container-fluid">
                                 <div className="navbar-header">
-                                    <a className="navbar-brand"> Freelancer Logo </a>
+                                <a className="navbar-brand"> <img src={image} alt="Freelancer Logo" /> </a>
                                 </div>
                                 <ul className="nav navbar-nav navbar-right">
                                     <li><Link to="/profile" className="btn btn-primary"> Profile </Link> &nbsp;
