@@ -60,7 +60,8 @@ class ProjectDetails extends Component {
                                 <a className="navbar-brand"> <img src={image} alt="Freelancer Logo" /> </a>
                                 </div>
                                 <ul className="nav navbar-nav navbar-right">
-                                    <li><Link to="/profile" className="btn btn-primary"> Profile </Link> &nbsp;
+                                <li><Link to={`/profile/${localStorage.getItem('username')}`}
+                                        className="btn btn-primary"> Profile </Link> &nbsp; &nbsp;
                                         <Link to="/signin" className='btn btn-danger'> Sign Out </Link> 
                                     </li>
                                 </ul>
@@ -91,15 +92,15 @@ class ProjectDetails extends Component {
                                 </p>
                             </div>
                             <div id='div1' >
-                                <h5>Bids</h5>
+                                <h5>Total Bids</h5>
                                 <p>
                                     {this.state.bids}
                                 </p>
                             </div>
                             <div id='div1' >
-                                <h5>Average Bid</h5>
+                                <h5>Average Bid Value</h5>
                                 <p>
-                                    {this.state.avg}
+                                   $ {this.state.avg}
                                 </p>
                             </div>
                             <div id='div1' >

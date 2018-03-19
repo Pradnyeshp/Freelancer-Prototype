@@ -69,17 +69,12 @@ class Dashboard extends Component {
                     </td>
                     <td>
                         <div>
-                            <p> {p.Average} </p>
+                            <p>$ {p.Average} </p>
                         </div>
                     </td>
                     <td>
                         <div>
                             <p><Link to={`/profile/${p.Freelancer}`}>{p.Freelancer}</Link></p>
-                        </div>
-                    </td>
-                    <td>
-                        <div>
-                            <p>  </p>
                         </div>
                     </td>
                     <td>
@@ -105,7 +100,8 @@ class Dashboard extends Component {
                                 <a className="navbar-brand"> <img src={image} alt="Freelancer Logo" /> </a>
                             </div>
                             <ul className="nav navbar-nav navbar-right">
-                                <li><Link to="/profile" className="btn btn-primary"> Profile </Link> &nbsp;
+                                <li><Link to={`/profile/${localStorage.getItem('username')}`}
+                                    className="btn btn-primary"> Profile </Link> &nbsp;
                                 <Link to="/signin" className='btn btn-danger' onClick={this.handleSubmit}>
                                         Sign Out </Link></li>
                             </ul>
@@ -151,7 +147,6 @@ class Dashboard extends Component {
                                 <th className='text-left'>Project Name</th>
                                 <th>Average Bid</th>
                                 <th>Freelancer Name</th>
-                                <th>Estimated Completion Date</th>
                                 <th>Number of Bids</th>
                                 <th>Status</th>
                             </tr>
