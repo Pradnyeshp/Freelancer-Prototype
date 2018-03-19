@@ -14,7 +14,7 @@ var crypto = require('crypto'),
 //   return dec;
 // }
 
-var con = mysql.createPool({
+var con = mysql.createConnection({
   connectionLimit: 100,
   host: "127.0.0.1",
   user: "root",
