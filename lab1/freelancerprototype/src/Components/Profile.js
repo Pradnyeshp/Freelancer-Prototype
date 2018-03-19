@@ -109,7 +109,7 @@ class Profile extends Component {
                         <div className="row content ">
                             <div className="col-sm-3 divStyle">
                                 <img className="img-rounded" src={proimage} alt="Insert Photo here"></img>
-                                <label>Profile Image :
+                                <label> Profile Image :
                                 <input type="file"
                                         className="form-control-file"
                                         name="avatar" />

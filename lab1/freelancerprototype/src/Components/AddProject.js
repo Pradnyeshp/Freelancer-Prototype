@@ -179,10 +179,18 @@ function mapDispatchToProps(dispatch) {
         addProject : (project) => {
             console.log(project);
             axios.post('http://localhost:3001/addproject', project)
-                .then((response) => {
-                    console.log("Receive response in after add project", response);
-                    dispatch({ type: 'PROJECTPOST_SUCCESS', payload: response })
+                .then((response) => 
+                {
+                    if (response.data === 'ERROR') {
+                        alert("Incorrect datetime value");
+                        dispatch({ type: 'ERROR', payload: response })
+                    }
+                    else {
+                        console.log("Receive response in after add project", response);
+                        dispatch({ type: 'PROJECTPOST_SUCCESS', payload: response })
+                    }
                 }
+               
             );
         }
     }

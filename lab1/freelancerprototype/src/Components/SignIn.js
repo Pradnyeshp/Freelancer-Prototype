@@ -97,11 +97,13 @@ function mapDispatchToProps(dispatch) {
             axios.post('http://localhost:3001/signin', userData)
                 .then((response) => {
                     console.log(response);
-                    
-                    console.log(response.data[0].Username);
+
                     console.log("After login dispatch", response.data);
-                    if (response.data === 'ERROR')
+                    if (response.data === 'ERROR') {
+                        alert("Error In Logging In, Please Check Username and Password");
                         dispatch({ type: 'ERROR', payload: response })
+                    }
+                        
                     else {                        
                         localStorage.setItem('username', response.data[0].Username)
                         localStorage.setItem('userid', response.data[0].UserId )
