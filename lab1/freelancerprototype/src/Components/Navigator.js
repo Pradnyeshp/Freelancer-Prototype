@@ -33,8 +33,14 @@ class Navigator extends Component {
                             </ul>
                         </div>
                     </nav>
-                    <div className='navhome' >
-                    </div>
+                <div className='ftext' >
+                    <div className='text-left' ><br /><br /><br /><br /><br />
+                        <h1> Hire expert freelancers for any </h1>
+                        <h1> job, online </h1> <br/>
+                        <h6> Millions of small businesses use Freelancer to turn their ideas </h6>
+                        <h6> into reality. </h6>
+                        </div>
+                </div>
             </div>
         );
     }

@@ -94,7 +94,7 @@ class ListAllBids extends Component {
                             <h3 className="text-left" > List of all bids on this project </h3>
                         </div>
                         <table className="table">
-                            <thead>
+                            <thead className="thead-dark">
                                 <tr>
                                     <th className="text-left" > Profile Image </th>
                                     <th> Freelancer Name </th>
