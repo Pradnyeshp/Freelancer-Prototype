@@ -24,6 +24,8 @@ var con = mysql.createPool({
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
+  console.log("Freelancer Server Started on Port : ", server.port);
+  
   res.render('index', { title: 'Express' });
 });
 
@@ -299,11 +301,11 @@ router.post('/setworkerforproject', (req, res, next) => {
       connection.query(sql, (err, result) => {
         if (err) {
           res.json('Error updating the worker for this project');
-        } else {
+        } 
+        else {
           res.json('Worker set successfully for this project');
         }
       });
-
     }
   })
 })
