@@ -1,11 +1,29 @@
 var express = require('express');
 var router = express.Router();
 var mysql = require('mysql');
-
+const MongoClient = require('mongodb').MongoClient;
+const assert = require('assert');
+const mongo = require('mongodb');
 var crypto = require('crypto'),
 
   algorithm = 'aes192',
   password = '!QAZ@WSX';
+
+
+// Connection URL
+var url = 'mongodb://localhost:27017';
+
+// Database Name
+const dbName = 'freelancerdb';
+
+MongoClient.connect(url, function(err, client) {
+    assert.equal(null, err);
+    console.log("Mongodb Connected successfully to server");
+
+    const db = client.db("freelancerdb");
+
+    client.close();
+});
 
 // function decrypt(text) {
 //   var decipher = crypto.createDecipher(algorithm, password)
@@ -24,8 +42,8 @@ var con = mysql.createConnection({
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  console.log("Freelancer Server Started on Port : ", server.port);
-  
+  // console.log("Freelancer Server Started on Port : ", server.port);
+
   res.render('index', { title: 'Express' });
 });
 
@@ -70,7 +88,7 @@ router.post('/signup', function(req, res, next) {
     });
   }
   })
-} 
+}
 );
 
 router.post('/signin', function (req, res, next) {
@@ -78,6 +96,18 @@ router.post('/signin', function (req, res, next) {
 
   const usr = req.body.username;
   const pwd = req.body.password;
+
+    MongoClient.connect(url, function(err, db) {
+        if (err) throw err;
+        var dbo = db.db("freelancerdb");
+        var query = { username : usr };
+        dbo.collection("freelancerdb").find(query).toArray(function(err, result) {
+            if (err) throw err;
+            console.log(result);
+            res.json(result)
+            db.close();
+        });
+    });
 
   function encrypt(pwd) {
     var cipher = crypto.createCipher(algorithm, password)
@@ -89,29 +119,29 @@ router.post('/signin', function (req, res, next) {
 
   let encryptpwd = encrypt(pwd)
 
-  con.getConnection((err, connection) => {
-    if (err) {
-      res.json({
-        code: 100,
-        status: "Not able to connect to database"
-      });
-    }
-    else {
-      var sql = 'SELECT * from user WHERE username = ? AND password = ?';
-      con.query(sql, [usr, encryptpwd], (err, result) => {
-        if (err) {
-          console.log(err.name);
-          console.log(err.message);
-          res.json('ERROR');
-        }
-        else {
-          console.log("User details found in database");
-          console.log(result);
-          res.json(result);
-        }
-      });
-    }
-  })
+  // con.getConnection((err, connection) => {
+  //   if (err) {
+  //     res.json({
+  //       code: 100,
+  //       status: "Not able to connect to database"
+  //     });
+  //   }
+  //   else {
+  //     var sql = 'SELECT * from user WHERE username = ? AND password = ?';
+  //     con.query(sql, [usr, encryptpwd], (err, result) => {
+  //       if (err) {
+  //         console.log(err.name);
+  //         console.log(err.message);
+  //         res.json('ERROR');
+  //       }
+  //       else {
+  //         console.log("User details found in database");
+  //         console.log(result);
+  //         res.json(result);
+  //       }
+  //     });
+  //   }
+  // })
 });
 
 router.post('/getprofile', (req, res, next) => {
