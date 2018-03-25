@@ -1,11 +1,28 @@
 var express = require('express');
 var router = express.Router();
 var mysql = require('mysql');
-
+const MongoClient = require('mongodb').MongoClient;
+const mongo = require('mongodb');
 var crypto = require('crypto'),
 
   algorithm = 'aes192',
   password = '!QAZ@WSX';
+
+
+// Connection URL
+const url = 'mongodb://localhost:27017';
+
+// Database Name
+const dbName = 'freelancerdb';
+
+MongoClient.connect(url, function(err, client) {
+    assert.equal(null, err);
+    console.log("Mongodb Connected successfully to server");
+
+    const db = client.db("freelancerdb");
+
+    client.close();
+});
 
 // function decrypt(text) {
 //   var decipher = crypto.createDecipher(algorithm, password)
@@ -24,8 +41,8 @@ var con = mysql.createConnection({
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  console.log("Freelancer Server Started on Port : ", server.port);
-  
+  // console.log("Freelancer Server Started on Port : ", server.port);
+
   res.render('index', { title: 'Express' });
 });
 
@@ -70,7 +87,7 @@ router.post('/signup', function(req, res, next) {
     });
   }
   })
-} 
+}
 );
 
 router.post('/signin', function (req, res, next) {
@@ -78,6 +95,17 @@ router.post('/signin', function (req, res, next) {
 
   const usr = req.body.username;
   const pwd = req.body.password;
+
+  const  mq = {username: req.body.username}
+
+    MongoClient.connect(url, function(err, client) {
+        console.log("Inside SignIn from mongodb");
+
+        mongo.query(mq, [usr]  )
+        const db = client.db("freelancerdb");
+
+        client.close();
+    });
 
   function encrypt(pwd) {
     var cipher = crypto.createCipher(algorithm, password)
