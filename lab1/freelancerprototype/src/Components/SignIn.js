@@ -45,6 +45,11 @@ class SignIn extends Component {
             <div className="Login">
             {profile}
                 <div className="login-page">
+                    {/*{{#if errors}}*/}
+                    {/*{{#each errors}}*/}
+                    {/*<div className="alert-danger" > {{msg}} </div>*/}
+                    {/*{{/each}}*/}
+                    {/*{{/if}}*/}
                     <Helmet>
                         <style>{'body { background-color: rgb(220,220,220); }'}</style>
                     </Helmet>

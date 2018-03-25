@@ -1,14 +1,15 @@
-var express = require('express');
-var router = express.Router();
-var mysql = require('mysql');
+const express = require('express');
+const router = express.Router();
+const mysql = require('mysql');
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 const mongo = require('mongodb');
-var crypto = require('crypto'),
+const crypto = require('crypto')
+const mongoose = require('mongoose')
+const bcrypt = require('bcryptjs')
 
   algorithm = 'aes192',
   password = '!QAZ@WSX';
-
 
 // Connection URL
 var url = 'mongodb://localhost:27017';
@@ -25,13 +26,6 @@ MongoClient.connect(url, function(err, client) {
     client.close();
 });
 
-// function decrypt(text) {
-//   var decipher = crypto.createDecipher(algorithm, password)
-//   var dec = decipher.update(text, 'hex', 'utf8')
-//   dec += decipher.final('utf8');
-//   return dec;
-// }
-
 var con = mysql.createConnection({
   connectionLimit: 100,
   host: "127.0.0.1",
@@ -42,7 +36,7 @@ var con = mysql.createConnection({
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  // console.log("Freelancer Server Started on Port : ", server.port);
+  //
 
   res.render('index', { title: 'Express' });
 });
@@ -54,7 +48,18 @@ router.post('/signup', function(req, res, next) {
   const usr = req.body.username;
   const email = req.body.email;
   const pwd = req.body.password;
-  
+
+  //validations
+  //   req.checkBody('name', 'Name is required').notEmpty()
+  //
+  //   const errors = req.validationErrors()
+  //
+  //   if(errors) {
+  //       res.json( {errors : errors} )
+  //   }
+  //   else {
+  //    }
+
   function encrypt(pwd) {
     var cipher = crypto.createCipher(algorithm, password)
     var crypted = cipher.update(pwd, 'utf8', 'hex')
@@ -74,7 +79,7 @@ router.post('/signup', function(req, res, next) {
     }
     else {
       var sql = 'INSERT INTO user (Name, Username, Email, Password ) VALUES (?, ?, ?, ?)';
-      con.query(sql , [name, usr, email, encryptpwd] , (err,result) => {
+      con.query(sql , [name, usr, email, encryptpwd] , (err, result) => {
         
         if(err) {
           console.log(err.name);
@@ -90,6 +95,8 @@ router.post('/signup', function(req, res, next) {
   })
 }
 );
+
+
 
 router.post('/signin', function (req, res, next) {
   console.log(req.body);
