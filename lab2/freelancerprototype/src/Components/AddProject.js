@@ -9,6 +9,7 @@ class AddProject extends Component {
     constructor() {
         super();
         this.state = ({
+            username: '',
             userid : '',
             freelancer : '',
             projectname : '',
@@ -25,27 +26,32 @@ class AddProject extends Component {
 
     componentWillMount () {
         
-        let username = localStorage.getItem('username');
+        let user = localStorage.getItem('username');
         const usernameJSON = {
-            username : username
+            username : user
         }
-
-        axios.post('http://localhost:3001/getuserid', usernameJSON )
-            .then((response => {
-                console.log('In Get UserId ',response.data);
-                this.setState( {
-                    userid : response.data[0].UserId,
-                    freelancer : response.data[0].Username
-                }, () => {
-                    console.log(this.state);
-                })
-            })) 
+        console.log(usernameJSON);
+        this.setState({
+                username : user
+        }, () => {
+            console.log('In componentWillMount', this.state)
+        })
+        // axios.post('http://localhost:3001/checksession', null, { withCredentials : true } )
+        //     .then((response => {
+        //         console.log('In CheckSession ', response.data);
+        //         this.setState( {
+        //             freelancer : response.data[0].username
+        //         }, () => {
+        //             console.log( 'After check Session ' , this.state );
+        //         })
+        //     }))
     }
 
     postProject = (e) => {
         e.preventDefault();
 
         const projectDetails = {
+            username : this.state.username,
             userid : this.state.userid,
             freelancer : this.state.freelancer,
             projectname: this.state.projectname,
@@ -182,7 +188,7 @@ function mapDispatchToProps(dispatch) {
                 .then((response) => 
                 {
                     if (response.data === 'ERROR') {
-                        alert("Incorrect datetime value");
+                        // alert("Incorrect datetime value");
                         dispatch({ type: 'ERROR', payload: response })
                     }
                     else {
@@ -190,7 +196,6 @@ function mapDispatchToProps(dispatch) {
                         dispatch({ type: 'PROJECTPOST_SUCCESS', payload: response })
                     }
                 }
-               
             );
         }
     }
