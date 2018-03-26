@@ -8,8 +8,10 @@ const crypto = require('crypto')
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 const saltRounds = 10
+var ObjectId = require('mongodb').ObjectId;
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+
 
   algorithm = 'aes192',
   password = '!QAZ@WSX';
@@ -23,9 +25,7 @@ const dbName = 'freelancerdb';
 MongoClient.connect(url, function(err, client) {
     assert.equal(null, err);
     console.log("Mongodb Connected successfully to server");
-
     const db = client.db("freelancerdb");
-
     client.close();
 });
 
@@ -43,6 +43,11 @@ router.get('/', function(req, res, next) {
 
   res.render('index', { title: 'Express' });
 });
+
+router.post('/checksession', (req, res, next) => {
+    console.log(req.body)
+
+})
 
 router.post('/signup', function(req, res, next) {
   console.log(req.body);
@@ -214,12 +219,13 @@ router.post('/getprofile', (req, res, next) => {
       else {
       let dbo = connection.db("freelancer")
         let query = { username : username}
-        dbo.collection('users').find(query ).toArray( (err, result) => {
+        dbo.collection('users').find(query).toArray( (err, result) => {
             if(err) throw err
             else {
                 console.log("User Found In DB")
                 console.log(result)
                 res.json(result)
+                connection.close()
             }
         }
        )
@@ -366,59 +372,89 @@ router.post('/updateprofile', (req, res, next) => {
 })
 
 router.post('/getprojects', (req, res, next) => {
-    console.log(req.body);
+    console.log("In Get All Projects ", req.body);
 
-    con.getConnection((err, connection) => {
-      if(err) {
-        console.log("Can't Establish a Connection to the Database");
-        res.json ({
-          code : 100,
-          status : 'notable to connect to database'
-        })
-      }
-      else {
-        let sql = "SELECT * FROM project LEFT JOIN user ON project.Employer=user.UserId"
-        con.query(sql, (err,result) => {
-          if(err) {
-            console.log(err.message);
-            res.json('ERROR')
-          }
-          else{
-            console.log("Project from Database in getprojects",result);
-            res.json(result)
-          }
-        })
+    MongoClient.connect(url, (err, connection) => {
+      if(err) throw  err
+        else {
+          const dbo = connection.db("freelancer");
+          dbo.collection("projects").find({}).toArray(function(err, result) {
+              if (err) throw err;
+              console.log( 'All the Projects from Database are as follows ' ,result);
+              res.json(result)
+              connection.close();
+          });
       }
     })
+
+    // MySQL part commented
+    // con.getConnection((err, connection) => {
+    //   if(err) {
+    //     console.log("Can't Establish a Connection to the Database");
+    //     res.json ({
+    //       code : 100,
+    //       status : 'notable to connect to database'
+    //     })
+    //   }
+    //   else {
+    //     let sql = "SELECT * FROM project LEFT JOIN user ON project.Employer=user.UserId"
+    //     con.query(sql, (err,result) => {
+    //       if(err) {
+    //         console.log(err.message);
+    //         res.json('ERROR')
+    //       }
+    //       else{
+    //         console.log("Project from Database in getprojects",result);
+    //         res.json(result)
+    //       }
+    //     })
+    //   }
+    // })
 })
 
-router.post('/getproject', (req, res, next) => {
-  console.log("In get project",req.body);
+router.post('/getprojectdetails', (req, res, next) => {
+  console.log("In get project details",req.body);
   
-  let pid = req.body.projectid
+  const pid = req.body.projectid
+    const o_id = new ObjectId(pid)
 
-  con.getConnection((err, connection) => {
-    if (err) {
-      res.json({
-        code: 100,
-        status: "Not able to connect to database"
-      });
-    }
-    else {
-      sql = "select * FROM project as p left join ((select ProjectId, sum(Bid)/count(ProjectId) as Average from bid group by ProjectId) as b) on p.ProjectId = b.ProjectId where p.ProjectId = ?"
-
-      con.query(sql, pid, (err, result) => {
-        if (err) {
-          console.log(err.message);
-          res.json("ERROR");
-        }
+    MongoClient.connect(url, (err, connection) => {
+        if(err) throw err
         else {
-          console.log("Project Found in Database", result);
-          res.json(result)
+            let dbo = connection.db("freelancer")
+            dbo.collection("projects").find( { _id : o_id } ).toArray( (err, result) => {
+                if(err) throw err
+                else {
+                    console.log('Hello' , result)
+                    res.json(result)
+                }
+            })
         }
-      })
     }
-  })
+   )
+  // MySQL part commented
+  // con.getConnection((err, connection) => {
+  //   if (err) {
+  //     res.json({
+  //       code: 100,
+  //       status: "Not able to connect to database"
+  //     });
+  //   }
+  //   else {
+  //     sql = "select * FROM project as p left join ((select ProjectId, sum(Bid)/count(ProjectId) as Average from bid group by ProjectId) as b) on p.ProjectId = b.ProjectId where p.ProjectId = ?"
+  //
+  //     con.query(sql, pid, (err, result) => {
+  //       if (err) {
+  //         console.log(err.message);
+  //         res.json("ERROR");
+  //       }
+  //       else {
+  //         console.log("Project Found in Database", result);
+  //         res.json(result)
+  //       }
+  //     })
+  //   }
+  // })
 })
 
 router.post('/setworkerforproject', (req, res, next) => {
@@ -473,37 +509,59 @@ router.post('/addproject', (req, res, next) => {
   console.log("In AddProject, Received Request for Posting a new Project", req.body);
   console.log(req.body.skillsreq);
 
-  let id = req.body.userid;
-  let freelancer = req.body.freelancer
-  let title = req.body.projectname;
-  let desc = req.body.projectdesc;
-  let skill = req.body.skillsreq;
-  let budmin = req.body.budgetrange;
-  let startdt = req.body.startdate;
-  let compdt = req.body.compdate;
+  // let id = req.body.userid;
+  // let freelancer = req.body.freelancer
+  // let title = req.body.projectname;
+  // let desc = req.body.projectdesc;
+  // let skill = req.body.skillsreq;
+  // let budmin = req.body.budgetrange;
+  // let startdt = req.body.startdate;
+  // let compdt = req.body.compdate;
 
-  con.getConnection((err, connection) => {
-    if (err) {
-      res.json({
-        code: 100,
-        status: "Not able to connect to database"
-      })
-    }
-    else {
-      let sql = 'INSERT INTO project (Employer, Freelancer, Title, Description, SkillsReq, BudgetMin, StartDate, CompletionDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
-      con.query(sql, [id, freelancer, title, desc, skill, budmin, startdt, compdt], (err, result) => {
-        if (err) {
-          console.log(err.name);
-          console.log(err.message);
-          res.json('ERROR');
-        }
-        else {
-          console.log("New Project added in database");
-          res.json('PROJECTPOST_SUCCESS');
-        }
-      })
+  MongoClient.connect(url, (err, connection) => {
+    if(err) throw err
+      else {
+        let dbo = connection.db("freelancer");
+        dbo.collection('projects').insertOne({
+            username : req.body.username,
+            projectname : req.body.projectname,
+            desc : req.body.projectdesc,
+            skillsreq : req.body.skillsreq,
+            budget : req.body.budgetrange,
+            startdate : req.body.startdate,
+            compdate: req.body.compdate
+        }).then( (result) => {
+            console.log("Project Details Inserted Successfully");
+            console.log(result.insertedId);
+            connection.close();
+            res.json('PROJECTPOST_SUCCESS');
+        })
     }
   })
+
+  //Commented MySQL db part
+  // con.getConnection((err, connection) => {
+  //   if (err) {
+  //     res.json({
+  //       code: 100,
+  //       status: "Not able to connect to database"
+  //     })
+  //   }
+  //   else {
+  //     let sql = 'INSERT INTO project (Employer, Freelancer, Title, Description, SkillsReq, BudgetMin, StartDate, CompletionDate) VALUES (?, ?, ?, ?, ?, ?, ?, ?)'
+  //     con.query(sql, [id, freelancer, title, desc, skill, budmin, startdt, compdt], (err, result) => {
+  //       if (err) {
+  //         console.log(err.name);
+  //         console.log(err.message);
+  //         res.json('ERROR');
+  //       }
+  //       else {
+  //         console.log("New Project added in database");
+  //         res.json('PROJECTPOST_SUCCESS');
+  //       }
+  //     })
+  //   }
+  // })
 })
 
 router.post('/getmypostedprojects', (req, res, next) => {

@@ -114,7 +114,6 @@ function mapDispatchToProps(dispatch) {
                         console.log("Session Started " )
                         localStorage.setItem('username', response.data.session)
                         console.log(localStorage.getItem('username') )
-                        //localStorage.setItem('userid', response.data[0].UserId )
                         console.log(localStorage.username);
                         dispatch({ type: 'SIGNIN_SUCCESS', payload: response })
                     }

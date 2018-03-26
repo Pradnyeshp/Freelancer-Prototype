@@ -3,8 +3,6 @@ import axios from 'axios'
 import { Link } from 'react-router-dom' ;
 import BidNow from './BidNow'
 
-
-
 class Projects extends Component {
     
     constructor() {
@@ -16,17 +14,16 @@ class Projects extends Component {
 
     componentWillMount() {
 
-        axios.post('http://localhost:3001/getprojects')
+        axios.post('http://localhost:3001/getprojects', null , { withCredentials : true } )
             .then((response) => {
-                console.log(response.data);
+                console.log("Response from DB", response.data);
                 this.setState ({
                     projects : response.data
                 }, () => {
                     console.log("After Component will mount in getprojects", this.state.projects);
-                    
                 })
-            })
-
+            }
+        )
     }
 
     handleChange = (e) => {
@@ -40,20 +37,20 @@ class Projects extends Component {
     }
     
     render() {
-        let projectsArray = [];
-        projectsArray = this.state.projects.map( p => {
+        // let projectsArray = [];
+        let projectsArray = this.state.projects.map( p => {
             return(
-                <tr key={p.ProjectId} >
+                <tr key={p._id} >
                     <td className="text-left"> 
-                        <b> <Link to={`/projectdetails/${p.ProjectId}`}> {p.Title} </Link>
+                        <b> <Link to={`/projectdetails/${p._id}`}> {p.projectname} </Link>
                         </b> <br/> 
-                            {p.Description} <br/> 
-                            {p.SkillsReq}
+                            {p.desc} <br/>
+                            {p.skillsreq}
                     </td>
-                    <td> <Link to={`/projectdetails/${p.Name}`}> {p.Name} </Link> </td>
-                    <td> {p.Bids} </td>
-                    <td> {p.BudgetMin} </td>
-                    <td> <BidNow id={p.ProjectId}  /> 
+                    <td> <Link to={`/profile/${p.username}`}> {p.username} </Link> </td>
+                    <td> {p.bids} </td>
+                    <td> {p.budget} </td>
+                    <td> <BidNow id={p._id}  />
                      </td>
                 </tr>
             )

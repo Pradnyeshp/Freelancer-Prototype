@@ -64,9 +64,9 @@ class ListAllBids extends Component {
         let allbids = []
 
         var displayStyle = this.state.display;
-        const divStyle = {
-            display: displayStyle
-        }
+        // const divStyle = {
+        //     display: displayStyle
+        // }
 
         allbids = this.state.bids.map( b => {
             return (

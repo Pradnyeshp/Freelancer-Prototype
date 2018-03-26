@@ -25,23 +25,22 @@ class ProjectDetails extends Component {
 
     componentWillMount() {
         console.log(this.props.match.params.value);
-
         this.setState({
             projectid: this.props.match.params.value
         }, () => {
             const pid = {
                 projectid: this.state.projectid
             }
-            axios.post('http://localhost:3001/getproject', pid)
+            axios.post('http://localhost:3001/getprojectdetails', pid, { withCredentials : true })
                 .then( (response) => {
-                    console.log("In project details : ",response.data);
+                    console.log("In project details : ", response.data);
                     this.setState({
-                        title: response.data[0].Title,
-                        desc: response.data[0].Description,
-                        skillsreq: response.data[0].SkillsReq,
+                        title: response.data[0].projectname,
+                        desc: response.data[0].desc,
+                        skillsreq: response.data[0].skillsreq,
                         employer : response.data[0].Employer,
                         employee : response.data[0].Employee,
-                        budgetrange: response.data[0].BudgetMin,
+                        budgetrange: response.data[0].budget,
                         bids : response.data[0].Bids,
                         avg : response.data[0].Average,
                         freelancer : response.data[0].Freelancer
