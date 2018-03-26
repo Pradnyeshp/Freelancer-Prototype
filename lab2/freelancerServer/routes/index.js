@@ -8,6 +8,7 @@ const crypto = require('crypto')
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 const saltRounds = 10
+var ObjectId = require('mongodb').ObjectId;
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 
@@ -411,33 +412,49 @@ router.post('/getprojects', (req, res, next) => {
     // })
 })
 
-router.post('/getproject', (req, res, next) => {
-  console.log("In get project",req.body);
+router.post('/getprojectdetails', (req, res, next) => {
+  console.log("In get project details",req.body);
   
-  let pid = req.body.projectid
+  const pid = req.body.projectid
+    const o_id = new ObjectId(pid)
 
-  con.getConnection((err, connection) => {
-    if (err) {
-      res.json({
-        code: 100,
-        status: "Not able to connect to database"
-      });
-    }
-    else {
-      sql = "select * FROM project as p left join ((select ProjectId, sum(Bid)/count(ProjectId) as Average from bid group by ProjectId) as b) on p.ProjectId = b.ProjectId where p.ProjectId = ?"
-
-      con.query(sql, pid, (err, result) => {
-        if (err) {
-          console.log(err.message);
-          res.json("ERROR");
-        }
+    MongoClient.connect(url, (err, connection) => {
+        if(err) throw err
         else {
-          console.log("Project Found in Database", result);
-          res.json(result)
+            let dbo = connection.db("freelancer")
+            dbo.collection("projects").find( { _id : o_id } ).toArray( (err, result) => {
+                if(err) throw err
+                else {
+                    console.log('Hello' , result)
+                    res.json(result)
+                }
+            })
         }
-      })
     }
-  })
+   )
+  // MySQL part commented
+  // con.getConnection((err, connection) => {
+  //   if (err) {
+  //     res.json({
+  //       code: 100,
+  //       status: "Not able to connect to database"
+  //     });
+  //   }
+  //   else {
+  //     sql = "select * FROM project as p left join ((select ProjectId, sum(Bid)/count(ProjectId) as Average from bid group by ProjectId) as b) on p.ProjectId = b.ProjectId where p.ProjectId = ?"
+  //
+  //     con.query(sql, pid, (err, result) => {
+  //       if (err) {
+  //         console.log(err.message);
+  //         res.json("ERROR");
+  //       }
+  //       else {
+  //         console.log("Project Found in Database", result);
+  //         res.json(result)
+  //       }
+  //     })
+  //   }
+  // })
 })
 
 router.post('/setworkerforproject', (req, res, next) => {
