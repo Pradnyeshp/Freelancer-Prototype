@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import axios from 'axios'
 import { Link } from 'react-router-dom' ;
 import image from '../Image/freelancerlogo.png'
-import proimage from '../Image/PassportPhoto.jpg'
-import ImageUpload from './ImageUpload'
+// import proimage from '../Image/PassportPhoto.jpg'
+// import ImageUpload from './ImageUpload'
 
 class Profile extends Component {
 
@@ -33,21 +33,21 @@ class Profile extends Component {
         const usernameJSON = {
             username: username
         }
-        axios.post('http://localhost:3001/getprofile', usernameJSON )
+        axios.post('http://localhost:3001/getprofile', usernameJSON, { withCredentials : true } )
             .then((response)=>{
                 console.log("User Details from Database :", response.data[0]);
-                console.log(response.data[0].Email);
+                console.log(response.data[0].email);
                 
                 this.setState ({
-                        username : response.data[0].Username,
-                        name : response.data[0].Name,
-                        email : response.data[0].Email,
-                        phone: response.data[0].Phone,
-                        aboutme: response.data[0].AboutMe,
-                        skills: response.data[0].Skills,
-                        image: response.data[0].Image
+                        username : response.data[0].username,
+                        name : response.data[0].name,
+                        email : response.data[0].email,
+                        phone: response.data[0].phone,
+                        aboutme: response.data[0].aboutme,
+                        skills: response.data[0].skills,
+                        image: response.data[0].image
                     }, () => {
-                        console.log('After setState :', this.state)
+                        console.log('In getProfile, After setState :', this.state)
                     }
                 )        
             }
@@ -63,7 +63,7 @@ class Profile extends Component {
     }
 
     handleSave = () => {
-        
+
         const profile = {
             username : this.state.username,
             name : this.state.name,
@@ -73,7 +73,6 @@ class Profile extends Component {
             skills: this.state.skills,
             image: this.state.image
         }
-        
         this.props.profileUpdate(profile);
         console.log(profile);
     }
@@ -108,7 +107,7 @@ class Profile extends Component {
                         <br /><br />
                         <div className="row content ">
                             <div className="col-sm-3 divStyle">
-                                <img className="img-rounded" src={proimage} alt="Insert Photo here"></img>
+                                {/*<img className="img-rounded" src={proimage} alt="Insert Photo here"></img>*/}
                                 <label> Profile Image :
                                 <input type="file"
                                         className="form-control-file"
@@ -195,7 +194,7 @@ class Profile extends Component {
                         <br /><br />
                         <div className="row content ">
                             <div className="col-sm-3 divStyle">
-                                <img className="img-rounded" src={proimage} alt="Insert Photo here"></img>
+                                {/*<img className="img-rounded" src={proimage} alt="Insert Photo here"></img>*/}
                             </div>
                             <div className="col-sm-6 divStyle">
                                 <div className='text-left'>
@@ -230,7 +229,7 @@ function mapDispatchToProps(dispatch) {
         profileUpdate : (profile) => {
             console.log('Updated User', profile);
             
-            axios.post('http://localhost:3001/updateprofile', profile)
+            axios.post('http://localhost:3001/updateprofile', profile, { withCredentials : true })
                 .then((response) => {
                     console.log(response);
                     if (response.data === 'ERROR')

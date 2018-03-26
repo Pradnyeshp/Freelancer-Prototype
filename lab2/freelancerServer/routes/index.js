@@ -214,14 +214,15 @@ router.post('/getprofile', (req, res, next) => {
       else {
       let dbo = connection.db("freelancer")
         let query = { username : username}
-        dbo.collection('users').find(query, username, (err, result) => {
-          if(err) throw err
+        dbo.collection('users').find(query ).toArray( (err, result) => {
+            if(err) throw err
             else {
-            console.log("User Found In DB")
-              // console.log(result)
-              res.json(result)
-          }
-        })
+                console.log("User Found In DB")
+                console.log(result)
+                res.json(result)
+            }
+        }
+       )
     }
   })
 
@@ -325,7 +326,7 @@ router.post('/updateprofile', (req, res, next) => {
       let dbo = connect.db("freelancer")
         const query = {username : user }
         const newvalues  =  { $set : {name : name, email : email, phone: phone, aboutme: aboutme, skills: skills } }
-        dbo.collection('users').updateOne( query, newvalues, {upsert : true }, (err, result) => {
+        dbo.collection('users').updateOne( query, newvalues, (err, result) => {
           if(err) throw  err
             else {
             console.log("1 Profile Details Updated")
