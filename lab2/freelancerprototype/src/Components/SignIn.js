@@ -99,7 +99,7 @@ function mapDispatchToProps(dispatch) {
     return {
         loginUser: (userData) => {
             console.log("In Login dispatch", userData);
-            axios.post('http://localhost:3001/signin', userData)
+            axios.post('http://localhost:3001/signin', userData, { withCredentials : true})
                 .then((response) => {
                     console.log(response);
 
@@ -109,9 +109,12 @@ function mapDispatchToProps(dispatch) {
                         dispatch({ type: 'ERROR', payload: response })
                     }
                         
-                    else {                        
-                        localStorage.setItem('username', response.data[0].Username)
-                        localStorage.setItem('userid', response.data[0].UserId )
+                    else {
+                        console.log("In Login ", response.data)
+                        console.log("Session Started " )
+                        localStorage.setItem('username', response.data.session)
+                        console.log(localStorage.getItem('username') )
+                        //localStorage.setItem('userid', response.data[0].UserId )
                         console.log(localStorage.username);
                         dispatch({ type: 'SIGNIN_SUCCESS', payload: response })
                     }
