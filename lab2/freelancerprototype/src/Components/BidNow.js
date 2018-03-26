@@ -23,14 +23,16 @@ class BidNow extends Component {
             username: username
         }
 
-        axios.post('http://localhost:3001/getuserid', usernameJSON)
-            .then((response => {
-                console.log(response.data);
-                this.setState({
-                    userid: response.data[0].UserId
-                })
-                console.log(this.state);
-            }))
+
+        //getuserid request for mysql db
+        // axios.post('http://localhost:3001/getuserid', usernameJSON)
+        //     .then((response => {
+        //         console.log(response.data);
+        //         this.setState({
+        //             userid: response.data[0].UserId
+        //         })
+        //         console.log(this.state);
+        //     }))
         }
 
     handleChange = (e) => {
