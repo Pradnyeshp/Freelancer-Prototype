@@ -228,7 +228,6 @@ function mapDispatchToProps(dispatch) {
     return {
         profileUpdate : (profile) => {
             console.log('Updated User', profile);
-            
             axios.post('http://localhost:3001/updateprofile', profile, { withCredentials : true })
                 .then((response) => {
                     console.log(response);

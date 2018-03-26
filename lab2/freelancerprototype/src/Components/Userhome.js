@@ -16,7 +16,7 @@ class Userhome extends Component {
     render() {
         let bar = null
 
-        if (localStorage.getItem('username') === null) {
+        if (localStorage.getItem('username') === null ) {
             bar = ( <Navigator /> )
         }
         else {

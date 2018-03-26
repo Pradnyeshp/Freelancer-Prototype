@@ -4,7 +4,12 @@
     <list default="true" id="355a2ca1-bf66-4ad3-a351-1088dd19ed84" name="Default" comment="">
       <change beforePath="$PROJECT_DIR$/../freelancerServer/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../freelancerServer/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/../freelancerServer/routes/index.js" afterPath="$PROJECT_DIR$/../freelancerServer/routes/index.js" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
+      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/pradn.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/pradn.xml" />
+      <change beforePath="$PROJECT_DIR$/src/Components/BidNow.js" afterPath="$PROJECT_DIR$/src/Components/BidNow.js" />
+      <change beforePath="$PROJECT_DIR$/src/Components/ListAllBids.js" afterPath="$PROJECT_DIR$/src/Components/ListAllBids.js" />
+      <change beforePath="$PROJECT_DIR$/src/Components/Profile.js" afterPath="$PROJECT_DIR$/src/Components/Profile.js" />
+      <change beforePath="$PROJECT_DIR$/src/Components/Projects.js" afterPath="$PROJECT_DIR$/src/Components/Projects.js" />
+      <change beforePath="$PROJECT_DIR$/src/Components/Userhome.js" afterPath="$PROJECT_DIR$/src/Components/Userhome.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -18,45 +23,11 @@
   </component>
   <component name="FileEditorManager">
     <leaf SIDE_TABS_SIZE_LIMIT_KEY="450">
-      <file leaf-file-name="Home.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Components/Home.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Navigator.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Components/Navigator.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-              <folding>
-                <element signature="e#0#41#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="Profile.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Components/Profile.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-2730">
-              <caret line="15" column="26" lean-forward="false" selection-start-line="15" selection-start-column="26" selection-end-line="15" selection-end-column="26" />
-              <folding>
-                <element signature="e#0#41#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AddProject.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="AddProject.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Components/AddProject.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1363">
-              <caret line="197" column="17" lean-forward="false" selection-start-line="197" selection-start-column="17" selection-end-line="197" selection-end-column="17" />
+            <state relative-caret-position="1129">
+              <caret line="153" column="56" lean-forward="true" selection-start-line="153" selection-start-column="56" selection-end-line="153" selection-end-column="56" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -76,10 +47,22 @@
           </provider>
         </entry>
       </file>
+      <file leaf-file-name="Profile.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Components/Profile.js">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="286">
+              <caret line="231" column="37" lean-forward="true" selection-start-line="231" selection-start-column="37" selection-end-line="231" selection-end-column="37" />
+              <folding>
+                <element signature="e#0#41#0" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
       <file leaf-file-name="SignUp.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Components/SignUp.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
+            <state relative-caret-position="505">
               <caret line="122" column="72" lean-forward="false" selection-start-line="122" selection-start-column="64" selection-end-line="122" selection-end-column="72" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
@@ -88,11 +71,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="App.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/App.js">
+      <file leaf-file-name="Userhome.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Components/Userhome.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="1924">
+              <caret line="74" column="27" lean-forward="true" selection-start-line="74" selection-start-column="27" selection-end-line="74" selection-end-column="27" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -100,36 +83,38 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="App.test.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/App.test.js">
+      <file leaf-file-name="Projects.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Components/Projects.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="416">
+              <caret line="56" column="10" lean-forward="true" selection-start-line="56" selection-start-column="10" selection-end-line="56" selection-end-column="10" />
               <folding>
-                <element signature="e#0#26#0" expanded="true" />
+                <element signature="e#0#41#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="index.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/index.js">
+      <file leaf-file-name="BidNow.js" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/src/Components/BidNow.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="0">
-              <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+            <state relative-caret-position="260">
+              <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
               <folding>
-                <element signature="e#0#26#0" expanded="true" />
+                <element signature="e#0#41#0" expanded="true" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Reducer.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/src/Reducer.js">
+      <file leaf-file-name="ListAllBids.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/src/Components/ListAllBids.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="520">
-              <caret line="23" column="31" lean-forward="false" selection-start-line="23" selection-start-column="31" selection-end-line="23" selection-end-column="31" />
-              <folding />
+            <state relative-caret-position="193">
+              <caret line="68" column="12" lean-forward="true" selection-start-line="68" selection-start-column="12" selection-end-line="68" selection-end-column="12" />
+              <folding>
+                <element signature="e#0#41#0" expanded="true" />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -143,9 +128,13 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/src/Components/SignUp.js" />
-        <option value="$PROJECT_DIR$/src/Components/Profile.js" />
         <option value="$PROJECT_DIR$/src/Components/SignIn.js" />
         <option value="$PROJECT_DIR$/src/Components/AddProject.js" />
+        <option value="$PROJECT_DIR$/src/Components/Profile.js" />
+        <option value="$PROJECT_DIR$/src/Components/Userhome.js" />
+        <option value="$PROJECT_DIR$/src/Components/Projects.js" />
+        <option value="$PROJECT_DIR$/src/Components/BidNow.js" />
+        <option value="$PROJECT_DIR$/src/Components/ListAllBids.js" />
       </list>
     </option>
   </component>
@@ -269,12 +258,12 @@
       <workItem from="1521950730672" duration="4596000" />
       <workItem from="1521996256203" duration="4220000" />
       <workItem from="1522007522136" duration="720000" />
-      <workItem from="1522016065624" duration="15867000" />
+      <workItem from="1522016065624" duration="19046000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="26412000" />
+    <option name="totallyTimeSpent" value="29591000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -287,6 +276,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18408488" sideWeight="0.49637306" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3286385" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
@@ -663,6 +653,16 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Components/SignIn.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="3016">
+          <caret line="116" column="46" lean-forward="false" selection-start-line="116" selection-start-column="46" selection-end-line="116" selection-end-column="46" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Components/Home.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
@@ -672,6 +672,26 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Components/Navigator.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="0">
+          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Components/AddProject.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1129">
+          <caret line="153" column="56" lean-forward="true" selection-start-line="153" selection-start-column="56" selection-end-line="153" selection-end-column="56" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/App.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="0">
           <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
@@ -701,26 +721,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/App.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/src/Components/SignUp.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="0">
-          <caret line="122" column="72" lean-forward="false" selection-start-line="122" selection-start-column="64" selection-end-line="122" selection-end-column="72" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Reducer.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="520">
@@ -729,30 +729,70 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/src/Components/SignUp.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="505">
+          <caret line="122" column="72" lean-forward="false" selection-start-line="122" selection-start-column="64" selection-end-line="122" selection-end-column="72" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Components/Userhome.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1924">
+          <caret line="74" column="27" lean-forward="true" selection-start-line="74" selection-start-column="27" selection-end-line="74" selection-end-column="27" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Components/FreelancerDashboard.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="79" column="50" lean-forward="false" selection-start-line="79" selection-start-column="43" selection-end-line="79" selection-end-column="50" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/src/Components/Profile.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-2730">
-          <caret line="15" column="26" lean-forward="false" selection-start-line="15" selection-start-column="26" selection-end-line="15" selection-end-column="26" />
+        <state relative-caret-position="286">
+          <caret line="231" column="37" lean-forward="true" selection-start-line="231" selection-start-column="37" selection-end-line="231" selection-end-column="37" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Components/SignIn.js">
+    <entry file="file://$PROJECT_DIR$/src/Components/Projects.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="3016">
-          <caret line="116" column="46" lean-forward="false" selection-start-line="116" selection-start-column="46" selection-end-line="116" selection-end-column="46" />
+        <state relative-caret-position="416">
+          <caret line="56" column="10" lean-forward="true" selection-start-line="56" selection-start-column="10" selection-end-line="56" selection-end-column="10" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Components/AddProject.js">
+    <entry file="file://$PROJECT_DIR$/src/Components/BidNow.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1363">
-          <caret line="197" column="17" lean-forward="false" selection-start-line="197" selection-start-column="17" selection-end-line="197" selection-end-column="17" />
+        <state relative-caret-position="260">
+          <caret line="25" column="0" lean-forward="false" selection-start-line="25" selection-start-column="0" selection-end-line="25" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Components/ListAllBids.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="193">
+          <caret line="68" column="12" lean-forward="true" selection-start-line="68" selection-start-column="12" selection-end-line="68" selection-end-column="12" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>
