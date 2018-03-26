@@ -7,6 +7,9 @@ const mongo = require('mongodb');
 const crypto = require('crypto')
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
+const saltRounds = 10
+var passport = require('passport');
+var LocalStrategy = require('passport-local').Strategy;
 
   algorithm = 'aes192',
   password = '!QAZ@WSX';
@@ -60,72 +63,123 @@ router.post('/signup', function(req, res, next) {
   //   else {
   //    }
 
-  function encrypt(pwd) {
-    var cipher = crypto.createCipher(algorithm, password)
-    var crypted = cipher.update(pwd, 'utf8', 'hex')
-    crypted += cipher.final('hex');
-    console.log("Encrypted Password :",crypted);
-    return crypted;
-  }
+  // function encrypt(pwd) {
+  //   var cipher = crypto.createCipher(algorithm, password)
+  //   var crypted = cipher.update(pwd, 'utf8', 'hex')
+  //   crypted += cipher.final('hex');
+  //   console.log("Encrypted Password :",crypted);
+  //   return crypted;
+  // }
+  //
+  // let encryptpwd = encrypt(pwd)
 
-  let encryptpwd = encrypt(pwd)
+    MongoClient.connect( url, (err, connection) => {
+      if(err) throw err
+        else {
+        bcrypt.hash( pwd, saltRounds, (err, result) => {
+            console.log("Hashed password is :", result)
+            console.log("Connected to mongodb...");
 
-  con.getConnection((err, connection) => {
-    if(err) {
-      res.json({
-        code : 100,
-        status : "Not able to connect to database"
-      });
-    }
-    else {
-      var sql = 'INSERT INTO user (Name, Username, Email, Password ) VALUES (?, ?, ?, ?)';
-      con.query(sql , [name, usr, email, encryptpwd] , (err, result) => {
-        
-        if(err) {
-          console.log(err.name);
-          console.log(err.message);
-          res.json('ERROR'); 
+            let dbo = connection.db("freelancer");
+
+            dbo.collection('users').insertOne({
+                username: req.body.username,
+                password: result,
+                email: req.body.email
+            }).then( (result) => {
+                console.log("User Details Inserted Successfully");
+                console.log(result.insertedId);
+                connection.close();
+                res.json('SIGNUP_SUCCESS');
+            })
+        })
       }
-      else {
-          console.log("New user added in database");
-          res.json('SIGNUP_SUCCESS');
-      }
-    });
-  }
-  })
+    })
+  // con.getConnection((err, connection) => {
+  //   if(err) {
+  //     res.json({
+  //       code : 100,
+  //       status : "Not able to connect to database"
+  //     });
+  //   }
+  //   else {
+  //     var sql = 'INSERT INTO user (Name, Username, Email, Password ) VALUES (?, ?, ?, ?)';
+  //     con.query(sql , [name, usr, email, encryptpwd] , (err, result) => {
+  //
+  //       if(err) {
+  //         console.log(err.name);
+  //         console.log(err.message);
+  //         res.json('ERROR');
+  //     }
+  //     else {
+  //         console.log("New user added in database");
+  //         res.json('SIGNUP_SUCCESS');
+  //     }
+  //   });
+  // }
+  // })
 }
 );
 
-
+passport.use( new LocalStrategy( (username, password, done) => {
+    MongoClient.connect( url, function(err, connection) {
+        if (err) throw err;
+        else {
+            let dbo = connection.db("freelancer");
+            var query = { username : username };
+            dbo.collection("users").find(query).toArray(function(err, result) {
+                if (err) throw err;
+                else {
+                  if(result.length > 0)
+                  {
+                    console.log(result)
+                    var hash = result[0].password
+                    bcrypt.compare(password, hash , (err, match) => {
+                          if (err)  return done(err);
+                          if(match) {
+                            console.log("In Password Match..", result[0].username)
+                            return done(null, result[0] )
+                          }
+                          else {
+                            return done(null, false)
+                          }
+                    })
+                }}});
+        }});
+    }
+));
 
 router.post('/signin', function (req, res, next) {
-  console.log(req.body);
 
-  const usr = req.body.username;
-  const pwd = req.body.password;
+  console.log("In Sign In",req.body)
 
-    MongoClient.connect(url, function(err, db) {
-        if (err) throw err;
-        var dbo = db.db("freelancerdb");
-        var query = { username : usr };
-        dbo.collection("freelancerdb").find(query).toArray(function(err, result) {
-            if (err) throw err;
-            console.log(result);
-            res.json(result)
-            db.close();
-        });
-    });
+    passport.authenticate('local', function(err, user, info) {
+        if (err) {
+            return next(err); }
+        if (!user) {
+            res.json('ERROR'); }
+         if(user) {
+            console.log("In Authenticate", user )
+            req.session.username = user.username
+             console.log("Session Started", req.session)
+             const jsonresp = { "session": user.username }
+             res.json(jsonresp);
+         }
+    })(req, res, next);
 
-  function encrypt(pwd) {
-    var cipher = crypto.createCipher(algorithm, password)
-    var crypted = cipher.update(pwd, 'utf8', 'hex')
-    crypted += cipher.final('hex');
-    console.log(crypted);
-    return crypted;
-  }
+  // const usr = req.body.username;
+  // const pwd = req.body.password;
 
-  let encryptpwd = encrypt(pwd)
-
+  // function encrypt(pwd) {
+  //   var cipher = crypto.createCipher(algorithm, password)
+  //   var crypted = cipher.update(pwd, 'utf8', 'hex')
+  //   crypted += cipher.final('hex');
+  //   console.log(crypted);
+  //   return crypted;
+  // }
+  //
+  // let encryptpwd = encrypt(pwd)
+  // MySQL Connection for Lab 1
   // con.getConnection((err, connection) => {
   //   if (err) {
   //     res.json({
@@ -154,29 +208,47 @@ router.post('/signin', function (req, res, next) {
 router.post('/getprofile', (req, res, next) => {
   const username = req.body.username
   console.log(username);
-  
-  con.getConnection((err, connection) => {
-    if (err) {
-      res.json(
-        { code: 100,
-          status: "Not able to connect to database"
-        });
-    }
-    else {
-      var sql = 'SELECT * FROM user WHERE username = ?' ;
-      con.query(sql, [username], (err, result) => {
-        if(err) {
-          console.log(err.message);
-          res.json('Error')
+
+  MongoClient.connect(url, (err, connection) => {
+    if(err) throw  err
+      else {
+      let dbo = connection.db("freelancer")
+        let query = { username : username}
+        dbo.collection('users').find(query ).toArray( (err, result) => {
+            if(err) throw err
+            else {
+                console.log("User Found In DB")
+                console.log(result)
+                res.json(result)
+            }
         }
-        else {
-          console.log("Found user in database");
-          console.log(result);
-          res.json(result);
-        }
-      });
+       )
     }
   })
+
+  //SQL Part Commented
+  // con.getConnection((err, connection) => {
+  //   if (err) {
+  //     res.json(
+  //       { code: 100,
+  //         status: "Not able to connect to database"
+  //       });
+  //   }
+  //   else {
+  //     var sql = 'SELECT * FROM user WHERE username = ?' ;
+  //     con.query(sql, [username], (err, result) => {
+  //       if(err) {
+  //         console.log(err.message);
+  //         res.json('Error')
+  //       }
+  //       else {
+  //         console.log("Found user in database");
+  //         console.log(result);
+  //         res.json(result);
+  //       }
+  //     });
+  //   }
+  // })
 });
 
 router.post('/getuserid', (req, res, next) => {
@@ -248,28 +320,49 @@ router.post('/updateprofile', (req, res, next) => {
   let aboutme = req.body.aboutme
   let skills = req.body.skills
 
-  con.getConnection((err, connection) => {
-    if (err) {
-      res.json({
-        code: 100,
-        status: "Not able to connect to database"
-      });
-    }
-    else {
-      var sql = ' UPDATE user SET Name=?, Email=?, Phone=?, AboutMe=?, Skills=? WHERE Username = ? ';
-      con.query(sql, [name, email, phone, aboutme, skills, user], (err, results) => {
-        if (err) {
-          return res.json('ERROR')
-        }
+    MongoClient.connect(url, (err, connect) => {
+    if(err) throw err
         else {
-          console.log("Profile Details Inserted")
-          return res.json({
-            data: results
-          })
-        }
-      })
+      let dbo = connect.db("freelancer")
+        const query = {username : user }
+        const newvalues  =  { $set : {name : name, email : email, phone: phone, aboutme: aboutme, skills: skills } }
+        dbo.collection('users').updateOne( query, newvalues, (err, result) => {
+          if(err) throw  err
+            else {
+            console.log("1 Profile Details Updated")
+              return res.json({
+                  data: result
+              })
+              connect.close()
+           }
+          }
+        )
+      }
     }
-  })
+   )
+
+//   con.getConnection((err, connection) => {
+//     if (err) {
+//       res.json({
+//         code: 100,
+//         status: "Not able to connect to database"
+//       });
+//     }
+//     else {
+//       var sql = ' UPDATE user SET Name=?, Email=?, Phone=?, AboutMe=?, Skills=? WHERE Username = ? ';
+//       con.query(sql, [name, email, phone, aboutme, skills, user], (err, results) => {
+//         if (err) {
+//           return res.json('ERROR')
+//         }
+//         else {
+//           console.log("Profile Details Inserted")
+//           return res.json({
+//             data: results
+//           })
+//         }
+//       })
+//     }
+//   })
 })
 
 router.post('/getprojects', (req, res, next) => {
