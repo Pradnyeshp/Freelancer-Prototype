@@ -4,7 +4,6 @@ var favicon = require('serve-favicon');
 var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
-var exphbs = require('express-handlebars');
 var expressValidator = require('express-validator');
 var flash = require('connect-flash');
 var session = require('express-session');
@@ -12,9 +11,12 @@ var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
+var session = require('express-session')
+var cors = require('cors')
 
 mongoose.connect('mongodb://localhost/27017');
 var db = mongoose.connection;
+
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -27,69 +29,48 @@ app.set('view engine', 'ejs');
 
 //bodyparser middleware
 app.use(logger('dev'));
+
+//cors
+app.use(cors({
+    origin: 'http://localhost:3000',
+    credentials: true
+}));
+
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
-app.use(function (req, res, next) {
 
-// Express Session
-    app.use(session({
-        secret: 'secret',
-        saveUninitialized: true,
-        resave: true
-    }));
+app.use(session({
+//cookieName: 'session',
+    secret: 'secret',
+    duration: 30 * 60 * 1000,
+    activeDuration: 5 * 60 * 1000,
+    resave: false,
+    saveUninitialized: false
+}));
 
-    // Passport init
-    app.use(passport.initialize());
-    app.use(passport.session());
+//Passport Initialization
+app.use(passport.initialize());
+app.use(passport.session());
 
-// Express Validator
-    app.use(expressValidator({
-        errorFormatter: function(param, msg, value) {
-            var namespace = param.split('.')
-                , root    = namespace.shift()
-                , formParam = root;
-
-            while(namespace.length) {
-                formParam += '[' + namespace.shift() + ']';
-            }
-            return {
-                param : formParam,
-                msg   : msg,
-                value : value
-            };
-        }
-    }));
-
-    //Connect Flash
-app.use(flash());
-
-// Global Vars
-    app.use(function (req, res, next) {
-        res.locals.success_msg = req.flash('success_msg');
-        res.locals.error_msg = req.flash('error_msg');
-        res.locals.error = req.flash('error');
-        res.locals.user = req.user || null;
-        next();
-    });
-
-  // Website you wish to allow to connect
-  res.setHeader('Access-Control-Allow-Origin', '*');
-
-  // Request methods you wish to allow
-  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
-
-  // Request headers you wish to allow
-  res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
-
-  // Set to true if you need the website to include cookies in the requests sent
-  // to the API (e.g. in case you use sessions)
-  res.setHeader('Access-Control-Allow-Credentials', true);
-
-  // Pass to next layer of middleware
-  next();
-});
+// app.use(function (req, res, next) {
+//     // Website you wish to allow to connect
+//   res.setHeader('Access-Control-Allow-Origin', '*');
+//
+//   // Request methods you wish to allow
+//   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, OPTIONS, PUT, PATCH, DELETE');
+//
+//   // Request headers you wish to allow
+//   res.setHeader('Access-Control-Allow-Headers', 'X-Requested-With,content-type');
+//
+//   // Set to true if you need the website to include cookies in the requests sent
+//   // to the API (e.g. in case you use sessions)
+//   res.setHeader('Access-Control-Allow-Credentials', true);
+//
+//   // Pass to next layer of middleware
+//   next();
+// });
 
 app.use('/', index);
 app.use('/users', users);
