@@ -2,19 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="355a2ca1-bf66-4ad3-a351-1088dd19ed84" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/../../lab1/freelancerServer/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../../lab1/freelancerServer/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/../../lab1/freelancerprototype/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../../lab1/freelancerprototype/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/../freelancerServer/.idea/dictionaries/pradn.xml" afterPath="$PROJECT_DIR$/../freelancerServer/.idea/dictionaries/pradn.xml" />
       <change beforePath="$PROJECT_DIR$/../freelancerServer/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../freelancerServer/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/../freelancerServer/app.js" afterPath="$PROJECT_DIR$/../freelancerServer/app.js" />
-      <change beforePath="$PROJECT_DIR$/../freelancerServer/node_modules/passport/package.json" afterPath="$PROJECT_DIR$/../freelancerServer/node_modules/passport/package.json" />
-      <change beforePath="$PROJECT_DIR$/../freelancerServer/package-lock.json" afterPath="$PROJECT_DIR$/../freelancerServer/package-lock.json" />
-      <change beforePath="$PROJECT_DIR$/../freelancerServer/package.json" afterPath="$PROJECT_DIR$/../freelancerServer/package.json" />
       <change beforePath="$PROJECT_DIR$/../freelancerServer/routes/index.js" afterPath="$PROJECT_DIR$/../freelancerServer/routes/index.js" />
       <change beforePath="$PROJECT_DIR$/.idea/dictionaries/pradn.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/pradn.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/src/Components/Profile.js" afterPath="$PROJECT_DIR$/src/Components/Profile.js" />
-      <change beforePath="$PROJECT_DIR$/src/Components/SignIn.js" afterPath="$PROJECT_DIR$/src/Components/SignIn.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -53,8 +44,8 @@
       <file leaf-file-name="Profile.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Components/Profile.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="338">
-              <caret line="38" column="52" lean-forward="true" selection-start-line="38" selection-start-column="52" selection-end-line="38" selection-end-column="52" />
+            <state relative-caret-position="6396">
+              <caret line="246" column="0" lean-forward="true" selection-start-line="246" selection-start-column="0" selection-end-line="246" selection-end-column="0" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -259,12 +250,12 @@
       <workItem from="1521950730672" duration="4596000" />
       <workItem from="1521996256203" duration="4220000" />
       <workItem from="1522007522136" duration="720000" />
-      <workItem from="1522016065624" duration="8594000" />
+      <workItem from="1522016065624" duration="11494000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="19139000" />
+    <option name="totallyTimeSpent" value="22039000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -277,9 +268,8 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
-    <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18072917" sideWeight="0.49637306" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="true" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.18072917" sideWeight="0.49637306" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32953367" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" content_ui="tabs" />
       <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.3296355" sideWeight="0.50292826" order="7" side_tool="true" content_ui="tabs" />
@@ -343,7 +333,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="1" />
+      <option name="time" value="3" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -732,8 +722,8 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/src/Components/Profile.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="338">
-          <caret line="38" column="52" lean-forward="true" selection-start-line="38" selection-start-column="52" selection-end-line="38" selection-end-column="52" />
+        <state relative-caret-position="6396">
+          <caret line="246" column="0" lean-forward="true" selection-start-line="246" selection-start-column="0" selection-end-line="246" selection-end-column="0" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>
