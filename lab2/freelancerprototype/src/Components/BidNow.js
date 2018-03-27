@@ -133,7 +133,7 @@ function mapDispatchToProps(dispatch) {
             console.log('In Bid dispatcher', bid);
             axios.post('http://localhost:3001/updatebid', bid, { withCredentials:true } )
                 .then((response) => {
-                    console.log("Response from DB ",response);
+                    console.log("Response from DB ", response);
                     if (response.data === 'BID_PLACED') {
                         alert('Your bid is placed successfully...');
                         window.location.reload(true);

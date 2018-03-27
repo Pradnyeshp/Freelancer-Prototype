@@ -2,10 +2,13 @@
   <dictionary name="pradn">
     <words>
       <w>axios</w>
+      <w>getallbids</w>
       <w>getprofile</w>
       <w>getprojects</w>
       <w>navbar</w>
+      <w>projectid</w>
       <w>signin</w>
+      <w>thead</w>
       <w>toggler</w>
       <w>updation</w>
       <w>userhome</w>

@@ -16,10 +16,12 @@ class ListAllBids extends Component {
 
     componentWillMount() {
         console.log('In List All Bids: ' + this.props.id );
+        let usr = localStorage.getItem('username')
         let pid = ({
-            projectid : this.props.id
+            projectid : this.props.id,
+            username : usr
         })
-        axios.post('http://localhost:3001/getallbids', pid)
+        axios.post('http://localhost:3001/getallbids', pid, {withCredentials:true} )
             .then((response) => {
                 console.log('In getallbids :', response.data);
                 if (response.data.length === 0) {
@@ -60,23 +62,20 @@ class ListAllBids extends Component {
     }
 
     render() {
-
-        let allbids = []
-
-        var displayStyle = this.state.display;
+        // var displayStyle = this.state.display;
         // const divStyle = {
         //     display: displayStyle
         // }
 
-        allbids = this.state.bids.map( b => {
+        let allbids = this.state.bids.map( b => {
             return (
-                <tr key={b.Date} >
+                <tr key={b._id} >
                     <td className="text-left">
                         <b> Profile Image Here </b> 
                     </td>
-                    <td> <Link to={`/profile/${b.Username}`}> {b.Username} </Link> </td>
-                    <td> {b.Bid} </td>
-                    <td> {b.DeliveryDays} </td>
+                    <td> <Link to={`/profile/${b.username}`}> {b.username} </Link> </td>
+                    <td> $ {b.bid} </td>
+                    <td> {b.deliverydays} </td>
                     <td> 
                             <input type="button" id="btnHire" 
                                 className='btn btn-success' value="Hire Now" 
