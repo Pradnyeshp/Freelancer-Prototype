@@ -5,10 +5,13 @@
       <w>bodyparser</w>
       <w>cors</w>
       <w>freelancerdb</w>
+      <w>getallbids</w>
+      <w>getprojectdetails</w>
       <w>getprojectid</w>
       <w>getuserid</w>
       <w>jsonresp</w>
       <w>newvalues</w>
+      <w>setworkerforproject</w>
       <w>updateprofile</w>
       <w>upsert</w>
     </words>

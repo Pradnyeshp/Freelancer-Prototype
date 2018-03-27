@@ -423,7 +423,7 @@ router.post('/getprojectdetails', (req, res, next) => {
             dbo.collection("projects").find( { _id : o_id } ).toArray( (err, result) => {
                 if(err) throw err
                 else {
-                    console.log('Hello' , result)
+                    console.log('Project Details from Database' , result)
                     res.json(result)
                 }
             })
@@ -475,32 +475,49 @@ router.post('/setworkerforproject', (req, res, next) => {
 })
 
 router.post( '/getallbids', (req, res, next) => {
-  console.log("In Get All bids", req.body);
+  console.log("In Get All bids", req.body );
   
   let pid = req.body.projectid
+    let o_id = new ObjectId(pid)
 
-  con.getConnection((err, connection) => {
-    if (err) {
-      res.json({
-        code: 100,
-        status: "Not able to connect to database"
-      });
-    }
-    else {
-      sql = "SELECT * from bid inner join user on bid.UserId = user.UserId WHERE bid.ProjectId = ? "
-
-      con.query(sql, [pid], (err, result) => {
-        if (err) {
-          console.log(err.message);
-          res.json('ERROR')
-        }
+    MongoClient.connect(url, (err, connection) => {
+        if(err) throw err
         else {
-          console.log("Bids for Selected Projects", result);
-          res.json(result)
+            let dbo = connection.db("freelancer")
+            let query = { projectid : o_id, username : req.body.username }
+            dbo.collection("bids").find(query).toArray( (err, result) => {
+                if(err) throw err
+                else {
+                    console.log("Result in List All bids", result)
+                    res.json(result)
+                }
+            })
         }
-      })
-    }
-  })
+    })
+
+    //Commented MySQL part
+  // con.getConnection((err, connection) => {
+  //   if (err) {
+  //     res.json({
+  //       code: 100,
+  //       status: "Not able to connect to database"
+  //     });
+  //   }
+  //   else {
+  //     sql = "SELECT * from bid inner join user on bid.UserId = user.UserId WHERE bid.ProjectId = ? "
+  //
+  //     con.query(sql, [pid], (err, result) => {
+  //       if (err) {
+  //         console.log(err.message);
+  //         res.json('ERROR')
+  //       }
+  //       else {
+  //         console.log("Bids for Selected Projects", result);
+  //         res.json(result)
+  //       }
+  //     })
+  //   }
+  // })
 })
 
 router.post('/addproject', (req, res, next) => {
@@ -646,7 +663,9 @@ router.post('/updatebid', (req, res, next) => {
               deliverydays : dd
           }
           dbo.collection("bids").insertOne(query, (err, result) => {
-              if(err) throw err
+              if(err) {
+                  res.json("ERROR")
+              }
               else {
                   console.log("In Bids Table, Bid Updated")
                   let bidnum = { projectid: o_id }
