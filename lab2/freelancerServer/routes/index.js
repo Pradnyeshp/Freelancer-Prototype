@@ -8,9 +8,9 @@ const crypto = require('crypto')
 const mongoose = require('mongoose')
 const bcrypt = require('bcryptjs')
 const saltRounds = 10
-var ObjectId = require('mongodb').ObjectId;
-var passport = require('passport');
-var LocalStrategy = require('passport-local').Strategy;
+const ObjectId = require('mongodb').ObjectId;
+const passport = require('passport');
+const LocalStrategy = require('passport-local').Strategy;
 
 
   algorithm = 'aes192',
@@ -29,7 +29,7 @@ MongoClient.connect(url, function(err, client) {
     client.close();
 });
 
-var con = mysql.createConnection({
+const con = mysql.createConnection({
   connectionLimit: 100,
   host: "127.0.0.1",
   user: "root",
@@ -39,8 +39,6 @@ var con = mysql.createConnection({
 
 /* GET home page. */
 router.get('/', function(req, res, next) {
-  //
-
   res.render('index', { title: 'Express' });
 });
 
@@ -624,65 +622,99 @@ router.post('/getmybiddedprojects', (req, res, next) => {
 })
 
 router.post('/updatebid', (req, res, next) => {
-  console.log('In Update Bid', req.body);
-  
+
+    console.log('In Update Bid', req.body);
+
   let bid = req.body.bid
   let date = new Date;
-  let userid = req.body.userid
+  // let userid = req.body.userid
   let pid = req.body.projectid
+  let o_id = new ObjectId(pid)
   let dd = req.body.deliveryDays
 
   console.log(date);
-  
-  con.getConnection((err, connection) => {
-    if (err) {
-      res.json({
-        code: 100,
-        status: "Not able to connect to database"
-      });
-    }
-    else {
-      let sql = 'INSERT INTO bid (UserId , ProjectId, Bid, Date, DeliveryDays) VALUES (?, ?, ?, ?, ?)'
 
-      con.query(sql, [userid, pid, bid, date, dd], (err, result) => {
-        if (err) {
-          console.log(err.name);
-          console.log(err.message);
-          res.json("ERROR");
-        }
-        else {
-
-          console.log("Bid Table updated");
-          bidnum = "SELECT COUNT(bid) AS num FROM bid WHERE ProjectId = ?"
-          con.query(bidnum, pid, (err, result) => {
-            if (err) {
-              console.log(err.name);
-              console.log(err.message);
-              res.json("ERROR");
-            }
-            else {
-              console.log("Count of Bids Updated to ", result);
-              let num = 0;
-              num = result[0].num
-              console.log(num);
-              con.query("UPDATE project SET bids = ? WHERE ProjectId = ? ", [num, pid], (err, result) => {
-                if (err) {
-                  console.log(err.name);
-                  console.log(err.message);
-                  res.json("ERROR");
-                }
-                else {
-                  console.log("Bids value set in project", result);
-                }
-              })
-            }
-          })
-          res.json("BID_PLACED");
-
-        }
-      })
-    }
+  MongoClient.connect(url, (err, connection) => {
+      if(err) throw err
+      else {
+          let dbo = connection.db("freelancer")
+          let query = {
+              projectid : o_id ,
+              username : req.body.username,
+              bid : bid,
+              date : date,
+              deliverydays : dd
+          }
+          dbo.collection("bids").insertOne(query, (err, result) => {
+              if(err) throw err
+              else {
+                  console.log("In Bids Table, Bid Updated")
+                  let bidnum = { projectid: o_id }
+                  dbo.collection("bids").count(bidnum, (err, result) => {
+                      if(err) throw err
+                      else {
+                          console.log("Number of bids :" , result)
+                          dbo.collection("projects").updateOne( {_id : o_id}, { $set:{ bids : result }} , (err, result) => {
+                              if (err) throw err
+                              else {
+                                  console.log("Number of bids Updated in projects" )
+                              }
+                          } )
+                      }
+                  })
+              }
+          }
+       )
+          res.json("BID_PLACED")
+      }
   })
+
+  // MySQL Bid logic Commented
+  // con.getConnection((err, connection) => {
+  //   if (err) {
+  //     res.json({
+  //       code: 100,
+  //       status: "Not able to connect to database"
+  //     });
+  //   }
+  //   else {
+  //     let sql = 'INSERT INTO bid (UserId , ProjectId, Bid, Date, DeliveryDays) VALUES (?, ?, ?, ?, ?)'
+  //     con.query(sql, [userid, pid, bid, date, dd], (err, result) => {
+  //       if (err) {
+  //         console.log(err.name);
+  //         console.log(err.message);
+  //         res.json("ERROR");
+  //       }
+  //       else {
+  //         console.log("Bid Table updated");
+  //         bidnum = "SELECT COUNT(bid) AS num FROM bid WHERE ProjectId = ?"
+  //         con.query(bidnum, pid, (err, result) => {
+  //           if (err) {
+  //             console.log(err.name);
+  //             console.log(err.message);
+  //             res.json("ERROR");
+  //           }
+  //           else {
+  //             console.log("Count of Bids Updated to ", result);
+  //             let num = result[0].num
+  //             console.log(num);
+  //             con.query("UPDATE project SET bids = ? WHERE ProjectId = ? ", [num, pid], (err, result) => {
+  //               if (err) {
+  //                 console.log(err.name);
+  //                 console.log(err.message);
+  //                 res.json("ERROR");
+  //               }
+  //               else {
+  //                 console.log("Bids value set in project", result);
+  //               }
+  //             })
+  //           }
+  //         })
+  //         res.json("BID_PLACED");
+  //       }
+  //     })
+  //   }
+  // })
 })
 
 

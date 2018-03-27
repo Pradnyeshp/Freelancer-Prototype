@@ -10,6 +10,7 @@ class BidNow extends Component {
         this.state = ({
             bid: '',
             userid: '',
+            username : '',
             deliveryDays: '',
             pname : '',
             projectid : ''
@@ -19,10 +20,10 @@ class BidNow extends Component {
     componentWillMount() {
 
         let username = localStorage.getItem('username');
-        const usernameJSON = {
+        this.setState({
             username: username
-        }
-
+        }, () => {
+            console.log("After ComponentWillMount", this.state.username)  })
 
         //getuserid request for mysql db
         // axios.post('http://localhost:3001/getuserid', usernameJSON)
@@ -51,11 +52,11 @@ class BidNow extends Component {
             const pid = {
                 projectid : this.state.projectid
             }
-            axios.post('http://localhost:3001/getproject', pid)
+            axios.post('http://localhost:3001/getprojectdetails', pid, { withCredentials : true } )
                 .then( (response) => {
                     console.log("In project details : ", response.data);
                     this.setState({
-                        pname : response.data[0].Title,
+                        pname : response.data[0].projectname,
                     }, () => {
                         console.log(this.state.pname);
                     })
@@ -66,9 +67,10 @@ class BidNow extends Component {
     handleBid = (e) => {
         e.preventDefault()
         let pid = localStorage.getItem("ProjectId");
-        console.log("In HandleBid pid = ", pid);
+        console.log( "In HandleBid pid = ", pid );
     
         const bid = {
+            username : this.state.username,
             bid: this.state.bid,
             projectid : pid,
             userid : this.state.userid,
@@ -129,9 +131,9 @@ function mapDispatchToProps(dispatch) {
     return {
         bidUpdate: (bid) => {
             console.log('In Bid dispatcher', bid);
-            axios.post('http://localhost:3001/updatebid', bid)
+            axios.post('http://localhost:3001/updatebid', bid, { withCredentials:true } )
                 .then((response) => {
-                    console.log(response);
+                    console.log("Response from DB ",response);
                     if (response.data === 'BID_PLACED') {
                         alert('Your bid is placed successfully...');
                         window.location.reload(true);
