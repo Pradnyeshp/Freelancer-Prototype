@@ -66,28 +66,28 @@ class FreelancerDashboard extends Component {
             return (
                 <tr key={p.ProjectId}>
                     <td className='text-left' >
-                        <p><Link to={`/projectdetails/${p.ProjectId}`}> {p.Title} </Link></p>
-                        <p> {p.Description} </p>
-                        <span> {p.SkillsReq} </span>
+                        <p><Link to={`/projectdetails/${p.ProjectId}`}> {p.projectname} </Link></p>
+                        <p> {p.desc} </p>
+                        <span> {p.skillsreq} </span>
                     </td>
                     <td>
                         <div>
-                            <p> $ {p.AvgBid} </p>
+                            <p> $ {p.average} </p>
                         </div>
                     </td>
                     <td>
                         <div>
-                            <p><Link to={`/profile/${p.Freelancer}`}>{p.Freelancer}</Link></p>
+                            <p><Link to={`/profile/${p.employer}`}>{p.employer}</Link></p>
                         </div>
                     </td>
                     <td>
                         <div>
-                            <p>{p.Bid}</p>
+                            <p>{p.bid}</p>
                         </div>
                     </td>
                     <td>
                         <div>
-                            <p>{p.Status}</p>
+                            <p>{p.status}</p>
                         </div>
                     </td>
                 </tr>
