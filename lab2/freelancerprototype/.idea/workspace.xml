@@ -2,15 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="355a2ca1-bf66-4ad3-a351-1088dd19ed84" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/src/Components/RelevantProjects.js" />
       <change beforePath="$PROJECT_DIR$/../freelancerServer/.idea/dictionaries/pradn.xml" afterPath="$PROJECT_DIR$/../freelancerServer/.idea/dictionaries/pradn.xml" />
       <change beforePath="$PROJECT_DIR$/../freelancerServer/.idea/workspace.xml" afterPath="$PROJECT_DIR$/../freelancerServer/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/../freelancerServer/routes/index.js" afterPath="$PROJECT_DIR$/../freelancerServer/routes/index.js" />
-      <change beforePath="$PROJECT_DIR$/.idea/dictionaries/pradn.xml" afterPath="$PROJECT_DIR$/.idea/dictionaries/pradn.xml" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Dashboard.js" afterPath="$PROJECT_DIR$/src/Components/Dashboard.js" />
-      <change beforePath="$PROJECT_DIR$/src/Components/FreelancerDashboard.js" afterPath="$PROJECT_DIR$/src/Components/FreelancerDashboard.js" />
-      <change beforePath="$PROJECT_DIR$/src/Components/Home.js" afterPath="$PROJECT_DIR$/src/Components/Home.js" />
       <change beforePath="$PROJECT_DIR$/src/Components/Profile.js" afterPath="$PROJECT_DIR$/src/Components/Profile.js" />
       <change beforePath="$PROJECT_DIR$/src/Components/Projects.js" afterPath="$PROJECT_DIR$/src/Components/Projects.js" />
       <change beforePath="$PROJECT_DIR$/src/Components/Userhome.js" afterPath="$PROJECT_DIR$/src/Components/Userhome.js" />
@@ -38,11 +32,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Projects.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="Projects.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/src/Components/Projects.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="858">
-              <caret line="33" column="0" lean-forward="true" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
+            <state relative-caret-position="344">
+              <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -54,7 +48,7 @@
         <entry file="file://$PROJECT_DIR$/src/Components/RelevantProjects.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="416">
-              <caret line="16" column="0" lean-forward="true" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+              <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -78,7 +72,7 @@
         <entry file="file://$PROJECT_DIR$/src/Components/Dashboard.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="416">
-              <caret line="126" column="33" lean-forward="true" selection-start-line="119" selection-start-column="28" selection-end-line="126" selection-end-column="33" />
+              <caret line="126" column="33" lean-forward="false" selection-start-line="119" selection-start-column="28" selection-end-line="126" selection-end-column="33" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -90,7 +84,7 @@
         <entry file="file://$PROJECT_DIR$/src/Components/FreelancerDashboard.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="260">
-              <caret line="118" column="69" lean-forward="true" selection-start-line="118" selection-start-column="69" selection-end-line="118" selection-end-column="69" />
+              <caret line="118" column="69" lean-forward="false" selection-start-line="118" selection-start-column="69" selection-end-line="118" selection-end-column="69" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -98,11 +92,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="Userhome.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="Userhome.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/src/Components/Userhome.js">
           <provider selected="true" editor-type-id="text-editor">
             <state relative-caret-position="260">
-              <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+              <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
               <folding>
                 <element signature="e#0#41#0" expanded="true" />
               </folding>
@@ -159,10 +153,10 @@
         <option value="$PROJECT_DIR$/src/Components/Home.js" />
         <option value="$PROJECT_DIR$/src/Components/userhome.css" />
         <option value="$PROJECT_DIR$/src/Components/RelevantProjects.js" />
-        <option value="$PROJECT_DIR$/src/Components/Projects.js" />
         <option value="$PROJECT_DIR$/src/Components/Dashboard.js" />
         <option value="$PROJECT_DIR$/src/Components/FreelancerDashboard.js" />
         <option value="$PROJECT_DIR$/src/Components/Userhome.js" />
+        <option value="$PROJECT_DIR$/src/Components/Projects.js" />
       </list>
     </option>
   </component>
@@ -286,12 +280,12 @@
       <workItem from="1521996256203" duration="4220000" />
       <workItem from="1522007522136" duration="720000" />
       <workItem from="1522016065624" duration="11690000" />
-      <workItem from="1522106858218" duration="20101000" />
+      <workItem from="1522106858218" duration="20378000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="42336000" />
+    <option name="totallyTimeSpent" value="42613000" />
   </component>
   <component name="TodoView">
     <todo-panel id="selected-file">
@@ -798,20 +792,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/src/Components/Projects.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="858">
-          <caret line="33" column="0" lean-forward="true" selection-start-line="33" selection-start-column="0" selection-end-line="33" selection-end-column="0" />
-          <folding>
-            <element signature="e#0#41#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/src/Components/RelevantProjects.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="416">
-          <caret line="16" column="0" lean-forward="true" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
+          <caret line="16" column="0" lean-forward="false" selection-start-line="16" selection-start-column="0" selection-end-line="16" selection-end-column="0" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>
@@ -829,7 +813,7 @@
     <entry file="file://$PROJECT_DIR$/src/Components/Dashboard.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="416">
-          <caret line="126" column="33" lean-forward="true" selection-start-line="119" selection-start-column="28" selection-end-line="126" selection-end-column="33" />
+          <caret line="126" column="33" lean-forward="false" selection-start-line="119" selection-start-column="28" selection-end-line="126" selection-end-column="33" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>
@@ -847,7 +831,7 @@
     <entry file="file://$PROJECT_DIR$/src/Components/FreelancerDashboard.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="260">
-          <caret line="118" column="69" lean-forward="true" selection-start-line="118" selection-start-column="69" selection-end-line="118" selection-end-column="69" />
+          <caret line="118" column="69" lean-forward="false" selection-start-line="118" selection-start-column="69" selection-end-line="118" selection-end-column="69" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>
@@ -857,7 +841,17 @@
     <entry file="file://$PROJECT_DIR$/src/Components/Userhome.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="260">
-          <caret line="10" column="0" lean-forward="true" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <caret line="10" column="0" lean-forward="false" selection-start-line="10" selection-start-column="0" selection-end-line="10" selection-end-column="0" />
+          <folding>
+            <element signature="e#0#41#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/src/Components/Projects.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="344">
+          <caret line="15" column="0" lean-forward="true" selection-start-line="15" selection-start-column="0" selection-end-line="15" selection-end-column="0" />
           <folding>
             <element signature="e#0#41#0" expanded="true" />
           </folding>

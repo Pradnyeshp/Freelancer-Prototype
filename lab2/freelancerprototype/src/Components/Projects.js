@@ -26,16 +26,6 @@ class Projects extends Component {
         )
     }
 
-    handleChange = (e) => {
-        e.preventDefault()
-        console.log(e.target.value);        
-        this.setState({
-            [e.target.name] : [e.target.value]
-        }, () => {
-            console.log(this.state);       
-        })
-    }
-    
     render() {
         // let projectsArray = [];
         let projectsArray = this.state.projects.map( p => {
