@@ -42,8 +42,8 @@ class ProjectDetails extends Component {
                         employee : response.data[0].Employee,
                         budgetrange: response.data[0].budget,
                         bids : response.data[0].bids,
-                        avg : response.data[0].Average,
-                        freelancer : response.data[0].Freelancer
+                        avg : response.data[0].average,
+                        freelancer : response.data[0].freelancer
                     })
                 })
         })
