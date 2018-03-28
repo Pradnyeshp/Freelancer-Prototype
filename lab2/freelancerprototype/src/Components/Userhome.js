@@ -15,7 +15,6 @@ class Userhome extends Component {
 
     render() {
         let bar = null
-
         if (localStorage.getItem('username') === null ) {
             bar = ( <Navigator /> )
         }
@@ -58,8 +57,11 @@ class Userhome extends Component {
                         <ul className="navbar-nav mr-auto">
                             <li className="nav-item active">
                                 <Link to='/userhome' 
-                                    className="nav-link" > Home <span className="sr-only">(current)</span>
+                                    className="nav-link" > All Projects <span className="sr-only">(current)</span>
                                 </Link> 
+                            </li>
+                            <li className="nav-item">
+                                <Link to='/relevantprojects' className="nav-link" href=""> Relevant Projects </Link>
                             </li>
                             <li className="nav-item">
                                 <Link to='/dashboard' className="nav-link" href=""> Dashboard </Link>
@@ -72,6 +74,17 @@ class Userhome extends Component {
                         </form>
                     </div>
                 </nav>
+                <br/>
+                <div className='container-fluid'>
+                    <div className="col-lg-12">
+                        <div className="input-group">
+                            <input type="text" className="form-control" placeholder="Search for Projects by Technology Stack or by Project Name..."/> &nbsp;&nbsp;&nbsp;
+                                  <span className="input-group-btn">
+                                    <button className="btn btn-outline-primary" type="button">Go!</button>
+                                  </span>
+                        </div>
+                    </div>
+                </div>
                 <Projects/>
             </div>
         );
