@@ -8,12 +8,44 @@ class Projects extends Component {
     constructor() {
         super();
         this.state = ({
-            projects : []
+            projects : [],
+            searchtext : ''
+        })
+        this.handleSearch = this.handleSearch.bind(this)
+        this.handleChange = this.handleChange.bind(this)
+    }
+
+    handleSearch= (e) => {
+        e.preventDefault()
+        let search = {
+            search : this.state.searchtext
+        }
+
+        axios.post('http://localhost:3001/searchtext', search)
+            .then( (response) => {
+                console.log('Receive Projects from Db :', response.data)
+                if( response.data.toString() == 'No Project found in database' ) {
+                    this.setState ({
+                        projects : []
+                    })
+                }
+                else {
+                    this.setState({
+                        projects : response.data
+                    })
+                }
+            })
+    }
+
+    handleChange = (e) => {
+        this.setState({
+            [e.target.name] : e.target.value
+        }, () => {
+            console.log("After entering Text in Searchbar", this.state.searchtext )
         })
     }
 
     componentWillMount() {
-
         axios.post('http://localhost:3001/getprojects', null , { withCredentials : true } )
             .then((response) => {
                 console.log("Response from DB", response.data);
@@ -27,7 +59,6 @@ class Projects extends Component {
     }
 
     render() {
-        // let projectsArray = [];
         let projectsArray = this.state.projects.map( p => {
             return(
                 <tr key={p._id} >
@@ -37,7 +68,7 @@ class Projects extends Component {
                             {p.desc} <br/>
                             {p.skillsreq}
                     </td>
-                    <td> <Link to={`/profile/${p.employer}`}> {p.employer} </Link> </td>
+                    <td className='text-center'> <Link to={`/profile/${p.employer}`}> {p.employer} </Link> </td>
                     <td> {p.bids} </td>
                     <td> {p.budget} </td>
                     <td> <BidNow id={p._id}  />
@@ -48,6 +79,22 @@ class Projects extends Component {
 
         return (
             <div className="projects"><br/>
+                <div className='container-fluid'>
+                    <div className="col-lg-12">
+                        <div className="input-group">
+                            <input type="text" className="form-control" name='searchtext'
+                                   placeholder="Search by Technology Stack or Project Name ..."
+                                   onChange={this.handleChange} /> &nbsp;&nbsp;&nbsp;
+                            <div className="input-group-btn">
+                                <button className="btn btn-outline-primary" type="button" onClick={this.handleSearch}> Search </button>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+                <br/>
+                <div className='container-fluid'>
+                <div className='table-bordered'>
                 <div className="table-responsive">
                     <table className='table table-hover'>
                         <thead className="thead-dark" >
@@ -63,6 +110,8 @@ class Projects extends Component {
                                 {projectsArray}
                         </tbody>
                     </table>
+                </div>
+                </div>
                 </div>
             </div>
         );
