@@ -6,7 +6,9 @@
       <w>getprofile</w>
       <w>getprojects</w>
       <w>navbar</w>
+      <w>projectdetails</w>
       <w>projectid</w>
+      <w>relevantprojects</w>
       <w>signin</w>
       <w>thead</w>
       <w>toggler</w>

@@ -119,8 +119,11 @@ class Dashboard extends Component {
                         <ul className="navbar-nav mr-auto">
                             <li className="nav-item active">
                                 <Link to='/userhome'
-                                    className="nav-link" > Home <span className="sr-only">(current)</span>
+                                    className="nav-link" > All Projects <span className="sr-only">(current)</span>
                                 </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link to='/relevantprojects' className="nav-link" href=""> Relevant Projects </Link>
                             </li>
                             <li className="nav-item">
                                 <Link to='/dashboard' className="nav-link" href=""> Dashboard </Link>
