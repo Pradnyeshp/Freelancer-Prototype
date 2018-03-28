@@ -38,7 +38,7 @@ class Projects extends Component {
                             {p.skillsreq}
                     </td>
                     <td> <Link to={`/profile/${p.employer}`}> {p.employer} </Link> </td>
-                    <td> {p.bids} </td>
+                    <td className='justify-content-center'> {p.bids} </td>
                     <td> {p.budget} </td>
                     <td> <BidNow id={p._id}  />
                      </td>
