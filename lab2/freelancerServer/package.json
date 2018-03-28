@@ -17,6 +17,7 @@
     "debug": "~2.6.9",
     "ejs": "~2.5.7",
     "express": "~4.15.5",
+    "express-fileupload": "^0.4.0",
     "express-handlebars": "*",
     "express-messages": "*",
     "express-session": "*",

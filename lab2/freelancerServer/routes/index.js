@@ -11,7 +11,7 @@ const saltRounds = 10
 const ObjectId = require('mongodb').ObjectId;
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
-
+const fileUpload = require('express-fileupload');
 
   algorithm = 'aes192',
   password = '!QAZ@WSX';
@@ -151,6 +151,20 @@ passport.use( new LocalStrategy( (username, password, done) => {
         }});
     }
 ));
+
+router.post('/upload', (req, res, next) => {
+    // console.log(req.data);
+    let imageFile = req.files.file;
+
+    imageFile.mv(`${__dirname}/public/${req.body.filename}.jpg`, function(err) {
+        if (err) {
+            console.log(err.name)
+            return res.status(500).send(err);
+        }
+        res.json({file: `public/${req.body.filename}.jpg`});
+    });
+
+})
 
 router.post('/signin', function (req, res, next) {
 
