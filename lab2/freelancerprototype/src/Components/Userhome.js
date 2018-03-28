@@ -6,6 +6,7 @@ import { connect } from 'react-redux';
 import Projects from './Projects';
 import Navigator from './Navigator'
 import image from '../Image/freelancerlogo.png'
+import axios from 'axios'
 
 class Userhome extends Component {
 
@@ -46,7 +47,8 @@ class Userhome extends Component {
                         </div>
                     </nav>
                 </div> <br/>
-            
+
+                <div className='container-fluid'>
                 <nav className="navbar navbar-expand-lg navbar-light bg-light">               
                     <button className="navbar-toggler" type="button" data-toggle="collapse" 
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
@@ -74,16 +76,6 @@ class Userhome extends Component {
                         </form>
                     </div>
                 </nav>
-                <br/>
-                <div className='container-fluid'>
-                    <div className="col-lg-12">
-                        <div className="input-group">
-                            <input type="text" className="form-control" placeholder="Search for Projects by Technology Stack or by Project Name..."/> &nbsp;&nbsp;&nbsp;
-                                  <span className="input-group-btn">
-                                    <button className="btn btn-outline-primary" type="button">Go!</button>
-                                  </span>
-                        </div>
-                    </div>
                 </div>
                 <Projects/>
             </div>
