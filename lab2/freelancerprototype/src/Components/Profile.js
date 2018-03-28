@@ -19,11 +19,12 @@ class Profile extends Component {
             phone : '',
             aboutme : '',
             skills : '', 
-            image : ''
+            imageURL : ''
         });
         this.handleSave = this.handleSave.bind(this)
         this.handleChange = this.handleChange.bind(this)
         this.handleEdit = this.handleEdit.bind(this)
+        // this.handleUploadImage = this.handleUploadImage.bind(this)
     }
 
     componentWillMount() {
@@ -82,6 +83,8 @@ class Profile extends Component {
         this.setState ( {isEditing : !this.state.isEditing });
         
     }
+
+
 
     render() {
         if(this.state.isEditing)
