@@ -208,6 +208,30 @@ router.post('/signin', function (req, res, next) {
   // })
 });
 
+router.post('/searchtext', (req, res) => {
+    console.log('In Search Text', req.body)
+
+    MongoClient.connect( url, (err, db) => {
+        if(err) throw err
+        else {
+            let dbo = db.db('freelancer')
+            dbo.collection('projects').find(
+                { $text: { $search: req.body.search } }
+                ).toArray( (err, result) => {
+                    if(err) throw err
+                    if(result.length == 0 ) {
+                        res.json("No Project found in database")
+                    }
+                    else {
+                        console.log("Searched Prjects from database are :",result)
+                        res.json(result)
+                        db.close()
+                    }
+            })
+        }
+    })
+})
+
 router.post('/getrelevantprojects', (req, res, next) => {
     console.log("In Get Relevant Projects", req.body)
 
