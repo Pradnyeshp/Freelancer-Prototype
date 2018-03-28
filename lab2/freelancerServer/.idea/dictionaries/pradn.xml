@@ -14,6 +14,7 @@
       <w>setworkerforproject</w>
       <w>updateprofile</w>
       <w>upsert</w>
+      <w>userskills</w>
     </words>
   </dictionary>
 </component>
