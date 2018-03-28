@@ -47,7 +47,7 @@ class Projects extends Component {
                             {p.desc} <br/>
                             {p.skillsreq}
                     </td>
-                    <td> <Link to={`/profile/${p.username}`}> {p.username} </Link> </td>
+                    <td> <Link to={`/profile/${p.employer}`}> {p.employer} </Link> </td>
                     <td> {p.bids} </td>
                     <td> {p.budget} </td>
                     <td> <BidNow id={p._id}  />
