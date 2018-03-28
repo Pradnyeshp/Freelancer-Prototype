@@ -420,7 +420,49 @@ router.post('/getprojectdetails', (req, res, next) => {
         if(err) throw err
         else {
             let dbo = connection.db("freelancer")
-            dbo.collection("projects").find( { _id : o_id } ).toArray( (err, result) => {
+            dbo.collection("projects").aggregate([
+                { $match : { _id : o_id } },
+                {
+                    $lookup:{
+                        from : 'bids',
+                        localField : '_id',
+                        foreignField : 'projectid',
+                        as : 'bidsforproject'
+                    }
+                },
+                {
+                    $unwind:{
+                        path:"$bidsforproject",
+                        preserveNullAndEmptyArrays: true
+                    }
+                },
+                {
+                    $group:{
+                        _id:{
+                            id:'$id',
+                            employer:'$employer',
+                            projectname: '$projectname',
+                            desc : '$desc',
+                            skillsreq : '$skillsreq',
+                            budget : '$budget',
+                            startdate : '$startdate',
+                            bids : '$bids'},
+                        average : { $avg: '$bidsforproject.bid' }
+                    }
+                },
+                {
+                    $project:{
+                        id : "$_id.id",
+                        projectname: '$_id.projectname',
+                        employer:'$_id.employer',
+                        desc : '$_id.desc',
+                        skillsreq : '$_id.skillsreq',
+                        budget : '$_id.budget',
+                        bids : '$_id.bids',
+                        average : { $ifNull: [ "$average",0 ] }
+                    }
+                }
+            ]).toArray( (err, result) => {
                 if(err) throw err
                 else {
                     console.log('Project Details from Database' , result)
@@ -484,7 +526,7 @@ router.post( '/getallbids', (req, res, next) => {
         if(err) throw err
         else {
             let dbo = connection.db("freelancer")
-            let query = { projectid : o_id, username : req.body.username }
+            let query = { projectid : o_id }
             dbo.collection("bids").find(query).toArray( (err, result) => {
                 if(err) throw err
                 else {
@@ -538,7 +580,7 @@ router.post('/addproject', (req, res, next) => {
       else {
         let dbo = connection.db("freelancer");
         dbo.collection('projects').insertOne({
-            username : req.body.username,
+            employer : req.body.username,
             projectname : req.body.projectname,
             desc : req.body.projectdesc,
             skillsreq : req.body.skillsreq,
@@ -584,58 +626,180 @@ router.post('/getmypostedprojects', (req, res, next) => {
   
   let username = req.body.username
 
-  con.getConnection((err, connection) => {
-    if (err) {
-      res.json({
-        code: 100,
-        status: "Not able to establish a connection"
-      }
-      )
-    }
-    else {
-      let sql = "select * from project left join (select ProjectId, sum(Bid)/count(ProjectId) as Average from bid group by ProjectId ) as b on project.ProjectId = b.ProjectId where Freelancer = ? "
-      con.query(sql, [username], (err, result) => {
-        if (err) {
-          console.log(err.message);
-          res.json("ERROR");
-        }
-        else {
-          console.log("Found All Posted Projects", result);
-          res.json(result)
-        }
-      })
-    }
-  })
+   MongoClient.connect(url, (err, db) => {
+       if(err) {
+           res.json("ERROR")
+       }
+       else {
+           let dbo = db.db('freelancer');
+           dbo.collection('projects').aggregate([
+               {$match: { employer: req.body.username }},
+               {
+                   $lookup:{
+                       from : 'bids',
+                       localField : '_id',
+                       foreignField : 'projectid',
+                       as : 'projectbids'
+                   }
+               },
+               {
+                   $unwind:{
+                       path:"$projectbids",
+                       preserveNullAndEmptyArrays: true
+                   }
+               },
+               {
+                   $group:{
+                       _id:{
+                           id:'$id',
+                           employer:'$employer',
+                           projectname: '$projectname',
+                           desc : '$desc',
+                           skillsreq : '$skillsreq',
+                           budget : '$budget',
+                           startdate : '$startdate',
+                           bids : '$bids',
+                           status : '$status'
+                       },
+                       average : { $avg: '$projectbids.bid' }
+                   }
+               },
+               {
+                   $project:{
+                       id : "$_id.id",
+                       projectname: '$_id.projectname',
+                       employer:'$_id.employer',
+                       desc : '$_id.desc',
+                       skillsreq : '$_id.skillsreq',
+                       budget : '$_id.budget',
+                       startdate : '$_id.startdate',
+                       bids : '$_id.bids',
+                       status : '$_id.status',
+                       average : { $ifNull: [ "$average",0 ] }
+                   }
+               }
+           ]).toArray( (err, result) => {
+               if(err) {
+                    res.json('ERROR')
+               }
+               else {
+                   console.log("Results",result)
+                   res.json(result)
+               }
+           } )
+       }
+   })
+
+
+  // SQL Part Commented
+  // con.getConnection((err, connection) => {
+  //   if (err) {
+  //     res.json({
+  //       code: 100,
+  //       status: "Not able to establish a connection"
+  //     }
+  //     )
+  //   }
+  //   else {
+  //     let sql = "select * from project left join (select ProjectId, sum(Bid)/count(ProjectId) as Average from bid group by ProjectId ) as b on project.ProjectId = b.ProjectId where Freelancer = ? "
+  //     con.query(sql, [username], (err, result) => {
+  //       if (err) {
+  //         console.log(err.message);
+  //         res.json("ERROR");
+  //       }
+  //       else {
+  //         console.log("Found All Posted Projects", result);
+  //         res.json(result)
+  //       }
+  //     })
+  //   }
+  // })
 
 })
 
 router.post('/getmybiddedprojects', (req, res, next) => {
   console.log(req.body);
-  
-  let username = req.body.userid
+    // let username = req.body.userid
 
-  con.getConnection((err, connection) => {
-    if (err) {
-      res.json({
-        code: 100,
-        status: "Not able to establish a connection"
-      }
-      )
-    }
-    else {
-      let sql = "SELECT P.Title, P.Freelancer, Q1.Bid, P.Status, P.ProjectId, Q2.AvgBid FROM (SELECT * FROM bid WHERE userId = ? ) AS Q1 JOIN project P ON P.ProjectId = Q1.ProjectId JOIN(SELECT ProjectId, avg(bid) as AvgBid from bid group by ProjectId) AS Q2 ON P.ProjectId = Q2.ProjectId"
-      con.query(sql, [username], (err, result) => {
-        if (err) {
-          console.log(err.message);
-          res.json("ERROR");
-        }
+    MongoClient.connect(url, (err, db) => {
+        if(err) throw err
         else {
-          console.log("Found All Posted Projects", result);
-          res.json(result)
+            let dbo = db.db("freelancer")
+            dbo.collection('bids').aggregate([
+                { $match: { freelancer: req.body.username  }},
+                {
+                    $lookup:{
+                        from: 'projects',
+                        localField : 'projectid',
+                        foreignField : '_id',
+                        as : 'fbids'
+                    }
+                },
+                {
+                    $unwind:{
+                        path:"$fbids",
+                        preserveNullAndEmptyArrays: true
+                    }
+                },
+                {
+                    $group:{
+                        _id:{
+                            bid: '$bid',
+                            projectid: '$projectid',
+                            projectname: '$fbids.projectname',
+                            desc: '$fbids.desc',
+                            skillsreq: '$fbids.skillsreq',
+                            employer : '$fbids.employer',
+                            status : '$fbids.status',
+                        },
+                        average : { $avg: '$bid' }
+                    }
+                },
+                {
+                    $project:{
+                        bid : '$_id.bid',
+                        projectname : '$_id.projectname',
+                        desc: '$_id.desc',
+                        skillsreq: '$_id.skillsreq',
+                        employer : '$_id.employer',
+                        status : '$_id.status'
+                    }
+                }
+            ]).toArray( (err, result) => {
+                if(err) {
+                    res.json("ERROR")
+                }
+                else {
+                    console.log("result fbids", result)
+                    res.json(result)
+                }
+            } )
         }
-      })
-    }
-  })
+    })
+
+  //SQL Part
+  // con.getConnection((err, connection) => {
+  //   if (err) {
+  //     res.json({
+  //       code: 100,
+  //       status: "Not able to establish a connection"
+  //     }
+  //     )
+  //   }
+  //   else {
+  //     let sql = "SELECT P.Title, P.Freelancer, Q1.Bid, P.Status, P.ProjectId, Q2.AvgBid FROM (SELECT * FROM bid WHERE userId = ? ) AS Q1 JOIN project P ON P.ProjectId = Q1.ProjectId JOIN(SELECT ProjectId, avg(bid) as AvgBid from bid group by ProjectId) AS Q2 ON P.ProjectId = Q2.ProjectId"
+  //     con.query(sql, [username], (err, result) => {
+  //       if (err) {
+  //         console.log(err.message);
+  //         res.json("ERROR");
+  //       }
+  //       else {
+  //         console.log("Found All Posted Projects", result);
+  //         res.json(result)
+  //       }
+  //     })
+  //   }
+  // })
 })
 
 router.post('/updatebid', (req, res, next) => {
@@ -657,8 +821,8 @@ router.post('/updatebid', (req, res, next) => {
           let dbo = connection.db("freelancer")
           let query = {
               projectid : o_id ,
-              username : req.body.username,
-              bid : bid,
+              freelancer : req.body.username,
+              bid : Number(bid),
               date : date,
               deliverydays : dd
           }
