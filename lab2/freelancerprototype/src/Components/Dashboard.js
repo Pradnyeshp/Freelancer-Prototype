@@ -19,7 +19,7 @@ class Dashboard extends Component {
         const userDetails = {
             username : localStorage.getItem('username')
         }
-        axios.post('http://localhost:3001/getmypostedprojects', userDetails)
+        axios.post('http://localhost:3001/getmypostedprojects', userDetails, {withCredentials : true})
             .then((response) => {
                 console.log(response.data);
                 if (response.data === 'ERROR') {
@@ -61,15 +61,15 @@ class Dashboard extends Component {
             //     finalDate = p.estimated_completion_date.slice(0, 10);
             // }
             return (
-                <tr key={p.ProjectId}>
+                <tr key={p.projectname}>
                     <td className='text-left' >
-                        <p><Link to={`/projectdetails/${p.ProjectId}`}> {p.Title} </Link></p>
-                        <p> {p.Description} </p>
-                        <span> {p.SkillsReq} </span>
+                        <p><Link to={`/projectdetails/${p.ProjectId}`}> {p.projectname} </Link></p>
+                        <p> {p.desc} </p>
+                        <span> {p.skillsreq} </span>
                     </td>
                     <td>
                         <div>
-                            <p>$ {p.Average} </p>
+                            <p>$ {p.average} </p>
                         </div>
                     </td>
                     <td>
@@ -79,12 +79,12 @@ class Dashboard extends Component {
                     </td>
                     <td>
                         <div>
-                            <p>{p.Bids}</p>
+                            <p>{p.bids}</p>
                         </div>
                     </td>
                     <td>
                         <div>
-                            <p>{p.Status}</p>
+                            <p>{p.status}</p>
                         </div>
                     </td>
                 </tr>
