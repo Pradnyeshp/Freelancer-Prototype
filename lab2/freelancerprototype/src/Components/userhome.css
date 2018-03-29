@@ -14,3 +14,7 @@
     /* background-color : ; */
 }
 
+.pagination #li {
+    color: blue;
+    color-interpolation: red;
+}
