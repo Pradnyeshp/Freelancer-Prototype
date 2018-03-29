@@ -540,6 +540,7 @@ router.post('/getprojectdetails', (req, res, next) => {
                             skillsreq : '$skillsreq',
                             budget : '$budget',
                             startdate : '$startdate',
+                            worker : '$worker',
                             bids : '$bids'},
                         average : { $avg: '$bidsforproject.bid' }
                     }
@@ -553,6 +554,7 @@ router.post('/getprojectdetails', (req, res, next) => {
                         skillsreq : '$_id.skillsreq',
                         budget : '$_id.budget',
                         bids : '$_id.bids',
+                        worker : '$_id.worker',
                         average : { $ifNull: [ "$average",0 ] }
                     }
                 }
@@ -1008,29 +1010,38 @@ router.post('/updatebid', (req, res, next) => {
               date : date,
               deliverydays : dd
           }
-          dbo.collection("bids").insertOne(query, (err, result) => {
-              if(err) {
-                  res.json("ERROR")
+          dbo.collection('bids').find( { projectid: o_id, freelancer : req.body.username } ).toArray( (err,result) => {
+              if(err) throw err
+              if( result.length === 0) {
+                  dbo.collection("bids").insertOne(query, (err, result) => {
+                          if(err) {
+                              res.json("ERROR")
+                          }
+                          else {
+                              console.log("In Bids Table, Bid Updated")
+                              let bidnum = { projectid: o_id }
+                              dbo.collection("bids").count(bidnum, (err, result) => {
+                                  if(err) throw err
+                                  else {
+                                      console.log("Number of bids :" , result)
+                                      dbo.collection("projects").updateOne( {_id : o_id}, { $set:{ bids : result }} , (err, result) => {
+                                          if (err) throw err
+                                          else {
+                                              console.log("Number of bids Updated in projects" );
+                                              res.json("BID_PLACED")
+                                          }
+                                      } )
+                                  }
+                              })
+                          }
+                      }
+                  )
               }
               else {
-                  console.log("In Bids Table, Bid Updated")
-                  let bidnum = { projectid: o_id }
-                  dbo.collection("bids").count(bidnum, (err, result) => {
-                      if(err) throw err
-                      else {
-                          console.log("Number of bids :" , result)
-                          dbo.collection("projects").updateOne( {_id : o_id}, { $set:{ bids : result }} , (err, result) => {
-                              if (err) throw err
-                              else {
-                                  console.log("Number of bids Updated in projects" )
-                              }
-                          } )
-                      }
-                  })
+                  res.json("ERROR")
               }
-          }
-       )
-          res.json("BID_PLACED")
+          } )
+
       }
   })
 
