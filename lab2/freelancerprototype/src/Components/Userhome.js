@@ -6,9 +6,19 @@ import { connect } from 'react-redux';
 import Projects from './Projects';
 import Navigator from './Navigator'
 import image from '../Image/freelancerlogo.png'
-import axios from 'axios'
+// import axios from 'axios'
 
 class Userhome extends Component {
+
+    constructor() {
+        super();
+        this.handleClick = this.handleClick.bind(this)
+    }
+
+    handleClick = (e) => {
+        e.preventDefault()
+        window.location.reload(true)
+    }
 
     handleSubmit = () => {
         localStorage.removeItem('username');
@@ -49,24 +59,24 @@ class Userhome extends Component {
                 </div> <br/>
 
                 <div className='container-fluid'>
-                <nav className="navbar navbar-expand-lg navbar-light bg-light">               
-                    <button className="navbar-toggler" type="button" data-toggle="collapse" 
-                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" 
+                <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                    <button className="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                         <span className="navbar-toggler-icon"></span>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav mr-auto">
-                            <li className="nav-item active">
-                                <Link to='/userhome' 
+                            <li className="nav-item active" onClick={this.handleClick} >
+                                <a
                                     className="nav-link" > All Projects <span className="sr-only">(current)</span>
-                                </Link> 
+                                </a>
                             </li>
                             <li className="nav-item">
-                                <Link to='/relevantprojects' className="nav-link" href=""> Relevant Projects </Link>
+                                <Link to='/relevantprojects' className="nav-link" > Relevant Projects </Link>
                             </li>
                             <li className="nav-item">
-                                <Link to='/dashboard' className="nav-link" href=""> Dashboard </Link>
+                                <Link to='/dashboard' className="nav-link" > Dashboard </Link>
                             </li>
                         </ul>
                         <form className="form-inline my-2 my-lg-0">

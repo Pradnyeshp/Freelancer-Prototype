@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios'
 import { Link } from 'react-router-dom' ;
 import BidNow from './BidNow'
+import Pagination from "./Pagination";
 
 class Projects extends Component {
     
@@ -9,10 +10,17 @@ class Projects extends Component {
         super();
         this.state = ({
             projects : [],
-            searchtext : ''
+            searchtext : '',
+            pageOfItems: []
         })
         this.handleSearch = this.handleSearch.bind(this)
         this.handleChange = this.handleChange.bind(this)
+        this.onChangePage = this.onChangePage.bind(this);
+    }
+
+    onChangePage(pageOfItems) {
+        // update state with new page of items
+        this.setState({ pageOfItems: pageOfItems });
     }
 
     handleSearch= (e) => {
@@ -24,7 +32,7 @@ class Projects extends Component {
         axios.post('http://localhost:3001/searchtext', search)
             .then( (response) => {
                 console.log('Receive Projects from Db :', response.data)
-                if( response.data.toString() == 'No Project found in database' ) {
+                if( response.data.toString() ===  'No Project found in database' ) {
                     this.setState ({
                         projects : []
                     })
@@ -59,7 +67,7 @@ class Projects extends Component {
     }
 
     render() {
-        let projectsArray = this.state.projects.map( p => {
+        let projectsArray = this.state.pageOfItems.map( p => {
             return(
                 <tr key={p._id} >
                     <td className="text-left">
@@ -90,11 +98,17 @@ class Projects extends Component {
                             </div>
                         </div>
                     </div>
-
+                    <br/>
+                    <div>
+                        <div className="container">
+                            <div className="text-center">
+                                <Pagination items={this.state.projects} onChangePage={this.onChangePage} />
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <br/>
                 <div className='container-fluid'>
-                <div className='table-bordered'>
+                <div className='table-bordered table-striped'>
                 <div className="table-responsive">
                     <table className='table table-hover'>
                         <thead className="thead-dark" >
