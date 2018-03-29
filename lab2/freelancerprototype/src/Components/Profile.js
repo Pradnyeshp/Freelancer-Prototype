@@ -9,8 +9,8 @@ import image from '../Image/freelancerlogo.png'
 
 class Profile extends Component {
 
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = ({
             isEditing : false,
             username : '',
@@ -24,7 +24,22 @@ class Profile extends Component {
         this.handleSave = this.handleSave.bind(this)
         this.handleChange = this.handleChange.bind(this)
         this.handleEdit = this.handleEdit.bind(this)
-        // this.handleUploadImage = this.handleUploadImage.bind(this)
+        this.handleUploadImage = this.handleUploadImage.bind(this)
+    }
+
+    handleUploadImage = (e) => {
+        e.preventDefault()
+
+        const data = new FormData();
+        data.append('file', this.uploadInput.files[0]);
+        data.append('filename', this.fileName.value);
+
+        axios.post('http://localhost:3001/upload', data )
+            .then( (response) => {
+                response.json().then((body) => {
+                    this.setState({ imageURL: `http://localhost:3001/${body.file}` });
+                });
+            })
     }
 
     componentWillMount() {
@@ -84,8 +99,6 @@ class Profile extends Component {
         
     }
 
-
-
     render() {
         if(this.state.isEditing)
         {   
@@ -112,10 +125,10 @@ class Profile extends Component {
                             <div className="col-sm-3 divStyle">
                                 {/*<img className="img-rounded" src={proimage} alt="Insert Photo here"></img>*/}
                                 <label> Profile Image :
-                                <input type="file"
-                                        className="form-control-file"
-                                        name="avatar" />
+                                <input input ref={(ref) => { this.uploadInput = ref; }} type="file" />
+                                    <input ref={(ref) => { this.fileName = ref; }} type="text" placeholder="Enter the desired name of file" />
                                 </label>
+                                <button onClick={this.handleUploadImage} >Submit</button>
                             </div>
                             <div className="col-sm-6 divStyle">
                                 <div className='text-left' disabled='true' >
@@ -166,7 +179,7 @@ class Profile extends Component {
                     <form>
                         <br />
                         <button className='btn btn-primary'
-                            onClick={this.handleSave} > Save 
+                            onClick={this.handleSave} > Save
                         </button> &nbsp;
                         <button className='btn btn-danger'> 
                             <Link to='/profile' onClick={this.handleEdit} ><font color="white">Cancel</font></Link>
@@ -197,6 +210,7 @@ class Profile extends Component {
                         <br /><br />
                         <div className="row content ">
                             <div className="col-sm-3 divStyle">
+                                <img src={this.state.imageURL} alt="img" />
                                 {/*<img className="img-rounded" src={proimage} alt="Insert Photo here"></img>*/}
                             </div>
                             <div className="col-sm-6 divStyle">
