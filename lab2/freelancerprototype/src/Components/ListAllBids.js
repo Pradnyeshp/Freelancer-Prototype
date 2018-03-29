@@ -10,7 +10,8 @@ class ListAllBids extends Component {
             userid : '',
             projectid : '',
             bids : [],
-            display: "none"
+            display: "none",
+            employer : ''
         })
     }
 
@@ -21,6 +22,17 @@ class ListAllBids extends Component {
             projectid : this.props.id,
             username : usr
         })
+
+        axios.post('http://localhost:3001/getemployer', pid , {withCredentials : true})
+            .then( (response) => {
+                console.log('Employer is', response)
+                    this.setState({
+                        employer : response.data
+                    }, () => {
+                        // console.log(this.state.employer)
+                    })
+            })
+
         axios.post('http://localhost:3001/getallbids', pid, {withCredentials:true} )
             .then((response) => {
                 console.log('In getallbids :', response.data);
@@ -33,7 +45,7 @@ class ListAllBids extends Component {
                 } 
                 else 
                 {
-                    if (response.data[0].Username === localStorage.getItem('username')) {
+                    if ( this.state.employer === localStorage.getItem('username')) {
                         this.setState({
                             display: "block"
                         })
@@ -49,23 +61,23 @@ class ListAllBids extends Component {
     }
 
     handleClick(freelancer) {
-        console.log("Hire button click and freelancer is :" + freelancer, this.props.id);
-        const details = {
-            pid: this.props.projectid,
+        console.log("Hire button clicked and freelancer is :" + freelancer, this.props.id );
+        const fdetails = ({
+            pid: this.props.id,
             freelancer: freelancer
-        }
-        axios.post('http://localhost:3001/setworkerforproject', details )
+        })
+        axios.post('http://localhost:3001/setworker', fdetails )
             .then((response) => {
                 console.log("In hire button handle click", response.data);
-                alert('Freelancer hired...check in your dashboard now...thanks');
             })
     }
 
     render() {
-        // var displayStyle = this.state.display;
-        // const divStyle = {
-        //     display: displayStyle
-        // }
+
+        var Style = this.state.display;
+        const divStyle = {
+            display: Style
+        }
 
         let allbids = this.state.bids.map( b => {
             return (
@@ -77,7 +89,7 @@ class ListAllBids extends Component {
                     <td> $ {b.bid} </td>
                     <td> {b.deliverydays} </td>
                     <td> 
-                            <input type="button" id="btnHire" 
+                            <input type="button" id="btnHire" style={ divStyle }
                                 className='btn btn-success' value="Hire Now" 
                                 onClick={this.handleClick.bind(this, b.freelancer)} />
                     </td>
