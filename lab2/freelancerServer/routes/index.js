@@ -582,23 +582,41 @@ router.post('/getprojectdetails', (req, res, next) => {
   // })
 })
 
-router.post('/setworkerforproject', (req, res, next) => {
-  console.log(req.body);
-  connectionPool.getConnection((err, connection) => {
-    if (err) {
-      res.json('Error connecting to database...')
-    } else {
-      var sql = 'update project set Employee = ' + mysql.escape(req.body.freelancer) + ' where ProjectId = ' + mysql.escape(req.body.pid);
-      connection.query(sql, (err, result) => {
-        if (err) {
-          res.json('Error updating the worker for this project');
-        } 
+router.post('/setworker', (req, res, next) => {
+  console.log('In Set Worker', req.body);
+    const projectid = req.body.pid
+    const o_id = new ObjectId(projectid)
+
+    MongoClient.connect( url, (err, db) => {
+        if(err) throw err
         else {
-          res.json('Worker set successfully for this project');
+            let dbo = db.db('freelancer')
+            dbo.collection('projects').updateOne( { _id : o_id },
+                { $set : {worker : req.body.freelancer}} , (err, result) => {
+                    if(err) throw err
+                    else {
+                        console.log('Worker Set : ', result.result )
+                        res.json(result);
+                    }
+                }
+                )
         }
-      });
-    }
-  })
+    })
+  // connectionPool.getConnection((err, connection) => {
+  //   if (err) {
+  //     res.json('Error connecting to database...')
+  //   } else {
+  //     var sql = 'update project set Employee = ' + mysql.escape(req.body.freelancer) + ' where ProjectId = ' + mysql.escape(req.body.pid);
+  //     connection.query(sql, (err, result) => {
+  //       if (err) {
+  //         res.json('Error updating the worker for this project');
+  //       }
+  //       else {
+  //         res.json('Worker set successfully for this project');
+  //       }
+  //     });
+  //   }
+  // })
 })
 
 router.post( '/getallbids', (req, res, next) => {
@@ -645,6 +663,26 @@ router.post( '/getallbids', (req, res, next) => {
   //     })
   //   }
   // })
+})
+
+router.post('/getemployer', (req, res) => {
+    console.log('In get employer', req.body)
+    let pid = req.body.projectid
+    let o_id = new ObjectId(pid)
+
+    MongoClient.connect(url, (err, db) => {
+        if (err) throw err
+        else {
+            let dbo = db.db('freelancer')
+            dbo.collection('projects').find({ _id : o_id }).toArray((err, result) => {
+                if(err) throw err
+                else {
+                    console.log('In get project name', result)
+                    res.json(result[0].employer)
+                }
+            })
+        }
+    })
 })
 
 router.post('/addproject', (req, res, next) => {
