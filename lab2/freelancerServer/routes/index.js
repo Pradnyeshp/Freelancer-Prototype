@@ -12,6 +12,15 @@ const ObjectId = require('mongodb').ObjectId;
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const fileUpload = require('express-fileupload');
+const email = require('nodemailer')
+
+var transporter = email.createTransport({
+    service: 'gmail',
+    auth: {
+        user: 'pradnyesh.patil07@gmail.com',
+        pass: 'Pr@d16071993'
+    }
+});
 
   algorithm = 'aes192',
   password = '!QAZ@WSX';
@@ -596,12 +605,62 @@ router.post('/setworker', (req, res, next) => {
                     if(err) throw err
                     else {
                         console.log('Worker Set : ', result.result )
-                        res.json(result);
+                        res.json("Worker set for this project");
+                        dbo.collection('projects').aggregate([
+                            {$match: { _id : o_id }},
+                            {
+                                $lookup:{
+                                    from: 'users',
+                                    localField : 'worker',
+                                    foreignField : 'username',
+                                    as : 'hire'
+                                }
+                            },
+                            {
+                                $unwind:{
+                                    path:"$hire",
+                                    preserveNullAndEmptyArrays: true
+                                }
+                            },
+                            {
+                                $project:{
+                                    projectname : 1 ,
+                                    employer : 1 ,
+                                    desc : 1 ,
+                                    freelancerEmail : '$hire.email',
+                                }
+                            }
+                        ]).toArray( (err, result) => {
+                            if (err) throw err
+                            else {
+                                console.log('freelancer details', result)
+
+                                let mailOptions = {
+                                    from: 'pradnyesh.patil07@gmail.com',
+                                    to: result[0].freelancerEmail[0] ,
+                                    subject: 'Congratulation !!! You Are Hired',
+                                    html:   '<h3> Project Name: </h3>'+ result[0].projectname +
+                                                '<h3> Description:</h3>' + result[0].desc +
+                                                '<h3> Employer:</h3>' + result[0].employer
+                                };
+
+                                transporter.sendMail(mailOptions, function(error, info){
+                                    if (error) {
+                                        console.log(error);
+                                    } else {
+                                        console.log('Email sent : ' + info.response);
+                                    }
+                                });
+
+                            }
+                        })
                     }
                 }
                 )
         }
     })
+
+
   // connectionPool.getConnection((err, connection) => {
   //   if (err) {
   //     res.json('Error connecting to database...')
