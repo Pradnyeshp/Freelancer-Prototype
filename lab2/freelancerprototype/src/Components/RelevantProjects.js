@@ -27,14 +27,14 @@ class RelevantProjects extends Component {
                 console.log(response.data);
                 this.setState({
                     relevantProjects : response.data
-                }, ()=>{
+                }, ()=> {
                     console.log("After getting relevant projects from DB",this.state.relevantProjects)
                 } )
             })
     }
 
     render() {
-        let bar = null
+        let bar = null;
         if (localStorage.getItem('username') === null ) {
             bar = ( <Navigator /> )
         }
@@ -78,6 +78,7 @@ class RelevantProjects extends Component {
                             <div className="navbar-header">
                                 <a className="navbar-brand"> <img src={image} alt="Freelancer Logo" /> </a>
                             </div>
+
                             <ul className="nav navbar-nav navbar-right">
                                 {bar}
                             </ul>
@@ -113,7 +114,8 @@ class RelevantProjects extends Component {
                     </div>
                 </nav>
                 <br/>
-                <div className="table-responsive">
+                <div className='container-fluid'>
+                <div className="table-responsive table-striped table-bordered">
                     <table className='table table-hover'>
                         <thead className="thead-dark" >
                         <tr>
@@ -128,6 +130,7 @@ class RelevantProjects extends Component {
                         {relevantProjectsArray}
                         </tbody>
                     </table>
+                </div>
                 </div>
             </div>
         );

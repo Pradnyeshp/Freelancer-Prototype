@@ -128,7 +128,10 @@ class AddProject extends Component {
                     </div>
                     <div className='form-group' >
                         <label> <h5> What is your estimated budget? </h5> <br/>
-                                <select className="form-control" defaultValue="Micro Project ($10 - 30 USD)" name="budgetrange" onChange={this.handleChange} required>
+                                <select className="form-control"
+                                        defaultValue="Micro Project ($10 - 30 USD)"
+                                        name="budgetrange"
+                                        onChange={this.handleChange} required >
                                     <option value="Micro Project ($10 - 30 USD)">
                                         Micro Project ($10 - 30 USD)</option>
                                     <option value="Simple project ($30 - 250 USD)">
@@ -157,7 +160,8 @@ class AddProject extends Component {
                         </label> <br />
                     </div>
                     <br/> 
-                    <button className="btn btn-success" onSubmit={this.handleSubmit} >Post My Project</button> 
+                    <button className="btn btn-success"
+                            onSubmit={this.handleSubmit} >Post My Project</button>
                 </form>
                 <br/> <br/>
                 </div>

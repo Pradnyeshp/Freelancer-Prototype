@@ -237,7 +237,7 @@ router.post('/searchtext', (req, res) => {
                         res.json("No Project found in database")
                     }
                     else {
-                        console.log("Searched Prjects from database are :",result)
+                        console.log("Searched Projects from database are :",result)
                         res.json(result)
                         db.close()
                     }
