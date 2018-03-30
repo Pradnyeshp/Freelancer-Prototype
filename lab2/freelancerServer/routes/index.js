@@ -541,6 +541,7 @@ router.post('/getprojectdetails', (req, res, next) => {
                             budget : '$budget',
                             startdate : '$startdate',
                             worker : '$worker',
+                            status : '$status',
                             bids : '$bids'},
                         average : { $avg: '$bidsforproject.bid' }
                     }
@@ -555,6 +556,7 @@ router.post('/getprojectdetails', (req, res, next) => {
                         budget : '$_id.budget',
                         bids : '$_id.bids',
                         worker : '$_id.worker',
+                        status : '$_id.status',
                         average : { $ifNull: [ "$average",0 ] }
                     }
                 }
@@ -591,6 +593,138 @@ router.post('/getprojectdetails', (req, res, next) => {
   //     })
   //   }
   // })
+})
+
+router.post('/getpaymentdetails', (req, res) => {
+    console.log('in payment details ', req.body)
+
+    const pid = req.body.pid
+    const o_id = new ObjectId(pid)
+
+    MongoClient.connect( url, (err, db) => {
+        if(err) throw err
+        else {
+            let dbo = db.db('freelancer')
+            dbo.collection('projects').aggregate([
+                { $match : { _id : o_id } },
+                {
+                    $lookup: {
+                        from: "bids",
+                        let: { pid: "$_id", worker: "$worker" },
+                        pipeline: [
+                            { $match:
+                                    { $expr:
+                                            { $and:
+                                                    [
+                                                        { $eq: [ "$projectid",  "$$pid" ] },
+                                                        { $eq: [ "$freelancer", "$$worker" ] }
+                                                    ]
+                                            }
+                                    }
+                            }
+                        ],
+                        as: "payment"
+                    }
+                },
+                {
+                    $unwind:{
+                        path:"$payment",
+                        preserveNullAndEmptyArrays: true
+                    }
+                },
+                {
+                    $project : {
+                        employer : 1,
+                        worker : 1,
+                        bidamt : '$payment.bid',
+                        projectname : 1
+                    }
+                }
+            ]).toArray( (err, result) => {
+                    console.log('found details',result)
+                res.json(result)
+                db.close()
+            } )
+        }
+    })
+})
+
+router.post('/getbalance', (req, res) => {
+    console.log('Employer balance',req.body)
+
+    MongoClient.connect( url, (err, db) => {
+        if(err) throw err
+        else {
+            let dbo = db.db('freelancer')
+            dbo.collection('users').find( { username : req.body.u } ).toArray( (err,result) => {
+                if (err) throw err
+                else {
+                    console.log('Employer Found',result)
+                    res.json(result)
+                }
+            })
+        }
+    })
+} )
+
+router.post('/transaction', (req, res) => {
+    console.log('In Transaction : ', req.body)
+    let updatedbalanceEmployer = req.body.employerbal - req.body.bidamt
+    // console.log('Updated balance Emp',updatedbalanceEmployer)
+
+    MongoClient.connect(url, (err, db) => {
+        if(err) throw err
+        else {
+            let dbo = db.db('freelancer')
+            dbo.collection('users').updateOne( {username : req.body.employer }, { $set : { balance : updatedbalanceEmployer} },  (err, result) => {
+                if(err) throw err
+                console.log('Employer Balance Updated', result.result)
+
+                //Worker Balance Updation
+                let updatedbalanceWorker = req.body.workerbal + req.body.bidamt
+                dbo.collection('users').updateOne( {username : req.body.worker }, { $set : { balance : updatedbalanceWorker } },  (err, result) => {
+                    if(err) throw err
+                    console.log('Worker Balance Updated',result.result)
+
+                    //Employer Transaction Updation
+                    dbo.collection('transaction').insertOne({
+                        id : req.body.transactionidEmployer,
+                        projectid : req.body.pid,
+                        pname : req.body.projectname,
+                        amount : req.body.bidamt,
+                        transType : 'debit',
+                        username : req.body.employer
+                    }, (err, result) => {
+                        if(err) throw err
+                        console.log('Updated Employer Transaction History')
+                    })
+
+                    //Worker Transaction Updation
+                    dbo.collection('transaction').insertOne({
+                        id : req.body.transactionidWorker,
+                        projectid : req.body.pid,
+                        pname : req.body.projectname,
+                        amount : req.body.bidamt,
+                        transType : 'credit',
+                        username : req.body.worker
+                    }, (err, result) => {
+                        if(err) throw err
+                        console.log('Updated Worker Transaction History', result.result)
+
+                    })
+
+                    // Status Updation in Project Table
+                    const projectid = req.body.pid
+                    const o_id = new ObjectId(projectid)
+                    dbo.collection('projects').updateOne( { _id : o_id } , { $set : { status : 'closed' } }, (err, result) => {
+                        if(err) throw err
+                        console.log("Status Updated in Projects", result.result)
+                        res.json("Transaction Successful")
+                    } )
+                })
+            } )
+        }
+    })
 })
 
 router.post('/setworker', (req, res, next) => {
