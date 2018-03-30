@@ -21,7 +21,14 @@ class ProjectDetails extends Component {
             bids: '',
             avg: '',
             freelancer : '',
+            display: "block" ,
+            status: 'open'
         })
+        this.handlePayment = this.handlePayment.bind(this)
+    }
+
+    handlePayment = () => {
+        this.props.history.push(`/payment/${this.state.projectid}`)
     }
 
     componentWillMount() {
@@ -44,6 +51,7 @@ class ProjectDetails extends Component {
                         budgetrange: response.data[0].budget,
                         bids : response.data[0].bids,
                         avg : response.data[0].average,
+                        status : response.data[0].status
                         // freelancer : response.data[0].freelancer
                     }, () => {
                         console.log("After setstate in getprojectdetails", this.state)
@@ -53,6 +61,18 @@ class ProjectDetails extends Component {
     }
 
     renderEmployer () {
+
+        let change = null
+
+        if(this.state.status === 'Open') {
+                change = (
+                    <button
+                        onClick={this.handlePayment}
+                        className='btn btn-outline-info' >Make Payment
+                    </button>
+                )
+        }
+
         return (
             <div className="userhome">
                 <div className="container-fluid" >
@@ -106,8 +126,8 @@ class ProjectDetails extends Component {
                                 </p>
                             </div>
                             <div className='form-group'>
-                                <Link to='/payment' className='btn btn-outline-info' >Make Payment </Link>
-                            </div>
+                                { change }
+                        </div>
                         </div>
                     </div>
                 </div>

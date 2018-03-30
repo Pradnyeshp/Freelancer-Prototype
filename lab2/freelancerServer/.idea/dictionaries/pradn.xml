@@ -6,12 +6,14 @@
       <w>cors</w>
       <w>freelancerdb</w>
       <w>getallbids</w>
+      <w>getpaymentdetails</w>
       <w>getprojectdetails</w>
       <w>getprojectid</w>
       <w>getuserid</w>
       <w>jsonresp</w>
       <w>newvalues</w>
       <w>setworkerforproject</w>
+      <w>updatedbalance</w>
       <w>updateprofile</w>
       <w>upsert</w>
       <w>userskills</w>

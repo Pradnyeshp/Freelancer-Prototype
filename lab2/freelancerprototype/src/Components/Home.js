@@ -30,7 +30,7 @@ const Home = () => (
       <Route path = '/Navbar' component = {Navbar} />
       <Route path = '/projectdetails/:value/' component={ProjectDetails} />
       <Route path = '/relevantprojects' component={RelevantProjects} />
-      <Route path = '/payment' component={Payment} />
+      <Route path = '/payment/:value' component={Payment} />
       <Route path = '*' component = {NotFound} />
     </Switch>
   </div>
