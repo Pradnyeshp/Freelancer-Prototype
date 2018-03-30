@@ -5,6 +5,9 @@
   "dependencies": {
     "axios": "^0.18.0",
     "bootstrap": "^4.0.0",
+    "globals": {
+      "_": true
+    },
     "link": "^0.1.5",
     "react": "^16.2.0",
     "react-bootstrap": "^0.32.1",
@@ -15,10 +18,9 @@
     "react-router-dom": "^4.2.2",
     "react-router-redux": "^5.0.0-alpha.9",
     "react-scripts": "1.1.1",
-    "globals": {
-      "_": true
-    },
-    "redux": "^3.7.2"
+    "redux": "^3.7.2",
+    "save": "^2.3.2",
+    "uuid": "^3.2.1"
   },
   "scripts": {
     "start": "react-scripts start",
