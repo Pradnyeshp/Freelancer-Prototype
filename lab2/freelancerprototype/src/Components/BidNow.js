@@ -43,6 +43,11 @@ class BidNow extends Component {
     }
 
     handleClick = (e) => {
+        if(this.state.username === this.props.employer){
+            alert("You cannot Bid on your own Project")
+            window.location.reload(true)
+        }
+
         localStorage.setItem("ProjectId", e.target.dataset.id)
         let pid = localStorage.getItem("ProjectId")
         console.log(pid);
@@ -66,9 +71,10 @@ class BidNow extends Component {
 
     handleBid = (e) => {
         e.preventDefault()
+
         let pid = localStorage.getItem("ProjectId");
         console.log( "In HandleBid pid = ", pid );
-    
+
         const bid = {
             username : this.state.username,
             bid: this.state.bid,

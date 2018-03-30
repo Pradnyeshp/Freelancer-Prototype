@@ -79,7 +79,7 @@ class Projects extends Component {
                     <td className='text-center'> <Link to={`/profile/${p.employer}`}> {p.employer} </Link> </td>
                     <td> {p.bids} </td>
                     <td> {p.budget} </td>
-                    <td> <BidNow id={p._id}  />
+                    <td> <BidNow id={p._id}  employer={p.employer}  />
                      </td>
                 </tr>
             )

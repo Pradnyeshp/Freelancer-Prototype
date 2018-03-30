@@ -232,7 +232,7 @@ class ProjectDetails extends Component {
                                 </p>
                             </div>
                             <div id='div1' >
-                                <BidNow id={this.state.projectid} />
+                                <BidNow id={this.state.projectid} employer={this.state.employer} />
                             </div>
                         </div>
                         <ListAllBids id={this.state.projectid} employer={this.state.employer} />
@@ -244,7 +244,7 @@ class ProjectDetails extends Component {
 
     render() {
 
-        if( this.state.worker === '' )
+        if( this.state.worker === '' || this.state.worker !== localStorage.getItem('username') )
             return this.renderBasic()
 
         else if(this.state.employer === localStorage.getItem('username'))
