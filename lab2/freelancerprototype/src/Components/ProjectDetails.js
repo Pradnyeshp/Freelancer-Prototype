@@ -106,8 +106,7 @@ class ProjectDetails extends Component {
                                 </p>
                             </div>
                             <div className='form-group'>
-                                <button className='btn btn-outline-info' >Make Payment</button>
-
+                                <Link to='/payment' className='btn btn-outline-info' >Make Payment </Link>
                             </div>
                         </div>
                     </div>
@@ -244,15 +243,14 @@ class ProjectDetails extends Component {
 
     render() {
 
-        if( this.state.worker === '' || this.state.worker !== localStorage.getItem('username') )
-            return this.renderBasic()
-
-        else if(this.state.employer === localStorage.getItem('username'))
+       if(this.state.employer === localStorage.getItem('username'))
             return this.renderEmployer()
 
         else if(this.state.worker === localStorage.getItem('username'))
             return this.renderWorker()
 
+        else if( this.state.worker === '' || this.state.worker !== localStorage.getItem('username') )
+            return this.renderBasic()
     }
 }
 
