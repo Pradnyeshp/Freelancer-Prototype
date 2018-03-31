@@ -78,6 +78,12 @@ class Userhome extends Component {
                             <li className="nav-item">
                                 <Link to='/dashboard' className="nav-link" > Dashboard </Link>
                             </li>
+                            <li className="nav-item">
+                                <Link to='/assignedprojects' className="nav-link" > Assigned Projects </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link to='/transactionmanager' className="nav-link" > Transaction Manager </Link>
+                            </li>
                         </ul>
                         <form className="form-inline my-2 my-lg-0">
                                 <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
