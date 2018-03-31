@@ -88,22 +88,33 @@ router.post('/signup', function(req, res, next) {
     MongoClient.connect( url, (err, connection) => {
       if(err) throw err
         else {
-        bcrypt.hash( pwd, saltRounds, (err, result) => {
-            console.log("Hashed password is :", result)
+        bcrypt.hash( pwd, saltRounds, (err, resultpass) => {
+            console.log("Hashed password is :", resultpass)
             console.log("Connected to mongodb...");
 
             let dbo = connection.db("freelancer");
 
-            dbo.collection('users').insertOne({
-                username: req.body.username,
-                password: result,
-                email: req.body.email
-            }).then( (result) => {
-                console.log("User Details Inserted Successfully");
-                console.log(result.insertedId);
-                connection.close();
-                res.json('SIGNUP_SUCCESS');
-            })
+            dbo.collection('users').find( { username : req.body.username } ).toArray( (err, result1) => {
+                if(err) throw err
+                else {
+                    if( result1.length > 0 ) {
+                        console.log("Username already exists")
+                        res.json("Username");
+                    }
+                    else {
+                        dbo.collection('users').insertOne({
+                            username: req.body.username,
+                            password: resultpass,
+                            email: req.body.email
+                        }).then( (result) => {
+                            console.log("User Details Inserted Successfully");
+                            console.log(result.insertedId);
+                            connection.close();
+                            res.json('SIGNUP_SUCCESS');
+                        })
+                    }
+                }
+            } )
         })
       }
     })
@@ -348,6 +359,26 @@ router.post('/getprofile', (req, res, next) => {
   //   }
   // })
 });
+
+router.post('/postcomment' , (req, res) => {
+    console.log('In post Comment',req.body)
+
+    const pid = req.body.pid
+    const o_id = new ObjectId(pid)
+
+    MongoClient.connect(url, (err, db) => {
+        if(err) throw err
+        else {
+            let dbo = db.db('freelancer')
+            dbo.collection('projects').updateOne( { _id : o_id }, { $set : { comment : req.body.comment }}, (err, result) => {
+                if(err) throw err
+                else {
+                    console.log('Comment Updated', result.result)
+                }
+            })
+        }
+    })
+})
 
 router.post('/getuserid', (req, res, next) => {
   console.log("In GetUserID", req.body);
