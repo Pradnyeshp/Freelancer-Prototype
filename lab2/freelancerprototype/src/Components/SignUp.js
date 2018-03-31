@@ -119,7 +119,10 @@ function mapDispatchToProps(dispatch) {
             console.log(newUser);
             axios.post('http://localhost:3001/signup', newUser)
                 .then((response) => {
-                    console.log(response);
+                    if( response.data === 'Username') {
+                        alert("Username already exists, try your luck with another")
+                    }
+                    console.log(response.data);
                     dispatch({ type: 'SIGNUP_SUCCESS', payload: response })
                 }
             );
