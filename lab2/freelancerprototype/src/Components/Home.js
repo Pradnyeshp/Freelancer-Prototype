@@ -15,6 +15,8 @@ import Dashboard from './Dashboard'
 import FreelancerDashboard from './FreelancerDashboard'
 import RelevantProjects from "./RelevantProjects";
 import Payment from "./Payment";
+import TransactionManager from "./TransactionManager";
+import AssignedProjects from "./AssignedProjects";
 
 const Home = () => (
   <div>
@@ -31,7 +33,9 @@ const Home = () => (
       <Route path = '/projectdetails/:value/' component={ProjectDetails} />
       <Route path = '/relevantprojects' component={RelevantProjects} />
       <Route path = '/payment/:value' component={Payment} />
-      <Route path = '*' component = {NotFound} />
+        <Route path = '/transactionmanager' component={TransactionManager} />
+        <Route path = '/assignedprojects' component={AssignedProjects} />
+        <Route path = '*' component = {NotFound} />
     </Switch>
   </div>
 )
