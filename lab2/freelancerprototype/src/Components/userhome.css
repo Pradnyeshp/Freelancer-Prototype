@@ -19,6 +19,14 @@
     color-interpolation: red;
 }
 
+.debit #debit {
+     background-color : #4CAF50;
+ }
+
+.debit #credit {
+    background-color : #EF3B3A;
+}
+
 .payment1 {
     margin-left: 500px;
 }
