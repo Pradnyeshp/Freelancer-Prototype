@@ -667,6 +667,73 @@ router.post('/getbalance', (req, res) => {
     })
 } )
 
+router.post('/withdrawmoney', (req, res) => {
+    console.log(req.body)
+
+    MongoClient.connect( url, (err, db) => {
+        if(err) throw err
+        else {
+            let dbo = db.db('freelancer')
+            dbo.collection('users').updateOne( { username : req.body.username },
+                { $set : { balance : req.body.amount } }, (err, result) => {
+                    if(err) throw err
+                    else {
+                        console.log("Balance Updated", result.result)
+                        res.json(result)
+                        db.close()
+                    }
+                } )
+
+            //Updating Transactions= Table
+            dbo.collection('transaction').insertOne({
+                id : req.body.id,
+                pname : req.body.pname,
+                amount : req.body.debit,
+                transType : 'debit',
+                username : req.body.username,
+                date : new Date()
+            }, (err, result) => {
+                if(err) throw err
+                console.log('Updated Transaction History', result.result)
+            })
+        }
+    })
+})
+
+router.post('/addmoney', (req, res) => {
+    console.log(req.body)
+
+    MongoClient.connect( url, (err, db) => {
+        if(err) throw err
+        else {
+            let dbo = db.db('freelancer')
+            dbo.collection('users').updateOne( { username : req.body.username },
+                { $set : { balance : req.body.amount } }, (err, result) => {
+                    if(err) throw err
+                    else {
+                        console.log("Balance Updated", result.result)
+                        res.json(result)
+                        db.close()
+                    }
+                } )
+
+            //Updating Transactions Table
+            dbo.collection('transaction').insertOne({
+                id : req.body.id,
+                pname : req.body.pname,
+                amount : req.body.credit,
+                transType : 'credit',
+                username : req.body.username,
+                date : new Date()
+            }, (err, result) => {
+                if(err) throw err
+                console.log('Updated Transaction History', result.result)
+            })
+        }
+    })
+})
+
+
 router.post('/transaction', (req, res) => {
     console.log('In Transaction : ', req.body)
     let updatedbalanceEmployer = req.body.employerbal - req.body.bidamt
@@ -722,6 +789,25 @@ router.post('/transaction', (req, res) => {
                         res.json("Transaction Successful")
                     } )
                 })
+            } )
+        }
+    })
+})
+
+router.post('/gettranshistory', (req, res) => {
+    console.log('In trans history', req.body)
+
+    MongoClient.connect(url, (err, db) => {
+        if(err) throw err
+        else {
+            let dbo = db.db('freelancer')
+            dbo.collection('transaction').find( { username : req.body.u } ).toArray( (err, result) => {
+                if (err) throw err
+                else {
+                    console.log('trans details', result)
+                    res.json(result)
+                    db.close()
+                }
             } )
         }
     })
