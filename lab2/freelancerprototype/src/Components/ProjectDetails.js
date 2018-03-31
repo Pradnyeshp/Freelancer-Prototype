@@ -189,7 +189,7 @@ class ProjectDetails extends Component {
                                 </p>
                             </div>
                             <hr/>
-                            <SubmissionPanel/>
+                            <SubmissionPanel pid={this.state.projectid}  />
                         </div>
                     </div>
                 </div>

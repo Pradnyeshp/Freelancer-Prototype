@@ -1,7 +1,30 @@
 import React, { Component } from 'react';
-
+import axios from 'axios'
 
 class SubmissionPanel extends Component {
+
+    handleChange= (e) =>{
+
+        this.setState({
+            [e.target.name] : e.target.value
+        }, ()=> {
+           console.log(this.state)
+        })
+    }
+
+    handleSubmit = (e) => {
+        e.preventDefault();
+        let pid = { pid : this.props.pid,
+            comment : this.state.comment
+        }
+        console.log(pid)
+
+        axios.post('http://localhost:3001/postcomment', pid, {withCredentials : true})
+            .then((response) => {
+                console.log(response.data)
+            })
+    }
+
     render() {
         return (
             <div className="submissionpanel">
@@ -13,13 +36,16 @@ class SubmissionPanel extends Component {
                                 <label className="custom-file-label" htmlFor="inputGroupFile04">Choose file</label>
                         </div>
                         <div className="input-group-append">
-                            <button className="btn btn-outline-secondary" type="submit">Upload</button>
+                            <button className="btn btn-outline-secondary" type="submit"
+                            onClick={this.handleSubmit.bind(this)} >Upload</button>
                         </div>
                     </div>
                     <br/>
                     <div className="form-group">
                         <label htmlFor="exampleFormControlTextarea1">Comments</label>
-                        <textarea className="form-control" rows="3" placeholder="Enter Details about Uploaded Files"/>
+                        <textarea className="form-control" rows="3" name='comment'
+                                  placeholder="Enter Details about Uploaded Files"
+                                   onChange={this.handleChange.bind(this)}/>
                     </div>
                 </form>
             </div>
