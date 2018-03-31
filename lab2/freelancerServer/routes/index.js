@@ -830,6 +830,44 @@ router.post('/gettranshistory', (req, res) => {
     })
 })
 
+router.post('/gettranstypeDebit', (req, res) => {
+
+    MongoClient.connect(url, (err, db) => {
+        if(err) throw err
+        else {
+            let dbo = db.db('freelancer')
+            dbo.collection('transaction').find( { username : req.body.u  ,  transType : 'debit' } ).toArray( (err, result) => {
+                if (err) throw err
+                else {
+                    console.log('trans details', result)
+                    res.json(result)
+                    db.close()
+                }
+            } )
+        }
+    })
+
+})
+
+router.post('/gettranstypeCredit', (req, res) => {
+
+    MongoClient.connect(url, (err, db) => {
+        if(err) throw err
+        else {
+            let dbo = db.db('freelancer')
+            dbo.collection('transaction').find( { username : req.body.u  ,  transType : 'credit' } ).toArray( (err, result) => {
+                if (err) throw err
+                else {
+                    console.log('trans details', result)
+                    res.json(result)
+                    db.close()
+                }
+            } )
+        }
+    })
+
+})
+
 router.post('/setworker', (req, res, next) => {
   console.log('In Set Worker', req.body);
     const projectid = req.body.pid
