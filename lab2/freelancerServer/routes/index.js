@@ -733,6 +733,23 @@ router.post('/addmoney', (req, res) => {
     })
 })
 
+router.post('/assignedprojects', (req, res) => {
+    console.log('In Assigned Projects', req.body)
+
+    MongoClient.connect( url, (err, db) => {
+        if(err) throw err
+        else {
+            let dbo = db.db('freelancer')
+            dbo.collection('projects').find( { worker : req.body.username } ).toArray((err, result) => {
+                if(err) throw err
+                else {
+                    console.log('Assigned Projects Found', result)
+                    res.json(result)
+                }
+            })
+        }
+    })
+})
 
 router.post('/transaction', (req, res) => {
     console.log('In Transaction : ', req.body)
