@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from "axios/index";
 import uuid from 'uuid'
+import PieChart from "./PieChart";
 
 class TransactionManager extends Component {
 
@@ -259,6 +260,8 @@ class TransactionManager extends Component {
                         </div>
                     </div>
                 </div>
+
+                <PieChart transArray={this.state.transactionTable}/>
 
             </div>
         );
