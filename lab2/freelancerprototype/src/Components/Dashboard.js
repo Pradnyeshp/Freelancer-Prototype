@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom' ;
 import axios from 'axios';
 import './userhome.css'
 import image from '../Image/freelancerlogo.png'
+import Pagination from "./Pagination";
 
 class Dashboard extends Component {
 
@@ -10,8 +11,49 @@ class Dashboard extends Component {
         super();
         this.state = {
             projects: [],
-            freelancerButton: false
+            freelancerButton: false,
+            searchtext : '',
+            pageOfItems: []
         }
+        this.handleSearch = this.handleSearch.bind(this)
+        this.handleChange = this.handleChange.bind(this)
+        this.onChangePage = this.onChangePage.bind(this);
+    }
+
+    onChangePage(pageOfItems) {
+        // update state with new page of items
+        this.setState({ pageOfItems: pageOfItems });
+    }
+
+    handleSearch= (e) => {
+        e.preventDefault()
+        let search = {
+            search : this.state.searchtext,
+            username: localStorage.getItem('username')
+        }
+
+        axios.post('http://localhost:3001/searchtextemployer', search)
+            .then( (response) => {
+                console.log('Receive Projects from Db :', response.data)
+                if( response.data.toString() ===  'No Project found in database' ) {
+                    this.setState ({
+                        projects : []
+                    })
+                }
+                else {
+                    this.setState({
+                        projects : response.data
+                    })
+                }
+            })
+    }
+
+    handleChange = (e) => {
+        this.setState({
+            [e.target.name] : e.target.value
+        }, () => {
+            console.log("After entering Text in Searchbar", this.state.searchtext )
+        })
     }
 
     componentWillMount() {
@@ -54,16 +96,11 @@ class Dashboard extends Component {
         if (this.state.freelancerButton === true)
             this.props.history.push('/freelancerdashboard');
 
-        let projects = [];
-        projects = this.state.projects.map ( p => {
-            // var finalDate = null
-            // if (p.estimated_completion_date !== null) {
-            //     finalDate = p.estimated_completion_date.slice(0, 10);
-            // }
+        let projects = this.state.pageOfItems.map ( p => {
             return (
                 <tr key={p.projectname}>
                     <td className='text-left' >
-                        <p><Link to={`/projectdetails/${p.ProjectId}`}> {p.projectname} </Link></p>
+                        <p><Link to={`/projectdetails/${p._id}`}> {p.projectname} </Link></p>
                         <p> {p.desc} </p>
                         <span> {p.skillsreq} </span>
                     </td>
@@ -142,7 +179,30 @@ class Dashboard extends Component {
                         <button onClick={() => this.componentWillMount()} type="button" className="btn btn-dark">Employer</button>
                         <button onClick={() => this.handleFreelancer()} type="button"  className="btn btn-dark">Freelancer</button>
                     </div>
-                </div><br/>
+                </div>
+                <br/>
+
+                <div className="col-lg-12">
+                    <div className="input-group">
+                        <input type="text" className="form-control" name='searchtext'
+                               placeholder="Search by Project Name ..."
+                               onChange={this.handleChange} /> &nbsp;&nbsp;&nbsp;
+                        <div className="input-group-btn">
+                            <button className="btn btn-outline-primary" type="button" onClick={this.handleSearch}> Search </button>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+
+                <div>
+                    <div className="container">
+                        <div className="text-center">
+                            <Pagination items={this.state.projects} onChangePage={this.onChangePage} />
+                        </div>
+                    </div>
+                </div>
+                <br/>
+
                 <div className='dashboardprojecttable'>
                     <table className='table table-hover'>
                         <thead className="thead-dark">
