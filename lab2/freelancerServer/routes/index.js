@@ -1194,7 +1194,8 @@ router.post('/addproject', (req, res) => {
             skillsreq : req.body.skillsreq,
             budget : req.body.budgetrange,
             startdate : req.body.startdate,
-            compdate: req.body.compdate
+            compdate: req.body.compdate,
+            worker : ''
         }).then( (result) => {
             console.log("Project Details Inserted Successfully");
             console.log(result.insertedId);
@@ -1334,44 +1335,83 @@ router.post('/getmybiddedprojects', (req, res) => {
         if(err) throw err
         else {
             let dbo = db.db("freelancer")
-            dbo.collection('bids').aggregate([
-                { $match: { freelancer: req.body.username  }},
+            dbo.collection('projects').aggregate([
                 {
                     $lookup:{
-                        from: 'projects',
-                        localField : 'projectid',
-                        foreignField : '_id',
-                        as : 'fbids'
+                        from : 'bids',
+                        localField : '_id',
+                        foreignField : 'projectid',
+                        as : 'a'
                     }
                 },
                 {
                     $unwind:{
-                        path:"$fbids",
+                        path:"$a",
                         preserveNullAndEmptyArrays: true
                     }
                 },
                 {
-                    $group:{
-                        _id:{
-                            bid: '$bid',
-                            projectid: '$projectid',
-                            projectname: '$fbids.projectname',
-                            desc: '$fbids.desc',
-                            skillsreq: '$fbids.skillsreq',
-                            employer : '$fbids.employer',
-                            status : '$fbids.status',
+                    $group: {
+                        _id :{
+                            _id : '$_id',
+                            employer : '$employer',
+                            projectname : '$projectname',
+                            desc : '$desc',
+                            budget :'$budget',
+                            skillsreq : '$skillsreq',
+                            status:'$status',
+                            bids:'$bids',
+                            worker : '$worker'
                         },
-                        average : { $avg: '$bid' }
+                        average : { $avg : '$a.bid' }
                     }
                 },
                 {
-                    $project:{
-                        bid : '$_id.bid',
-                        projectname : '$_id.projectname',
-                        desc: '$_id.desc',
-                        skillsreq: '$_id.skillsreq',
+                    $project : {
+                        _id : 0,
+                        id : '$_id._id',
                         employer : '$_id.employer',
-                        status : '$_id.status'
+                        projectname : '$_id.projectname',
+                        desc : '$_id.desc',
+                        budget :'$_id.budget',
+                        skillsreq : '$_id.skillsreq',
+                        status:'$_id.status',
+                        bids:'$_id.bids',
+                        worker : '$_id.worker',
+                        average : { $ifNull : ['$average' , 0] }
+                    }
+                },
+                {
+                    $lookup:{
+                        from : 'bids',
+                        localField : 'id',
+                        foreignField : 'projectid',
+                        as : 'a1'
+                    }
+                },
+                {
+                    $unwind:{
+                        path:"$search",
+                        preserveNullAndEmptyArrays: true
+                    }
+                },
+                {
+                    $match : { 'a1.freelancer' : req.body.username }
+                },
+                {
+                    $project : {
+                        id : 1,
+                        employer : 1,
+                        projectname :1,
+                        desc:1,
+                        budget:1,
+                        skillsreq:1,
+                        status:1,
+                        bids:1,
+                        worker:1,
+                        average:1,
+                        bid : '$a1.bid',
+                        deliverydays : '$a1.deliverydays'
                     }
                 }
             ]).toArray( (err, result) => {

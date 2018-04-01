@@ -104,9 +104,9 @@ class FreelancerDashboard extends Component {
             console.log(p)
             return (
 
-                <tr key={p._id.projectid}>
+                <tr key={p.id}>
                     <td className='text-left' >
-                        <p><Link to={`/projectdetails/${p._id.projectid }`}> {p.projectname} </Link></p>
+                        <p><Link to={`/projectdetails/${p.id }`}> {p.projectname} </Link></p>
                         <p> {p.desc} </p>
                         <span> {p.skillsreq} </span>
                     </td>
