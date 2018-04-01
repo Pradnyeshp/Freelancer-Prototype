@@ -51,7 +51,8 @@ class ProjectDetails extends Component {
                         budgetrange: response.data[0].budget,
                         bids : response.data[0].bids,
                         avg : response.data[0].average,
-                        status : response.data[0].status
+                        status : response.data[0].status,
+                        comment : response.data[0].comment
                         // freelancer : response.data[0].freelancer
                     }, () => {
                         console.log("After setstate in getprojectdetails", this.state)
@@ -128,6 +129,13 @@ class ProjectDetails extends Component {
                             <div className='form-group'>
                                 { change }
                         </div>
+                            <hr/>
+                            <br/>
+                        </div>
+                        <h2 className='text-left'>Submission Panel : Files and Comments from Freelancer</h2><br/>
+                        <h5 className=' text-left'></h5>
+                        <div className='container-fluid '><br/>
+                            <textarea className='form-control' rows={3} disabled value={this.state.comment}/>
                         </div>
                     </div>
                 </div>

@@ -29,7 +29,7 @@ class SubmissionPanel extends Component {
         return (
             <div className="submissionpanel">
                 <form>
-                    <h2>Submission Panel</h2><br/>
+                    <h2>Submission Panel : Upload Files and Comments here</h2><br/>
                     <div className="input-group">
                         <div className="custom-file">
                             <input type="file" className="custom-file-input" id="inputGroupFile04" />
