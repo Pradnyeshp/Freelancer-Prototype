@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './userhome.css'
 import image from '../Image/freelancerlogo.png'
+import Pagination from "./Pagination";
 
 class FreelancerDashboard extends Component {
     
@@ -11,19 +12,57 @@ class FreelancerDashboard extends Component {
         this.state = {
             projects: [],
             employerButton: false,
-            userid : ''
+            userid : '',
+            searchtext : '',
+            pageOfItems: []
         }
+        this.handleSearch = this.handleSearch.bind(this)
+        this.handleChange = this.handleChange.bind(this)
+        this.onChangePage = this.onChangePage.bind(this);
+    }
+
+    onChangePage(pageOfItems) {
+        // update state with new page of items
+        this.setState({ pageOfItems: pageOfItems });
+    }
+
+    handleSearch= (e) => {
+        e.preventDefault()
+        let search = {
+            search : this.state.searchtext
+        }
+
+        axios.post('http://localhost:3001/searchtextfreelancer', search)
+            .then( (response) => {
+                console.log('Receive Projects from Db :', response.data)
+                if( response.data.toString() ===  'No Project found in database' ) {
+                    this.setState ({
+                        projects : []
+                    })
+                }
+                else {
+                    this.setState({
+                        projects : response.data
+                    })
+                }
+            })
+    }
+
+    handleChange = (e) => {
+        this.setState({
+            [e.target.name] : e.target.value
+        }, () => {
+            console.log("After entering Text in Searchbar", this.state.searchtext )
+        })
     }
 
     componentWillMount() {
 
-        
         console.log('In Freelancer Dashboard');
         const userDetails = {
             username : localStorage.getItem('username'),
             userid : localStorage.getItem('userid')
         }
-
 
         axios.post('http://localhost:3001/getmybiddedprojects', userDetails )
             .then((response) => {
@@ -60,11 +99,10 @@ class FreelancerDashboard extends Component {
         if (this.state.employerButton === true)
             this.props.history.push('/dashboard');
 
-        let projects = [];
-        projects = this.state.projects.map(p => {
+        let projects = this.state.pageOfItems.map( p => {
 
             return (
-                <tr key={p.ProjectId}>
+                <tr key={p._id}>
                     <td className='text-left' >
                         <p><Link to={`/projectdetails/${p.ProjectId}`}> {p.projectname} </Link></p>
                         <p> {p.desc} </p>
@@ -147,6 +185,28 @@ class FreelancerDashboard extends Component {
                         <button type="button" className="btn btn-dark">Freelancer</button>
                     </div>
                 </div><br />
+
+                <div className="col-lg-12">
+                    <div className="input-group">
+                        <input type="text" className="form-control" name='searchtext'
+                               placeholder="Search by Project Name ..."
+                               onChange={this.handleChange} /> &nbsp;&nbsp;&nbsp;
+                        <div className="input-group-btn">
+                            <button className="btn btn-outline-primary" type="button" onClick={this.handleSearch}> Search </button>
+                        </div>
+                    </div>
+                </div>
+                <br/>
+
+                <div>
+                    <div className="container">
+                        <div className="text-center">
+                            <Pagination items={this.state.projects} onChangePage={this.onChangePage} />
+                        </div>
+                    </div>
+                </div>
+                <br/>
+
                 <div className='dashboardprojecttable'>
                     <table className='table table-hover'>
                         <thead className="thead-dark">
