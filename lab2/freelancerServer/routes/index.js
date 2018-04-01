@@ -26,7 +26,7 @@ let transporter = email.createTransport({
   password = '!QAZ@WSX';
 
 // Connection URL
-var url = 'mongodb://localhost:27017';
+let url = 'mongodb://localhost:27017';
 
 MongoClient.connect(url, function(err, client) {
     assert.equal(null, err);
@@ -272,7 +272,55 @@ router.post('/searchtextemployer', (req, res) => {
         if(err) throw err
         let searcharray = []
         let dbo = db.db('freelancer')
-        dbo.collection('projects').find( { employer : req.body.username } ).toArray((err, result)=>{
+        dbo.collection('projects').aggregate([
+            {$match: { employer : req.body.username }},
+            {
+                $lookup:{
+                    from : 'bids',
+                    localField : '_id',
+                    foreignField : 'projectid',
+                    as : 'projectbids'
+                }
+            },
+            {
+                $unwind:{
+                    path:"$projectbids",
+                    preserveNullAndEmptyArrays: true
+                }
+            },
+            {
+                $group:{
+                    _id:{
+                        id:'$_id',
+                        employer:'$employer',
+                        projectname: '$projectname',
+                        desc : '$desc',
+                        skillsreq : '$skillsreq',
+                        budget : '$budget',
+                        startdate : '$startdate',
+                        bids : '$bids',
+                        status : '$status',
+                        worker : '$worker'
+                    },
+                    average : { $avg: '$projectbids.bid' }
+                }
+            },
+            {
+                $project:{
+                    id : "$_id.id",
+                    projectname: '$_id.projectname',
+                    employer:'$_id.employer',
+                    desc : '$_id.desc',
+                    skillsreq : '$_id.skillsreq',
+                    budget : '$_id.budget',
+                    startdate : '$_id.startdate',
+                    bids : '$_id.bids',
+                    status : '$_id.status',
+                    worker : '$_id.worker',
+                    average : { $ifNull: [ "$average",0 ] }
+                }
+            }
+        ]).toArray((err, result)=>{
             if(err) throw err
             else {
                 for(let i = 0 ; i < result.length ; i++) {
@@ -303,7 +351,7 @@ router.post('/getrelevantprojects', (req, res) => {
                     const userSkillsArray = userSkills.split(",")
                     const relevantProjectArray = []
                     // let userSkillsArray = userSkills.toArray()
-                    console.log('User Skills : ',userSkillsArray)
+                    console.log('User Skills : ', userSkillsArray)
                     dbo.collection('projects').find({}).toArray( (err,result) => {
                         if(err) throw err
                         else {
@@ -1184,7 +1232,7 @@ router.post('/addproject', (req, res) => {
 router.post('/getmypostedprojects', (req, res) => {
   console.log(req.body);
   
-  let username = req.body.username
+  // let username = req.body.username
 
    MongoClient.connect(url, (err, db) => {
        if(err) {
@@ -1211,7 +1259,7 @@ router.post('/getmypostedprojects', (req, res) => {
                {
                    $group:{
                        _id:{
-                           id:'$id',
+                           id:'$_id',
                            employer:'$employer',
                            projectname: '$projectname',
                            desc : '$desc',
@@ -1219,7 +1267,8 @@ router.post('/getmypostedprojects', (req, res) => {
                            budget : '$budget',
                            startdate : '$startdate',
                            bids : '$bids',
-                           status : '$status'
+                           status : '$status',
+                           worker : '$worker'
                        },
                        average : { $avg: '$projectbids.bid' }
                    }
@@ -1235,6 +1284,7 @@ router.post('/getmypostedprojects', (req, res) => {
                        startdate : '$_id.startdate',
                        bids : '$_id.bids',
                        status : '$_id.status',
+                       worker : '$_id.worker',
                        average : { $ifNull: [ "$average",0 ] }
                    }
                }
@@ -1249,7 +1299,6 @@ router.post('/getmypostedprojects', (req, res) => {
            } )
        }
    })
-
 
   // SQL Part Commented
   // con.getConnection((err, connection) => {
