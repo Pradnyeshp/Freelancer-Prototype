@@ -1391,7 +1391,7 @@ router.post('/getmybiddedprojects', (req, res) => {
                 },
                 {
                     $unwind:{
-                        path:"$search",
+                        path:"$a1",
                         preserveNullAndEmptyArrays: true
                     }
                 },
@@ -1558,5 +1558,21 @@ router.post('/updatebid', (req, res) => {
   // })
 })
 
+router.post('/projectsbystatusdashboard', (req, res)=>{
+    console.log('in open projects', req.body)
+
+    MongoClient.connect(url, (err, connection) => {
+        if(err) throw  err
+        else {
+            const dbo = connection.db("freelancer");
+            dbo.collection("projects").find({ status : req.body.status,  employer : req.body.username }).toArray(function(err, result) {
+                if (err) throw err;
+                console.log( 'All the Projects from Database are as follows ' ,result);
+                res.json(result)
+                connection.close();
+            });
+        }
+    })
+})
 
 module.exports = router;
