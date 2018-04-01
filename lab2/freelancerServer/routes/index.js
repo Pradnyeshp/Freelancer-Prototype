@@ -4,17 +4,17 @@ const mysql = require('mysql');
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
 const mongo = require('mongodb');
-const crypto = require('crypto')
-const mongoose = require('mongoose')
-const bcrypt = require('bcryptjs')
-const saltRounds = 10
+const crypto = require('crypto');
+const mongoose = require('mongoose');
+const bcrypt = require('bcryptjs');
+const saltRounds = 10;
 const ObjectId = require('mongodb').ObjectId;
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const fileUpload = require('express-fileupload');
-const email = require('nodemailer')
+const email = require('nodemailer');
 
-var transporter = email.createTransport({
+let transporter = email.createTransport({
     service: 'gmail',
     auth: {
         user: 'pradnyesh.patil07@gmail.com',
@@ -27,9 +27,6 @@ var transporter = email.createTransport({
 
 // Connection URL
 var url = 'mongodb://localhost:27017';
-
-// Database Name
-const dbName = 'freelancerdb';
 
 MongoClient.connect(url, function(err, client) {
     assert.equal(null, err);
@@ -47,16 +44,16 @@ const con = mysql.createConnection({
 });
 
 /* GET home page. */
-router.get('/', function(req, res, next) {
+router.get('/', function(req, res) {
   res.render('index', { title: 'Express' });
 });
 
-router.post('/checksession', (req, res, next) => {
+router.post('/checksession', (req, res) => {
     console.log(req.body)
 
 })
 
-router.post('/signup', function(req, res, next) {
+router.post('/signup', function(req, res) {
   console.log(req.body);
  
   const name = req.body.name;
@@ -172,7 +169,7 @@ passport.use( new LocalStrategy( (username, password, done) => {
     }
 ));
 
-router.post('/upload', (req, res, next) => {
+router.post('/upload', (req, res) => {
     // console.log(req.data);
     let imageFile = req.files.file;
 
@@ -253,11 +250,11 @@ router.post('/searchtext', (req, res) => {
                 { $text: { $search: req.body.search } }
                 ).toArray( (err, result) => {
                     if(err) throw err
-                    if(result.length == 0 ) {
+                    if( result.length === 0 ) {
                         res.json("No Project found in database")
                     }
                     else {
-                        console.log("Searched Projects from database are :",result)
+                        console.log("Searched Projects from database are :", result)
                         res.json(result)
                         db.close()
                     }
@@ -266,7 +263,29 @@ router.post('/searchtext', (req, res) => {
     })
 })
 
-router.post('/getrelevantprojects', (req, res, next) => {
+router.post('/searchtextemployer', (req, res) => {
+    console.log('In Search Text', req.body )
+
+    MongoClient.connect( url, (err, db) => {
+        if(err) throw err
+        let searcharray = []
+        let dbo = db.db('freelancer')
+        dbo.collection('projects').find( { employer : req.body.username } ).toArray((err, result)=>{
+            if(err) throw err
+            else {
+                for(let i = 0 ; i < result.length ; i++) {
+                    let n = result[i].projectname[0].toLocaleLowerCase().search( (req.body.search).toLocaleLowerCase() )
+                    if( n!== -1) {
+                        searcharray.push(result[i])
+                    }
+                }
+                res.json(searcharray)
+            }
+        })
+    })
+})
+
+router.post('/getrelevantprojects', (req, res) => {
     console.log("In Get Relevant Projects", req.body)
 
     MongoClient.connect(url, (err, db) => {
@@ -313,7 +332,54 @@ router.post('/getrelevantprojects', (req, res, next) => {
     })
 })
 
-router.post('/getprofile', (req, res, next) => {
+router.post('/searchtextfreelancer', (req, res) => {
+    console.log('in Search Freelancer', req.body)
+    MongoClient.connect(url, (err, db)=> {
+        if(err) throw err
+        else {
+            let dbo = db.db('freelancer')
+            dbo.collection('bids').aggregate([
+                { $match : { freelancer : req.body.username }},
+                {
+                    $lookup:{
+                        from : 'projects',
+                        localField : 'projectid',
+                        foreignField : '_id',
+                        as : 'search'
+                    }
+                },
+                {
+                    $unwind:{
+                        path:"$search",
+                        preserveNullAndEmptyArrays: true
+                    }
+                },
+                {
+                    $project:{
+                        id : "$search.id",
+                        projectname: '$search.projectname',
+                        employer:'$search.employer',
+                        desc : '$search.desc',
+                        skillsreq : '$search.skillsreq',
+                        budget : '$search.budget',
+                        bids : '$search.bids',
+                        worker : '$search.worker',
+                        status : '$search.status',
+                        comment : '$search.comment',
+                        average : { $ifNull: [ "$average",0 ] }
+                    }
+                }
+            ]).toArray( (err, result) => {
+                if(err) throw err
+                else {
+
+                }
+            } )
+        }
+    })
+})
+
+router.post('/getprofile', (req, res) => {
   const username = req.body.username
   console.log(username);
 
@@ -380,7 +446,7 @@ router.post('/postcomment' , (req, res) => {
     })
 })
 
-router.post('/getuserid', (req, res, next) => {
+router.post('/getuserid', (req, res) => {
   console.log("In GetUserID", req.body);
 
   let username = req.body.username
@@ -409,7 +475,7 @@ router.post('/getuserid', (req, res, next) => {
   })
 })
 
-router.post('/getprojectid', (req, res, next) => {
+router.post('/getprojectid', (req, res) => {
   console.log("In GetProjectID", req.body);
 
   // let username = req.body.username
@@ -438,7 +504,7 @@ router.post('/getprojectid', (req, res, next) => {
   // })
 })
 
-router.post('/updateprofile', (req, res, next) => {
+router.post('/updateprofile', (req, res) => {
   console.log("In Update profile");
   console.log("request ", req.body);
   
@@ -494,7 +560,7 @@ router.post('/updateprofile', (req, res, next) => {
 //   })
 })
 
-router.post('/getprojects', (req, res, next) => {
+router.post('/getprojects', (req, res) => {
     console.log("In Get All Projects ", req.body);
 
     MongoClient.connect(url, (err, connection) => {
@@ -535,7 +601,7 @@ router.post('/getprojects', (req, res, next) => {
     // })
 })
 
-router.post('/getprojectdetails', (req, res, next) => {
+router.post('/getprojectdetails', (req, res) => {
   console.log("In get project details",req.body);
   
   const pid = req.body.projectid
@@ -573,7 +639,8 @@ router.post('/getprojectdetails', (req, res, next) => {
                             startdate : '$startdate',
                             worker : '$worker',
                             status : '$status',
-                            bids : '$bids'},
+                            bids : '$bids',
+                            comment : '$comment'},
                         average : { $avg: '$bidsforproject.bid' }
                     }
                 },
@@ -588,6 +655,7 @@ router.post('/getprojectdetails', (req, res, next) => {
                         bids : '$_id.bids',
                         worker : '$_id.worker',
                         status : '$_id.status',
+                        comment : '$_id.comment',
                         average : { $ifNull: [ "$average",0 ] }
                     }
                 }
@@ -899,7 +967,7 @@ router.post('/gettranstypeCredit', (req, res) => {
 
 })
 
-router.post('/setworker', (req, res, next) => {
+router.post('/setworker', (req, res) => {
   console.log('In Set Worker', req.body);
     const projectid = req.body.pid
     const o_id = new ObjectId(projectid)
@@ -986,7 +1054,7 @@ router.post('/setworker', (req, res, next) => {
   // })
 })
 
-router.post( '/getallbids', (req, res, next) => {
+router.post( '/getallbids', (req, res) => {
   console.log("In Get All bids", req.body );
   
   let pid = req.body.projectid
@@ -1052,7 +1120,7 @@ router.post('/getemployer', (req, res) => {
     })
 })
 
-router.post('/addproject', (req, res, next) => {
+router.post('/addproject', (req, res) => {
   console.log("In AddProject, Received Request for Posting a new Project", req.body);
   console.log(req.body.skillsreq);
 
@@ -1111,7 +1179,7 @@ router.post('/addproject', (req, res, next) => {
   // })
 })
 
-router.post('/getmypostedprojects', (req, res, next) => {
+router.post('/getmypostedprojects', (req, res) => {
   console.log(req.body);
   
   let username = req.body.username
@@ -1207,7 +1275,7 @@ router.post('/getmypostedprojects', (req, res, next) => {
 
 })
 
-router.post('/getmybiddedprojects', (req, res, next) => {
+router.post('/getmybiddedprojects', (req, res) => {
   console.log(req.body);
     // let username = req.body.userid
 
@@ -1292,7 +1360,7 @@ router.post('/getmybiddedprojects', (req, res, next) => {
   // })
 })
 
-router.post('/updatebid', (req, res, next) => {
+router.post('/updatebid', (req, res) => {
 
     console.log('In Update Bid', req.body);
 
