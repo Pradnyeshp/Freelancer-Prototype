@@ -97,10 +97,11 @@ class Dashboard extends Component {
             this.props.history.push('/freelancerdashboard');
 
         let projects = this.state.pageOfItems.map ( p => {
+            console.log(p)
             return (
                 <tr key={p.projectname}>
                     <td className='text-left' >
-                        <p><Link to={`/projectdetails/${p._id}`}> {p.projectname} </Link></p>
+                        <p><Link to={`/projectdetails/${p._id.id}`}> {p.projectname} </Link></p>
                         <p> {p.desc} </p>
                         <span> {p.skillsreq} </span>
                     </td>
@@ -111,7 +112,7 @@ class Dashboard extends Component {
                     </td>
                     <td>
                         <div>
-                            <p><Link to={`/profile/${p.Freelancer}`}>{p.Freelancer}</Link></p>
+                            <p><Link to={`/profile/${p.worker}`}>{p.worker}</Link></p>
                         </div>
                     </td>
                     <td>
