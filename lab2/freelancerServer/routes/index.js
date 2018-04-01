@@ -100,9 +100,11 @@ router.post('/signup', function(req, res) {
                     }
                     else {
                         dbo.collection('users').insertOne({
+                            name : req.body.name,
                             username: req.body.username,
                             password: resultpass,
-                            email: req.body.email
+                            email: req.body.email,
+                            balance : 10000
                         }).then( (result) => {
                             console.log("User Details Inserted Successfully");
                             console.log(result.insertedId);
