@@ -271,13 +271,16 @@ class ProjectDetails extends Component {
 
     render() {
 
-       if(this.state.employer === localStorage.getItem('username'))
+       if(this.state.worker === '' )
+           return this.renderBasic()
+
+       else if(this.state.employer === localStorage.getItem('username'))
             return this.renderEmployer()
 
         else if(this.state.worker === localStorage.getItem('username'))
             return this.renderWorker()
 
-        else if( this.state.worker === '' || this.state.worker !== localStorage.getItem('username') )
+        else if( this.state.worker !== localStorage.getItem('username') )
             return this.renderBasic()
     }
 }
