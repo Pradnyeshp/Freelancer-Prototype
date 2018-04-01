@@ -99,12 +99,14 @@ class FreelancerDashboard extends Component {
         if (this.state.employerButton === true)
             this.props.history.push('/dashboard');
 
-        let projects = this.state.pageOfItems.map( p => {
 
+        let projects = this.state.pageOfItems.map( p => {
+            console.log(p)
             return (
-                <tr key={p._id}>
+
+                <tr key={p._id.projectid}>
                     <td className='text-left' >
-                        <p><Link to={`/projectdetails/${p.ProjectId}`}> {p.projectname} </Link></p>
+                        <p><Link to={`/projectdetails/${p._id.projectid }`}> {p.projectname} </Link></p>
                         <p> {p.desc} </p>
                         <span> {p.skillsreq} </span>
                     </td>
