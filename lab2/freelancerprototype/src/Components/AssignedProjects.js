@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios'
 import { Link } from 'react-router-dom'
+import NavigationBar from "./NavigationBar";
 
 class AssignedProjects extends Component {
 
@@ -42,6 +43,8 @@ class AssignedProjects extends Component {
 
         return (
             <div className="assignedprojects"><br/><br/>
+                <NavigationBar/> <br/>
+
                 <div className='container-fluid'>
                     <div className='table-bordered table-striped'>
                         <div className="table-responsive">

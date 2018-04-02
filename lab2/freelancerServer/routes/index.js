@@ -897,7 +897,7 @@ router.post('/withdrawmoney', (req, res) => {
                 amount : req.body.debit,
                 transType : 'debit',
                 username : req.body.username,
-                date : new Date()
+                date : new Date().toLocaleDateString()
             }, (err, result) => {
                 if(err) throw err
                 console.log('Updated Transaction History', result.result)
