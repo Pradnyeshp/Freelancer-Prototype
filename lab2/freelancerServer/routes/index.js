@@ -325,7 +325,8 @@ router.post('/searchtextemployer', (req, res) => {
             else {
                 for(let i = 0 ; i < result.length ; i++) {
                     let n = result[i].projectname[0].toLocaleLowerCase().search( (req.body.search).toLocaleLowerCase() )
-                    if( n!== -1) {
+                    let m = result[i].skillsreq[0].toLocaleLowerCase().search( (req.body.search).toLocaleLowerCase() )
+                    if( n!== -1 || m !== -1 ) {
                         searcharray.push(result[i])
                     }
                 }
@@ -387,42 +388,98 @@ router.post('/searchtextfreelancer', (req, res) => {
     MongoClient.connect(url, (err, db)=> {
         if(err) throw err
         else {
+            let searcharray = []
             let dbo = db.db('freelancer')
-            dbo.collection('bids').aggregate([
-                { $match : { freelancer : req.body.username }},
+            dbo.collection('projects').aggregate([
                 {
                     $lookup:{
-                        from : 'projects',
-                        localField : 'projectid',
-                        foreignField : '_id',
-                        as : 'search'
+                        from : 'bids',
+                        localField : '_id',
+                        foreignField : 'projectid',
+                        as : 'a'
                     }
                 },
                 {
                     $unwind:{
-                        path:"$search",
+                        path:"$a",
                         preserveNullAndEmptyArrays: true
                     }
                 },
                 {
-                    $project:{
-                        id : "$search.id",
-                        projectname: '$search.projectname',
-                        employer:'$search.employer',
-                        desc : '$search.desc',
-                        skillsreq : '$search.skillsreq',
-                        budget : '$search.budget',
-                        bids : '$search.bids',
-                        worker : '$search.worker',
-                        status : '$search.status',
-                        comment : '$search.comment',
-                        average : { $ifNull: [ "$average",0 ] }
+                    $group: {
+                        _id :{
+                            _id : '$_id',
+                            employer : '$employer',
+                            projectname : '$projectname',
+                            desc : '$desc',
+                            budget :'$budget',
+                            skillsreq : '$skillsreq',
+                            status:'$status',
+                            bids:'$bids',
+                            worker : '$worker'
+                        },
+                        average : { $avg : '$a.bid' }
+                    }
+                },
+                {
+                    $project : {
+                        _id : 0,
+                        id : '$_id._id',
+                        employer : '$_id.employer',
+                        projectname : '$_id.projectname',
+                        desc : '$_id.desc',
+                        budget :'$_id.budget',
+                        skillsreq : '$_id.skillsreq',
+                        status:'$_id.status',
+                        bids:'$_id.bids',
+                        worker : '$_id.worker',
+                        average : { $ifNull : ['$average' , 0] }
+                    }
+                },
+                {
+                    $lookup:{
+                        from : 'bids',
+                        localField : 'id',
+                        foreignField : 'projectid',
+                        as : 'a1'
+                    }
+                },
+                {
+                    $unwind:{
+                        path:"$a1",
+                        preserveNullAndEmptyArrays: true
+                    }
+                },
+                {
+                    $match : { 'a1.freelancer' : req.body.username }
+                },
+                {
+                    $project : {
+                        id : 1,
+                        employer : 1,
+                        projectname :1,
+                        desc:1,
+                        budget:1,
+                        skillsreq:1,
+                        status:1,
+                        bids:1,
+                        worker:1,
+                        average:1,
+                        bid : '$a1.bid',
+                        deliverydays : '$a1.deliverydays'
                     }
                 }
             ]).toArray( (err, result) => {
                 if(err) throw err
                 else {
-
+                    console.log(result)
+                    for(let i = 0 ; i < result.length ; i++) {
+                        let n = result[i].projectname[0].toLocaleLowerCase().search( (req.body.search).toLocaleLowerCase() )
+                        if( n!== -1) {
+                            searcharray.push(result[i])
+                        }
+                    }
+                    res.json(searcharray)
                 }
             } )
         }
