@@ -144,15 +144,17 @@ class Projects extends Component {
                     </div>
                     <br/>
 
-                    <div>
-                    <div className='container-fluid text-left' >
-                        <input className='form-group' type="checkbox" id='open' onClick={this.handleCheck.bind(this)} /> &nbsp;
-                        <label > Open Projects </label>&nbsp;
-                        <input type="checkbox" id='closed' onClick={this.handleCheck.bind(this)} /> &nbsp;
-                        <label > Closed Projects </label>
+                    <div className='container-fluid btn-group-sm text-left' >
+                        <label className="btn btn-outline-dark ">
+                            <input type="checkbox" name="options" id="option1"
+                                   id='open' onClick={this.handleCheck.bind(this)} /> Status(Open)
+                        </label> &nbsp;
+                        <label className="btn btn-outline-dark">
+                            <input type="checkbox" name="options" id="option2"
+                                   id='closed' onClick={this.handleCheck.bind(this)} /> Status(Closed)
+                        </label>
                     </div>
-                    </div>
-
+                    <br/>
 
                 </div>
                 <div className='container-fluid'>
