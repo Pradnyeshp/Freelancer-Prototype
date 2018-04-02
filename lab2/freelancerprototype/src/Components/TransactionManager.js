@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import axios from "axios/index";
 import uuid from 'uuid'
 import PieChart from "./PieChart";
+import NavigationBar from "./NavigationBar";
+import './userhome.css'
 
 class TransactionManager extends Component {
 
@@ -12,9 +14,9 @@ class TransactionManager extends Component {
             balance : '',
             transactionTable : []
         })
-        this.handleWithdraw = this.handleWithdraw.bind(this),
-        this.handleAddMoney = this.handleAddMoney.bind(this),
-        this.handleChange = this.handleChange.bind(this)
+        this.handleWithdraw = this.handleWithdraw.bind(this);
+        this.handleAddMoney = this.handleAddMoney.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange = (e) => {
@@ -102,7 +104,7 @@ class TransactionManager extends Component {
 
         let transTable = this.state.transactionTable.map( p => {
             return (
-                    <tr key={p.id}>
+                    <tr className='text-dark' key={p.id}>
                         <th> {p.id} </th>
                         <th> {p.date} </th>
                         <th> {p.pname} </th>
@@ -112,35 +114,45 @@ class TransactionManager extends Component {
             )
         })
         return (
-            <div className="tm"><br/>
-                <h1>Transaction Manager</h1>
-                <div className='form-group container-fluid col-lg-9 text-left'>
-                    <form className='form-group'>
-                    <h3 >Account Balance</h3><br/>
-                        <div className='col-3'>
-                            <input  className='form-control btn-outline-primary' type='text' value={this.state.balance}/>
-                        </div>
-                        <br/>
-                        <div className='col-3'>
-                            <input  className='form-control btn-success' type='button' value='Add Money'
-                                    data-toggle="modal"
-                                    data-target="#myModal1"  />
-                        </div>
-                        <br/>
-                        <div className='col-3'>
-                            <input  className='form-control btn-danger' type='button' data-toggle="modal"
-                                    data-target="#myModal"  value='Withdraw Money'/>
-                        </div>
-                    </form>
+            <div className="tm container-fluid"><br/>
+                <NavigationBar/> <br/>
+                <div className='container-fluid' >
+                <div className='row'><br/>
+                    <div className='col-lg-4 text-left'>
+                        <form className='balance form-group'><br/>
+                            <h3 >Account Balance</h3><br/>
+                            <div className='col-lg-10'>
+                            <div>
+                                <input  className='form-control btn-outline-primary' type='text' value={this.state.balance}/>
+                            </div>
+                            <br/>
+                            <div >
+                                <input  className='form-control btn-success' type='button' value='Add Money'
+                                        data-toggle="modal"
+                                        data-target="#myModal1"  />
+                            </div>
+                            <br/>
+                            <div>
+                                <input  className='form-control btn-danger' type='button' data-toggle="modal"
+                                        data-target="#myModal"  value='Withdraw Money'/>
+                            </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div className=' col-lg-8'>
+                        <PieChart transArray={this.state.transactionTable}/>
+                    </div>
                 </div>
-                <div className='container-fluid'>
-                    <h3>Transaction History</h3>
+                </div>
+
+                <div className='container-fluid'><br/><br/>
+                    <h3>Transaction History Table</h3><br/>
                 </div>
                 <div className="container text-truncate">
                     <div className="row">
                         <div className="table-responsive table-striped tab-content">
                             <table className="table table-bordered">
-                                <thead>
+                                <thead className='table-dark'>
                                     <tr>
                                         <th>Transaction-Id</th>
                                         <th>Date</th>
@@ -260,8 +272,6 @@ class TransactionManager extends Component {
                         </div>
                     </div>
                 </div>
-
-                <PieChart transArray={this.state.transactionTable}/>
 
             </div>
         );
