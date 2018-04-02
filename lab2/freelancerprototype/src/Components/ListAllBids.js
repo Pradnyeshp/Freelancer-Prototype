@@ -5,7 +5,7 @@ import { Link } from 'react-router-dom';
 class ListAllBids extends Component {
 
     constructor() {
-        super()
+        super();
         this.state = ({
             userid : '',
             projectid : '',
@@ -17,28 +17,26 @@ class ListAllBids extends Component {
 
     componentWillMount() {
         console.log('In List All Bids: ' + this.props.id );
-        let usr = localStorage.getItem('username')
+        let usr = localStorage.getItem('username');
         let pid = ({
             projectid : this.props.id,
             username : usr
-        })
+        });
 
         axios.post('http://localhost:3001/getemployer', pid , {withCredentials : true})
             .then( (response) => {
-                console.log('Employer is', response)
+                console.log('Employer is', response);
                     this.setState({
                         employer : response.data
                     }, () => {
                         // console.log(this.state.employer)
                     })
-            })
+            });
 
         axios.post('http://localhost:3001/getallbids', pid, {withCredentials:true} )
             .then((response) => {
                 console.log('In getallbids :', response.data);
                 if (response.data.length === 0) {
-                    let temp = [];
-                    temp.push('No projects to show');
                     this.setState ({
                         bids: []
                     })
@@ -65,19 +63,33 @@ class ListAllBids extends Component {
         const fdetails = ({
             pid: this.props.id,
             freelancer: freelancer
-        })
+        });
         axios.post('http://localhost:3001/setworker', fdetails )
             .then((response) => {
                 console.log("In hire button handle click", response.data);
             })
     }
 
+    handleSortAsc = () => {
+          let  temp = this.state.bids.sort( (a, b) => a.bid - b.bid );
+          this.setState({
+              bids : temp
+          })
+    };
+
+    handleSortDsc = () => {
+        let  temp = this.state.bids.sort( (a, b) => b.bid - a.bid );
+        this.setState({
+            bids : temp
+        })
+    };
+
     render() {
 
-        var Style = this.state.display;
+        let Style = this.state.display;
         const divStyle = {
             display: Style
-        }
+        };
 
         let allbids = this.state.bids.map( b => {
             return (
@@ -95,14 +107,28 @@ class ListAllBids extends Component {
                     </td>
                 </tr>
             )
-        })
+        });
 
         return (
             <div className="listallbids"><br />
                 <div className="projects">
-                    <div className="table-responsive">
+                    <h3 className="text-left" > List of all bids on this project </h3>
+
+
+
+                    <div className='container-fluid text-right '>
+                        <div className="btn-group-sm" role="group" aria-label="Basic example">
+                            <button type="button" className="btn btn-success"
+                                onClick={this.handleSortAsc.bind(this)} > Sort by Bid (Asc)</button>&nbsp;
+                            <button type="btn-group-sm" className="btn btn-success"
+                                onClick={this.handleSortDsc.bind(this)} > Sort by Bid (Dsc)</button>
+                        </div>
+                    </div>
+                    <br/>
+
+                    <div className="table-responsive table-bordered">
                         <div id='divListHeader'>
-                            <h3 className="text-left" > List of all bids on this project </h3>
+
                         </div>
                         <table className="table">
                             <thead className="thead-dark">
