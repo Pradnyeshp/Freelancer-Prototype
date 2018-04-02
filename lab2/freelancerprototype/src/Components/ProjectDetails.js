@@ -133,7 +133,6 @@ class ProjectDetails extends Component {
                             <br/>
                         </div>
                         <h2 className='text-left'>Submission Panel : Files and Comments from Freelancer</h2><br/>
-                        <h5 className=' text-left'></h5>
                         <div className='container-fluid '><br/>
                             <textarea className='form-control' rows={3} disabled value={this.state.comment}/>
                         </div>
