@@ -30,7 +30,8 @@ class FreelancerDashboard extends Component {
     handleSearch= (e) => {
         e.preventDefault()
         let search = {
-            search : this.state.searchtext
+            search : this.state.searchtext,
+            username: localStorage.getItem('username')
         }
 
         axios.post('http://localhost:3001/searchtextfreelancer', search)
