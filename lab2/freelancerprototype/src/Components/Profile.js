@@ -103,7 +103,7 @@ class Profile extends Component {
         if(this.state.isEditing)
         {   
             return (
-                <div className="profile">
+                <div className="profile"><br/>
                     <div className="container-fluid" >
                         <nav className="navbar navbar-inverse" >
                             <div className="container-fluid">
@@ -125,7 +125,7 @@ class Profile extends Component {
                             <div className="col-sm-3 divStyle">
                                 {/*<img className="img-rounded" src={proimage} alt="Insert Photo here"></img>*/}
                                 <label> Profile Image :
-                                <input input ref={(ref) => { this.uploadInput = ref; }} type="file" />
+                                <input ref={(ref) => { this.uploadInput = ref; }} type="file" />
                                     <input ref={(ref) => { this.fileName = ref; }} type="text" placeholder="Enter the desired name of file" />
                                 </label>
                                 <button onClick={this.handleUploadImage} >Submit</button>
@@ -146,6 +146,13 @@ class Profile extends Component {
                                             value={this.state.email}
                                             onChange={this.handleChange} />
                                         </label></h5>
+                                    <h5> <label> Username : &nbsp;
+                                        <input type="text" ref="email"
+                                               className="form-control"
+                                               name="email"
+                                               value={this.state.username}
+                                               disabled />
+                                    </label></h5>
                                     <h5> Phone : &nbsp;
                                         <input type="text" ref="phone"
                                             className="form-control"
@@ -154,7 +161,7 @@ class Profile extends Component {
                                             onChange={this.handleChange} />
                                     </h5>
                                     <h5> About Me : 
-                                        <textarea type="text-area" ref="aboutme"
+                                        <textarea typeof="text-area" ref="aboutme"
                                             className="form-control"
                                             name="aboutme"
                                             value={this.state.aboutme}
@@ -190,7 +197,7 @@ class Profile extends Component {
         else {
             return(
                 < div className = "profile" >
-                    
+                    <br/>
                     <div className="container-fluid" >
                         <nav className="navbar navbar-inverse" >
                             <div className="container-fluid">
@@ -217,6 +224,7 @@ class Profile extends Component {
                                 <div className='text-left'>
                                     <h3> {this.state.name}</h3>
                                     <h5> Email : {this.state.email}</h5>
+                                    <h5> Username : {this.state.username}</h5>
                                     <h5> Phone : {this.state.phone}</h5>
                                     <h5> About Me : {this.state.aboutme} </h5>
                                     <h5> Skills : {this.state.skills} </h5>
