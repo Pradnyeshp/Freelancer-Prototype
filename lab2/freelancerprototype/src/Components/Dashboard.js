@@ -13,7 +13,9 @@ class Dashboard extends Component {
             projects: [],
             freelancerButton: false,
             searchtext : '',
-            pageOfItems: []
+            pageOfItems: [],
+            status : '',
+            temp : []
         }
         this.handleSearch = this.handleSearch.bind(this)
         this.handleChange = this.handleChange.bind(this)
@@ -37,12 +39,14 @@ class Dashboard extends Component {
                 console.log('Receive Projects from Db :', response.data)
                 if( response.data.toString() ===  'No Project found in database' ) {
                     this.setState ({
-                        projects : []
+                        projects : [],
+                        temp : []
                     })
                 }
                 else {
                     this.setState({
-                        projects : response.data
+                        projects : response.data,
+                        temp : response.data
                     })
                 }
             })
@@ -72,7 +76,8 @@ class Dashboard extends Component {
                     })
                 } else {
                     this.setState({
-                        projects: response.data
+                        projects: response.data,
+                        temp : response.data
                     }, () => {
                         console.log(this.state); 
                     })
@@ -91,6 +96,82 @@ class Dashboard extends Component {
         localStorage.removeItem('username');
     }
 
+    handleOpenStatus = () => {
+        let openProjects = [];
+        let status = ({
+            username : localStorage.getItem('username'),
+            status : 'Open' })
+        axios.post( 'http://localhost:3001/projectsbystatusdashboard', status, {withCredentials : true} )
+            .then((response) => {
+                console.log("Open Projects", response.data)
+                for(let i=0; i < response.data.length ; i++)(
+                    openProjects.push(response.data[i])
+                )
+
+                this.setState({
+                    pageOfItems : openProjects
+                })
+            })
+    }
+
+    handleClosedStatus = () => {
+        let closedProjects = [];
+        let status = ({
+            username : localStorage.getItem('username'),
+            status : 'closed' })
+        axios.post( 'http://localhost:3001/projectsbystatusdashboard', status, {withCredentials : true} )
+            .then((response) => {
+                console.log("Closed Projects", response.data)
+                for(let i=0; i < response.data.length ; i++)(
+                    closedProjects.push(response.data[i])
+                )
+
+                this.setState({
+                    pageOfItems : closedProjects
+                })
+            })
+    }
+
+    handleCheck = () => {
+        let array = []
+
+        if( document.getElementById('open').checked && document.getElementById('closed').checked ) {
+            this.setState({
+                projects : this.state.temp
+            })
+        }
+        else if( document.getElementById('open').checked ) {
+            console.log("Open Checkbox selected")
+            for(let i=0; i< this.state.projects.length ; i++) {
+                if(this.state.projects[i].status === 'Open') {
+                    array.push(this.state.projects[i])
+                    console.log(array);
+                }
+            }
+            this.setState({
+                projects : array
+            })
+        }
+        else if( document.getElementById('closed').checked ) {
+            console.log("Closed Checkbox selected")
+            for(let i=0; i< this.state.projects.length ; i++) {
+                if(this.state.projects[i].status === 'closed') {
+                    array.push(this.state.projects[i])
+                    console.log(array);
+                }
+            }
+            this.setState({
+                projects : array
+            })
+        }
+        else {
+            console.log('No checkbox Selected')
+            this.setState({
+                projects : this.state.temp
+            })
+        }
+    }
+
     render() {
 
         if (this.state.freelancerButton === true)
@@ -107,12 +188,17 @@ class Dashboard extends Component {
                     </td>
                     <td>
                         <div>
-                            <p>$ {p.average} </p>
+                            <p>$ {  p.average.toFixed(2)} </p>
                         </div>
                     </td>
                     <td>
                         <div>
                             <p><Link to={`/profile/${p.worker}`}>{p.worker}</Link></p>
+                        </div>
+                    </td>
+                    <td>
+                        <div>
+                            <p> Date </p>
                         </div>
                     </td>
                     <td>
@@ -195,6 +281,21 @@ class Dashboard extends Component {
                 </div>
                 <br/>
 
+                <div className='container-fluid text-right'>
+                    <div className='container-fluid btn-group-sm text-left' >
+                        <label className="btn btn-outline-dark ">
+                            <input type="checkbox" name="options" id="option1"
+                                   id='open' onClick={this.handleCheck.bind(this)}
+                            /> Status (Open)
+                        </label> &nbsp;
+                        <label className="btn btn-outline-dark">
+                            <input type="checkbox" name="options" id="option2"
+                                   id='closed' onClick={this.handleCheck.bind(this)}
+                            /> Status (Closed)
+                        </label>
+                    </div>
+                </div>
+
                 <div>
                     <div className="container">
                         <div className="text-center">
@@ -211,6 +312,7 @@ class Dashboard extends Component {
                                 <th className='text-left'>Project Name</th>
                                 <th>Average Bid</th>
                                 <th>Freelancer Name</th>
+                                <th>Estimated Completion Date</th>
                                 <th>Number of Bids</th>
                                 <th>Status</th>
                             </tr>
