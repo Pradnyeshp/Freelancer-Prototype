@@ -96,41 +96,41 @@ class Dashboard extends Component {
         localStorage.removeItem('username');
     }
 
-    handleOpenStatus = () => {
-        let openProjects = [];
-        let status = ({
-            username : localStorage.getItem('username'),
-            status : 'Open' })
-        axios.post( 'http://localhost:3001/projectsbystatusdashboard', status, {withCredentials : true} )
-            .then((response) => {
-                console.log("Open Projects", response.data)
-                for(let i=0; i < response.data.length ; i++)(
-                    openProjects.push(response.data[i])
-                )
-
-                this.setState({
-                    pageOfItems : openProjects
-                })
-            })
-    }
-
-    handleClosedStatus = () => {
-        let closedProjects = [];
-        let status = ({
-            username : localStorage.getItem('username'),
-            status : 'closed' })
-        axios.post( 'http://localhost:3001/projectsbystatusdashboard', status, {withCredentials : true} )
-            .then((response) => {
-                console.log("Closed Projects", response.data)
-                for(let i=0; i < response.data.length ; i++)(
-                    closedProjects.push(response.data[i])
-                )
-
-                this.setState({
-                    pageOfItems : closedProjects
-                })
-            })
-    }
+    // handleOpenStatus = () => {
+    //     let openProjects = [];
+    //     let status = ({
+    //         username : localStorage.getItem('username'),
+    //         status : 'Open' })
+    //     axios.post( 'http://localhost:3001/projectsbystatusdashboard', status, {withCredentials : true} )
+    //         .then((response) => {
+    //             console.log("Open Projects", response.data)
+    //             for(let i=0; i < response.data.length ; i++)(
+    //                 openProjects.push(response.data[i])
+    //             )
+    //
+    //             this.setState({
+    //                 pageOfItems : openProjects
+    //             })
+    //         })
+    // }
+    //
+    // handleClosedStatus = () => {
+    //     let closedProjects = [];
+    //     let status = ({
+    //         username : localStorage.getItem('username'),
+    //         status : 'closed' })
+    //     axios.post( 'http://localhost:3001/projectsbystatusdashboard', status, {withCredentials : true} )
+    //         .then((response) => {
+    //             console.log("Closed Projects", response.data)
+    //             for(let i=0; i < response.data.length ; i++)(
+    //                 closedProjects.push(response.data[i])
+    //             )
+    //
+    //             this.setState({
+    //                 pageOfItems : closedProjects
+    //             })
+    //         })
+    // }
 
     handleCheck = () => {
         let array = []
