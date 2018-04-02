@@ -63,20 +63,11 @@ render() {
         ]
 
         return (
-            <div className="piechart"><br/>
-                <h3>Pie Chart of Credit & Debit Transactions</h3>
-                <div className='container-fluid'>
-                <div className='container-fluid col-3'>
-                    <div className='debit'>
-                        <input className='form-control col-md-3 text-center' id='credit' type="text" value='Credit' />
-                        <input className='form-control col-md-3 text-center'  id='debit' type="text" value='Debit' />
-                    </div>
-                    </div>
-                <div>
+            <div className="container-fluid piechart col-md-10"><br/>
+                <h3>Pie Chart</h3>
+                <div className='row'>
 
-                </div>
-                </div>
-                <div className='container-fluid col-lg-3'>
+                <div className='container-fluid col-sm-5'>
                 <ReactSvgPieChart
                     data = { data }
                     expandOnHover={true}
@@ -88,6 +79,13 @@ render() {
                     viewBoxSize={100}
                 />
                 </div>
+                    <div className='container-fluid col-sm-3'>
+                        <div className='debit col-sm-7'>
+                            <input className='form-control text-dark' id='credit' type="text" value='Debit' />
+                            <input className='form-control text-dark' id='debit' type="text" value='Credit' />
+                        </div>
+                    </div>
+            </div>
             </div>
         );
     }
