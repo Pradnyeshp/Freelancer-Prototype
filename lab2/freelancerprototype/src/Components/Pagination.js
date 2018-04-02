@@ -50,7 +50,7 @@ class Pagination extends Component {
         currentPage = currentPage || 1;
 
         // default page size is 10
-        pageSize = pageSize || 1;
+        pageSize = pageSize || 9;
 
         // calculate total pages
         var totalPages = Math.ceil(totalItems / pageSize);
