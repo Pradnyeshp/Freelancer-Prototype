@@ -11,7 +11,8 @@ class Projects extends Component {
         this.state = ({
             projects : [],
             searchtext : '',
-            pageOfItems: []
+            pageOfItems: [],
+            temp : []
         })
         this.handleSearch = this.handleSearch.bind(this)
         this.handleChange = this.handleChange.bind(this)
@@ -34,12 +35,14 @@ class Projects extends Component {
                 console.log('Receive Projects from Db :', response.data)
                 if( response.data.toString() ===  'No Project found in database' ) {
                     this.setState ({
-                        projects : []
+                        projects : [],
+                        temp : []
                     })
                 }
                 else {
                     this.setState({
-                        projects : response.data
+                        projects : response.data,
+                        temp : response.data
                     })
                 }
             })
@@ -58,12 +61,53 @@ class Projects extends Component {
             .then((response) => {
                 console.log("Response from DB", response.data);
                 this.setState ({
-                    projects : response.data
+                    projects : response.data,
+                    temp : response.data
                 }, () => {
                     console.log("After Component will mount in getprojects", this.state.projects);
                 })
             }
         )
+    }
+
+    handleCheck = () => {
+        let array = []
+
+        if( document.getElementById('open').checked && document.getElementById('closed').checked ) {
+            this.setState({
+                projects : this.state.temp
+            })
+        }
+        else if( document.getElementById('open').checked ) {
+            console.log("Open Checkbox selected")
+            for(let i=0; i< this.state.projects.length ; i++) {
+                if(this.state.projects[i].status === 'Open') {
+                    array.push(this.state.projects[i])
+                    console.log(array);
+                }
+            }
+            this.setState({
+                projects : array
+            })
+        }
+        else if( document.getElementById('closed').checked ) {
+            console.log("Closed Checkbox selected")
+            for(let i=0; i< this.state.projects.length ; i++) {
+                if(this.state.projects[i].status === 'closed') {
+                    array.push(this.state.projects[i])
+                    console.log(array);
+                }
+            }
+            this.setState({
+                projects : array
+            })
+        }
+        else {
+            console.log('No checkbox Selected')
+            this.setState({
+                projects : this.state.temp
+            })
+        }
     }
 
     render() {
@@ -99,13 +143,17 @@ class Projects extends Component {
                         </div>
                     </div>
                     <br/>
+
                     <div>
-                        <div className="container">
-                            <div className="text-center">
-                                <Pagination items={this.state.projects} onChangePage={this.onChangePage} />
-                            </div>
-                        </div>
+                    <div className='container-fluid text-left' >
+                        <input className='form-group' type="checkbox" id='open' onClick={this.handleCheck.bind(this)} /> &nbsp;
+                        <label > Open Projects </label>&nbsp;
+                        <input type="checkbox" id='closed' onClick={this.handleCheck.bind(this)} /> &nbsp;
+                        <label > Closed Projects </label>
                     </div>
+                    </div>
+
+
                 </div>
                 <div className='container-fluid'>
                 <div className='table-bordered table-striped'>
@@ -127,6 +175,15 @@ class Projects extends Component {
                 </div>
                 </div>
                 </div>
+                <br/>
+                <div>
+                    <div className="container">
+                        <div className="text-center">
+                            <Pagination items={this.state.projects} onChangePage={this.onChangePage} />
+                        </div>
+                    </div>
+                </div>
+
             </div>
         );
     }
