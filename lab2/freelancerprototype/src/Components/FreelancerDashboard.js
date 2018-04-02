@@ -14,7 +14,8 @@ class FreelancerDashboard extends Component {
             employerButton: false,
             userid : '',
             searchtext : '',
-            pageOfItems: []
+            pageOfItems: [],
+            temp : []
         }
         this.handleSearch = this.handleSearch.bind(this)
         this.handleChange = this.handleChange.bind(this)
@@ -37,12 +38,14 @@ class FreelancerDashboard extends Component {
                 console.log('Receive Projects from Db :', response.data)
                 if( response.data.toString() ===  'No Project found in database' ) {
                     this.setState ({
-                        projects : []
+                        projects : [],
+                        temp : []
                     })
                 }
                 else {
                     this.setState({
-                        projects : response.data
+                        projects : response.data,
+                        temp : response.data
                     })
                 }
             })
@@ -75,7 +78,8 @@ class FreelancerDashboard extends Component {
                     })
                 } else {
                     this.setState({
-                        projects: response.data
+                        projects: response.data,
+                        temp : response.data
                     }, () => {
                         console.log(this.state); 
                     })
@@ -93,12 +97,51 @@ class FreelancerDashboard extends Component {
     handleSubmit = () => {
         localStorage.removeItem('username');
     }
-    
+
+    handleCheck = () => {
+        let array = []
+
+        if( document.getElementById('open').checked && document.getElementById('closed').checked ) {
+            this.setState({
+                projects : this.state.temp
+            })
+        }
+        else if( document.getElementById('open').checked ) {
+            console.log("Open Checkbox selected")
+            for(let i=0; i< this.state.projects.length ; i++) {
+                if(this.state.projects[i].status === 'Open') {
+                    array.push(this.state.projects[i])
+                    console.log(array);
+                }
+            }
+            this.setState({
+                projects : array
+            })
+        }
+        else if( document.getElementById('closed').checked ) {
+            console.log("Closed Checkbox selected")
+            for(let i=0; i< this.state.projects.length ; i++) {
+                if(this.state.projects[i].status === 'closed') {
+                    array.push(this.state.projects[i])
+                    console.log(array);
+                }
+            }
+            this.setState({
+                projects : array
+            })
+        }
+        else {
+            console.log('No checkbox Selected')
+            this.setState({
+                projects : this.state.temp
+            })
+        }
+    }
+
     render() {
 
         if (this.state.employerButton === true)
             this.props.history.push('/dashboard');
-
 
         let projects = this.state.pageOfItems.map( p => {
             console.log(p)
@@ -112,7 +155,7 @@ class FreelancerDashboard extends Component {
                     </td>
                     <td>
                         <div>
-                            <p> $ {p.average} </p>
+                            <p> $ {p.average.toFixed(2)} </p>
                         </div>
                     </td>
                     <td>
@@ -156,7 +199,7 @@ class FreelancerDashboard extends Component {
                     <button className="navbar-toggler" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
-                        <span className="navbar-toggler-icon"></span>
+                        <span className="navbar-toggler-icon"/>
                     </button>
                     <div className="collapse navbar-collapse" id="navbarSupportedContent">
                         <ul className="navbar-nav mr-auto">
@@ -200,11 +243,18 @@ class FreelancerDashboard extends Component {
                 </div>
                 <br/>
 
-                <div>
-                    <div className="container">
-                        <div className="text-center">
-                            <Pagination items={this.state.projects} onChangePage={this.onChangePage} />
-                        </div>
+                <div className='container-fluid text-right'>
+                    <div className='container-fluid btn-group-sm text-left' >
+                        <label className="btn btn-outline-dark ">
+                            <input type="checkbox" name="options" id="option1"
+                                   id='open' onClick={this.handleCheck.bind(this)}
+                            /> Status (Open)
+                        </label> &nbsp;
+                        <label className="btn btn-outline-dark">
+                            <input type="checkbox" name="options" id="option2"
+                                   id='closed' onClick={this.handleCheck.bind(this)}
+                            /> Status (Closed)
+                        </label>
                     </div>
                 </div>
                 <br/>
@@ -225,6 +275,15 @@ class FreelancerDashboard extends Component {
                         </tbody>
                     </table>
                 </div>
+
+                <div>
+                    <div className="container">
+                        <div className="text-center">
+                            <Pagination items={this.state.projects} onChangePage={this.onChangePage} />
+                        </div>
+                    </div>
+                </div>
+                <br/>
 
             </div>
         );
