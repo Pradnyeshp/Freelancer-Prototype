@@ -25,10 +25,20 @@ class Projects extends Component {
     }
 
     handleSearch= (e) => {
-        e.preventDefault()
+        e.preventDefault();
+        let searchArray = [];
         let search = {
+            username : localStorage.getItem('username'),
             search : this.state.searchtext
         }
+
+        for( let i=0 ; i< this.state.projects.length ; i++) {
+           let n =  this.state.projects[i].projectname[0].toLocaleLowerCase().search(this.state.searchtext.toLocaleLowerCase())
+                if( n !== -1) {
+                    searchArray.push(this.state.projects[i])
+                }
+        }
+        console.log(searchArray)
 
         axios.post('http://localhost:3001/searchtext', search)
             .then( (response) => {
@@ -144,13 +154,13 @@ class Projects extends Component {
                     </div>
                     <br/>
 
-                    <div className='container-fluid btn-group-sm text-left' >
-                        <label className="btn btn-outline-dark ">
-                            <input type="checkbox" name="options" id="option1"
+                    <div className='container-fluid btn-group-sm  text-left' >
+                        <label className="btn btn-link-dark ">
+                            <input type="checkbox" name="options"
                                    id='open' onClick={this.handleCheck.bind(this)} /> Status(Open)
                         </label> &nbsp;
-                        <label className="btn btn-outline-dark">
-                            <input type="checkbox" name="options" id="option2"
+                        <label className="btn btn-link-dark">
+                            <input type="checkbox" name="options"
                                    id='closed' onClick={this.handleCheck.bind(this)} /> Status(Closed)
                         </label>
                     </div>
