@@ -34,6 +34,7 @@
     "passport-http": "*",
     "passport-local": "*",
     "request": "^2.85.0",
-    "serve-favicon": "~2.4.5"
+    "serve-favicon": "~2.4.5",
+    "kafka-node": "^2.2.3"
   }
 }
