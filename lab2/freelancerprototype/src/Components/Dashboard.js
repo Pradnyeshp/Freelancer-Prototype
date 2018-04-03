@@ -264,8 +264,8 @@ class Dashboard extends Component {
                 </div>
                 <br/>
 
-                <div className='dashboardprojecttable'>
-                    <table className='table table-hover'>
+                <div className='dashboardprojecttable container-fluid'>
+                    <table className='table table-hover table-bordered'>
                         <thead className="thead-dark">
                             <tr>
                                 <th className='text-left'>Project Name</th>
