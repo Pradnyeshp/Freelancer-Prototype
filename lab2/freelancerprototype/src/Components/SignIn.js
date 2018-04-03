@@ -102,13 +102,11 @@ function mapDispatchToProps(dispatch) {
             axios.post('http://localhost:3001/signin', userData, { withCredentials : true})
                 .then((response) => {
                     console.log(response);
-
                     console.log("After login dispatch", response.data);
                     if (response.data === 'ERROR') {
                         alert("Error In Logging In, Please Check Username and Password");
                         dispatch({ type: 'ERROR', payload: response })
                     }
-                        
                     else {
                         console.log("In Login ", response.data)
                         console.log("Session Started " )
