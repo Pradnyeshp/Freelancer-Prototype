@@ -13,6 +13,7 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const fileUpload = require('express-fileupload');
 const email = require('nodemailer');
+const kafka = require('./kafka/client')
 
 let transporter = email.createTransport({
     service: 'gmail',
@@ -61,62 +62,55 @@ router.post('/signup', function(req, res) {
   const email = req.body.email;
   const pwd = req.body.password;
 
-  //validations
-  //   req.checkBody('name', 'Name is required').notEmpty()
-  //
-  //   const errors = req.validationErrors()
-  //
-  //   if(errors) {
-  //       res.json( {errors : errors} )
-  //   }
-  //   else {
-  //    }
-
-  // function encrypt(pwd) {
-  //   var cipher = crypto.createCipher(algorithm, password)
-  //   var crypted = cipher.update(pwd, 'utf8', 'hex')
-  //   crypted += cipher.final('hex');
-  //   console.log("Encrypted Password :",crypted);
-  //   return crypted;
-  // }
-  //
-  // let encryptpwd = encrypt(pwd)
-
-    MongoClient.connect( url, (err, connection) => {
-      if(err) throw err
+    kafka.make_request( 'signup_topic', req.body , (err, result) => {
+        if(err) throw err;
+        if( result.length > 0 ) {
+            console.log("Username already exists")
+            res.json("Username");
+        }
         else {
-        bcrypt.hash( pwd, saltRounds, (err, resultpass) => {
-            console.log("Hashed password is :", resultpass)
-            console.log("Connected to mongodb...");
+            console.log("User Details Inserted Successfully");
+            console.log(result);
+            res.json('SIGNUP_SUCCESS');
+        }
+    }  )
 
-            let dbo = connection.db("freelancer");
+    // MongoClient.connect( url, (err, connection) => {
+    //   if(err) throw err
+    //     else {
+    //     bcrypt.hash( pwd, saltRounds, (err, resultpass) => {
+    //         console.log("Hashed password is :", resultpass)
+    //         console.log("Connected to mongodb...");
+    //
+    //         let dbo = connection.db("freelancer");
+    //
+    //         dbo.collection('users').find( { username : req.body.username } ).toArray( (err, result1) => {
+    //             if(err) throw err
+    //             else {
+    //                 if( result1.length > 0 ) {
+    //                     console.log("Username already exists")
+    //                     res.json("Username");
+    //                 }
+    //                 else {
+    //                     dbo.collection('users').insertOne({
+    //                         name : req.body.name,
+    //                         username: req.body.username,
+    //                         password: resultpass,
+    //                         email: req.body.email,
+    //                         balance : 10000
+    //                     }).then( (result) => {
+    //                         console.log("User Details Inserted Successfully");
+    //                         console.log(result.insertedId);
+    //                         connection.close();
+    //                         res.json('SIGNUP_SUCCESS');
+    //                     })
+    //                 }
+    //             }
+    //         } )
+    //     })
+    //   }
+    // })
 
-            dbo.collection('users').find( { username : req.body.username } ).toArray( (err, result1) => {
-                if(err) throw err
-                else {
-                    if( result1.length > 0 ) {
-                        console.log("Username already exists")
-                        res.json("Username");
-                    }
-                    else {
-                        dbo.collection('users').insertOne({
-                            name : req.body.name,
-                            username: req.body.username,
-                            password: resultpass,
-                            email: req.body.email,
-                            balance : 10000
-                        }).then( (result) => {
-                            console.log("User Details Inserted Successfully");
-                            console.log(result.insertedId);
-                            connection.close();
-                            res.json('SIGNUP_SUCCESS');
-                        })
-                    }
-                }
-            } )
-        })
-      }
-    })
   // con.getConnection((err, connection) => {
   //   if(err) {
   //     res.json({
@@ -144,30 +138,47 @@ router.post('/signup', function(req, res) {
 );
 
 passport.use( new LocalStrategy( (username, password, done) => {
-    MongoClient.connect( url, function(err, connection) {
-        if (err) throw err;
+
+    kafka.make_request('login_topic', { username:username, password:password }, (err,results) => {
+        console.log('in result');
+        console.log("After our result from kafka backend",results);
+        if(err) {
+            return done(err, {});
+        }
+        // console.log(results[0].username);
+        if(results.length > 0) {
+            console.log("Inside result.length",results[0].username);
+            return done(null, results[0]);
+        }
         else {
-            let dbo = connection.db("freelancer");
-            var query = { username : username };
-            dbo.collection("users").find(query).toArray(function(err, result) {
-                if (err) throw err;
-                else {
-                  if(result.length > 0)
-                  {
-                    console.log(result)
-                    var hash = result[0].password
-                    bcrypt.compare(password, hash , (err, match) => {
-                          if (err)  return done(err);
-                          if(match) {
-                            console.log("In Password Match..", result[0].username)
-                            return done(null, result[0] )
-                          }
-                          else {
-                            return done(null, false)
-                          }
-                    })
-                }}});
-        }});
+            return done( null, false );
+        }
+    });
+
+    // MongoClient.connect( url, function(err, connection) {
+    //     if (err) throw err;
+    //     else {
+    //         let dbo = connection.db("freelancer");
+    //         var query = { username : username };
+    //         dbo.collection("users").find(query).toArray(function(err, result) {
+    //             if (err) throw err;
+    //             else {
+    //               if(result.length > 0)
+    //               {
+    //                 console.log(result)
+    //                 var hash = result[0].password
+    //                 bcrypt.compare(password, hash , (err, match) => {
+    //                       if (err)  return done(err);
+    //                       if(match) {
+    //                         console.log("In Password Match..", result[0].username)
+    //                         return done(null, result[0] )
+    //                       }
+    //                       else {
+    //                         return done(null, false)
+    //                       }
+    //                 })
+    //             }}});
+    //     }});
     }
 ));
 
@@ -195,10 +206,10 @@ router.post('/signin', function (req, res, next) {
         if (!user) {
             res.json('ERROR'); }
          if(user) {
-            console.log("In Authenticate", user )
-            req.session.username = user.username
-             console.log("Session Started", req.session)
-             const jsonresp = { "session": user.username }
+            console.log("In Authenticate", user );
+            req.session.username = user.username;
+             console.log("Session Started", req.session);
+             const jsonresp = { "session": user.username };
              res.json(jsonresp);
          }
     })(req, res, next);
@@ -1001,7 +1012,7 @@ router.post('/transaction', (req, res) => {
                         if(err) throw err
                         console.log('Updated Worker Transaction History', result.result)
 
-                    })
+                    });
 
                     // Status Updation in Project Table
                     const projectid = req.body.pid
@@ -1015,7 +1026,7 @@ router.post('/transaction', (req, res) => {
             } )
         }
     })
-})
+});
 
 router.post('/gettranshistory', (req, res) => {
     console.log('In trans history', req.body)
@@ -1034,7 +1045,7 @@ router.post('/gettranshistory', (req, res) => {
             } )
         }
     })
-})
+});
 
 router.post('/gettranstypeDebit', (req, res) => {
 
@@ -1053,7 +1064,7 @@ router.post('/gettranstypeDebit', (req, res) => {
         }
     })
 
-})
+});
 
 router.post('/gettranstypeCredit', (req, res) => {
 
@@ -1072,7 +1083,7 @@ router.post('/gettranstypeCredit', (req, res) => {
         }
     })
 
-})
+});
 
 router.post('/setworker', (req, res) => {
   console.log('In Set Worker', req.body);
@@ -1159,7 +1170,7 @@ router.post('/setworker', (req, res) => {
   //     });
   //   }
   // })
-})
+});
 
 router.post( '/getallbids', (req, res) => {
   console.log("In Get All bids", req.body );
@@ -1205,7 +1216,7 @@ router.post( '/getallbids', (req, res) => {
   //     })
   //   }
   // })
-})
+});
 
 router.post('/getemployer', (req, res) => {
     console.log('In get employer', req.body)
@@ -1225,7 +1236,7 @@ router.post('/getemployer', (req, res) => {
             })
         }
     })
-})
+});
 
 router.post('/addproject', (req, res) => {
   console.log("In AddProject, Received Request for Posting a new Project", req.body);
@@ -1285,7 +1296,7 @@ router.post('/addproject', (req, res) => {
   //     })
   //   }
   // })
-})
+});
 
 router.post('/getmypostedprojects', (req, res) => {
   console.log(req.body);
@@ -1512,17 +1523,17 @@ router.post('/updatebid', (req, res) => {
 
     console.log('In Update Bid', req.body);
 
-  let bid = req.body.bid
+  let bid = req.body.bid;
   let date = new Date;
   // let userid = req.body.userid
-  let pid = req.body.projectid
-  let o_id = new ObjectId(pid)
-  let dd = req.body.deliveryDays
+  let pid = req.body.projectid;
+  let o_id = new ObjectId(pid);
+  let dd = req.body.deliveryDays;
 
   console.log(date);
 
   MongoClient.connect(url, (err, connection) => {
-      if(err) throw err
+      if(err) throw err;
       else {
           let dbo = connection.db("freelancer")
           let query = {
@@ -1531,23 +1542,23 @@ router.post('/updatebid', (req, res) => {
               bid : Number(bid),
               date : date,
               deliverydays : dd
-          }
+          };
           dbo.collection('bids').find( { projectid: o_id, freelancer : req.body.username } ).toArray( (err,result) => {
-              if(err) throw err
+              if(err) throw err;
               if( result.length === 0) {
                   dbo.collection("bids").insertOne(query, (err, result) => {
                           if(err) {
                               res.json("ERROR")
                           }
                           else {
-                              console.log("In Bids Table, Bid Updated")
-                              let bidnum = { projectid: o_id }
+                              console.log("In Bids Table, Bid Updated");
+                              let bidnum = { projectid: o_id };
                               dbo.collection("bids").count(bidnum, (err, result) => {
-                                  if(err) throw err
+                                  if(err) throw err;
                                   else {
-                                      console.log("Number of bids :" , result)
+                                      console.log("Number of bids :" , result);
                                       dbo.collection("projects").updateOne( {_id : o_id}, { $set:{ bids : result }} , (err, result) => {
-                                          if (err) throw err
+                                          if (err) throw err;
                                           else {
                                               console.log("Number of bids Updated in projects" );
                                               res.json("BID_PLACED")
@@ -1630,6 +1641,6 @@ router.post('/projectsbystatusdashboard', (req, res)=>{
             });
         }
     })
-})
+});
 
 module.exports = router;
