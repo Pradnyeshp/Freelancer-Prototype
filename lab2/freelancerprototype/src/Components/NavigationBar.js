@@ -5,6 +5,11 @@ import { Link } from 'react-router-dom'
 import image from '../Image/freelancerlogo.png'
 
 class NavigationBar extends Component {
+
+    handleSubmit = () => {
+        localStorage.removeItem('username');
+    }
+
     render() {
         let bar = null
         if (localStorage.getItem('username') === null ) {
