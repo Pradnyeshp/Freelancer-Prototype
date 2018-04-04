@@ -8,9 +8,9 @@ function handle_request( msg, callback) {
         if(err) throw err;
         else {
             db.collection('projects').find().toArray( (err, result) => {
-                if(err) throw err
+                if(err) throw err;
                 if( result.length === 0 ) {
-                    callback(null, "No Project found in database")
+                    callback( null, "No Project found in database")
                 }
                 else {
                     callback(null, result)

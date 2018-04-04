@@ -2,10 +2,11 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a41824f2-bbe8-44e5-aad4-5ff90febcac0" name="Default" comment="">
-      <change beforePath="" afterPath="$PROJECT_DIR$/services/searchtext.js" />
+      <change beforePath="" afterPath="$PROJECT_DIR$/services/searchtextemployer.js" />
       <change beforePath="$PROJECT_DIR$/../freelancerServer/routes/index.js" afterPath="$PROJECT_DIR$/../freelancerServer/routes/index.js" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/server.js" afterPath="$PROJECT_DIR$/server.js" />
+      <change beforePath="$PROJECT_DIR$/services/searchtext.js" afterPath="$PROJECT_DIR$/services/searchtext.js" />
     </list>
     <ignored path="$PROJECT_DIR$/.tmp/" />
     <ignored path="$PROJECT_DIR$/temp/" />
@@ -19,38 +20,30 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="server.js" pinned="false" current-in-tab="true">
+      <file leaf-file-name="server.js" pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-731">
-              <caret line="7" column="47" lean-forward="false" selection-start-line="7" selection-start-column="47" selection-end-line="7" selection-end-column="47" />
+            <state relative-caret-position="-367">
+              <caret line="8" column="66" lean-forward="false" selection-start-line="8" selection-start-column="66" selection-end-line="8" selection-end-column="66" />
               <folding>
-                <element signature="e#601#1322#0" expanded="false" />
-                <element signature="e#1435#2159#0" expanded="false" />
-                <element signature="e#2278#3007#0" expanded="false" />
-                <element signature="e#3135#3869#0" expanded="false" />
-                <element signature="e#3991#4723#0" expanded="false" />
-                <element signature="e#4849#5587#0" expanded="false" />
+                <element signature="e#669#1390#0" expanded="false" />
+                <element signature="e#1503#2227#0" expanded="false" />
+                <element signature="e#2346#3075#0" expanded="false" />
+                <element signature="e#3203#3937#0" expanded="false" />
+                <element signature="e#4059#4791#0" expanded="false" />
+                <element signature="e#4917#5655#0" expanded="false" />
+                <element signature="e#5760#6491#0" expanded="false" />
+                <element signature="e#6620#7359#0" expanded="false" />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="searchtext.js" pinned="false" current-in-tab="false">
+      <file leaf-file-name="searchtext.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/services/searchtext.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="546">
-              <caret line="21" column="0" lean-forward="true" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="getprojects.js" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/services/getprojects.js">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="416">
-              <caret line="16" column="9" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="20" selection-end-column="40" />
+            <state relative-caret-position="390">
+              <caret line="15" column="42" lean-forward="true" selection-start-line="15" selection-start-column="42" selection-end-line="15" selection-end-column="42" />
               <folding />
             </state>
           </provider>
@@ -81,6 +74,7 @@
         <option value="$PROJECT_DIR$/services/getprojects.js" />
         <option value="$PROJECT_DIR$/services/getprojectdetails.js" />
         <option value="$PROJECT_DIR$/server.js" />
+        <option value="$PROJECT_DIR$/services/searchtextemployer.js" />
         <option value="$PROJECT_DIR$/services/searchtext.js" />
       </list>
     </option>
@@ -224,12 +218,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1522773650155</updated>
-      <workItem from="1522773651714" duration="18071000" />
+      <workItem from="1522773651714" duration="18841000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="18071000" />
+    <option name="totallyTimeSpent" value="18841000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
@@ -283,7 +277,7 @@
   </component>
   <component name="XDebuggerManager">
     <breakpoint-manager>
-      <option name="time" value="3" />
+      <option name="time" value="4" />
     </breakpoint-manager>
     <watches-manager />
   </component>
@@ -358,32 +352,44 @@
     </entry>
     <entry file="file://$PROJECT_DIR$/services/getprojects.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="416">
-          <caret line="16" column="9" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="20" selection-end-column="40" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/searchtext.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="546">
-          <caret line="21" column="0" lean-forward="true" selection-start-line="21" selection-start-column="0" selection-end-line="21" selection-end-column="0" />
+        <state relative-caret-position="286">
+          <caret line="11" column="22" lean-forward="true" selection-start-line="11" selection-start-column="22" selection-end-line="11" selection-end-column="22" />
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-731">
-          <caret line="7" column="47" lean-forward="false" selection-start-line="7" selection-start-column="47" selection-end-line="7" selection-end-column="47" />
+        <state relative-caret-position="-367">
+          <caret line="8" column="66" lean-forward="false" selection-start-line="8" selection-start-column="66" selection-end-line="8" selection-end-column="66" />
           <folding>
-            <element signature="e#601#1322#0" expanded="false" />
-            <element signature="e#1435#2159#0" expanded="false" />
-            <element signature="e#2278#3007#0" expanded="false" />
-            <element signature="e#3135#3869#0" expanded="false" />
-            <element signature="e#3991#4723#0" expanded="false" />
-            <element signature="e#4849#5587#0" expanded="false" />
+            <element signature="e#669#1390#0" expanded="false" />
+            <element signature="e#1503#2227#0" expanded="false" />
+            <element signature="e#2346#3075#0" expanded="false" />
+            <element signature="e#3203#3937#0" expanded="false" />
+            <element signature="e#4059#4791#0" expanded="false" />
+            <element signature="e#4917#5655#0" expanded="false" />
+            <element signature="e#5760#6491#0" expanded="false" />
+            <element signature="e#6620#7359#0" expanded="false" />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/searchtextemployer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1612">
+          <caret line="64" column="17" lean-forward="true" selection-start-line="64" selection-start-column="17" selection-end-line="64" selection-end-column="17" />
+          <folding>
+            <element signature="e#2225#2311#0" expanded="false" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/searchtext.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="15" column="42" lean-forward="true" selection-start-line="15" selection-start-column="42" selection-end-line="15" selection-end-column="42" />
+          <folding />
         </state>
       </provider>
     </entry>
