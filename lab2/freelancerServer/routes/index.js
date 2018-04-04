@@ -699,18 +699,26 @@ router.post('/updateprofile', (req, res) => {
 router.post('/getprojects', (req, res) => {
     console.log("In Get All Projects ", req.body);
 
-    MongoClient.connect(url, (err, connection) => {
-      if(err) throw  err
+    kafka.make_request('getprojects', req.body, (err, result) => {
+        if (err) throw err;
         else {
-          const dbo = connection.db("freelancer");
-          dbo.collection("projects").find({}).toArray(function(err, result) {
-              if (err) throw err;
-              console.log( 'All the Projects from Database are as follows ' ,result);
-              res.json(result)
-              connection.close();
-          });
-      }
-    })
+            console.log( 'All the Projects from Database are as follows ', result);
+            res.json(result)
+        }
+    });
+
+    // MongoClient.connect(url, (err, connection) => {
+    //   if(err) throw  err
+    //     else {
+    //       const dbo = connection.db("freelancer");
+    //       dbo.collection("projects").find({}).toArray(function(err, result) {
+    //           if (err) throw err;
+    //           console.log( 'All the Projects from Database are as follows ' ,result);
+    //           res.json(result)
+    //           connection.close();
+    //       });
+    //   }
+    // })
 
     // MySQL part commented
     // con.getConnection((err, connection) => {
