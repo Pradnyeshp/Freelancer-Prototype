@@ -501,23 +501,32 @@ router.post('/getprofile', (req, res) => {
   const username = req.body.username
   console.log(username);
 
-  MongoClient.connect(url, (err, connection) => {
-    if(err) throw  err
+  kafka.make_request('getprofile', req.body, (err, result) => {
+      if (err) throw err;
       else {
-      let dbo = connection.db("freelancer")
-        let query = { username : username}
-        dbo.collection('users').find(query).toArray( (err, result) => {
-            if(err) throw err
-            else {
-                console.log("User Found In DB")
-                console.log(result)
-                res.json(result)
-                connection.close()
-            }
-        }
-       )
-    }
+          console.log("User Found In DB")
+          console.log(result)
+          res.json(result)
+      }
   })
+
+  // MongoClient.connect(url, (err, connection) => {
+  //   if(err) throw  err
+  //     else {
+  //     let dbo = connection.db("freelancer")
+  //       let query = { username : username}
+  //       dbo.collection('users').find(query).toArray( (err, result) => {
+  //           if(err) throw err
+  //           else {
+  //               console.log("User Found In DB")
+  //               console.log(result)
+  //               res.json(result)
+  //               connection.close()
+  //           }
+  //       }
+  //      )
+  //   }
+  // })
 
   //SQL Part Commented
   // con.getConnection((err, connection) => {
