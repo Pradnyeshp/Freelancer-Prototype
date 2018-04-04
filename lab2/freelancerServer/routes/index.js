@@ -302,72 +302,87 @@ router.post('/searchtext', (req, res) => {
 router.post('/searchtextemployer', (req, res) => {
     console.log('In Search Text', req.body )
 
-    MongoClient.connect( url, (err, db) => {
-        if(err) throw err
-        let searcharray = []
-        let dbo = db.db('freelancer')
-        dbo.collection('projects').aggregate([
-            {$match: { employer : req.body.username }},
-            {
-                $lookup:{
-                    from : 'bids',
-                    localField : '_id',
-                    foreignField : 'projectid',
-                    as : 'projectbids'
-                }
-            },
-            {
-                $unwind:{
-                    path:"$projectbids",
-                    preserveNullAndEmptyArrays: true
-                }
-            },
-            {
-                $group:{
-                    _id:{
-                        id:'$_id',
-                        employer:'$employer',
-                        projectname: '$projectname',
-                        desc : '$desc',
-                        skillsreq : '$skillsreq',
-                        budget : '$budget',
-                        startdate : '$startdate',
-                        bids : '$bids',
-                        status : '$status',
-                        worker : '$worker'
-                    },
-                    average : { $avg: '$projectbids.bid' }
-                }
-            },
-            {
-                $project:{
-                    id : "$_id.id",
-                    projectname: '$_id.projectname',
-                    employer:'$_id.employer',
-                    desc : '$_id.desc',
-                    skillsreq : '$_id.skillsreq',
-                    budget : '$_id.budget',
-                    startdate : '$_id.startdate',
-                    bids : '$_id.bids',
-                    status : '$_id.status',
-                    worker : '$_id.worker',
-                    average : { $ifNull: [ "$average",0 ] }
+    kafka.make_request('searchtextemployer', req.body, (err, result) => {
+        if(err) throw err;
+        else {
+            let searcharray = [];
+            for(let i = 0 ; i < result.length ; i++) {
+                let n = result[i].projectname[0].toLocaleLowerCase().search( (req.body.search).toLocaleLowerCase() )
+                let m = result[i].skillsreq[0].toLocaleLowerCase().search( (req.body.search).toLocaleLowerCase() )
+                if( n!== -1 || m !== -1 ) {
+                    searcharray.push(result[i])
                 }
             }
-        ]).toArray((err, result)=>{
-            if(err) throw err
-            else {
-                for(let i = 0 ; i < result.length ; i++) {
-                    let n = result[i].projectname[0].toLocaleLowerCase().search( (req.body.search).toLocaleLowerCase() )
-                    let m = result[i].skillsreq[0].toLocaleLowerCase().search( (req.body.search).toLocaleLowerCase() )
-                    if( n!== -1 || m !== -1 ) {
-                        searcharray.push(result[i])
-                    }
-                }
-                res.json(searcharray)
-            }
-        })
-    })
+            res.json(searcharray)
+        }
+    });
+
+    // MongoClient.connect( url, (err, db) => {
+    //     if(err) throw err
+    //     let searcharray = []
+    //     let dbo = db.db('freelancer')
+    //     dbo.collection('projects').aggregate([
+    //         {$match: { employer : req.body.username }},
+    //         {
+    //             $lookup:{
+    //                 from : 'bids',
+    //                 localField : '_id',
+    //                 foreignField : 'projectid',
+    //                 as : 'projectbids'
+    //             }
+    //         },
+    //         {
+    //             $unwind:{
+    //                 path:"$projectbids",
+    //                 preserveNullAndEmptyArrays: true
+    //             }
+    //         },
+    //         {
+    //             $group:{
+    //                 _id:{
+    //                     id:'$_id',
+    //                     employer:'$employer',
+    //                     projectname: '$projectname',
+    //                     desc : '$desc',
+    //                     skillsreq : '$skillsreq',
+    //                     budget : '$budget',
+    //                     startdate : '$startdate',
+    //                     bids : '$bids',
+    //                     status : '$status',
+    //                     worker : '$worker'
+    //                 },
+    //                 average : { $avg: '$projectbids.bid' }
+    //             }
+    //         },
+    //         {
+    //             $project:{
+    //                 id : "$_id.id",
+    //                 projectname: '$_id.projectname',
+    //                 employer:'$_id.employer',
+    //                 desc : '$_id.desc',
+    //                 skillsreq : '$_id.skillsreq',
+    //                 budget : '$_id.budget',
+    //                 startdate : '$_id.startdate',
+    //                 bids : '$_id.bids',
+    //                 status : '$_id.status',
+    //                 worker : '$_id.worker',
+    //                 average : { $ifNull: [ "$average",0 ] }
+    //             }
+    //         }
+    //     ]).toArray((err, result)=>{
+    //         if(err) throw err
+    //         else {
+    //             for(let i = 0 ; i < result.length ; i++) {
+    //                 let n = result[i].projectname[0].toLocaleLowerCase().search( (req.body.search).toLocaleLowerCase() )
+    //                 let m = result[i].skillsreq[0].toLocaleLowerCase().search( (req.body.search).toLocaleLowerCase() )
+    //                 if( n!== -1 || m !== -1 ) {
+    //                     searcharray.push(result[i])
+    //                 }
+    //             }
+    //             res.json(searcharray)
+    //         }
+    //     })
+    // })
 })
 
 router.post('/getrelevantprojects', (req, res) => {
