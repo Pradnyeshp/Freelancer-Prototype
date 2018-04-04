@@ -5,7 +5,7 @@ const getprofile = require('./services/getprofile');
 let updateprofile = require('./services/updateprofile');
 let getprojects = require('./services/getprojects');
 let getprojectdetails = require('./services/getprojectdetails');
-
+let searchtext = require('./services/searchtext')
 
 
 let consumerlogin = connection.getConsumer('login_topic');
@@ -144,6 +144,31 @@ cgetprojectdetails.on('message', function (message) {
     console.log('Data after parsing', data);
     console.log('Data after parsing printing data only', data.data);
     getprojectdetails.handle_request( data.data, function(err,res) {
+        console.log('after handle', res );
+        let payloads = [
+            { topic: data.replyTo,
+                messages:JSON.stringify({
+                    correlationId:data.correlationId,
+                    data : res
+                }),
+                partition : 0
+            }
+        ];
+        producer.send(payloads, function(err, data){
+            console.log(data);
+        });
+        return;
+    });
+});
+
+let csearchtext = connection.getConsumer('searchtext');
+csearchtext.on('message', function (message) {
+    console.log('message received');
+    console.log(JSON.stringify(message.value));
+    let data = JSON.parse(message.value);
+    console.log('Data after parsing', data);
+    console.log('Data after parsing printing data only', data.data);
+    searchtext.handle_request( data.data, function(err,res) {
         console.log('after handle', res );
         let payloads = [
             { topic: data.replyTo,
