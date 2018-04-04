@@ -182,6 +182,7 @@ passport.use( new LocalStrategy( (username, password, done) => {
     }
 ));
 
+//Needed Work Here
 router.post('/upload', (req, res) => {
     // console.log(req.data);
     let imageFile = req.files.file;
@@ -255,26 +256,48 @@ router.post('/signin', function (req, res, next) {
 router.post('/searchtext', (req, res) => {
     console.log('In Search Text', req.body)
 
-    MongoClient.connect( url, (err, db) => {
-        if(err) throw err
-        else {
-            let dbo = db.db('freelancer')
-            dbo.collection('projects').find(
-                { $text: { $search: req.body.search } }
-                ).toArray( (err, result) => {
-                    if(err) throw err
-                    if( result.length === 0 ) {
-                        res.json("No Project found in database")
-                    }
-                    else {
-                        console.log("Searched Projects from database are :", result)
-                        res.json(result)
-                        db.close()
-                    }
-            })
+    kafka.make_request('searchtext', req.body ,(err,result) => {
+        if(err) throw err;
+        if( result.length === 0 ) {
+            res.json("No Project found in database")
         }
-    })
-})
+        else {
+            let searcharray = [];
+            for( let i = 0 ; i < result.length ; i++) {
+                let n = result[i].projectname[0].toLocaleLowerCase().search( (req.body.search).toLocaleLowerCase() );
+                let m = result[i].skillsreq[0].toLocaleLowerCase().search( (req.body.search).toLocaleLowerCase() );
+                if( n!== -1 || m !== -1 ) {
+                    searcharray.push(result[i])
+                }
+            }
+            res.json(searcharray)
+        }
+    });
+
+    // MongoClient.connect( url, (err, db) => {
+    //     if(err) throw err
+    //     else {
+    //         let dbo = db.db('freelancer')
+    //         dbo.collection('projects').find().toArray( (err, result) => {
+    //                 if(err) throw err
+    //                 if( result.length === 0 ) {
+    //                     res.json("No Project found in database")
+    //                 }
+    //                 else {
+    //                     let searcharray = []
+    //                     for( let i = 0 ; i < result.length ; i++) {
+    //                         let n = result[i].projectname[0].toLocaleLowerCase().search( (req.body.search).toLocaleLowerCase() )
+    //                         let m = result[i].skillsreq[0].toLocaleLowerCase().search( (req.body.search).toLocaleLowerCase() )
+    //                         if( n!== -1 || m !== -1 ) {
+    //                             searcharray.push(result[i])
+    //                         }
+    //                     }
+    //                     res.json(searcharray)
+    //                 }
+    //         })
+    //     }
+    // })
+});
 
 router.post('/searchtextemployer', (req, res) => {
     console.log('In Search Text', req.body )
