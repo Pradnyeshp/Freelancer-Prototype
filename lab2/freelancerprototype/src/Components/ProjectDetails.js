@@ -9,7 +9,7 @@ import SubmissionPanel from "./SubmissionPanel";
 class ProjectDetails extends Component {
 
     constructor() {
-        super()
+        super();
         this.state = ({
             projectid: '',
             title: '',
@@ -23,13 +23,13 @@ class ProjectDetails extends Component {
             freelancer : '',
             display: "block" ,
             status: 'open'
-        })
+        });
         this.handlePayment = this.handlePayment.bind(this)
     }
 
     handlePayment = () => {
         this.props.history.push(`/payment/${this.state.projectid}`)
-    }
+    };
 
     componentWillMount() {
         console.log(this.props.match.params.value);
@@ -38,7 +38,7 @@ class ProjectDetails extends Component {
         }, () => {
             const pid = {
                 projectid: this.state.projectid
-            }
+            };
             axios.post('http://localhost:3001/getprojectdetails', pid, { withCredentials : true })
                 .then( (response) => {
                     console.log("In project details : ", response.data);
@@ -63,13 +63,13 @@ class ProjectDetails extends Component {
 
     renderEmployer () {
 
-        let change = null
+        let change = null;
 
         if(this.state.status === 'Open') {
                 change = (
                     <button
                         onClick={this.handlePayment}
-                        className='btn btn-outline-info' >Make Payment
+                        className='btn btn-outline-info' > Make Payment
                     </button>
                 )
         }
@@ -271,13 +271,13 @@ class ProjectDetails extends Component {
     render() {
 
        if(this.state.worker === '' )
-           return this.renderBasic()
+           return this.renderBasic();
 
        else if(this.state.employer === localStorage.getItem('username'))
-            return this.renderEmployer()
+            return this.renderEmployer();
 
         else if(this.state.worker === localStorage.getItem('username'))
-            return this.renderWorker()
+            return this.renderWorker();
 
         else if( this.state.worker !== localStorage.getItem('username') )
             return this.renderBasic()
