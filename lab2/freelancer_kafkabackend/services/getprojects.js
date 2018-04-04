@@ -16,29 +16,6 @@ function handle_request( msg, callback) {
             });
         }
     })
-
-    // mongo.connect((err, db) => {
-    //     if (err) throw err;
-    //     else {
-    //         const query = {username: msg.username}
-    //         const newvalues = {
-    //             $set: {
-    //                 name: msg.name,
-    //                 email: msg.email,
-    //                 phone: msg.phone,
-    //                 aboutme: msg.aboutme,
-    //                 skills: msg.skills
-    //             }
-    //         }
-    //         db.collection('users').updateOne(query, newvalues, (err, result) => {
-    //             if (err) throw  err
-    //             else {
-    //                 console.log("1 Profile Details Updated")
-    //                 callback(null, result)
-    //             }
-    //         })
-    //     }
-    // })
 }
 
 exports.handle_request = handle_request;
