@@ -635,33 +635,42 @@ router.post('/updateprofile', (req, res) => {
   console.log("In Update profile");
   console.log("request ", req.body);
   
-  let user = req.body.username
-  let name = req.body.name
-  let email = req.body.email
-  let phone = req.body.phone
-  let aboutme = req.body.aboutme
-  let skills = req.body.skills
+  // let user = req.body.username
+  // let name = req.body.name
+  // let email = req.body.email
+  // let phone = req.body.phone
+  // let aboutme = req.body.aboutme
+  // let skills = req.body.skills
 
-    MongoClient.connect(url, (err, connect) => {
-    if(err) throw err
+    kafka.make_request('updateprofile', req.body, (err, result) => {
+        if(err) throw err
         else {
-      let dbo = connect.db("freelancer")
-        const query = {username : user }
-        const newvalues  =  { $set : {name : name, email : email, phone: phone, aboutme: aboutme, skills: skills } }
-        dbo.collection('users').updateOne( query, newvalues, (err, result) => {
-          if(err) throw  err
-            else {
             console.log("1 Profile Details Updated")
-              return res.json({
-                  data: result
-              })
-              connect.close()
-           }
-          }
-        )
-      }
-    }
-   )
+            return res.json({
+                data: result
+            })
+        }
+    })
+    //without kafka code
+   //  MongoClient.connect(url, (err, connect) => {
+   //  if(err) throw err
+   //      else {
+   //    let dbo = connect.db("freelancer")
+   //      const query = {username : user }
+   //      const newvalues  =  { $set : {name : name, email : email, phone: phone, aboutme: aboutme, skills: skills } }
+   //      dbo.collection('users').updateOne( query, newvalues, (err, result) => {
+   //        if(err) throw  err
+   //          else {
+   //          console.log("1 Profile Details Updated")
+   //            return res.json({
+   //                data: result
+   //            })
+   //         }
+   //        }
+   //      )
+   //    }
+   //  }
+   // )
 
 //   con.getConnection((err, connection) => {
 //     if (err) {
