@@ -193,7 +193,7 @@ router.post('/upload', (req, res) => {
         res.json({file: `public/${req.body.filename}.jpg`});
     });
 
-})
+});
 
 router.post('/signin', function (req, res, next) {
 
@@ -381,7 +381,7 @@ router.post('/searchtextemployer', (req, res) => {
     //         }
     //     })
     // })
-})
+});
 
 router.post('/searchtextfreelancer', (req, res) => {
     console.log('in Search Freelancer', req.body);
@@ -500,58 +500,61 @@ router.post('/searchtextfreelancer', (req, res) => {
     //         } )
     //     }
     // })
-})
+});
 
 router.post('/getrelevantprojects', (req, res) => {
     console.log("In Get Relevant Projects", req.body)
 
-    // kafka.make_request('getrelevantprojects', req.body, (err, result) => {
-    //
-    // })
-
-    MongoClient.connect(url, (err, db) => {
-        if(err) throw err
+    kafka.make_request('getrelevantprojects', req.body, (err, result) => {
+        if(err) throw err;
         else {
-            let dbo = db.db('freelancer')
-            dbo.collection('users').findOne( {username: req.body.username}, (err, result) => {
-                if(err) throw err
-                else {
-                    console.log("User Details in relevant projects",result);
-                    let count = 0
-                    const userSkills = result.skills.toString()
-                    const userSkillsArray = userSkills.split(",")
-                    const relevantProjectArray = []
-                    // let userSkillsArray = userSkills.toArray()
-                    console.log('User Skills : ', userSkillsArray)
-                    dbo.collection('projects').find({}).toArray( (err,result) => {
-                        if(err) throw err
-                        else {
-                            // console.log('In rel projects, all projects:',result)
-                            const allProjectsArray = result;
-                            console.log("Skills required in Projects",allProjectsArray)
-                            for( let i=0; i < userSkillsArray.length ; i++) {
-                                for( let j=0; j < allProjectsArray.length; j++) {
-                                    let allProjectSkillsArray = allProjectsArray[j].skillsreq.toString().split(',')
-                                    for( let k=0; k < allProjectSkillsArray.length ; k++) {
-                                        if(userSkillsArray[i].toLocaleLowerCase() === allProjectSkillsArray[k].toLocaleLowerCase()) {
-                                            count++;
-                                            console.log('Count is : ' , count )
-                                        }
-                                    }
-                                    if(count>=3) {
-                                        relevantProjectArray.push(allProjectsArray[j]);
-                                        console.log("final Relevant project array", relevantProjectArray)
-                                    }
-                                }
-                            }
-                            res.json(relevantProjectArray)
-                        }
-                    })
-                }
-            } )
+            res.json(result);
         }
-    })
-})
+    });
+
+    // MongoClient.connect(url, (err, db) => {
+    //     if(err) throw err
+    //     else {
+    //         let dbo = db.db('freelancer')
+    //         dbo.collection('users').findOne( {username: req.body.username}, (err, result) => {
+    //             if(err) throw err
+    //             else {
+    //                 console.log("User Details in relevant projects",result);
+    //                 let count = 0
+    //                 const userSkills = result.skills.toString()
+    //                 const userSkillsArray = userSkills.split(",")
+    //                 const relevantProjectArray = []
+    //                 // let userSkillsArray = userSkills.toArray()
+    //                 console.log('User Skills : ', userSkillsArray)
+    //                 dbo.collection('projects').find({}).toArray( (err,result) => {
+    //                     if(err) throw err
+    //                     else {
+    //                         // console.log('In rel projects, all projects:',result)
+    //                         const allProjectsArray = result;
+    //                         console.log("Skills required in Projects",allProjectsArray)
+    //                         for( let i=0; i < userSkillsArray.length ; i++) {
+    //                             for( let j=0; j < allProjectsArray.length; j++) {
+    //                                 let allProjectSkillsArray = allProjectsArray[j].skillsreq.toString().split(',')
+    //                                 for( let k=0; k < allProjectSkillsArray.length ; k++) {
+    //                                     if(userSkillsArray[i].toLocaleLowerCase() === allProjectSkillsArray[k].toLocaleLowerCase()) {
+    //                                         count++;
+    //                                         console.log('Count is : ' , count )
+    //                                     }
+    //                                 }
+    //                                 if(count>=3) {
+    //                                     relevantProjectArray.push(allProjectsArray[j]);
+    //                                     console.log("final Relevant project array", relevantProjectArray)
+    //                                 }
+    //                             }
+    //                         }
+    //                         res.json(relevantProjectArray)
+    //                     }
+    //                 })
+    //             }
+    //         } )
+    //     }
+    // })
+});
 
 router.post('/getprofile', (req, res) => {
   const username = req.body.username
@@ -627,7 +630,7 @@ router.post('/postcomment' , (req, res) => {
             })
         }
     })
-})
+});
 
 router.post('/getuserid', (req, res) => {
   console.log("In GetUserID", req.body);
@@ -656,35 +659,6 @@ router.post('/getuserid', (req, res) => {
       })
     }
   })
-})
-
-router.post('/getprojectid', (req, res) => {
-  console.log("In GetProjectID", req.body);
-
-  // let username = req.body.username
-
-  // con.getConnection((err, connection) => {
-  //   if (err) {
-  //     res.json({
-  //       code: 100,
-  //       status: "Not able to establish a connection"
-  //     }
-  //     )
-  //   }
-  //   else {
-  //     let sql = "SELECT UserId FROM user WHERE username = ?"
-  //     con.query(sql, [username], (err, result) => {
-  //       if (err) {
-  //         console.log(err.message);
-  //         res.json("Error");
-  //       }
-  //       else {
-  //         console.log("Found ID in Database", result);
-  //         res.json(result)
-  //       }
-  //     })
-  //   }
-  // })
 })
 
 router.post('/updateprofile', (req, res) => {
