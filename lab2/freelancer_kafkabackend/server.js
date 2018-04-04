@@ -7,7 +7,9 @@ let getprojects = require('./services/getprojects');
 let getprojectdetails = require('./services/getprojectdetails');
 let searchtext = require('./services/searchtext');
 let searchtextemployer = require('./services/searchtextemployer');
-let searchtextfreelancer = require('./services/searchtextfreelancer')
+let searchtextfreelancer = require('./services/searchtextfreelancer');
+let getrelevantprojects = require('./services/getrelevantprojects');
+
 
 let consumerlogin = connection.getConsumer('login_topic');
 let producer = connection.getProducer();
@@ -220,6 +222,31 @@ csearchtextfreelancer.on('message', function (message) {
     console.log('Data after parsing', data);
     console.log('Data after parsing printing data only', data.data);
     searchtextfreelancer.handle_request( data.data, function(err,res) {
+        console.log('after handle', res );
+        let payloads = [
+            { topic: data.replyTo,
+                messages:JSON.stringify({
+                    correlationId:data.correlationId,
+                    data : res
+                }),
+                partition : 0
+            }
+        ];
+        producer.send(payloads, function(err, data){
+            console.log(data);
+        });
+        return;
+    });
+});
+
+let cgetrelevantprojects = connection.getConsumer('getrelevantprojects');
+cgetrelevantprojects.on('message', function (message) {
+    console.log('message received');
+    console.log(JSON.stringify(message.value));
+    let data = JSON.parse(message.value);
+    console.log('Data after parsing', data);
+    console.log('Data after parsing printing data only', data.data);
+    getrelevantprojects.handle_request( data.data, function(err,res) {
         console.log('after handle', res );
         let payloads = [
             { topic: data.replyTo,
