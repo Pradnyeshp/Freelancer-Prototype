@@ -13,6 +13,7 @@
     "bcryptjs": "^2.4.3",
     "kafka-node": "^2.2.3",
     "mongodb": "^2.2.35",
+    "nodemailer": "^4.6.4",
     "passport": "^0.4.0",
     "passport-local": "^1.0.0"
   }
