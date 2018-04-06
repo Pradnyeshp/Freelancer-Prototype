@@ -27,8 +27,8 @@
       <file leaf-file-name="server.js" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/server.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="416">
-              <caret line="16" column="56" lean-forward="false" selection-start-line="16" selection-start-column="56" selection-end-line="16" selection-end-column="56" />
+            <state relative-caret-position="442">
+              <caret line="17" column="46" lean-forward="true" selection-start-line="17" selection-start-column="46" selection-end-line="17" selection-end-column="46" />
               <folding>
                 <element signature="e#1901#2644#0" expanded="false" />
                 <element signature="e#2746#3473#0" expanded="false" />
@@ -253,12 +253,12 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1522773650155</updated>
-      <workItem from="1522773651714" duration="50921000" />
+      <workItem from="1522773651714" duration="51135000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="50921000" />
+    <option name="totallyTimeSpent" value="51135000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
@@ -412,14 +412,6 @@
           <folding>
             <element signature="e#300#2301#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/assignedprojects.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="234">
-          <caret line="9" column="65" lean-forward="false" selection-start-line="9" selection-start-column="65" selection-end-line="9" selection-end-column="65" />
-          <folding />
         </state>
       </provider>
     </entry>
@@ -585,10 +577,18 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/services/assignedprojects.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="390">
+          <caret line="15" column="9" lean-forward="true" selection-start-line="15" selection-start-column="9" selection-end-line="15" selection-end-column="9" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/server.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="416">
-          <caret line="16" column="56" lean-forward="false" selection-start-line="16" selection-start-column="56" selection-end-line="16" selection-end-column="56" />
+        <state relative-caret-position="442">
+          <caret line="17" column="46" lean-forward="true" selection-start-line="17" selection-start-column="46" selection-end-line="17" selection-end-column="46" />
           <folding>
             <element signature="e#1901#2644#0" expanded="false" />
             <element signature="e#2746#3473#0" expanded="false" />
