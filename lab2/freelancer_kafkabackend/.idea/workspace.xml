@@ -2,13 +2,19 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="a41824f2-bbe8-44e5-aad4-5ff90febcac0" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/../freelancerServer/app.js" afterPath="$PROJECT_DIR$/../freelancerServer/app.js" />
+      <change beforePath="$PROJECT_DIR$/../freelancerServer/package-lock.json" afterPath="$PROJECT_DIR$/../freelancerServer/package-lock.json" />
+      <change beforePath="$PROJECT_DIR$/../freelancerServer/package.json" afterPath="$PROJECT_DIR$/../freelancerServer/package.json" />
       <change beforePath="$PROJECT_DIR$/../freelancerServer/routes/index.js" afterPath="$PROJECT_DIR$/../freelancerServer/routes/index.js" />
       <change beforePath="$PROJECT_DIR$/../freelancerServer/routes/kafka/client.js" afterPath="$PROJECT_DIR$/../freelancerServer/routes/kafka/client.js" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change beforePath="$PROJECT_DIR$/server.js" afterPath="$PROJECT_DIR$/server.js" />
+      <change beforePath="$PROJECT_DIR$/../freelancerprototype/src/Components/AddProject.js" afterPath="$PROJECT_DIR$/../freelancerprototype/src/Components/AddProject.js" />
       <change beforePath="$PROJECT_DIR$/../freelancerprototype/src/Components/BidNow.js" afterPath="$PROJECT_DIR$/../freelancerprototype/src/Components/BidNow.js" />
       <change beforePath="$PROJECT_DIR$/../freelancerprototype/src/Components/ListAllBids.js" afterPath="$PROJECT_DIR$/../freelancerprototype/src/Components/ListAllBids.js" />
       <change beforePath="$PROJECT_DIR$/../freelancerprototype/src/Components/Payment.js" afterPath="$PROJECT_DIR$/../freelancerprototype/src/Components/Payment.js" />
       <change beforePath="$PROJECT_DIR$/../freelancerprototype/src/Components/PieChart.js" afterPath="$PROJECT_DIR$/../freelancerprototype/src/Components/PieChart.js" />
+      <change beforePath="$PROJECT_DIR$/../freelancerprototype/src/Components/Profile.js" afterPath="$PROJECT_DIR$/../freelancerprototype/src/Components/Profile.js" />
       <change beforePath="$PROJECT_DIR$/../freelancerprototype/src/Components/SubmissionPanel.js" afterPath="$PROJECT_DIR$/../freelancerprototype/src/Components/SubmissionPanel.js" />
       <change beforePath="$PROJECT_DIR$/../freelancerprototype/src/Components/TransactionManager.js" afterPath="$PROJECT_DIR$/../freelancerprototype/src/Components/TransactionManager.js" />
     </list>
@@ -63,11 +69,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="getallbids.js" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/services/getallbids.js">
+      <file leaf-file-name="updatebid.js" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/services/updatebid.js">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="260">
-              <caret line="10" column="33" lean-forward="true" selection-start-line="10" selection-start-column="33" selection-end-line="10" selection-end-column="33" />
+            <state relative-caret-position="234">
+              <caret line="19" column="34" lean-forward="true" selection-start-line="19" selection-start-column="34" selection-end-line="19" selection-end-column="34" />
               <folding />
             </state>
           </provider>
@@ -116,15 +122,15 @@
         <option value="$PROJECT_DIR$/services/getallbids.js" />
         <option value="$PROJECT_DIR$/services/getemployer.js" />
         <option value="$PROJECT_DIR$/services/getmypostedprojects.js" />
-        <option value="$PROJECT_DIR$/services/addproject.js" />
         <option value="$PROJECT_DIR$/services/getmybiddedprojects.js" />
-        <option value="$PROJECT_DIR$/services/updatebid.js" />
         <option value="$PROJECT_DIR$/server.js" />
         <option value="$PROJECT_DIR$/services/projectsbystatusdashboard.js" />
         <option value="$PROJECT_DIR$/services/withdrawmoney.js" />
         <option value="$PROJECT_DIR$/services/addmoney.js" />
         <option value="$PROJECT_DIR$/services/transaction.js" />
         <option value="$PROJECT_DIR$/services/setworker.js" />
+        <option value="$PROJECT_DIR$/services/addproject.js" />
+        <option value="$PROJECT_DIR$/services/updatebid.js" />
       </list>
     </option>
   </component>
@@ -263,26 +269,26 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1522773650155</updated>
-      <workItem from="1522773651714" duration="54408000" />
+      <workItem from="1522773651714" duration="59289000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="54408000" />
+    <option name="totallyTimeSpent" value="59289000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="-9" y="-9" width="1938" height="1048" extended-state="6" />
     <editor active="true" />
     <layout>
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.15885417" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.16180371" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
       <window_info id="Docker" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="false" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
-      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.32051283" sideWeight="0.50185674" order="-1" side_tool="true" content_ui="tabs" />
+      <window_info id="Event Log" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25524476" sideWeight="0.50185674" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="2" side_tool="false" content_ui="tabs" />
       <window_info id="Version Control" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="npm" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="1" side_tool="false" content_ui="tabs" />
-      <window_info id="Terminal" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.39641657" sideWeight="0.49814323" order="-1" side_tool="false" content_ui="tabs" />
+      <window_info id="Terminal" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25524476" sideWeight="0.49814323" order="-1" side_tool="false" content_ui="tabs" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.4" sideWeight="0.5" order="3" side_tool="false" content_ui="tabs" />
       <window_info id="Favorites" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="-1" side_tool="true" content_ui="tabs" />
       <window_info id="Cvs" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="4" side_tool="false" content_ui="tabs" />
@@ -433,40 +439,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/services/getemployer.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="416">
-          <caret line="16" column="42" lean-forward="false" selection-start-line="16" selection-start-column="42" selection-end-line="16" selection-end-column="42" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/addproject.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="272">
-          <caret line="25" column="9" lean-forward="true" selection-start-line="25" selection-start-column="9" selection-end-line="25" selection-end-column="9" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/getmypostedprojects.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="468">
-          <caret line="66" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="67" selection-end-column="40" />
-          <folding>
-            <element signature="e#263#2123#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/services/updatebid.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1014">
-          <caret line="39" column="74" lean-forward="false" selection-start-line="39" selection-start-column="64" selection-end-line="39" selection-end-column="74" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/services/projectsbystatusdashboard.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="286">
@@ -588,6 +560,38 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/services/getallbids.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="234">
+          <caret line="9" column="0" lean-forward="true" selection-start-line="9" selection-start-column="0" selection-end-line="9" selection-end-column="0" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/getemployer.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="416">
+          <caret line="16" column="42" lean-forward="false" selection-start-line="16" selection-start-column="42" selection-end-line="16" selection-end-column="42" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/addproject.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="369">
+          <caret line="20" column="22" lean-forward="true" selection-start-line="20" selection-start-column="22" selection-end-line="20" selection-end-column="22" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/services/getmypostedprojects.js">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-931">
+          <caret line="9" column="48" lean-forward="true" selection-start-line="9" selection-start-column="48" selection-end-line="9" selection-end-column="48" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/server.js">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="338">
@@ -625,10 +629,10 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/services/getallbids.js">
+    <entry file="file://$PROJECT_DIR$/services/updatebid.js">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="260">
-          <caret line="10" column="33" lean-forward="true" selection-start-line="10" selection-start-column="33" selection-end-line="10" selection-end-column="33" />
+        <state relative-caret-position="234">
+          <caret line="19" column="34" lean-forward="true" selection-start-line="19" selection-start-column="34" selection-end-line="19" selection-end-column="34" />
           <folding />
         </state>
       </provider>
