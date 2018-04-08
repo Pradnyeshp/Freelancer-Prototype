@@ -6,6 +6,7 @@ import './signin.css';
 import { Link } from 'react-router-dom';
 import image from '../Image/freelancerlogo.png'
 import { Helmet } from 'react-helmet'
+import url from '../serverurl';
 
 class Signup extends Component {
 
@@ -117,7 +118,7 @@ function mapDispatchToProps(dispatch) {
     return {
         insertUser: (newUser) => {
             console.log(newUser);
-            axios.post('http://localhost:3001/signup', newUser)
+            axios.post( url + '/signup', newUser)
                 .then((response) => {
                     if( response.data === 'Username') {
                         alert("Username already exists, try your luck with another")

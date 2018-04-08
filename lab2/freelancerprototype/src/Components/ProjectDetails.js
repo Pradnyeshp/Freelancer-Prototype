@@ -5,6 +5,7 @@ import BidNow from './BidNow';
 import ListAllBids from './ListAllBids'
 import image from '../Image/freelancerlogo.png'
 import SubmissionPanel from "./SubmissionPanel";
+import url from '../serverurl';
 
 class ProjectDetails extends Component {
 
@@ -39,7 +40,7 @@ class ProjectDetails extends Component {
             const pid = {
                 projectid: this.state.projectid
             };
-            axios.post('http://localhost:3001/getprojectdetails', pid, { withCredentials : true })
+            axios.post( url + '/getprojectdetails', pid, { withCredentials : true })
                 .then( (response) => {
                     console.log("In project details : ", response.data);
                     this.setState({

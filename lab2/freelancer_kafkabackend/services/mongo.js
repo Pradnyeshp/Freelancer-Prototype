@@ -1,5 +1,5 @@
 let mongoClient = require('mongodb').MongoClient;
-let url = 'mongodb://localhost:27017/freelancer';
+let url = 'mongodb://pradnyesh:16071993@ds237979.mlab.com:37979/freelancer';
 
 exports.connect = (callback) => {
     mongoClient.connect(url, { poolSize: 30 }, (err, db) => {
@@ -9,4 +9,4 @@ exports.connect = (callback) => {
             callback(err, db);
         }
     });
-}
+};

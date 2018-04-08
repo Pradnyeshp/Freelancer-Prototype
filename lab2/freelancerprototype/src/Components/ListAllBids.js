@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import url from '../serverurl';
 
 class ListAllBids extends Component {
 
@@ -23,17 +24,17 @@ class ListAllBids extends Component {
             username : usr
         });
 
-        axios.post('http://localhost:3001/getemployer', pid , {withCredentials : true})
+        axios.post( url + '/getemployer', pid , {withCredentials : true})
             .then( (response) => {
                 console.log('Employer is', response);
                     this.setState({
                         employer : response.data
                     }, () => {
-                        // console.log(this.state.employer)
+                        console.log(this.state.employer)
                     })
             });
 
-        axios.post('http://localhost:3001/getallbids', pid, {withCredentials:true} )
+        axios.post(url + '/getallbids', pid, {withCredentials:true} )
             .then((response) => {
                 console.log('In getallbids :', response.data);
                 if (response.data.length === 0) {
@@ -48,6 +49,23 @@ class ListAllBids extends Component {
                             display: "block"
                         })
                     }
+
+                    // for( let i = 0; i < response.data[i].length; i++)
+                    // {
+                    //     axios.post('http://localhost:3001/getimageurl', response.data[i].freelancer, {withCredentials:true} )
+                    //         .then((response) => {
+                    //                 console.log(response);
+                    //                 this.setState({
+                    //                         imageURL : `http://localhost:3001/${response.data.file}`
+                    //                     },
+                    //                     () => {
+                    //                         console.log(this.state.imageURL)
+                    //                     }
+                    //                 )
+                    //             }
+                    //         )
+                    // }
+
                     this.setState({
                         bids: response.data
                     }, () => {
@@ -56,6 +74,24 @@ class ListAllBids extends Component {
                 }
             }
         )
+
+        let usernameJSON = {
+            username: localStorage.getItem('username')
+        };
+
+        axios.post( url + '/getimageurl', usernameJSON, {withCredentials:true} )
+            .then((response) => {
+                    console.log(response);
+                    this.setState({
+                            imageURL : `http://localhost:3001/${response.data.file}`
+                        },
+                        () => {
+                        console.log(this.state.imageURL)
+                        }
+                    )
+                }
+            )
+
     }
 
     handleClick(freelancer) {
@@ -64,9 +100,10 @@ class ListAllBids extends Component {
             pid: this.props.id,
             freelancer: freelancer
         });
-        axios.post('http://localhost:3001/setworker', fdetails )
+        axios.post( url + '/setworker', fdetails )
             .then((response) => {
-                console.log("In hire button handle click", response.data);
+                console.log("In hire button handle click", response.data );
+                window.location.reload(true);
             })
     }
 
@@ -95,7 +132,10 @@ class ListAllBids extends Component {
             return (
                 <tr key={b._id} >
                     <td className="text-left">
-                        <b> Profile Image Here </b> 
+                        <b> Profile Image Here
+                            <img src={this.state.imageURL} alt="img" />
+                            {/*<img src={`http://localhost:3001//public/${b.freelancer}.jpg`} alt="img" />*/}
+                        </b>
                     </td>
                     <td> <Link to={`/profile/${b.freelancer}`}> {b.freelancer} </Link> </td>
                     <td> $ {b.bid} </td>

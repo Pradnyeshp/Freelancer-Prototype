@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import axios from 'axios'
+import url from '../serverurl';
 
 class SubmissionPanel extends Component {
 
@@ -17,9 +18,9 @@ class SubmissionPanel extends Component {
         let pid = { pid : this.props.pid,
             comment : this.state.comment
         }
-        console.log(pid)
+        console.log(pid);
 
-        axios.post('http://localhost:3001/postcomment', pid, {withCredentials : true})
+        axios.post( url + '/postcomment', pid, {withCredentials : true})
             .then((response) => {
                 console.log(response.data)
             })

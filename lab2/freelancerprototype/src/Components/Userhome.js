@@ -5,9 +5,7 @@ import Bootstrap from 'bootstrap/dist/css/bootstrap.css';
 import { connect } from 'react-redux';
 import Projects from './Projects';
 import Navigator from './Navigator'
-import image from '../Image/freelancerlogo.png'
 import NavigationBar from "./NavigationBar";
-// import axios from 'axios'
 
 class Userhome extends Component {
 
@@ -17,18 +15,18 @@ class Userhome extends Component {
     }
 
     handleClick = (e) => {
-        e.preventDefault()
+        e.preventDefault();
         window.location.reload(true)
-    }
+    };
 
     handleSubmit = () => {
         localStorage.removeItem('username');
-    }
+    };
 
     render() {
-        let bar = null
+        // var bar = null;
         if (localStorage.getItem('username') === null ) {
-            bar = ( <Navigator /> )
+           var bar = ( <Navigator /> )
         }
         else {
             bar = (

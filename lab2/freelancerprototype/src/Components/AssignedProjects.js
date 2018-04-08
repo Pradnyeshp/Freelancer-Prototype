@@ -2,28 +2,29 @@ import React, { Component } from 'react';
 import axios from 'axios'
 import { Link } from 'react-router-dom'
 import NavigationBar from "./NavigationBar";
+import url from '../serverurl';
 
 class AssignedProjects extends Component {
 
     constructor () {
-        super()
+        super();
         this.state = ({
             projects : []
         })
     }
 
     componentWillMount = () => {
-        let username = { username : localStorage.getItem('username')}
-        axios.post('http://localhost:3001/assignedprojects', username, { withCredentials : true })
+        let username = { username : localStorage.getItem('username')};
+        axios.post( url + '/assignedprojects', username, { withCredentials : true })
             .then( (response) =>{
-                console.log('Assigned Projects : ', response.data)
+                console.log('Assigned Projects : ', response.data);
                 this.setState({
                     projects : response.data
                 }, () => {
                     console.log(this.state)
                 } )
             } )
-    }
+    };
 
     render() {
 
@@ -39,7 +40,7 @@ class AssignedProjects extends Component {
                     <td className='text-center'> <Link to={`/profile/${p.employer}`}> {p.employer} </Link> </td>
                 </tr>
             )
-        } )
+        } );
 
         return (
             <div className="assignedprojects"><br/><br/>

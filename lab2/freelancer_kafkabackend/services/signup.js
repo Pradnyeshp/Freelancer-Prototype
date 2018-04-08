@@ -1,5 +1,4 @@
-var MongoClient = require('mongodb').MongoClient;
-var url = "mongodb://localhost:27017/";
+let mongo = require('./mongo');
 const bcrypt = require('bcryptjs');
 const saltRounds = 10;
 
@@ -7,19 +6,19 @@ function handle_request( msg, callback) {
 
     console.log("In handle request:"+ JSON.stringify(msg));
 
-    MongoClient.connect( url, (err, connection) => {
-        if(err) throw err
+    mongo.connect( (err, connection) => {
+        if(err) throw err;
         else {
             bcrypt.hash( msg.password, saltRounds, (err, resultpass) => {
-                console.log("Hashed password is :", resultpass)
+                console.log("Hashed password is :", resultpass);
                 console.log("Connected to mongodb...");
                 let dbo = connection.db("freelancer");
 
                 dbo.collection('users').find( { username : msg.username } ).toArray( (err, result) => {
-                    if(err) throw err
+                    if(err) throw err;
                     else {
                         if( result.length > 0 ) {
-                            console.log("Username already exists")
+                            console.log("Username already exists");
                             // res.json("Username");
                             callback(null, "username" )
 

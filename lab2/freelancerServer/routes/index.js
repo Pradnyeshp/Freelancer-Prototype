@@ -3,15 +3,16 @@ const router = express.Router();
 const mysql = require('mysql');
 const MongoClient = require('mongodb').MongoClient;
 const assert = require('assert');
-const mongo = require('mongodb');
-const crypto = require('crypto');
-const mongoose = require('mongoose');
+// const mongo = require('mongodb');
+// const crypto = require('crypto');
+// const mongoose = require('mongoose');
 const ObjectId = require('mongodb').ObjectId;
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const fileUpload = require('express-fileupload');
 const email = require('nodemailer');
-const kafka = require('./kafka/client')
+const kafka = require('./kafka/client');
+var fs = require('fs');
 
 let transporter = email.createTransport({
     service: 'gmail',
@@ -54,7 +55,7 @@ router.post('/checksession', (req, res) => {
 
 router.post('/signup', function(req, res) {
   console.log(req.body);
- 
+
   const name = req.body.name;
   const usr = req.body.username;
   const email = req.body.email;
@@ -181,19 +182,21 @@ passport.use( new LocalStrategy( (username, password, done) => {
 ));
 
 //Needed Work Here
-router.post('/upload', (req, res) => {
-    // console.log(req.data);
-    let imageFile = req.files.file;
 
-    imageFile.mv(`${__dirname}/public/${req.body.filename}.jpg`, function(err) {
-        if (err) {
-            console.log(err.name)
-            return res.status(500).send(err);
-        }
-        res.json({file: `public/${req.body.filename}.jpg`});
-    });
 
-});
+// router.post('/upload', (req, res) => {
+//     console.log(req);
+//     let imageFile = req.files.file;
+//
+//     imageFile.mv(`${__dirname}/public/${req.body.filename}.jpg`, function(err) {
+//         if (err) {
+//             console.log(err.name)
+//             return res.status(500).send(err);
+//         }
+//         res.json({file: `public/${req.body.filename}.jpg`});
+//     });
+//
+// });
 
 router.post('/signin', function (req, res, next) {
 
@@ -557,14 +560,14 @@ router.post('/getrelevantprojects', (req, res) => {
 });
 
 router.post('/getprofile', (req, res) => {
-  const username = req.body.username
+  const username = req.body.username;
   console.log(username);
 
   kafka.make_request('getprofile', req.body, (err, result) => {
       if (err) throw err;
       else {
-          console.log("User Found In DB")
-          console.log(result)
+          console.log("User Found In DB");
+          console.log(result);
           res.json(result)
       }
   })
@@ -613,23 +616,31 @@ router.post('/getprofile', (req, res) => {
 });
 
 router.post('/postcomment' , (req, res) => {
-    console.log('In post Comment',req.body)
+    console.log('In post Comment', req.body);
 
-    const pid = req.body.pid
-    const o_id = new ObjectId(pid)
-
-    MongoClient.connect(url, (err, db) => {
-        if(err) throw err
+    kafka.make_request( 'postcomment', req.body, (err, result) => {
+        if(err) throw err;
         else {
-            let dbo = db.db('freelancer')
-            dbo.collection('projects').updateOne( { _id : o_id }, { $set : { comment : req.body.comment }}, (err, result) => {
-                if(err) throw err
-                else {
-                    console.log('Comment Updated', result.result)
-                }
-            })
+            console.log('Comment Updated', result.result);
+            res.json(result)
         }
     })
+
+    // const pid = req.body.pid
+    // const o_id = new ObjectId(pid)
+    //
+    // MongoClient.connect(url, (err, db) => {
+    //     if(err) throw err
+    //     else {
+    //         let dbo = db.db('freelancer')
+    //         dbo.collection('projects').updateOne( { _id : o_id }, { $set : { comment : req.body.comment }}, (err, result) => {
+    //             if(err) throw err
+    //             else {
+    //                 console.log('Comment Updated', result.result)
+    //             }
+    //         })
+    //     }
+    // })
 });
 
 router.post('/getuserid', (req, res) => {
@@ -659,7 +670,7 @@ router.post('/getuserid', (req, res) => {
       })
     }
   })
-})
+});
 
 router.post('/updateprofile', (req, res) => {
   console.log("In Update profile");
@@ -673,12 +684,25 @@ router.post('/updateprofile', (req, res) => {
   // let skills = req.body.skills
 
     kafka.make_request('updateprofile', req.body, (err, result) => {
-        if(err) throw err
+        if(err) throw err;
         else {
-            console.log("1 Profile Details Updated")
-            return res.json({
-                data: result
-            })
+            console.log("1 Profile Details Updated");
+            res.json({
+                data : result
+            });
+
+            // MongoClient.connect(url, (err, db) => {
+            //     if(err) throw err;
+            //     else {
+            //         var data = fs.readFileSync(`public/${req.body.username}.jpg`);
+            //         var insert_data = {};
+            //         insert_data.file_data= Binary(data);
+            //         let dbo = db.db('freelancer');
+            //         dbo.collection('users').updateOne( { username : req.body.username } , {  $set : { file_data : insert_data}  });
+            //         res.json({file: `public/${req.body.username}.jpg`});
+            //     }
+            // });
+
         }
     })
     //without kafka code
@@ -724,7 +748,19 @@ router.post('/updateprofile', (req, res) => {
 //       })
 //     }
 //   })
-})
+});
+
+router.post('/getimageurl', (req, res) => {
+    console.log("In get image url", req.body);
+
+    MongoClient.connect(url, (err, db) => {
+        if(err) throw err;
+        else {
+            res.json({file: `public/${req.body.username}.jpg`});
+        }
+    });
+
+});
 
 router.post('/getprojects', (req, res) => {
     console.log("In Get All Projects ", req.body);
@@ -773,15 +809,15 @@ router.post('/getprojects', (req, res) => {
     //     })
     //   }
     // })
-})
+});
 
 router.post('/getprojectdetails', (req, res) => {
   console.log("In get project details",req.body);
 
   kafka.make_request('getprojectdetails', req.body, (err, result) => {
-      if(err) throw err
+      if(err) throw err;
       else {
-          console.log('Project Details from Database' , result )
+          console.log('Project Details from Database' , result );
           res.json(result)
       }
   })
@@ -874,349 +910,425 @@ router.post('/getprojectdetails', (req, res) => {
   //     })
   //   }
   // })
-})
+});
 
 router.post('/getpaymentdetails', (req, res) => {
-    console.log('in payment details ', req.body)
+    console.log('in payment details ', req.body);
 
-    const pid = req.body.pid
-    const o_id = new ObjectId(pid)
-
-    MongoClient.connect( url, (err, db) => {
-        if(err) throw err
+    kafka.make_request('getpaymentdetails', req.body, (err, result) => {
+        if(err) throw err;
         else {
-            let dbo = db.db('freelancer')
-            dbo.collection('projects').aggregate([
-                { $match : { _id : o_id } },
-                {
-                    $lookup: {
-                        from: "bids",
-                        let: { pid: "$_id", worker: "$worker" },
-                        pipeline: [
-                            { $match:
-                                    { $expr:
-                                            { $and:
-                                                    [
-                                                        { $eq: [ "$projectid",  "$$pid" ] },
-                                                        { $eq: [ "$freelancer", "$$worker" ] }
-                                                    ]
-                                            }
-                                    }
-                            }
-                        ],
-                        as: "payment"
-                    }
-                },
-                {
-                    $unwind:{
-                        path:"$payment",
-                        preserveNullAndEmptyArrays: true
-                    }
-                },
-                {
-                    $project : {
-                        employer : 1,
-                        worker : 1,
-                        bidamt : '$payment.bid',
-                        projectname : 1
-                    }
-                }
-            ]).toArray( (err, result) => {
-                    console.log('found details',result)
-                res.json(result)
-                db.close()
-            } )
+            console.log( 'found details', result);
+            res.json(result);
         }
     })
-})
+
+    // const pid = req.body.pid;
+    // const o_id = new ObjectId(pid);
+    //
+    // MongoClient.connect( url, (err, db) => {
+    //     if(err) throw err
+    //     else {
+    //         let dbo = db.db('freelancer');
+    //         dbo.collection('projects').aggregate([
+    //             { $match : { _id : o_id } },
+    //             {
+    //                 $lookup: {
+    //                     from: "bids",
+    //                     let: { pid: "$_id", worker: "$worker" },
+    //                     pipeline: [
+    //                         { $match:
+    //                                 { $expr:
+    //                                         { $and:
+    //                                                 [
+    //                                                     { $eq: [ "$projectid",  "$$pid" ] },
+    //                                                     { $eq: [ "$freelancer", "$$worker" ] }
+    //                                                 ]
+    //                                         }
+    //                                 }
+    //                         }
+    //                     ],
+    //                     as: "payment"
+    //                 }
+    //             },
+    //             {
+    //                 $unwind:{
+    //                     path:"$payment",
+    //                     preserveNullAndEmptyArrays: true
+    //                 }
+    //             },
+    //             {
+    //                 $project : {
+    //                     employer : 1,
+    //                     worker : 1,
+    //                     bidamt : '$payment.bid',
+    //                     projectname : 1
+    //                 }
+    //             }
+    //         ]).toArray( (err, result) => {
+    //                 console.log('found details',result)
+    //             res.json(result)
+    //             db.close()
+    //         } )
+    //     }
+    // })
+});
 
 router.post('/getbalance', (req, res) => {
-    console.log('Employer balance',req.body)
 
-    MongoClient.connect( url, (err, db) => {
-        if(err) throw err
+    console.log('Employer balance',req.body);
+
+    kafka.make_request('getbalance', req.body, (err, result) => {
+        if (err) throw err;
         else {
-            let dbo = db.db('freelancer')
-            dbo.collection('users').find( { username : req.body.u } ).toArray( (err,result) => {
-                if (err) throw err
-                else {
-                    console.log('Employer Found',result)
-                    res.json(result)
-                }
-            })
+            console.log('Employer Found',result);
+            res.json(result)
         }
-    })
-} )
+    });
+
+    // MongoClient.connect( url, (err, db) => {
+    //     if(err) throw err
+    //     else {
+    //         let dbo = db.db('freelancer')
+    //         dbo.collection('users').find( { username : req.body.u } ).toArray( (err,result) => {
+    //             if (err) throw err
+    //             else {
+    //                 console.log('Employer Found',result)
+    //                 res.json(result)
+    //             }
+    //         })
+    //     }
+    // })
+} );
 
 router.post('/withdrawmoney', (req, res) => {
-    console.log(req.body)
+    console.log(req.body);
 
-    MongoClient.connect( url, (err, db) => {
-        if(err) throw err
+    kafka.make_request('withdrawmoney', req.body, (err, result) => {
+        if(err) throw err;
         else {
-            let dbo = db.db('freelancer')
-            dbo.collection('users').updateOne( { username : req.body.username },
-                { $set : { balance : req.body.amount } }, (err, result) => {
-                    if(err) throw err
-                    else {
-                        console.log("Balance Updated", result.result)
-                        res.json(result)
-                        db.close()
-                    }
-                } )
-
-            //Updating Transactions= Table
-            dbo.collection('transaction').insertOne({
-                id : req.body.id,
-                pname : req.body.pname,
-                amount : req.body.debit,
-                transType : 'debit',
-                username : req.body.username,
-                date : new Date().toLocaleDateString()
-            }, (err, result) => {
-                if(err) throw err
-                console.log('Updated Transaction History', result.result)
-            })
+            console.log("Balance Updated", result.result);
+            res.json(result);
         }
-    })
-})
+    });
+
+    // MongoClient.connect( url, (err, db) => {
+    //     if(err) throw err;
+    //     else {
+    //         let dbo = db.db('freelancer')
+    //         dbo.collection('users').updateOne( { username : req.body.username }, { $set : { balance : req.body.amount } }, (err, result) => {
+    //                 if(err) throw err
+    //                 else {
+    //                     console.log("Balance Updated", result.result)
+    //                     res.json(result)
+    //                     db.close()
+    //                 }
+    //             } )
+    //
+    //         //Updating Transactions= Table
+    //         dbo.collection('transaction').insertOne({
+    //             id : req.body.id,
+    //             pname : req.body.pname,
+    //             amount : req.body.debit,
+    //             transType : 'debit',
+    //             username : req.body.username,
+    //             date : new Date().toLocaleDateString()
+    //         }, (err, result) => {
+    //             if(err) throw err
+    //             console.log('Updated Transaction History', result.result)
+    //         })
+    //     }
+    // })
+});
 
 router.post('/addmoney', (req, res) => {
-    console.log(req.body)
+    console.log(req.body);
 
-    MongoClient.connect( url, (err, db) => {
-        if(err) throw err
+    kafka.make_request('addmoney', req.body, (err, result) => {
+        if (err) throw err;
         else {
-            let dbo = db.db('freelancer')
-            dbo.collection('users').updateOne( { username : req.body.username },
-                { $set : { balance : req.body.amount } }, (err, result) => {
-                    if(err) throw err
-                    else {
-                        console.log("Balance Updated", result.result)
-                        res.json(result)
-                        db.close()
-                    }
-                } )
-
-            //Updating Transactions Table
-            dbo.collection('transaction').insertOne({
-                id : req.body.id,
-                pname : req.body.pname,
-                amount : req.body.credit,
-                transType : 'credit',
-                username : req.body.username,
-                date : new Date().toLocaleDateString()
-            }, (err, result) => {
-                if(err) throw err
-                console.log('Updated Transaction History', result.result)
-            })
+            console.log("Balance Updated", result.result);
+            res.json(result)
         }
-    })
-})
 
-router.post('/assignedprojects', (req, res) => {
-    console.log('In Assigned Projects', req.body)
-
-    MongoClient.connect( url, (err, db) => {
-        if(err) throw err
-        else {
-            let dbo = db.db('freelancer')
-            dbo.collection('projects').find( { worker : req.body.username } ).toArray((err, result) => {
-                if(err) throw err
-                else {
-                    console.log('Assigned Projects Found', result)
-                    res.json(result)
-                }
-            })
-        }
-    })
-})
-
-router.post('/transaction', (req, res) => {
-    console.log('In Transaction : ', req.body)
-    let updatedbalanceEmployer = req.body.employerbal - req.body.bidamt
-    // console.log('Updated balance Emp',updatedbalanceEmployer)
-
-    MongoClient.connect(url, (err, db) => {
-        if(err) throw err
-        else {
-            let dbo = db.db('freelancer')
-            dbo.collection('users').updateOne( {username : req.body.employer }, { $set : { balance : updatedbalanceEmployer} },  (err, result) => {
-                if(err) throw err
-                console.log('Employer Balance Updated', result.result)
-
-                //Worker Balance Updation
-                let updatedbalanceWorker = req.body.workerbal + req.body.bidamt
-                dbo.collection('users').updateOne( {username : req.body.worker }, { $set : { balance : updatedbalanceWorker } },  (err, result) => {
-                    if(err) throw err
-                    console.log('Worker Balance Updated',result.result)
-
-                    //Employer Transaction Updation
-                    dbo.collection('transaction').insertOne({
-                        id : req.body.transactionidEmployer,
-                        projectid : req.body.pid,
-                        pname : req.body.projectname,
-                        amount : req.body.bidamt,
-                        transType : 'debit',
-                        username : req.body.employer
-                    }, (err, result) => {
-                        if(err) throw err
-                        console.log('Updated Employer Transaction History')
-                    })
-
-                    //Worker Transaction Updation
-                    dbo.collection('transaction').insertOne({
-                        id : req.body.transactionidWorker,
-                        projectid : req.body.pid,
-                        pname : req.body.projectname,
-                        amount : req.body.bidamt,
-                        transType : 'credit',
-                        username : req.body.worker
-                    }, (err, result) => {
-                        if(err) throw err
-                        console.log('Updated Worker Transaction History', result.result)
-
-                    });
-
-                    // Status Updation in Project Table
-                    const projectid = req.body.pid
-                    const o_id = new ObjectId(projectid)
-                    dbo.collection('projects').updateOne( { _id : o_id } , { $set : { status : 'closed' } }, (err, result) => {
-                        if(err) throw err
-                        console.log("Status Updated in Projects", result.result)
-                        res.json("Transaction Successful")
-                    } )
-                })
-            } )
-        }
+        // MongoClient.connect( url, (err, db) => {
+        //     if(err) throw err;
+        //     else {
+        //         let dbo = db.db('freelancer');
+        //         dbo.collection('users').updateOne( { username : req.body.username }, { $set : { balance : req.body.amount } }, (err, result) => {
+        //                 if(err) throw err;
+        //                 else {
+        //                     console.log("Balance Updated", result.result);
+        //                     res.json(result);
+        //                     db.close()
+        //                 }
+        //             } );
+        //
+        //         //Updating Transactions Table
+        //         dbo.collection('transaction').insertOne({
+        //             id : req.body.id,
+        //             pname : req.body.pname,
+        //             amount : req.body.credit,
+        //             transType : 'credit',
+        //             username : req.body.username,
+        //             date : new Date().toLocaleDateString()
+        //         }, (err, result) => {
+        //             if(err) throw err;
+        //             console.log('Updated Transaction History', result.result)
+        //         })
+        //     }
+        // })
     })
 });
 
-router.post('/gettranshistory', (req, res) => {
-    console.log('In trans history', req.body)
+router.post('/assignedprojects', (req, res) => {
+    console.log('In Assigned Projects', req.body);
 
-    MongoClient.connect(url, (err, db) => {
-        if(err) throw err
+    kafka.make_request('assignedprojects', req.body, (err, result)=> {
+        if(err) throw err;
         else {
-            let dbo = db.db('freelancer')
-            dbo.collection('transaction').find( { username : req.body.u } ).toArray( (err, result) => {
-                if (err) throw err
-                else {
-                    console.log('trans details', result)
-                    res.json(result)
-                    db.close()
-                }
-            } )
+            console.log('Assigned Projects Found', result);
+            res.json(result)
         }
-    })
+    });
+
+    // MongoClient.connect( url, (err, db) => {
+    //     if(err) throw err
+    //     else {
+    //         let dbo = db.db('freelancer')
+    //         dbo.collection('projects').find( { worker : req.body.username } ).toArray((err, result) => {
+    //             if(err) throw err
+    //             else {
+    //                 console.log('Assigned Projects Found', result)
+    //                 res.json(result)
+    //             }
+    //         })
+    //     }
+    // })
+});
+
+router.post('/transaction', (req, res) => {
+    console.log('In Transaction : ', req.body);
+
+    kafka.make_request('transaction', req.body, (err, result) => {
+        if(err) throw err;
+        console.log("Status Updated in Projects", result);
+        res.json(result);
+    });
+
+    // let updatedbalanceEmployer = req.body.employerbal - req.body.bidamt
+
+    // MongoClient.connect(url, (err, db) => {
+    //     if(err) throw err;
+    //     else {
+    //         let dbo = db.db('freelancer')
+    //         dbo.collection('users').updateOne( {username : req.body.employer }, { $set : { balance : updatedbalanceEmployer} },  (err, result) => {
+    //             if(err) throw err
+    //             console.log('Employer Balance Updated', result.result)
+    //
+    //             //Worker Balance Updation
+    //             let updatedbalanceWorker = req.body.workerbal + req.body.bidamt
+    //             dbo.collection('users').updateOne( {username : req.body.worker }, { $set : { balance : updatedbalanceWorker } },  (err, result) => {
+    //                 if(err) throw err
+    //                 console.log('Worker Balance Updated',result.result)
+    //
+    //                 //Employer Transaction Updation
+    //                 dbo.collection('transaction').insertOne({
+    //                     id : req.body.transactionidEmployer,
+    //                     projectid : req.body.pid,
+    //                     pname : req.body.projectname,
+    //                     amount : req.body.bidamt,
+    //                     transType : 'debit',
+    //                     username : req.body.employer
+    //                 }, (err, result) => {
+    //                     if(err) throw err
+    //                     console.log('Updated Employer Transaction History')
+    //                 })
+    //
+    //                 //Worker Transaction Updation
+    //                 dbo.collection('transaction').insertOne({
+    //                     id : req.body.transactionidWorker,
+    //                     projectid : req.body.pid,
+    //                     pname : req.body.projectname,
+    //                     amount : req.body.bidamt,
+    //                     transType : 'credit',
+    //                     username : req.body.worker
+    //                 }, (err, result) => {
+    //                     if(err) throw err
+    //                     console.log('Updated Worker Transaction History', result.result)
+    //
+    //                 });
+    //
+    //                 // Status Updation in Project Table
+    //                 const projectid = req.body.pid
+    //                 const o_id = new ObjectId(projectid)
+    //                 dbo.collection('projects').updateOne( { _id : o_id } , { $set : { status : 'closed' } }, (err, result) => {
+    //                     if(err) throw err
+    //                     console.log("Status Updated in Projects", result.result)
+    //                     res.json("Transaction Successful")
+    //                 } )
+    //             })
+    //         } )
+    //     }
+    // })
+});
+
+router.post('/gettranshistory', (req, res) => {
+    console.log('In trans history', req.body);
+
+    kafka.make_request( 'gettranshistory', req.body, (err, result) => {
+        if (err) throw err;
+        else {
+            console.log('trans details', result);
+            res.json(result);
+    }
+    });
+
+    // MongoClient.connect(url, (err, db) => {
+    //     if(err) throw err
+    //     else {
+    //         let dbo = db.db('freelancer')
+    //         dbo.collection('transaction').find( { username : req.body.u } ).toArray( (err, result) => {
+    //             if (err) throw err
+    //             else {
+    //                 console.log('trans details', result)
+    //                 res.json(result)
+    //                 db.close()
+    //             }
+    //         } )
+    //     }
+    // })
 });
 
 router.post('/gettranstypeDebit', (req, res) => {
 
-    MongoClient.connect(url, (err, db) => {
-        if(err) throw err
+    kafka.make_request('gettranstypeDebit', req.body, (err, result) => {
+        if (err) throw err;
         else {
-            let dbo = db.db('freelancer')
-            dbo.collection('transaction').find( { username : req.body.u  ,  transType : 'debit' } ).toArray( (err, result) => {
-                if (err) throw err
-                else {
-                    console.log('trans details', result)
-                    res.json(result)
-                    db.close()
-                }
-            } )
+            console.log('trans details', result);
+            res.json(result);
         }
-    })
+    });
+
+    // MongoClient.connect(url, (err, db) => {
+    //     if(err) throw err;
+    //     else {
+    //         let dbo = db.db('freelancer');
+    //         dbo.collection('transaction').find( { username : req.body.u  ,  transType : 'debit' } ).toArray( (err, result) => {
+    //             if (err) throw err;
+    //             else {
+    //                 console.log('trans details', result);
+    //                 res.json(result);
+    //                 db.close()
+    //             }
+    //         } )
+    //     }
+    // })
 
 });
 
 router.post('/gettranstypeCredit', (req, res) => {
 
-    MongoClient.connect(url, (err, db) => {
-        if(err) throw err
+    kafka.make_request('gettranstypeCredit', req.body, (err, result) => {
+        if (err) throw err;
         else {
-            let dbo = db.db('freelancer')
-            dbo.collection('transaction').find( { username : req.body.u  ,  transType : 'credit' } ).toArray( (err, result) => {
-                if (err) throw err
-                else {
-                    console.log('trans details', result)
-                    res.json(result)
-                    db.close()
-                }
-            } )
+            console.log('trans details', result);
+            res.json(result);
         }
-    })
+    });
+
+    // MongoClient.connect(url, (err, db) => {
+    //     if(err) throw err;
+    //     else {
+    //         let dbo = db.db('freelancer');
+    //         dbo.collection('transaction').find( { username : req.body.u  ,  transType : 'credit' } ).toArray( (err, result) => {
+    //             if (err) throw err;
+    //             else {
+    //                 console.log('trans details', result);
+    //                 res.json(result);
+    //                 db.close()
+    //             }
+    //         } )
+    //     }
+    // })
 
 });
 
 router.post('/setworker', (req, res) => {
   console.log('In Set Worker', req.body);
-    const projectid = req.body.pid
-    const o_id = new ObjectId(projectid)
 
-    MongoClient.connect( url, (err, db) => {
-        if(err) throw err
-        else {
-            let dbo = db.db('freelancer')
-            dbo.collection('projects').updateOne( { _id : o_id },
-                { $set : {worker : req.body.freelancer}} , (err, result) => {
-                    if(err) throw err
-                    else {
-                        console.log('Worker Set : ', result.result )
-                        res.json("Worker set for this project");
-                        dbo.collection('projects').aggregate([
-                            {$match: { _id : o_id }},
-                            {
-                                $lookup:{
-                                    from: 'users',
-                                    localField : 'worker',
-                                    foreignField : 'username',
-                                    as : 'hire'
-                                }
-                            },
-                            {
-                                $unwind:{
-                                    path:"$hire",
-                                    preserveNullAndEmptyArrays: true
-                                }
-                            },
-                            {
-                                $project:{
-                                    projectname : 1 ,
-                                    employer : 1 ,
-                                    desc : 1 ,
-                                    freelancerEmail : '$hire.email',
-                                }
-                            }
-                        ]).toArray( (err, result) => {
-                            if (err) throw err
-                            else {
-                                console.log('freelancer details', result)
+  kafka.make_request('setworker', req.body, (err, result) => {
+      if(err) throw err;
+      else {
+          res.json("Email sent and Worker set for this project");
+      }
+  });
 
-                                let mailOptions = {
-                                    from: 'pradnyesh.patil07@gmail.com',
-                                    to: result[0].freelancerEmail[0] ,
-                                    subject: 'Congratulation !!! You Are Hired',
-                                    html:   '<h3> Project Name: </h3>'+ result[0].projectname +
-                                                '<h3> Description:</h3>' + result[0].desc +
-                                                '<h3> Employer:</h3>' + result[0].employer
-                                };
-
-                                transporter.sendMail(mailOptions, function(error, info){
-                                    if (error) {
-                                        console.log(error);
-                                    } else {
-                                        console.log('Email sent : ' + info.response);
-                                    }
-                                });
-
-                            }
-                        })
-                    }
-                }
-                )
-        }
-    })
+    // const projectid = req.body.pid
+    // const o_id = new ObjectId(projectid)
+    //
+    // // MongoClient.connect( url, (err, db) => {
+    // //     if(err) throw err
+    // //     else {
+    // //         let dbo = db.db('freelancer')
+    // //         dbo.collection('projects').updateOne( { _id : o_id }, { $set : { worker : req.body.freelancer}} , (err, result) => {
+    // //                 if(err) throw err
+    // //                 else {
+    // //                     console.log('Worker Set : ', result.result )
+    // //                     res.json("Worker set for this project");
+    // //                     dbo.collection('projects').aggregate([
+    // //                         {$match: { _id : o_id }},
+    // //                         {
+    // //                             $lookup:{
+    // //                                 from: 'users',
+    // //                                 localField : 'worker',
+    // //                                 foreignField : 'username',
+    // //                                 as : 'hire'
+    // //                             }
+    // //                         },
+    // //                         {
+    // //                             $unwind:{
+    // //                                 path:"$hire",
+    // //                                 preserveNullAndEmptyArrays: true
+    // //                             }
+    // //                         },
+    // //                         {
+    // //                             $project:{
+    // //                                 projectname : 1 ,
+    // //                                 employer : 1 ,
+    // //                                 desc : 1 ,
+    // //                                 freelancerEmail : '$hire.email',
+    // //                             }
+    // //                         }
+    // //                     ]).toArray( (err, result) => {
+    // //                         if (err) throw err
+    // //                         else {
+    // //                             console.log('freelancer details', result)
+    // //
+    // //                             let mailOptions = {
+    // //                                 from: 'pradnyesh.patil07@gmail.com',
+    // //                                 to: result[0].freelancerEmail[0] ,
+    // //                                 subject: 'Congratulation !!! You Are Hired',
+    // //                                 html:   '<h3> Project Name: </h3>'+ result[0].projectname +
+    // //                                             '<h3> Description:</h3>' + result[0].desc +
+    // //                                             '<h3> Employer:</h3>' + result[0].employer
+    // //                             };
+    // //
+    // //                             transporter.sendMail(mailOptions, function(error, info){
+    // //                                 if (error) {
+    // //                                     console.log(error);
+    // //                                 } else {
+    // //                                     console.log('Email sent : ' + info.response);
+    // //                                 }
+    // //                             });
+    // //
+    // //                         }
+    // //                     })
+    // //                 }
+    // //             }
+    // //             )
+    // //     }
+    // // })
 
 
   // connectionPool.getConnection((err, connection) => {
@@ -1238,24 +1350,31 @@ router.post('/setworker', (req, res) => {
 
 router.post( '/getallbids', (req, res) => {
   console.log("In Get All bids", req.body );
-  
-  let pid = req.body.projectid
-    let o_id = new ObjectId(pid)
 
-    MongoClient.connect(url, (err, connection) => {
-        if(err) throw err
-        else {
-            let dbo = connection.db("freelancer")
-            let query = { projectid : o_id }
-            dbo.collection("bids").find(query).toArray( (err, result) => {
-                if(err) throw err
-                else {
-                    console.log("Result in List All bids", result)
-                    res.json(result)
-                }
-            })
-        }
-    })
+  kafka.make_request('getallbids', req.body, (err, result) => {
+      if(err) throw err;
+      else {
+          console.log("Result in List All bids", result);
+          res.json(result)
+      }  });
+
+  // let pid = req.body.projectid
+  //   let o_id = new ObjectId(pid)
+  //
+  //   MongoClient.connect(url, (err, connection) => {
+  //       if(err) throw err
+  //       else {
+  //           let dbo = connection.db("freelancer")
+  //           let query = { projectid : o_id }
+  //           dbo.collection("bids").find(query).toArray( (err, result) => {
+  //               if(err) throw err;
+  //               else {
+  //                   console.log("Result in List All bids", result)
+  //                   res.json(result)
+  //               }
+  //           })
+  //       }
+  //   })
 
     //Commented MySQL part
   // con.getConnection((err, connection) => {
@@ -1283,28 +1402,46 @@ router.post( '/getallbids', (req, res) => {
 });
 
 router.post('/getemployer', (req, res) => {
-    console.log('In get employer', req.body)
-    let pid = req.body.projectid
-    let o_id = new ObjectId(pid)
+    console.log('In get employer', req.body);
 
-    MongoClient.connect(url, (err, db) => {
-        if (err) throw err
+    kafka.make_request('getemployer', req.body, (err, result) => {
+        if(err) throw err;
         else {
-            let dbo = db.db('freelancer')
-            dbo.collection('projects').find({ _id : o_id }).toArray((err, result) => {
-                if(err) throw err
-                else {
-                    console.log('In get project name', result)
-                    res.json(result[0].employer)
-                }
-            })
+            console.log('In get project name', result);
+            res.json(result[0].employer)
         }
-    })
+    });
+
+    // let pid = req.body.projectid
+    // let o_id = new ObjectId(pid)
+    //
+    // MongoClient.connect(url, (err, db) => {
+    //     if (err) throw err
+    //     else {
+    //         let dbo = db.db('freelancer')
+    //         dbo.collection('projects').find({ _id : o_id }).toArray((err, result) => {
+    //             if(err) throw err
+    //             else {
+    //                 console.log('In get project name', result)
+    //                 res.json(result[0].employer)
+    //             }
+    //         })
+    //     }
+    // })
 });
 
 router.post('/addproject', (req, res) => {
   console.log("In AddProject, Received Request for Posting a new Project", req.body);
   console.log(req.body.skillsreq);
+
+  kafka.make_request('addproject', req.body, (err, result) => {
+      if(err) throw err;
+        else {
+          console.log("Project Details Inserted Successfully");
+          console.log(result.insertedId);
+          res.json('PROJECTPOST_SUCCESS');
+      }
+  })
 
   // let id = req.body.userid;
   // let freelancer = req.body.freelancer
@@ -1315,27 +1452,27 @@ router.post('/addproject', (req, res) => {
   // let startdt = req.body.startdate;
   // let compdt = req.body.compdate;
 
-  MongoClient.connect(url, (err, connection) => {
-    if(err) throw err
-      else {
-        let dbo = connection.db("freelancer");
-        dbo.collection('projects').insertOne({
-            employer : req.body.username,
-            projectname : req.body.projectname,
-            desc : req.body.projectdesc,
-            skillsreq : req.body.skillsreq,
-            budget : req.body.budgetrange,
-            startdate : req.body.startdate,
-            compdate: req.body.compdate,
-            worker : ''
-        }).then( (result) => {
-            console.log("Project Details Inserted Successfully");
-            console.log(result.insertedId);
-            connection.close();
-            res.json('PROJECTPOST_SUCCESS');
-        })
-    }
-  })
+  // MongoClient.connect(url, (err, connection) => {
+  //   if(err) throw err
+  //     else {
+  //       let dbo = connection.db("freelancer");
+  //       dbo.collection('projects').insertOne({
+  //           employer : req.body.username,
+  //           projectname : req.body.projectname,
+  //           desc : req.body.projectdesc,
+  //           skillsreq : req.body.skillsreq,
+  //           budget : req.body.budgetrange,
+  //           startdate : req.body.startdate,
+  //           compdate: req.body.compdate,
+  //           worker : ''
+  //       }).then( (result) => {
+  //           console.log("Project Details Inserted Successfully");
+  //           console.log(result.insertedId);
+  //           connection.close();
+  //           res.json('PROJECTPOST_SUCCESS');
+  //       })
+  //   }
+  // })
 
   //Commented MySQL db part
   // con.getConnection((err, connection) => {
@@ -1364,74 +1501,83 @@ router.post('/addproject', (req, res) => {
 
 router.post('/getmypostedprojects', (req, res) => {
   console.log(req.body);
-  
-  // let username = req.body.username
 
-   MongoClient.connect(url, (err, db) => {
-       if(err) {
-           res.json("ERROR")
-       }
-       else {
-           let dbo = db.db('freelancer');
-           dbo.collection('projects').aggregate([
-               {$match: { employer: req.body.username }},
-               {
-                   $lookup:{
-                       from : 'bids',
-                       localField : '_id',
-                       foreignField : 'projectid',
-                       as : 'projectbids'
-                   }
-               },
-               {
-                   $unwind:{
-                       path:"$projectbids",
-                       preserveNullAndEmptyArrays: true
-                   }
-               },
-               {
-                   $group:{
-                       _id:{
-                           id:'$_id',
-                           employer:'$employer',
-                           projectname: '$projectname',
-                           desc : '$desc',
-                           skillsreq : '$skillsreq',
-                           budget : '$budget',
-                           startdate : '$startdate',
-                           bids : '$bids',
-                           status : '$status',
-                           worker : '$worker'
-                       },
-                       average : { $avg: '$projectbids.bid' }
-                   }
-               },
-               {
-                   $project:{
-                       id : "$_id.id",
-                       projectname: '$_id.projectname',
-                       employer:'$_id.employer',
-                       desc : '$_id.desc',
-                       skillsreq : '$_id.skillsreq',
-                       budget : '$_id.budget',
-                       startdate : '$_id.startdate',
-                       bids : '$_id.bids',
-                       status : '$_id.status',
-                       worker : '$_id.worker',
-                       average : { $ifNull: [ "$average",0 ] }
-                   }
-               }
-           ]).toArray( (err, result) => {
-               if(err) {
-                    res.json('ERROR')
-               }
-               else {
-                   console.log("Results",result)
-                   res.json(result)
-               }
-           } )
-       }
-   })
+  kafka.make_request('getmypostedprojects', req.body, (err, result) => {
+      if(err) {
+          res.json('ERROR')
+      }
+      else {
+          console.log("Results", result);
+          res.json(result)
+      }
+  })
+
+  // let username = req.body.username
+   // MongoClient.connect(url, (err, db) => {
+   //     if(err) {
+   //         res.json("ERROR")
+   //     }
+   //     else {
+   //         let dbo = db.db('freelancer');
+   //         dbo.collection('projects').aggregate([
+   //             {$match: { employer: req.body.username }},
+   //             {
+   //                 $lookup:{
+   //                     from : 'bids',
+   //                     localField : '_id',
+   //                     foreignField : 'projectid',
+   //                     as : 'projectbids'
+   //                 }
+   //             },
+   //             {
+   //                 $unwind:{
+   //                     path:"$projectbids",
+   //                     preserveNullAndEmptyArrays: true
+   //                 }
+   //             },
+   //             {
+   //                 $group:{
+   //                     _id:{
+   //                         id:'$_id',
+   //                         employer:'$employer',
+   //                         projectname: '$projectname',
+   //                         desc : '$desc',
+   //                         skillsreq : '$skillsreq',
+   //                         budget : '$budget',
+   //                         startdate : '$startdate',
+   //                         bids : '$bids',
+   //                         status : '$status',
+   //                         worker : '$worker'
+   //                     },
+   //                     average : { $avg: '$projectbids.bid' }
+   //                 }
+   //             },
+   //             {
+   //                 $project:{
+   //                     id : "$_id.id",
+   //                     projectname: '$_id.projectname',
+   //                     employer:'$_id.employer',
+   //                     desc : '$_id.desc',
+   //                     skillsreq : '$_id.skillsreq',
+   //                     budget : '$_id.budget',
+   //                     startdate : '$_id.startdate',
+   //                     bids : '$_id.bids',
+   //                     status : '$_id.status',
+   //                     worker : '$_id.worker',
+   //                     average : { $ifNull: [ "$average",0 ] }
+   //                 }
+   //             }
+   //         ]).toArray( (err, result) => {
+   //             if(err) {
+   //                  res.json('ERROR')
+   //             }
+   //             else {
+   //                 console.log("Results",result)
+   //                 res.json(result)
+   //             }
+   //         } )
+   //     }
+   // })
 
   // SQL Part Commented
   // con.getConnection((err, connection) => {
@@ -1457,106 +1603,116 @@ router.post('/getmypostedprojects', (req, res) => {
   //   }
   // })
 
-})
+});
 
 router.post('/getmybiddedprojects', (req, res) => {
   console.log(req.body);
     // let username = req.body.userid
 
-    MongoClient.connect(url, (err, db) => {
-        if(err) throw err
+    kafka.make_request('getmybiddedprojects', req.body, (err, result) => {
+        if(err) {
+            res.json("ERROR")
+        }
         else {
-            let dbo = db.db("freelancer")
-            dbo.collection('projects').aggregate([
-                {
-                    $lookup:{
-                        from : 'bids',
-                        localField : '_id',
-                        foreignField : 'projectid',
-                        as : 'a'
-                    }
-                },
-                {
-                    $unwind:{
-                        path:"$a",
-                        preserveNullAndEmptyArrays: true
-                    }
-                },
-                {
-                    $group: {
-                        _id :{
-                            _id : '$_id',
-                            employer : '$employer',
-                            projectname : '$projectname',
-                            desc : '$desc',
-                            budget :'$budget',
-                            skillsreq : '$skillsreq',
-                            status:'$status',
-                            bids:'$bids',
-                            worker : '$worker'
-                        },
-                        average : { $avg : '$a.bid' }
-                    }
-                },
-                {
-                    $project : {
-                        _id : 0,
-                        id : '$_id._id',
-                        employer : '$_id.employer',
-                        projectname : '$_id.projectname',
-                        desc : '$_id.desc',
-                        budget :'$_id.budget',
-                        skillsreq : '$_id.skillsreq',
-                        status:'$_id.status',
-                        bids:'$_id.bids',
-                        worker : '$_id.worker',
-                        average : { $ifNull : ['$average' , 0] }
-                    }
-                },
-                {
-                    $lookup:{
-                        from : 'bids',
-                        localField : 'id',
-                        foreignField : 'projectid',
-                        as : 'a1'
-                    }
-                },
-                {
-                    $unwind:{
-                        path:"$a1",
-                        preserveNullAndEmptyArrays: true
-                    }
-                },
-                {
-                    $match : { 'a1.freelancer' : req.body.username }
-                },
-                {
-                    $project : {
-                        id : 1,
-                        employer : 1,
-                        projectname :1,
-                        desc:1,
-                        budget:1,
-                        skillsreq:1,
-                        status:1,
-                        bids:1,
-                        worker:1,
-                        average:1,
-                        bid : '$a1.bid',
-                        deliverydays : '$a1.deliverydays'
-                    }
-                }
-            ]).toArray( (err, result) => {
-                if(err) {
-                    res.json("ERROR")
-                }
-                else {
-                    console.log("result fbids", result)
-                    res.json(result)
-                }
-            } )
+            console.log("result fbids", result);
+            res.json(result)
         }
     })
+
+    // MongoClient.connect(url, (err, db) => {
+    //     if(err) throw err
+    //     else {
+    //         let dbo = db.db("freelancer")
+    //         dbo.collection('projects').aggregate([
+    //             {
+    //                 $lookup:{
+    //                     from : 'bids',
+    //                     localField : '_id',
+    //                     foreignField : 'projectid',
+    //                     as : 'a'
+    //                 }
+    //             },
+    //             {
+    //                 $unwind:{
+    //                     path:"$a",
+    //                     preserveNullAndEmptyArrays: true
+    //                 }
+    //             },
+    //             {
+    //                 $group: {
+    //                     _id :{
+    //                         _id : '$_id',
+    //                         employer : '$employer',
+    //                         projectname : '$projectname',
+    //                         desc : '$desc',
+    //                         budget :'$budget',
+    //                         skillsreq : '$skillsreq',
+    //                         status:'$status',
+    //                         bids:'$bids',
+    //                         worker : '$worker'
+    //                     },
+    //                     average : { $avg : '$a.bid' }
+    //                 }
+    //             },
+    //             {
+    //                 $project : {
+    //                     _id : 0,
+    //                     id : '$_id._id',
+    //                     employer : '$_id.employer',
+    //                     projectname : '$_id.projectname',
+    //                     desc : '$_id.desc',
+    //                     budget :'$_id.budget',
+    //                     skillsreq : '$_id.skillsreq',
+    //                     status:'$_id.status',
+    //                     bids:'$_id.bids',
+    //                     worker : '$_id.worker',
+    //                     average : { $ifNull : ['$average' , 0] }
+    //                 }
+    //             },
+    //             {
+    //                 $lookup:{
+    //                     from : 'bids',
+    //                     localField : 'id',
+    //                     foreignField : 'projectid',
+    //                     as : 'a1'
+    //                 }
+    //             },
+    //             {
+    //                 $unwind:{
+    //                     path:"$a1",
+    //                     preserveNullAndEmptyArrays: true
+    //                 }
+    //             },
+    //             {
+    //                 $match : { 'a1.freelancer' : req.body.username }
+    //             },
+    //             {
+    //                 $project : {
+    //                     id : 1,
+    //                     employer : 1,
+    //                     projectname :1,
+    //                     desc:1,
+    //                     budget:1,
+    //                     skillsreq:1,
+    //                     status:1,
+    //                     bids:1,
+    //                     worker:1,
+    //                     average:1,
+    //                     bid : '$a1.bid',
+    //                     deliverydays : '$a1.deliverydays'
+    //                 }
+    //             }
+    //         ]).toArray( (err, result) => {
+    //             if(err) {
+    //                 res.json("ERROR")
+    //             }
+    //             else {
+    //                 console.log("result fbids", result)
+    //                 res.json(result)
+    //             }
+    //         } )
+    //     }
+    // })
 
   //SQL Part
   // con.getConnection((err, connection) => {
@@ -1581,66 +1737,74 @@ router.post('/getmybiddedprojects', (req, res) => {
   //     })
   //   }
   // })
-})
+});
 
 router.post('/updatebid', (req, res) => {
 
     console.log('In Update Bid', req.body);
 
-  let bid = req.body.bid;
-  let date = new Date;
-  // let userid = req.body.userid
-  let pid = req.body.projectid;
-  let o_id = new ObjectId(pid);
-  let dd = req.body.deliveryDays;
+    kafka.make_request('updatebid', req.body, (err, result) => {
+        if (err) throw err;
+        else {
+            console.log("Number of bids Updated in projects" );
+            res.json(result)
+        }
+    });
 
-  console.log(date);
+  // let bid = req.body.bid;
+  // let date = new Date;
+  // // let userid = req.body.userid
+  // let pid = req.body.projectid;
+  // let o_id = new ObjectId(pid);
+  // let dd = req.body.deliveryDays;
+  //
+  // console.log(date);
 
-  MongoClient.connect(url, (err, connection) => {
-      if(err) throw err;
-      else {
-          let dbo = connection.db("freelancer")
-          let query = {
-              projectid : o_id ,
-              freelancer : req.body.username,
-              bid : Number(bid),
-              date : date,
-              deliverydays : dd
-          };
-          dbo.collection('bids').find( { projectid: o_id, freelancer : req.body.username } ).toArray( (err,result) => {
-              if(err) throw err;
-              if( result.length === 0) {
-                  dbo.collection("bids").insertOne(query, (err, result) => {
-                          if(err) {
-                              res.json("ERROR")
-                          }
-                          else {
-                              console.log("In Bids Table, Bid Updated");
-                              let bidnum = { projectid: o_id };
-                              dbo.collection("bids").count(bidnum, (err, result) => {
-                                  if(err) throw err;
-                                  else {
-                                      console.log("Number of bids :" , result);
-                                      dbo.collection("projects").updateOne( {_id : o_id}, { $set:{ bids : result }} , (err, result) => {
-                                          if (err) throw err;
-                                          else {
-                                              console.log("Number of bids Updated in projects" );
-                                              res.json("BID_PLACED")
-                                          }
-                                      } )
-                                  }
-                              })
-                          }
-                      }
-                  )
-              }
-              else {
-                  res.json("ERROR")
-              }
-          } )
-
-      }
-  })
+  // MongoClient.connect(url, (err, connection) => {
+  //     if(err) throw err;
+  //     else {
+  //         let dbo = connection.db("freelancer")
+  //         let query = {
+  //             projectid : o_id ,
+  //             freelancer : req.body.username,
+  //             bid : Number(bid),
+  //             date : date,
+  //             deliverydays : dd
+  //         };
+  //         dbo.collection('bids').find( { projectid: o_id, freelancer : req.body.username } ).toArray( (err,result) => {
+  //             if(err) throw err;
+  //             if( result.length === 0) {
+  //                 dbo.collection("bids").insertOne(query, (err, result) => {
+  //                         if(err) {
+  //                             res.json("ERROR")
+  //                         }
+  //                         else {
+  //                             console.log("In Bids Table, Bid Updated");
+  //                             let bidnum = { projectid: o_id };
+  //                             dbo.collection("bids").count(bidnum, (err, result) => {
+  //                                 if(err) throw err;
+  //                                 else {
+  //                                     console.log("Number of bids :" , result);
+  //                                     dbo.collection("projects").updateOne( {_id : o_id}, { $set:{ bids : result }} , (err, result) => {
+  //                                         if (err) throw err;
+  //                                         else {
+  //                                             console.log("Number of bids Updated in projects" );
+  //                                             res.json("BID_PLACED")
+  //                                         }
+  //                                     } )
+  //                                 }
+  //                             })
+  //                         }
+  //                     }
+  //                 )
+  //             }
+  //             else {
+  //                 res.json("ERROR")
+  //             }
+  //         } )
+  //
+  //     }
+  // })
 
   // MySQL Bid logic Commented
   // con.getConnection((err, connection) => {
@@ -1688,23 +1852,31 @@ router.post('/updatebid', (req, res) => {
   //     })
   //   }
   // })
-})
+});
 
 router.post('/projectsbystatusdashboard', (req, res)=>{
-    console.log('in open projects', req.body)
+    console.log('in open projects', req.body);
 
-    MongoClient.connect(url, (err, connection) => {
-        if(err) throw  err
+    kafka.make_request('projectsbystatusdashboard', req.body, (err, result) => {
+        if (err) throw err;
         else {
-            const dbo = connection.db("freelancer");
-            dbo.collection("projects").find({ status : req.body.status,  employer : req.body.username }).toArray(function(err, result) {
-                if (err) throw err;
-                console.log( 'All the Projects from Database are as follows ' ,result);
-                res.json(result)
-                connection.close();
-            });
+            console.log( 'All the Projects from Database are as follows ' , result );
+            res.json(result)
         }
-    })
+    });
+
+    // MongoClient.connect(url, (err, connection) => {
+    //     if(err) throw  err
+    //     else {
+    //         const dbo = connection.db("freelancer");
+    //         dbo.collection("projects").find({ status : req.body.status,  employer : req.body.username }).toArray(function(err, result) {
+    //             if (err) throw err;
+    //             console.log( 'All the Projects from Database are as follows ' ,result);
+    //             res.json(result)
+    //             connection.close();
+    //         });
+    //     }
+    // })
 });
 
 module.exports = router;

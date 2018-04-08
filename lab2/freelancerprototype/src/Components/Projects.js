@@ -3,6 +3,7 @@ import axios from 'axios'
 import { Link } from 'react-router-dom' ;
 import BidNow from './BidNow'
 import Pagination from "./Pagination";
+import url from '../serverurl';
 
 class Projects extends Component {
     
@@ -40,7 +41,7 @@ class Projects extends Component {
         }
         console.log(searchArray)
 
-        axios.post('http://localhost:3001/searchtext', search)
+        axios.post( url + '/searchtext', search)
             .then( (response) => {
                 console.log('Receive Projects from Db :', response.data)
                 if( response.data.toString() ===  'No Project found in database' ) {
@@ -67,7 +68,7 @@ class Projects extends Component {
     }
 
     componentWillMount() {
-        axios.post('http://localhost:3001/getprojects', null , { withCredentials : true } )
+        axios.post( url + '/getprojects', null , { withCredentials : true } )
             .then((response) => {
                 console.log("Response from DB", response.data);
                 this.setState ({

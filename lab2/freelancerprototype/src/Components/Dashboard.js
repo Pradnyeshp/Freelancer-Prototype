@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom' ;
 import axios from 'axios';
 import './userhome.css'
-import image from '../Image/freelancerlogo.png'
 import Pagination from "./Pagination";
 import NavigationBar from "./NavigationBar";
+import url from '../serverurl';
 
 class Dashboard extends Component {
 
@@ -35,9 +35,9 @@ class Dashboard extends Component {
             username: localStorage.getItem('username')
         }
 
-        axios.post('http://localhost:3001/searchtextemployer', search)
+        axios.post( url + '/searchtextemployer', search)
             .then( (response) => {
-                console.log('Receive Projects from Db :', response.data)
+                console.log('Receive Projects from Db :', response.data);
                 if( response.data.toString() ===  'No Project found in database' ) {
                     this.setState ({
                         projects : [],
@@ -66,7 +66,7 @@ class Dashboard extends Component {
         const userDetails = {
             username : localStorage.getItem('username')
         }
-        axios.post('http://localhost:3001/getmypostedprojects', userDetails, {withCredentials : true})
+        axios.post( url + '/getmypostedprojects', userDetails, {withCredentials : true})
             .then((response) => {
                 console.log(response.data);
                 if (response.data === 'ERROR') {
@@ -231,7 +231,7 @@ class Dashboard extends Component {
                 <div className="col-lg-12">
                     <div className="input-group">
                         <input type="text" className="form-control" name='searchtext'
-                               placeholder="Search by Project Name ..."
+                               placeholder="Search by Technology Stack or Project Name ..."
                                onChange={this.handleChange} /> &nbsp;&nbsp;&nbsp;
                         <div className="input-group-btn">
                             <button className="btn btn-outline-primary" type="button" onClick={this.handleSearch}> Search </button>

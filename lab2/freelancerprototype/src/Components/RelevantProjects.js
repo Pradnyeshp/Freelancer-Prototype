@@ -1,11 +1,10 @@
 import React, { Component } from 'react';
 import './userhome.css'
 import { Link } from 'react-router-dom'
-import Navigator from './Navigator'
-import image from '../Image/freelancerlogo.png'
 import axios from "axios/index";
 import BidNow from './BidNow'
 import NavigationBar from "./NavigationBar";
+import url from '../serverurl';
 
 class RelevantProjects extends Component {
 
@@ -23,7 +22,7 @@ class RelevantProjects extends Component {
         })
         console.log(username);
 
-        axios.post('http://localhost:3001/getrelevantprojects', username, { withCredentials:true } )
+        axios.post(url + '/getrelevantprojects', username, { withCredentials:true } )
             .then((response) => {
                 console.log(response.data);
                 this.setState({

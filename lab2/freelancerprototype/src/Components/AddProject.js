@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet'
+import url from '../serverurl';
 
 class AddProject extends Component {
 
@@ -19,7 +20,7 @@ class AddProject extends Component {
             startdate : '' ,
             compdate : '',
             projectpost_success : ''
-        })
+        });
         this.postProject = this.postProject.bind(this)
         this.handleChange = this.handleChange.bind(this)
     }
@@ -60,9 +61,9 @@ class AddProject extends Component {
             budgetrange: this.state.budgetrange,
             startdate: this.state.startdate,
             compdate: this.state.compdate,
-        }
+        };
         this.props.addProject(projectDetails)
-    }
+    };
 
     handleChange = (e) => {
         e.preventDefault();
@@ -72,7 +73,7 @@ class AddProject extends Component {
         }, () => {
             console.log(this.state);
         })
-    }
+    };
 
     render() {
         let projectpost = null;
@@ -88,11 +89,11 @@ class AddProject extends Component {
                     <style>{'body { background-color: lightblue; }'}</style>
                 </Helmet>
                 {projectpost}
-                <div className='container' >
-                <form onSubmit={this.postProject} ><br />
+                <div className='container-fluid col-lg-12' >
+                <form onSubmit={this.postProject} className=''><br />
                     <h2>Tell us what you need done</h2>
                     <p>Get free quotes from skilled freelancers within minutes</p><br/>
-                    <div className='form-group' >
+                    <div className='' >
                         <label><h5>Choose a name for your project</h5> <br/>
                             <input type="text" 
                                 className="form-control"
@@ -101,7 +102,7 @@ class AddProject extends Component {
                                 onChange={this.handleChange} required />
                         </label><br/>
                     </div>
-                    <div className='form-group'>
+                    <div className=''>
                         <label><h5>Tell us more about your project</h5> <br />
                             <textarea className="form-control" 
                                 rows="4" name="projectdesc"
@@ -110,14 +111,14 @@ class AddProject extends Component {
                             </textarea>
                         </label><br />
                     </div>
-                    <div className='form-group'>
+                    <div className=''>
                         <label><h5>Upload your Files here </h5><br/>
                             <input type="file" 
                                 className="form-control" 
                                 name="fileupload" />
                         </label><br />
                     </div> 
-                    <div className='form-group' >   
+                    <div className='' >
                         <label><h5>What skills are required?</h5> <br/>
                             <input type="text" 
                                 className="form-control"
@@ -126,7 +127,7 @@ class AddProject extends Component {
                                 onChange={this.handleChange}required />
                         </label><br />
                     </div>
-                    <div className='form-group' >
+                    <div className='' >
                         <label> <h5> What is your estimated budget? </h5> <br/>
                                 <select className="form-control"
                                         defaultValue="Micro Project ($10 - 30 USD)"
@@ -143,23 +144,7 @@ class AddProject extends Component {
                                 </select>
                         </label> <br />
                     </div>
-                    <div className='form-group' >
-                        <label> <h5>Starting Date</h5> <br />
-                            <input type="date" 
-                                className="form-control"
-                                name="startdate"
-                                onChange={this.handleChange} required />
-                        </label> <br />
-                    </div>
-                    <div className='form-group' >
-                        <label> <h5> Completion Date </h5> <br />
-                            <input type="date" 
-                                className="form-control"
-                                name="compdate"
-                                onChange={this.handleChange} required />
-                        </label> <br />
-                    </div>
-                    <br/> 
+                    <br/>
                     <button className="btn btn-success"
                             onSubmit={this.handleSubmit} >Post My Project</button>
                 </form>
@@ -188,7 +173,7 @@ function mapDispatchToProps(dispatch) {
     return {
         addProject : (project) => {
             console.log(project);
-            axios.post('http://localhost:3001/addproject', project)
+            axios.post( url + '/addproject', project)
                 .then((response) => 
                 {
                     if (response.data === 'ERROR') {

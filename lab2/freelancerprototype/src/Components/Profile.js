@@ -4,8 +4,8 @@ import { connect } from 'react-redux';
 import axios from 'axios'
 import { Link } from 'react-router-dom' ;
 import image from '../Image/freelancerlogo.png'
-// import proimage from '../Image/PassportPhoto.jpg'
-// import ImageUpload from './ImageUpload'
+import url from '../serverurl';
+let imagestring ;
 
 class Profile extends Component {
 
@@ -21,26 +21,34 @@ class Profile extends Component {
             skills : '', 
             imageURL : ''
         });
-        this.handleSave = this.handleSave.bind(this)
-        this.handleChange = this.handleChange.bind(this)
-        this.handleEdit = this.handleEdit.bind(this)
-        this.handleUploadImage = this.handleUploadImage.bind(this)
+        this.handleSave = this.handleSave.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.handleEdit = this.handleEdit.bind(this);
+        this.handleUploadImage = this.handleUploadImage.bind(this);
     }
 
     handleUploadImage = (e) => {
-        e.preventDefault()
+        e.preventDefault();
 
         const data = new FormData();
         data.append('file', this.uploadInput.files[0]);
-        data.append('filename', this.fileName.value);
+        // data.append('filename', this.fileName.value);
+        data.append('username', localStorage.getItem('username'));
 
-        axios.post('http://localhost:3001/upload', data )
-            .then( (response) => {
-                response.json().then((body) => {
-                    this.setState({ imageURL: `http://localhost:3001/${body.file}` });
-                });
-            })
-    }
+        axios.post( url + '/upload', data , {withCredentials : true})
+            .then((response) => {
+                    console.log(response);
+                    console.log(response.data);
+                    this.setState({
+                        imageURL : `http://localhost:3001/${response.data.file}`
+                    }, () => {
+                        // imagestring = this.state.imageURL;
+                        console.log(this.state.imageURL);
+                        // console.log(imagestring)
+                    })
+                }
+            )
+    };
 
     componentWillMount() {
         console.log(this.props.match.params);
@@ -48,8 +56,9 @@ class Profile extends Component {
         let username = this.props.match.params.value ;
         const usernameJSON = {
             username: username
-        }
-        axios.post('http://localhost:3001/getprofile', usernameJSON, { withCredentials : true } )
+        };
+
+        axios.post( url + '/getprofile', usernameJSON, { withCredentials : true } )
             .then((response)=>{
                 console.log("User Details from Database :", response.data[0]);
                 console.log(response.data[0].email);
@@ -61,13 +70,23 @@ class Profile extends Component {
                         phone: response.data[0].phone,
                         aboutme: response.data[0].aboutme,
                         skills: response.data[0].skills,
-                        image: response.data[0].image
+                        // imageURL : imagestring
                     }, () => {
                         console.log('In getProfile, After setState :', this.state)
                     }
                 )        
             }
         )
+
+        axios.post( url + '/getimageurl', usernameJSON, {withCredentials:true} )
+            .then((response) => {
+                console.log(response);
+                this.setState({
+                        imageURL : `http://localhost:3001/${response.data.file}`
+                    }
+                )
+            }
+            )
     }
 
     handleChange = (e) => {
@@ -76,7 +95,7 @@ class Profile extends Component {
         this.setState ({
             [e.target.name] : [e.target.value]
         })
-    }
+    };
 
     handleSave = () => {
 
@@ -87,17 +106,16 @@ class Profile extends Component {
             phone: this.state.phone,
             aboutme: this.state.aboutme,
             skills: this.state.skills,
-            image: this.state.image
-        }
+            // image: this.state.image
+        };
         this.props.profileUpdate(profile);
         console.log(profile);
-    }
+    };
 
     handleEdit = (e) => {
-        e.preventDefault()
+        e.preventDefault();
         this.setState ( {isEditing : !this.state.isEditing });
-        
-    }
+    };
 
     render() {
         if(this.state.isEditing)
@@ -121,14 +139,16 @@ class Profile extends Component {
                     </div>
                     <div className="container-fluid ">
                         <br /><br />
+                        <form onSubmit={this.handleUploadImage}>
                         <div className="row content ">
                             <div className="col-sm-3 divStyle">
                                 {/*<img className="img-rounded" src={proimage} alt="Insert Photo here"></img>*/}
                                 <label> Profile Image :
                                 <input ref={(ref) => { this.uploadInput = ref; }} type="file" />
-                                    <input ref={(ref) => { this.fileName = ref; }} type="text" placeholder="Enter the desired name of file" />
+                                    {/*<input ref={(ref) => { this.fileName = ref; }} type="text" placeholder="Enter the desired name of file" />*/}
                                 </label>
-                                <button onClick={this.handleUploadImage} >Submit</button>
+                                <button>Submit</button>
+                                <img src={this.state.imageURL} alt="img" />
                             </div>
                             <div className="col-sm-6 divStyle">
                                 <div className='text-left' disabled='true' >
@@ -182,6 +202,7 @@ class Profile extends Component {
                                 </button>
                             </div>
                         </div>
+                        </form>
                     </div>
                     <form>
                         <br />
@@ -253,7 +274,7 @@ function mapDispatchToProps(dispatch) {
     return {
         profileUpdate : (profile) => {
             console.log('Updated User', profile);
-            axios.post('http://localhost:3001/updateprofile', profile, { withCredentials : true })
+            axios.post( url + '/updateprofile', profile, { withCredentials : true })
                 .then((response) => {
                     console.log(response);
                     if (response.data === 'ERROR')

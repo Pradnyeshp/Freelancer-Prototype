@@ -6,6 +6,7 @@ import './signin.css';
 import { Link } from 'react-router-dom';
 import image from '../Image/freelancerlogo.png'
 import { Helmet } from 'react-helmet'
+import url from '../serverurl';
 
 class SignIn extends Component {
     constructor() {
@@ -99,7 +100,7 @@ function mapDispatchToProps(dispatch) {
     return {
         loginUser: (userData) => {
             console.log("In Login dispatch", userData);
-            axios.post('http://localhost:3001/signin', userData, { withCredentials : true})
+            axios.post( url + '/signin', userData, { withCredentials : true})
                 .then((response) => {
                     console.log(response);
                     console.log("After login dispatch", response.data);

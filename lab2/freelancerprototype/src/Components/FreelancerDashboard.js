@@ -2,9 +2,9 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './userhome.css'
-import image from '../Image/freelancerlogo.png'
 import Pagination from "./Pagination";
 import NavigationBar from "./NavigationBar";
+import url from '../serverurl';
 
 class FreelancerDashboard extends Component {
     
@@ -35,7 +35,7 @@ class FreelancerDashboard extends Component {
             username: localStorage.getItem('username')
         }
 
-        axios.post('http://localhost:3001/searchtextfreelancer', search)
+        axios.post( url + '/searchtextfreelancer', search)
             .then( (response) => {
                 console.log('Receive Projects from Db :', response.data)
                 if( response.data.toString() ===  'No Project found in database' ) {
@@ -51,7 +51,7 @@ class FreelancerDashboard extends Component {
                     })
                 }
             })
-    }
+    };
 
     handleChange = (e) => {
         this.setState({
@@ -59,7 +59,7 @@ class FreelancerDashboard extends Component {
         }, () => {
             console.log("After entering Text in Searchbar", this.state.searchtext )
         })
-    }
+    };
 
     componentWillMount() {
 
@@ -67,9 +67,9 @@ class FreelancerDashboard extends Component {
         const userDetails = {
             username : localStorage.getItem('username'),
             userid : localStorage.getItem('userid')
-        }
+        };
 
-        axios.post('http://localhost:3001/getmybiddedprojects', userDetails )
+        axios.post( url + '/getmybiddedprojects', userDetails )
             .then((response) => {
                 console.log("Your Bidded Projects : ", response.data);
                 if (response.data === 'ERROR') {
@@ -194,7 +194,7 @@ class FreelancerDashboard extends Component {
                 <div className="col-lg-12">
                     <div className="input-group">
                         <input type="text" className="form-control" name='searchtext'
-                               placeholder="Search by Project Name ..."
+                               placeholder="Search by Technology Stack or Project Name ..."
                                onChange={this.handleChange} /> &nbsp;&nbsp;&nbsp;
                         <div className="input-group-btn">
                             <button className="btn btn-outline-primary" type="button" onClick={this.handleSearch}> Search </button>

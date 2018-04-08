@@ -2,11 +2,12 @@ import React, { Component } from 'react';
 import './userhome.css'
 import axios from 'axios'
 import uuid from 'uuid'
+import url from '../serverurl';
 
 class Payment extends Component {
 
     constructor() {
-        super()
+        super();
         this.state = ({
             projectid : '' ,
             employer : '',
@@ -16,7 +17,7 @@ class Payment extends Component {
             employerbal: '',
             workerbal: '',
             transactionid: ''
-        })
+        });
         this.handlePayment = this.handlePayment.bind(this)
     }
 
@@ -37,25 +38,25 @@ class Payment extends Component {
                     employerbal: this.state.employerbal,
                     transactionidEmployer : uuid.v4(),
                     transactionidWorker : uuid.v4()
-            })
-            axios.post('http://localhost:3001/transaction', transactionData  , { withCredentials : true } )
+            });
+            axios.post(url + '/transaction', transactionData  , { withCredentials : true } )
                 .then((response) => {
-                    console.log('Transaction Result : ',response.data)
+                    console.log('Transaction Result : ', response.data);
                     alert('Payment Processed Successfully');
                     this.props.history.push(`/projectdetails/${this.state.projectid}`)
                 })
         }
-    }
+    };
 
     componentWillMount() {
 
-        const pid = { pid : this.props.match.params.value}
+        const pid = { pid : this.props.match.params.value};
             this.setState({
             projectid : pid.pid
             }, () => {
-            console.log("After ComponentWillMount", this.state)  })
+            console.log("After ComponentWillMount", this.state)  });
 
-        axios.post('http://localhost:3001/getpaymentdetails', pid , { withCredentials : true } )
+        axios.post( url + '/getpaymentdetails', pid , { withCredentials : true } )
             .then((response => {
                 console.log(response.data);
                 this.setState({
@@ -64,11 +65,11 @@ class Payment extends Component {
                     bidamt : response.data[0].bidamt,
                     projectname : response.data[0].projectname
                 }, () => {
-                    console.log(this.state)
+                    console.log(this.state);
                     let u = {
                         u : this.state.employer
-                    }
-                    axios.post('http://localhost:3001/getbalance', u , {withCredentials : true})
+                    };
+                    axios.post( url + '/getbalance', u , {withCredentials : true})
                         .then((response) => {
                             console.log(response.data);
                             this.setState({
@@ -76,11 +77,11 @@ class Payment extends Component {
                             }, () => {
                                 console.log(this.state)
                             })
-                        })
+                        });
                     let u1 = {
                         u : this.state.worker
-                    }
-                    axios.post('http://localhost:3001/getbalance', u1 , {withCredentials : true})
+                    };
+                    axios.post( url + '/getbalance', u1 , {withCredentials : true})
                         .then((response) => {
                             console.log(response.data);
                             this.setState({
@@ -95,26 +96,26 @@ class Payment extends Component {
 
     render() {
         return (
-            <div className="payment">
+            <div className="payment"><br/>
                 <h2>Payment Page</h2>
                 <div className='payment1'>
                 <div className='container-fluid'>
                 <div className="row">
-                <div className="col-md-6 order-md-6">
+                <div className="col-md-6 order-md-5">
                 <form className="needs-validation" >
                     <hr className="mb-4"/>
-                            <h4 className="mb-3">Payment</h4>
                                 <div className="col-md-12 mb-3">
                                     <label htmlFor="cc-name">Name on card</label>
-                                    <input type="text" className="form-control" id="cc-name" placeholder="" />
+                                    <input type="text" className="form-control" id="cc-name" placeholder="" required/>
                                         <small className="text-muted">Full name as displayed on card</small>
                                 </div>
                                 <div className="col-md-12 mb-3">
                                     <label htmlFor="cc-number">Credit card number</label>
                                     <input type="text" className="form-control" id="cc-number" placeholder="" />
+                                    <small className="text-muted">Enter your 16 digit Card Number</small>
                                 </div>
                                 <div className="col-md-12 mb-3">
-                                    <label htmlFor="cc-number">Amount to be Paid</label>
+                                    <label htmlFor="cc-number">Amount to be Paid (Bid Amount) </label>
                                     <input type="text" className="form-control text-center" value={this.state.bidamt} disabled/>
                                 </div>
                     <br/>
@@ -158,7 +159,7 @@ class Payment extends Component {
                                 </div>
                             </div>
                             <hr className="mb-4"/>
-                    <div className="col-md-8 mb-3">
+                    <div className="container-fluid col-md-5 mb-3">
                                 <button className="btn btn-primary btn-lg btn-block"
                                         type="submit"
                                         onClick={this.handlePayment}>Make Payment</button>

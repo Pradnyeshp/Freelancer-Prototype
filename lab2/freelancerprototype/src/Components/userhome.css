@@ -14,10 +14,10 @@
     /* background-color : ; */
 }
 
-.pagination #li {
-    color: blue;
-    color-interpolation: red;
-}
+/*.pagination #li {*/
+    /*color: blue;*/
+    /*color-interpolation: red;*/
+/*}*/
 
 .debit #debit {
      background-color : #4CAF50;

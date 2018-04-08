@@ -12,11 +12,15 @@ var LocalStrategy = require('passport-local').Strategy;
 var mongo = require('mongodb');
 var mongoose = require('mongoose');
 var session = require('express-session')
-var cors = require('cors')
+var cors = require('cors');
+var fs = require('fs');
+const fileUpload = require('express-fileupload');
+const MongoClient = require('mongodb').MongoClient;
+let url = 'mongodb://localhost:27017';
 
 mongoose.connect('mongodb://localhost/27017');
 var db = mongoose.connection;
-
+var Binary = require('mongodb').Binary;
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -40,6 +44,42 @@ app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+app.use(fileUpload());
+app.use('/public', express.static(__dirname + '/public'));
+
+app.post('/upload', (req, res, next) => {
+    // console.log(req.body);
+    let imageFile = req.files.file;
+
+    imageFile.mv(`${__dirname}/public/${req.body.username}.jpg`, function(err) {
+        if (err) {
+            return res.status(500).send(err);
+        }
+
+        MongoClient.connect(url, (err, db) => {
+            if(err) throw err;
+            else {
+                var data = fs.readFileSync(`public/${req.body.username}.jpg`);
+                var insert_data = {};
+                insert_data.file_data= Binary(data);
+                let dbo = db.db('freelancer');
+                dbo.collection('users').updateOne( { username : req.body.username } , {  $set : { file_data : insert_data}  });
+                // dbo.collection('users').find({username : req.body.username}).toArray((err, result) => {
+                //     if(err) throw err;
+                //     fs.writeFile('abc', result[0].file_data.buffer, function(err){
+                //         if (err) throw err;
+                //         console.log('Sucessfully saved!');
+                //     });
+                // })
+            }
+        });
+        res.json({file: `public/${req.body.username}.jpg`});
+    });
+
+});
+
+
 
 app.use(session({
 //cookieName: 'session',

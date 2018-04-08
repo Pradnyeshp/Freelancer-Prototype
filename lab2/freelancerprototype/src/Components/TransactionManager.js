@@ -4,23 +4,24 @@ import uuid from 'uuid'
 import PieChart from "./PieChart";
 import NavigationBar from "./NavigationBar";
 import './userhome.css'
+import url from '../serverurl';
 
 class TransactionManager extends Component {
 
     constructor () {
-        super()
+        super();
         this.state = ({
             username : '',
             balance : '',
             transactionTable : []
-        })
+        });
         this.handleWithdraw = this.handleWithdraw.bind(this);
         this.handleAddMoney = this.handleAddMoney.bind(this);
         this.handleChange = this.handleChange.bind(this);
     }
 
     handleChange = (e) => {
-        e.preventDefault()
+        e.preventDefault();
         this.setState({
             [e.target.name] : e.target.value
         }, () => {
@@ -29,7 +30,7 @@ class TransactionManager extends Component {
 }
 
     handleWithdraw (e) {
-        e.preventDefault()
+        e.preventDefault();
 
         let user = ({
             id : uuid.v4(),
@@ -37,18 +38,18 @@ class TransactionManager extends Component {
             amount : this.state.balance - Number(this.state.debit),
             debit : Number(this.state.debit),
             pname : 'Money Withdrawn'
-        })
+        });
 
-        axios.post( 'http://localhost:3001/withdrawmoney', user, { withCredentials : true } )
+        axios.post( url + '/withdrawmoney', user, { withCredentials : true } )
             .then((response) => {
-                console.log('Withdrawal of money : success', response.data)
-                alert("Money Successfully Withdrawn, Check Transaction History below for more details")
+                console.log('Withdrawal of money : success', response.data);
+                alert("Money Successfully Withdrawn, Check Transaction History below for more details");
                 window.location.reload(true)
             })
     }
 
     handleAddMoney (e) {
-        e.preventDefault()
+        e.preventDefault();
 
         let user = ({
             id : uuid.v4(),
@@ -58,10 +59,10 @@ class TransactionManager extends Component {
             pname : 'Money Added'
         })
 
-        axios.post( 'http://localhost:3001/addmoney', user, { withCredentials : true } )
+        axios.post( url + '/addmoney', user, { withCredentials : true } )
             .then((response) => {
-                console.log('Addition of money : success', response.data)
-                alert("Money Successfully Added, Check Transaction History below for more details")
+                console.log('Addition of money : success', response.data);
+                alert("Money Successfully Added, Check Transaction History below for more details");
                 window.location.reload(true)
             })
 
@@ -71,14 +72,14 @@ class TransactionManager extends Component {
 
         const u = {
             u : localStorage.getItem('username')
-        }
+        };
         this.setState({
             username : u.u
         }, () => {
             console.log(this.state)
-        })
+        });
 
-        axios.post('http://localhost:3001/getbalance', u , {withCredentials : true})
+        axios.post( url + '/getbalance', u , {withCredentials : true})
             .then((response) => {
                 console.log(response.data);
                 this.setState({
@@ -86,11 +87,11 @@ class TransactionManager extends Component {
                 }, () => {
                     console.log(this.state)
                 })
-            })
+            });
 
-        axios.post('http://localhost:3001/gettranshistory', u , { withCredentials : true } )
+        axios.post( url + '/gettranshistory', u , { withCredentials : true } )
             .then((response) => {
-                console.log('In Tras History', response.data)
+                console.log('In Tras History', response.data);
                 this.setState({
                     transactionTable : response.data
                 }, () => {
@@ -112,7 +113,7 @@ class TransactionManager extends Component {
                         <th> {p.transType} </th>
                     </tr>
             )
-        })
+        });
         return (
             <div className="tm container-fluid"><br/>
                 <NavigationBar/> <br/>
@@ -121,9 +122,9 @@ class TransactionManager extends Component {
                     <div className='col-lg-4 text-left'>
                         <form className='balance form-group'><br/>
                             <h3 >Account Balance</h3><br/>
-                            <div className='col-lg-10'>
+                            <div className='col-lg-7'>
                             <div>
-                                <input  className='form-control btn-outline-primary' type='text' value={this.state.balance}/>
+                                <input  className='form-control btn-outline-primary text-center' type='text' value={this.state.balance}/>
                             </div>
                             <br/>
                             <div >
@@ -198,22 +199,22 @@ class TransactionManager extends Component {
                     <div className="modal-dialog">
                         <div className="modal-content">
                             <div className="modal-header text-center">
-                                <h4 className="modal-title "> Adding Money </h4>
+                                <h4 className="modal-title container-fluid"> Adding Money </h4>
                             </div>
                             <div className="modal-body">
                                 <form className="needs-validation" >
-                                    <hr className="mb-4"/>
-                                    <h4 className="mb-3">Payment</h4>
                                     <div className="col-md-12 mb-3">
                                         <label htmlFor="cc-name">Name on card</label>
                                         <input type="text" className="form-control" id="cc-name" placeholder="" />
+                                        <small className="text-muted">Full name as displayed on card</small>
                                     </div>
                                     <div className="col-md-12 mb-3">
                                         <label htmlFor="cc-number">Credit card number</label>
                                         <input type="text" className="form-control" id="cc-number" placeholder="" />
+                                        <small className="text-muted">Enter your 16 digit Card Number</small>
                                     </div>
                                     <div className="col-md-12 mb-3">
-                                        <label htmlFor="cc-number">Amount to be Paid</label>
+                                        <label htmlFor="cc-number">Enter Amount</label>
                                         <input type="text" className="form-control text-center"
                                                name='credit' onChange={this.handleChange} />
                                     </div>
@@ -258,7 +259,7 @@ class TransactionManager extends Component {
                                         </div>
                                     </div>
                                     <hr className="mb-4"/>
-                                    <div className="col-md-8 mb-3">
+                                    <div className="container-fluid col-md-5">
                                         <button className="btn btn-primary btn-lg btn-block col-md-12 mb-3"
                                                 type="submit"
                                                 onClick={this.handleAddMoney} >Make Payment</button>
