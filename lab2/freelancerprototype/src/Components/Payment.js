@@ -60,10 +60,10 @@ class Payment extends Component {
             .then((response => {
                 console.log(response.data);
                 this.setState({
-                    employer : response.data[0].employer,
-                    worker : response.data[0].worker,
-                    bidamt : response.data[0].bidamt,
-                    projectname : response.data[0].projectname
+                    employer : response.data.employer,
+                    worker : response.data.worker,
+                    bidamt : response.data.bidamt,
+                    projectname : response.data.projectname
                 }, () => {
                     console.log(this.state);
                     let u = {
