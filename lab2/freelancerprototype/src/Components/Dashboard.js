@@ -199,7 +199,7 @@ class Dashboard extends Component {
                     </td>
                     <td>
                         <div>
-                            <p> Date </p>
+                            <p> { p.estimate} </p>
                         </div>
                     </td>
                     <td>

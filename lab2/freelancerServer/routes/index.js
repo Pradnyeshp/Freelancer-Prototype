@@ -26,14 +26,14 @@ let transporter = email.createTransport({
   password = '!QAZ@WSX';
 
 // Connection URL
-let url = 'mongodb://localhost:27017';
-
-MongoClient.connect(url, function(err, client) {
-    assert.equal(null, err);
-    console.log("Mongodb Connected successfully to server");
-    const db = client.db("freelancerdb");
-    client.close();
-});
+// let url = 'mongodb://localhost:27017';
+//
+// MongoClient.connect(url, function(err, client) {
+//     assert.equal(null, err);
+//     console.log("Mongodb Connected successfully to server");
+//     const db = client.db("freelancerdb");
+//     client.close();
+// });
 
 const con = mysql.createConnection({
   connectionLimit: 100,

@@ -15,7 +15,8 @@ function handle_request( msg, callback) {
                 budget : msg.budgetrange,
                 startdate : Date(),
                 worker : '',
-                status : 'Open'
+                status : 'Open',
+                estimate : ''
             }).then( (result) => {
                 if(err) throw err;
                 else {

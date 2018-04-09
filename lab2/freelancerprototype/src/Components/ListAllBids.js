@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import url from '../serverurl';
+import './userhome.css';
 
 class ListAllBids extends Component {
 
@@ -79,26 +80,27 @@ class ListAllBids extends Component {
             username: localStorage.getItem('username')
         };
 
-        axios.post( url + '/getimageurl', usernameJSON, {withCredentials:true} )
-            .then((response) => {
-                    console.log(response);
-                    this.setState({
-                            imageURL : `http://localhost:3001/${response.data.file}`
-                        },
-                        () => {
-                        console.log(this.state.imageURL)
-                        }
-                    )
-                }
-            )
+        // axios.post( url + '/getimageurl', usernameJSON, {withCredentials:true} )
+        //     .then((response) => {
+        //             console.log(response);
+        //             this.setState({
+        //                     imageURL : `http://localhost:3001/${response.data.file}`
+        //                 },
+        //                 () => {
+        //                 console.log(this.state.imageURL)
+        //                 }
+        //             )
+        //         }
+        //     )
 
     }
 
-    handleClick(freelancer) {
+    handleClick( freelancer , deliverydays ) {
         console.log("Hire button clicked and freelancer is :" + freelancer, this.props.id );
         const fdetails = ({
             pid: this.props.id,
-            freelancer: freelancer
+            freelancer: freelancer,
+            deliverydays : deliverydays
         });
         axios.post( url + '/setworker', fdetails )
             .then((response) => {
@@ -133,8 +135,10 @@ class ListAllBids extends Component {
                 <tr key={b._id} >
                     <td className="text-left">
                         <b> Profile Image Here
-                            <img src={this.state.imageURL} alt="img" />
-                            {/*<img src={`http://localhost:3001//public/${b.freelancer}.jpg`} alt="img" />*/}
+                            {/*<img src={this.state.imageURL} alt="img" />*/}
+                            <div id = 'bidimage'>
+                                <img src={`http:////localhost:3001/public/${b.freelancer}.jpg`} alt="img" width={'100px'} height={'100px'} />
+                            </div>
                         </b>
                     </td>
                     <td> <Link to={`/profile/${b.freelancer}`}> {b.freelancer} </Link> </td>
@@ -143,7 +147,7 @@ class ListAllBids extends Component {
                     <td> 
                             <input type="button" id="btnHire" style={ divStyle }
                                 className='btn btn-success' value="Hire Now" 
-                                onClick={this.handleClick.bind(this, b.freelancer)} />
+                                onClick={this.handleClick.bind(this, b.freelancer , b.deliverydays )} />
                     </td>
                 </tr>
             )

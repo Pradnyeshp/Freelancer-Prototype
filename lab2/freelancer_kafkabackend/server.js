@@ -29,6 +29,32 @@ let getmypostedprojects = require('./services/getmypostedprojects');
 let getmybiddedprojects = require('./services/getmybiddedprojects');
 let updatebid = require('./services/updatebid');
 let projectsbystatusdashboard = require('./services/projectsbystatusdashboard');
+let upload = require('./services/upload');
+
+let cupload = connection.getConsumer('upload');
+cupload.on('message', function (message) {
+    console.log('message received');
+    console.log(JSON.stringify(message.value));
+    var data = JSON.parse(message.value);
+    console.log('Data after parsing', data);
+    console.log('Data after parsing priting data only', data.data);
+    upload.handle_request(data.data, function(err,res) {
+        console.log('after handle', res);
+        var payloads = [
+            { topic: data.replyTo,
+                messages:JSON.stringify({
+                    correlationId:data.correlationId,
+                    data : res
+                }),
+                partition : 0
+            }
+        ];
+        producer.send(payloads, function(err, data){
+            console.log(data);
+        });
+        return;
+    });
+});
 
 let cprojectsbystatusdashboard = connection.getConsumer('projectsbystatusdashboard');
 cprojectsbystatusdashboard.on('message', function (message) {

@@ -9,18 +9,21 @@ let transporter = email.createTransport({
     }
 });
 
-function handle_request( msg, callback) {
+function handle_request( msg, callback ) {
 
     console.log("In handle request:"+ JSON.stringify(msg));
 
     const projectid = msg.pid;
     const o_id = new ObjectId(projectid);
 
+    var dat = new Date();
+    dat.setDate(dat.getDate() + Number(msg.deliverydays) );
+
     mongo.connect( (err, db) => {
         if(err) throw err;
         else {
-            db.collection('projects').updateOne( { _id : o_id }, { $set : {worker : msg.freelancer}} , (err, result) => {
-                if(err) throw err
+            db.collection('projects').updateOne( { _id : o_id }, { $set : {worker : msg.freelancer, estimate : dat }} , (err, result) => {
+                if(err) throw err;
                 else {
                     console.log('Worker Set : ', result.result )
                     // res.json("Worker set for this project");
@@ -77,6 +80,7 @@ function handle_request( msg, callback) {
             })
         }
     })
+
 }
 
 exports.handle_request = handle_request;

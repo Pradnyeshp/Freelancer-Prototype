@@ -14,6 +14,7 @@ var mongoose = require('mongoose');
 var session = require('express-session')
 var cors = require('cors');
 var fs = require('fs');
+const kafka = require('./routes/kafka/client');
 const fileUpload = require('express-fileupload');
 const MongoClient = require('mongodb').MongoClient;
 let url = 'mongodb://localhost:27017';
@@ -49,14 +50,21 @@ app.use(fileUpload());
 app.use('/public', express.static(__dirname + '/public'));
 
 app.post('/upload', (req, res, next) => {
-    // console.log(req.body);
-    let imageFile = req.files.file;
 
+    req.body.file = req.files.file;
+
+    // kafka.make_request('upload', req.body,  (err, result) => {
+    //     if(err) throw err;
+    //     else {
+    //         console.log(result)
+    //     }
+    // })
+
+    let imageFile = req.files.file;
     imageFile.mv(`${__dirname}/public/${req.body.username}.jpg`, function(err) {
         if (err) {
             return res.status(500).send(err);
         }
-
         MongoClient.connect(url, (err, db) => {
             if(err) throw err;
             else {
@@ -76,7 +84,6 @@ app.post('/upload', (req, res, next) => {
         });
         res.json({file: `public/${req.body.username}.jpg`});
     });
-
 });
 
 
