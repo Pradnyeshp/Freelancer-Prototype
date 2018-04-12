@@ -33,7 +33,8 @@ function handle_request( msg, callback) {
                             skillsreq : '$skillsreq',
                             status:'$status',
                             bids:'$bids',
-                            worker : '$worker'
+                            worker : '$worker',
+                            estimate : '$estimate'
                         },
                         average : { $avg : '$a.bid' }
                     }
@@ -50,6 +51,7 @@ function handle_request( msg, callback) {
                         status:'$_id.status',
                         bids:'$_id.bids',
                         worker : '$_id.worker',
+                        estimate : '$_id.estimate',
                         average : { $ifNull : ['$average' , 0] }
                     }
                 },
@@ -81,6 +83,7 @@ function handle_request( msg, callback) {
                         status:1,
                         bids:1,
                         worker:1,
+                        estimate : 1,
                         average:1,
                         bid : '$a1.bid',
                         deliverydays : '$a1.deliverydays'

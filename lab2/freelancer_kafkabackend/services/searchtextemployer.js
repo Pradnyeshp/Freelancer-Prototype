@@ -35,7 +35,8 @@ function handle_request( msg, callback) {
                             startdate : '$startdate',
                             bids : '$bids',
                             status : '$status',
-                            worker : '$worker'
+                            worker : '$worker',
+                            estimate : '$estimate'
                         },
                         average : { $avg: '$projectbids.bid' }
                     }
@@ -52,6 +53,7 @@ function handle_request( msg, callback) {
                         bids : '$_id.bids',
                         status : '$_id.status',
                         worker : '$_id.worker',
+                        estimate : '$_id.estimate',
                         average : { $ifNull: [ "$average",0 ] }
                     }
                 }
