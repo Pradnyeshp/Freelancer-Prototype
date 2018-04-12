@@ -14,7 +14,7 @@ class SignIn extends Component {
         this.state = {
             username: "",
             password: "",
-            error: "",
+            error : '' ,
             signin_success: ""
         }
     }
@@ -41,6 +41,15 @@ class SignIn extends Component {
         if (localStorage.getItem('username') !== null ) {
             profile = <Redirect to="/Userhome" />
         }
+        //
+        // function toggleAlert(){
+        //     $(".alert").toggleClass('in out');
+        //     return false; // Keep close.bs.alert event from removing from DOM
+        // }
+        //
+        //
+        // $("#btn").on("click", toggleAlert);
+        // $('#bsalert').on('close.bs.alert', toggleAlert)
 
         return (
             <div className="Login">
@@ -71,7 +80,7 @@ class SignIn extends Component {
                                 className="form-control" 
                                 id="txtPassword" 
                                 name="password" required/>
-                            <button className="form-control btn btn-primary" 
+                            <button id='btn' className="form-control btn btn-primary"
                                 value="Login">login
                             </button>
                             <dt className="message"> 
@@ -82,6 +91,13 @@ class SignIn extends Component {
                             </dt>
                         </form>
                     </div>
+                    {/*<div className="alert alert-info fade out" id="bsalert">*/}
+                        {/*<a href="#" className="close" data-dismiss="alert" aria-label="close">&times;</a>*/}
+                        {/*<strong>Info!</strong> This alert box could indicate a neutral informative or action*/}
+                    {/*</div>*/}
+                </div>
+                <div className='alert-danger'>
+                    {this.state.error}
                 </div>
             </div>
         );
@@ -105,6 +121,7 @@ function mapDispatchToProps(dispatch) {
                     console.log(response);
                     console.log("After login dispatch", response.data);
                     if (response.data === 'ERROR') {
+                        // this.setState({ error : 'Error In Logging In' });
                         alert("Error In Logging In, Please Check Username and Password");
                         dispatch({ type: 'ERROR', payload: response })
                     }

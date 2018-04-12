@@ -54,7 +54,6 @@ class AssignedProjects extends Component {
                                     <tr>
                                         <th className="text-left" >Project Name</th>
                                         <th>Employer</th>
-                                        <th>Due Date</th>
                                     </tr>
                                 </thead>
                                 <tbody>

@@ -123,6 +123,7 @@ function mapDispatchToProps(dispatch) {
                     if( response.data === 'Username') {
                         alert("Username already exists, try your luck with another")
                     }
+                    alert("Account Created Successfully");
                     console.log(response.data);
                     dispatch({ type: 'SIGNUP_SUCCESS', payload: response })
                 }

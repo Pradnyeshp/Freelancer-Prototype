@@ -76,9 +76,9 @@ class ListAllBids extends Component {
             }
         )
 
-        let usernameJSON = {
-            username: localStorage.getItem('username')
-        };
+        // let usernameJSON = {
+        //     username: localStorage.getItem('username')
+        // };
 
         // axios.post( url + '/getimageurl', usernameJSON, {withCredentials:true} )
         //     .then((response) => {
