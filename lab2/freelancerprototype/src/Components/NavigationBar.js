@@ -55,28 +55,28 @@ class NavigationBar extends Component {
                                 <li className="nav-item active" onClick={this.handleClick} >
                                     <Link to='/userhome' className="nav-link" > All Projects </Link>
                                 </li>
-                                <li className="nav-item">
+                                <li className="nav-item active">
                                     <Link to='/relevantprojects' className="nav-link" > Relevant Projects </Link>
                                 </li>
-                                <li className="nav-item">
+                                <li className="nav-item active">
                                     <Link to='/dashboard' className="nav-link" > Dashboard </Link>
                                 </li>
-                                <li className="nav-item">
+                                <li className="nav-item active">
                                     <Link to='/assignedprojects' className="nav-link" > Assigned Projects </Link>
                                 </li>
-                                <li className="nav-item">
+                                <li className="nav-item active">
                                     <Link to='/transactionmanager' className="nav-link" > Transaction Manager </Link>
                                 </li>
                             </ul>
-                            <form className="form-inline my-2 my-lg-0">
-                                <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
-                                    <Link to='/addproject' > Post a Project </Link>
-                                </button>
+                            <form className="form-inline my-2 my-lg-0 text-light">
+                                <Link to='/addproject' id='postproject' className='btn btn-dark' > Post a Project </Link>
+                                {/*<button id='postproject' className="btn btn-outline-success my-2 my-sm-0" type="submit">*/}
+                                    {/*<Link to='/addproject' > Post a Project </Link>*/}
+                                {/*</button>*/}
                             </form>
                         </div>
                     </nav>
                 </div>
-
             </div>
         );
     }
