@@ -4,6 +4,7 @@ import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet'
 import url from '../serverurl';
+import './userhome.css';
 
 class AddProject extends Component {
 
@@ -89,22 +90,22 @@ class AddProject extends Component {
                     <style>{'body { background-color: lightblue; }'}</style>
                 </Helmet>
                 {projectpost}
-                <div className='container-fluid col-lg-12' >
-                <form onSubmit={this.postProject} className=''><br />
+                        <div id='postprojectform' >
+                <form onSubmit={this.postProject}><br />
                     <h2>Tell us what you need done</h2>
                     <p>Get free quotes from skilled freelancers within minutes</p><br/>
-                    <div className='' >
+                    <div className=' container' >
                         <label><h5>Choose a name for your project</h5> <br/>
-                            <input type="text" 
-                                className="form-control"
-                                name="projectname" 
+                            <input type="text"
+                                className='form-control'
+                                name="projectname"
                                 placeholder="Build me a website" 
                                 onChange={this.handleChange} required />
                         </label><br/>
                     </div>
                     <div className=''>
                         <label><h5>Tell us more about your project</h5> <br />
-                            <textarea className="form-control" 
+                            <textarea className="form-control"
                                 rows="4" name="projectdesc"
                                 placeholder = 'Describe your Project here...'
                                 onChange={this.handleChange} required>
@@ -141,6 +142,12 @@ class AddProject extends Component {
                                         Very small project ($250 - 750 USD)</option>
                                     <option value="Small project ($750 - 1500 USD)">
                                         Small project ($750 - 1500 USD)</option>
+                                    <option value="Large project ($3000 - 5000 USD)">
+                                        Large project ($3000 - 5000 USD)</option>
+                                    <option value="Larger project ($5000 - 10000 USD)">
+                                        Larger project ($5000 - 10000 USD)</option>
+                                    <option value="Huge project ($20000 - 50000 USD)">
+                                        Huge project ($20000 - 50000 USD)</option>
                                 </select>
                         </label> <br />
                     </div>
@@ -149,7 +156,7 @@ class AddProject extends Component {
                             onSubmit={this.handleSubmit} >Post My Project</button>
                 </form>
                 <br/> <br/>
-                </div>
+                    </div>
             </div>
         );
     }
