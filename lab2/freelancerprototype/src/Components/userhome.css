@@ -31,8 +31,17 @@
     margin-left: 500px;
 }
 
+#postproject {
+    background-color: darkorange;
+}
+
 .balance {
     margin-left: 150px;
+}
+
+#postprojectform {
+    width: auto;
+    height: auto;
 }
 
 #bidimage {
