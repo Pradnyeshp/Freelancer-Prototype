@@ -102,16 +102,26 @@ class Payment extends Component {
                 <div className='container-fluid'>
                 <div className="row">
                 <div className="col-md-6 order-md-5">
-                <form className="needs-validation" >
+                <form onSubmit={this.handlePayment} >
                     <hr className="mb-4"/>
                                 <div className="col-md-12 mb-3">
                                     <label htmlFor="cc-name">Name on card</label>
-                                    <input type="text" className="form-control" id="cc-name" placeholder="" required/>
+                                    <input type="text"
+                                           className="form-control"
+                                           id="cc-name"
+                                           required
+                                           pattern='[A-Za-z]*'
+                                           title='Please Enter Valid Name' />
                                         <small className="text-muted">Full name as displayed on card</small>
                                 </div>
                                 <div className="col-md-12 mb-3">
                                     <label htmlFor="cc-number">Credit card number</label>
-                                    <input type="text" className="form-control" id="cc-number" placeholder="" />
+                                    <input type="text"
+                                           className="form-control"
+                                           id="cc-number"
+                                           required
+                                           pattern='[0-9]{16}'
+                                           title='Enter valid Credit Card Number' />
                                     <small className="text-muted">Enter your 16 digit Card Number</small>
                                 </div>
                                 <div className="col-md-12 mb-3">
@@ -161,8 +171,8 @@ class Payment extends Component {
                             <hr className="mb-4"/>
                     <div className="container-fluid col-md-5 mb-3">
                                 <button className="btn btn-primary btn-lg btn-block"
-                                        type="submit"
-                                        onClick={this.handlePayment}>Make Payment</button>
+                                        type="submit" > Make Payment
+                                </button>
                     </div>
                 </form>
                 </div>
