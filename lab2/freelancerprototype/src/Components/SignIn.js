@@ -55,6 +55,7 @@ class SignIn extends Component {
             <div className="Login">
             {profile}
                 <div className="login-page">
+
                     {/*{{#if errors}}*/}
                     {/*{{#each errors}}*/}
                     {/*<div className="alert-danger" > {{msg}} </div>*/}
@@ -65,6 +66,11 @@ class SignIn extends Component {
                     </Helmet>
                     <div className="form">
                         <h1><img src={image} alt="Freelancer Logo" /><br /><br /> </h1>
+                        <div className='container-fluid text-center'>
+                        <div className='alert-danger'>
+                            {this.props.error}
+                        </div>
+                        </div><br/>
                         <form className="login-form" onSubmit={this.handleSignIn.bind(this)}>
                             <input type="text" 
                                 placeholder="Username" 
@@ -96,9 +102,6 @@ class SignIn extends Component {
                         {/*<strong>Info!</strong> This alert box could indicate a neutral informative or action*/}
                     {/*</div>*/}
                 </div>
-                <div className='alert-danger'>
-                    {this.state.error}
-                </div>
             </div>
         );
     }
@@ -108,7 +111,8 @@ function mapStateToProps(state) {
     return {
         username: state.username,
         password: state.password,
-        signin_success: state.signin_success
+        signin_success: state.signin_success,
+        error : state.error
     }
 }
 
@@ -121,8 +125,7 @@ function mapDispatchToProps(dispatch) {
                     console.log(response);
                     console.log("After login dispatch", response.data);
                     if (response.data === 'ERROR') {
-                        // this.setState({ error : 'Error In Logging In' });
-                        alert("Error In Logging In, Please Check Username and Password");
+                        // alert("Error In Logging In, Please Check Username and Password");
                         dispatch({ type: 'ERROR', payload: response })
                     }
                     else {

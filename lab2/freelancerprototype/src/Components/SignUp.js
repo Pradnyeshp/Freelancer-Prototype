@@ -16,8 +16,9 @@ class Signup extends Component {
             name : "",
             username: "",
             password: "",
-            email: ""
-        }
+            email: "",
+            error : ''
+        };
         this.handleChange = this.handleChange.bind(this);
         this.createUser = this.createUser.bind(this);
     }
@@ -110,7 +111,8 @@ function mapStateToProps(state) {
         username: state.username,
         password: state.password,
         email: state.email,
-        signupSuccess: state.signup_success
+        signupSuccess: state.signup_success,
+        error: state.error
     }
 }
 
@@ -122,6 +124,7 @@ function mapDispatchToProps(dispatch) {
                 .then((response) => {
                     if( response.data === 'Username') {
                         alert("Username already exists, try your luck with another")
+                        dispatch({ type: 'SIGNUP_ERROR', payload: response })
                     }
                     alert("Account Created Successfully");
                     console.log(response.data);

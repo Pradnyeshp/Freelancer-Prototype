@@ -16,7 +16,19 @@ const reducer = (state = initialState, action) => {
                     ...state,
                     signup_success : action.payload.data
                 }
-                
+
+            case 'ERROR' :
+                return {
+                    ...state,
+                    error : 'Invalid username or password'
+                }
+
+            case 'SIGNUP_ERROR' :
+                return {
+                    ...state,
+                    error : ''
+                }
+
             case 'SIGNIN_SUCCESS' :
                 console.log(action.payload.data);
                 return {
@@ -37,6 +49,7 @@ const reducer = (state = initialState, action) => {
                     ...state,
                     projectpost_success: action.payload.data
                 }
+
 
             default:
                 return state;
