@@ -256,6 +256,10 @@ consumerlogin.on('message', function (message) {
     });
 });
 
+consumerlogin.on('error', function (err) {
+    console.log(err);
+});
+
 let consumersignup = connection.getConsumer('signup_topic');
 consumersignup.on('message', function (message) {
     console.log('message received');
