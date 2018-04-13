@@ -145,7 +145,7 @@ class Projects extends Component {
                 <div className='container-fluid'>
                     <div className="col-lg-12">
                         <div className="input-group">
-                            <input type="text" className="form-control" name='searchtext'
+                            <input type="text" className="form-control btn-outline-secondary" name='searchtext'
                                    placeholder="Search by Technology Stack or Project Name ..."
                                    onChange={this.handleChange} /> &nbsp;&nbsp;&nbsp;
                             <div className="input-group-btn">
@@ -156,11 +156,11 @@ class Projects extends Component {
                     <br/>
 
                     <div className='container-fluid btn-group-sm  text-left' >
-                        <label className="btn btn-link-dark ">
+                        <label className="btn btn-outline-dark">
                             <input type="checkbox" name="options"
                                    id='open' onClick={this.handleCheck.bind(this)} /> Status(Open)
                         </label> &nbsp;
-                        <label className="btn btn-link-dark">
+                        <label className="btn btn-outline-dark">
                             <input type="checkbox" name="options"
                                    id='closed' onClick={this.handleCheck.bind(this)} /> Status(Closed)
                         </label>
