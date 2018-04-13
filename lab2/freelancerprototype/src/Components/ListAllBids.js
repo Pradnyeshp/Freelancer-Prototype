@@ -3,6 +3,7 @@ import axios from 'axios';
 import { Link } from 'react-router-dom';
 import url from '../serverurl';
 import './userhome.css';
+import img from '../Image/default.png';
 
 class ListAllBids extends Component {
 
@@ -137,7 +138,8 @@ class ListAllBids extends Component {
                         <b> Profile Image Here
                             {/*<img src={this.state.imageURL} alt="img" />*/}
                             <div id = 'bidimage'>
-                                <img src={`http:////localhost:3001/public/${b.freelancer}.jpg`} alt="img" width={'100px'} height={'100px'} />
+                                <img src = { require('E:/CMPE273/lab2/freelancerServer/public/' + b.freelancer +'.png' )} alt = "img" width={'100px'} height={'100px'}  />
+                                {/*<img src={`http:////localhost:3001/public/${b.freelancer}.jpg`} alt="img" width={'100px'} height={'100px'} />*/}
                             </div>
                         </b>
                     </td>
