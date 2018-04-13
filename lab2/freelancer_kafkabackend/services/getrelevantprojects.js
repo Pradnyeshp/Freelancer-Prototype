@@ -1,48 +1,63 @@
-let mongo = require('./mongo');
+var mongo = require('./mongo');
 
-function handle_request( msg, callback) {
+function handle_request(msg, callback) {
+    mongo.connect((err, db) => {
+        var userSkills = null;
+        var userSkillsArray = null;
+        var allOpenProjectsArray = null;
+        var finalRelevantProjectsArray = [];
 
-    console.log("In handle request:"+ JSON.stringify(msg));
+        console.log("Connected to mongodb...");
 
-    mongo.connect( (err, db) => {
-        if(err) throw err;
-        else {
-            db.collection('users').findOne( {username: msg.username}, (err, result) => {
-                if(err) throw err;
+        var query = {username: msg.username};
+        db.collection("users").find(query).toArray( (err, result) => {
+            if(err) {
+                console.log('ERROR');
+                callback(null, 'ERROR');
+            }
+            if(result.length > 0) {
+                userSkills = result[0].skills;
+                if(userSkills === null) {
+                    console.log("User has not updated any skills...");
+                    callback(null, {"finalRelevantProjectsArray": finalRelevantProjectsArray});
+
+                }
                 else {
-                    console.log("User Details in relevant projects",result);
-                    let count = 0;
-                    const userSkills = result.skills.toString();
-                    const userSkillsArray = userSkills.split(",");
-                    const relevantProjectArray = [];
-                    console.log('User Skills : ', userSkillsArray);
-                    db.collection('projects').find({}).toArray( (err,result) => {
-                        if(err) throw err
-                        else {
-                            const allProjectsArray = result;
-                            console.log("Skills required in Projects",allProjectsArray);
-                            for( let i=0; i < userSkillsArray.length ; i++) {
-                                for( let j=0; j < allProjectsArray.length; j++) {
-                                    let allProjectSkillsArray = allProjectsArray[j].skillsreq.toString().split(',');
-                                    for( let k=0; k < allProjectSkillsArray.length ; k++) {
-                                        if(userSkillsArray[i].toLocaleLowerCase() === allProjectSkillsArray[k].toLocaleLowerCase()) {
+                    userSkillsArray = userSkills.toString().split(",");
+                    console.log("User Skills Array...", userSkillsArray);
+                    db.collection("projects").find({status:'Open'}).toArray( (err, result) => {
+                        if(err) {
+                            console.log(err);
+                            callback(null, 'ERROR');
+                        }
+                        if(result.length > 0) {
+                            allOpenProjectsArray = result;
+                            var count = 0;
+                            for(var i = 0; i < allOpenProjectsArray.length; i++) {
+                                count = 0;
+                                var projectRequiredSkillsArray = allOpenProjectsArray[i].skillsreq.toString().split(',');
+                                console.log("projectRequiredSkillsArray",projectRequiredSkillsArray);
+                                for(var j = 0; j < userSkillsArray.length; j++) {
+                                    for(var k = 0; k < projectRequiredSkillsArray.length; k++) {
+                                        if(userSkillsArray[j].toLowerCase().trim() === projectRequiredSkillsArray[k].toLocaleLowerCase().trim()) {
                                             count++;
-                                            console.log('Count is : ' , count )
                                         }
                                     }
-                                    if(count>=3) {
-                                        relevantProjectArray.push(allProjectsArray[j]);
-                                        console.log("final Relevant project array", relevantProjectArray)
-                                    }
+                                }
+                                console.log("Final Skills matched count...", count);
+                                if(count >= 2) {
+                                    finalRelevantProjectsArray.push(allOpenProjectsArray[i]);
                                 }
                             }
-                            callback(null, relevantProjectArray)
-                            // res.json(relevantProjectArray)
+                            console.log("Matched final skills projects...", finalRelevantProjectsArray);
+
+                            callback(null, {"finalRelevantProjectsArray" : finalRelevantProjectsArray});
                         }
+
                     });
                 }
-            })
-        }
+            }
+        });
     })
 }
 
