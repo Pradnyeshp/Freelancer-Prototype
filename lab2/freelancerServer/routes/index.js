@@ -13,6 +13,8 @@ const fileUpload = require('express-fileupload');
 const email = require('nodemailer');
 const kafka = require('./kafka/client');
 var fs = require('fs');
+var multiparty = require('multiparty');
+var util = require('util');
 
 let transporter = email.createTransport({
     service: 'gmail',
@@ -26,7 +28,7 @@ let transporter = email.createTransport({
   password = '!QAZ@WSX';
 
 // Connection URL
-// let url = 'mongodb://localhost:27017';
+let url = 'mongodb://localhost:27017';
 //
 // MongoClient.connect(url, function(err, client) {
 //     assert.equal(null, err);
@@ -52,6 +54,85 @@ router.post('/checksession', (req, res) => {
     console.log(req.body)
 
 });
+
+
+router.post('/saveimage', (req, res) => {
+    console.log("hello");
+    let image_form = new multiparty.Form();
+    image_form.parse(req, (err, fields, files) => {
+        console.log(files);
+        let { path: tempPath, originalFilename } = files.filevalue[0];
+        var fileType = originalFilename.split(".");
+        console.log(fileType)
+        let copyToPath = "..\\public\\" + fields.username[0] + "." + fileType[fileType.length - 1];
+        //add path (copyToPath) to database pending
+        console.log(copyToPath);
+        fs.readFile(tempPath, (err, data) => {
+            if (err) throw err;
+            fs.writeFile(copyToPath, data, (err) => {
+                if (err) throw err;
+                // delete temp image
+                fs.unlink(tempPath, () => {
+                });
+
+                // MongoClient.connect(url, (err, db) => {
+                //     if(err) throw err;
+                //     else {
+                //         console.log('Connected to mongodb');
+                //         var dbo = db.db('freelancer');
+                //         dbo.collection('users').updateOne(
+                //             { username: fields.username[0] },
+                //             { $set: { image_name: fields.username[0] + "." + fileType[fileType.length - 1] } },
+                //             function(err, result) {
+                //                 if(err) {
+                //                     db.close();
+                //                     console.log('err');
+                //                     throw err;
+                //                 } else {
+                //                     db.close();
+                //                     res.json({message: 'Image Uploaded', fileType: fileType[fileType.length - 1]});
+                //                 }
+                //             }
+                //         )
+                //     }
+                // })
+
+                //
+            });
+        });
+        console.log("In /saveImage... ", req.body);
+        //res.json({message: "hello"});
+    });
+});
+
+router.get('/getuserimage', (req, res) => {
+    // kafka.make_request('getuserimage_topic', req.query ,(err, result) => {
+    //     console.log(result);
+    //     res.json(result);
+    // });
+    MongoClient.connect(url, (err, db) => {
+        if(err) {
+            console.log(err);
+            db.close();
+            throw err;
+        } else {
+            var dbo = db.db('freelancer');
+            dbo.collection('users').find({username: req.query.username}).toArray((err, result) => {
+                if(err) {
+                    console.log(err);
+                    db.close();
+                    res.json('No Image found');
+                } else {
+                    db.close();
+                    console.log(result);
+                    res.json({image_name: result[0]});
+                }
+            })
+        }
+    })
+
+});
+
 
 router.post('/signup', function(req, res) {
   console.log(req.body);
@@ -750,17 +831,17 @@ router.post('/updateprofile', (req, res) => {
 //   })
 });
 
-router.post('/getimageurl', (req, res) => {
-    console.log("In get image url", req.body);
-
-    MongoClient.connect(url, (err, db) => {
-        if(err) throw err;
-        else {
-            res.json({file: `public/${req.body.username}.jpg`});
-        }
-    });
-
-});
+// router.post('/getimageurl', (req, res) => {
+//     console.log("In get image url", req.body);
+//
+//     MongoClient.connect(url, (err, db) => {
+//         if(err) throw err;
+//         else {
+//             res.json({file: `public/${req.body.username}.jpg`});
+//         }
+//     });
+//
+// });
 
 router.post('/getprojects', (req, res) => {
     console.log("In Get All Projects ", req.body);
