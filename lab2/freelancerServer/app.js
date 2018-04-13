@@ -17,11 +17,11 @@ var fs = require('fs');
 const kafka = require('./routes/kafka/client');
 const fileUpload = require('express-fileupload');
 const MongoClient = require('mongodb').MongoClient;
-let url = 'mongodb://localhost:27017';
+let url = 'mongodb://pradnyesh:16071993@ds237979.mlab.com:37979/freelancer';
 
-mongoose.connect('mongodb://localhost/27017');
-var db = mongoose.connection;
-var Binary = require('mongodb').Binary;
+// mongoose.connect('mongodb://localhost/27017');
+// var db = mongoose.connection;
+// var Binary = require('mongodb').Binary;
 
 var index = require('./routes/index');
 var users = require('./routes/users');
@@ -65,23 +65,23 @@ app.post('/upload', (req, res, next) => {
         if (err) {
             return res.status(500).send(err);
         }
-        MongoClient.connect(url, (err, db) => {
-            if(err) throw err;
-            else {
-                var data = fs.readFileSync(`public/${req.body.username}.jpg`);
-                var insert_data = {};
-                insert_data.file_data= Binary(data);
-                let dbo = db.db('freelancer');
-                dbo.collection('users').updateOne( { username : req.body.username } , {  $set : { file_data : insert_data}  });
-                // dbo.collection('users').find({username : req.body.username}).toArray((err, result) => {
-                //     if(err) throw err;
-                //     fs.writeFile('abc', result[0].file_data.buffer, function(err){
-                //         if (err) throw err;
-                //         console.log('Sucessfully saved!');
-                //     });
-                // })
-            }
-        });
+        // MongoClient.connect(url, (err, db) => {
+        //     if(err) throw err;
+        //     else {
+        //         var data = fs.readFileSync(`public/${req.body.username}.jpg`);
+        //         // var insert_data = {};
+        //             // insert_data.file_data= Binary(data);
+        //         // let dbo = db.db('freelancer');
+        //         // // dbo.collection('users').updateOne( { username : req.body.username } , {  $set : { file_data : insert_data}  });
+        //         // // // dbo.collection('users').find({username : req.body.username}).toArray((err, result) => {
+        //         // // //     if(err) throw err;
+        //         // // //     fs.writeFile('abc', result[0].file_data.buffer, function(err){
+        //         // // //         if (err) throw err;
+        //         // // //         console.log('Sucessfully saved!');
+        //         // // //     });
+        //         // // // })
+        //     }
+        // });
         res.json({file: `public/${req.body.username}.jpg`});
     });
 });
