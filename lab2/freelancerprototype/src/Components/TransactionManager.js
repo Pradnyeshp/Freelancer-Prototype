@@ -176,21 +176,24 @@ class TransactionManager extends Component {
                             <div className="modal-header">
                                 <h4 className="modal-title"> Withdrawing Money </h4>
                             </div>
+                            <form onSubmit={this.handleWithdraw}>
                             <div className="modal-body">
                                 <div className='form-group'>
                                     Enter Amount (USD) :
                                     <input type='text' onChange={this.handleChange} className='form-control text-center'
                                            name='debit'
-                                           id='txtBid'  required />
+                                           id='txtBid' required pattern='[0-9]*'
+                                           title='Enter Valid Amount'  />
                                 </div>
                                 <div className='form-group'>
                                     <input type='submit' value='Withdraw' className='form-control btn btn-success col-md-5'
-                                           id='btnSubmitBid' name='submitBid' onClick={this.handleWithdraw} />
+                                           id='btnSubmitBid' name='submitBid'  />
                                 </div>
                             </div>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
                             </div>
+                            </form>
                         </div>
                     </div>
                 </div>
@@ -202,21 +205,26 @@ class TransactionManager extends Component {
                                 <h4 className="modal-title container-fluid"> Adding Money </h4>
                             </div>
                             <div className="modal-body">
-                                <form className="needs-validation" >
+                                <form onSubmit={this.handleAddMoney} >
                                     <div className="col-md-12 mb-3">
                                         <label htmlFor="cc-name">Name on card</label>
-                                        <input type="text" className="form-control" id="cc-name" placeholder="" />
-                                        <small className="text-muted">Full name as displayed on card</small>
+                                        <input type="text" className="form-control text-center" id="cc-name" required
+                                               pattern='[A-Za-z]*'
+                                               title='Please Enter Valid Name' />
+                                        <small className="text-muted">Name as displayed on card</small>
                                     </div>
                                     <div className="col-md-12 mb-3">
                                         <label htmlFor="cc-number">Credit card number</label>
-                                        <input type="text" className="form-control" id="cc-number" placeholder="" />
+                                        <input type="text" className="form-control text-center" id="cc-number" required
+                                               pattern='[0-9]{16}'
+                                               title='Enter valid Credit Card Number'/>
                                         <small className="text-muted">Enter your 16 digit Card Number</small>
                                     </div>
                                     <div className="col-md-12 mb-3">
                                         <label htmlFor="cc-number">Enter Amount</label>
                                         <input type="text" className="form-control text-center"
-                                               name='credit' onChange={this.handleChange} />
+                                               name='credit' onChange={this.handleChange} required pattern='[0-9]*'
+                                               title='Enter Valid Amount'/>
                                     </div>
                                     <br/>
                                     <div className="row">
@@ -255,14 +263,14 @@ class TransactionManager extends Component {
                                         </div>
                                         <div className="col-md-4 mb-3">
                                             <label htmlFor="cc-expiration">CVV</label>
-                                            <input type="text" className="form-control" id="cc-cvv" placeholder="CVV" />
+                                            <input type="text" className="form-control" id="cc-cvv" required />
                                         </div>
                                     </div>
                                     <hr className="mb-4"/>
                                     <div className="container-fluid col-md-5">
-                                        <button className="btn btn-primary btn-lg btn-block col-md-12 mb-3"
+                                        <input className="btn btn-primary btn-lg btn-block col-md-12 mb-3"
                                                 type="submit"
-                                                onClick={this.handleAddMoney} >Make Payment</button>
+                                                 name='Make Payment' />
                                     </div>
                                 </form>
 
