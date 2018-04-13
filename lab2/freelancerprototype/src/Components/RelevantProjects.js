@@ -26,7 +26,7 @@ class RelevantProjects extends Component {
             .then((response) => {
                 console.log(response.data);
                 this.setState({
-                    relevantProjects : response.data
+                    relevantProjects : response.data.finalRelevantProjectsArray
                 }, ()=> {
                     console.log("After getting relevant projects from DB",this.state.relevantProjects)
                 } )
