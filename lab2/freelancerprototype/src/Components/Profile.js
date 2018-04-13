@@ -5,7 +5,8 @@ import axios from 'axios'
 import { Link } from 'react-router-dom' ;
 import image from '../Image/freelancerlogo.png'
 import url from '../serverurl';
-let imagestring ;
+import ImageUpload from './ImageUpload';
+// let imagestring ;
 
 class Profile extends Component {
 
@@ -19,36 +20,37 @@ class Profile extends Component {
             phone : '',
             aboutme : '',
             skills : '', 
-            imageURL : ''
+            imageURL : '',
+            image : ''
         });
         this.handleSave = this.handleSave.bind(this);
         this.handleChange = this.handleChange.bind(this);
         this.handleEdit = this.handleEdit.bind(this);
-        this.handleUploadImage = this.handleUploadImage.bind(this);
+        // this.handleUploadImage = this.handleUploadImage.bind(this);
     }
 
-    handleUploadImage = (e) => {
-        e.preventDefault();
-
-        const data = new FormData();
-        data.append('file', this.uploadInput.files[0]);
-        // data.append('filename', this.fileName.value);
-        data.append('username', localStorage.getItem('username'));
-
-        axios.post( url + '/upload', data , {withCredentials : true})
-            .then((response) => {
-                    console.log(response);
-                    console.log(response.data);
-                    this.setState({
-                        imageURL : `http://localhost:3001/${response.data.file}`
-                    }, () => {
-                        // imagestring = this.state.imageURL;
-                        console.log(this.state.imageURL);
-                        // console.log(imagestring)
-                    })
-                }
-            )
-    };
+    // handleUploadImage = (e) => {
+    //     e.preventDefault();
+    //
+    //     const data = new FormData();
+    //     data.append('file', this.uploadInput.files[0]);
+    //     // data.append('filename', this.fileName.value);
+    //     data.append('username', localStorage.getItem('username'));
+    //
+    //     axios.post( url + '/upload', data , {withCredentials : true})
+    //         .then((response) => {
+    //                 console.log(response);
+    //                 console.log(response.data);
+    //                 this.setState({
+    //                     imageURL : `${url}/${response.data.file}`
+    //                 }, () => {
+    //                     // imagestring = this.state.imageURL;
+    //                     console.log(this.state.imageURL);
+    //                     // console.log(imagestring)
+    //                 })
+    //             }
+    //         )
+    // };
 
     componentWillMount() {
         console.log(this.props.match.params);
@@ -76,17 +78,17 @@ class Profile extends Component {
                     }
                 )        
             }
-        )
+        );
 
-        axios.post( url + '/getimageurl', usernameJSON, {withCredentials:true} )
-            .then((response) => {
-                console.log(response);
-                this.setState({
-                        imageURL : `http://localhost:3001/${response.data.file}`
-                    }
-                )
-            }
-            )
+        // axios.post( url + '/getimageurl', usernameJSON, {withCredentials:true} )
+        //     .then((response) => {
+        //         console.log(response);
+        //         this.setState({
+        //                 imageURL : `${url}/${response.data.file}`
+        //             }
+        //         )
+        //     }
+        //     )
     }
 
     handleChange = (e) => {
@@ -118,6 +120,9 @@ class Profile extends Component {
     };
 
     render() {
+
+        let imageupload1 = null;
+
         if(this.state.isEditing)
         {   
             return (
@@ -144,11 +149,12 @@ class Profile extends Component {
                             <div className="col-sm-3 divStyle">
                                 {/*<img className="img-rounded" src={proimage} alt="Insert Photo here"></img>*/}
                                 <label> Profile Image :
-                                <input ref={(ref) => { this.uploadInput = ref; }} type="file" />
+                                {/*<input ref={(ref) => { this.uploadInput = ref; }} type="file" />*/}
                                     {/*<input ref={(ref) => { this.fileName = ref; }} type="text" placeholder="Enter the desired name of file" />*/}
                                 </label>
-                                <button>Submit</button>
-                                <img src={this.state.imageURL} alt="img" />
+                                {/*<button>Submit</button>*/}
+                                {/*<img src={this.state.imageURL} alt="img" />*/}
+                                imageupload1 = <ImageUpload/>
                             </div>
                             <div className="col-sm-6 divStyle">
                                 <div className='text-left' disabled='true' >
@@ -238,7 +244,8 @@ class Profile extends Component {
                         <br /><br />
                         <div className="row content ">
                             <div className="col-sm-3 divStyle">
-                                <img src={this.state.imageURL} alt="img" />
+                                {/*<img src={this.state.imageURL} alt="img" />*/}
+                                {imageupload1}
                                 {/*<img className="img-rounded" src={proimage} alt="Insert Photo here"></img>*/}
                             </div>
                             <div className="col-sm-6 divStyle">
