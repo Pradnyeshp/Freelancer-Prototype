@@ -26,7 +26,7 @@ const reducer = (state = initialState, action) => {
             case 'SIGNUP_ERROR' :
                 return {
                     ...state,
-                    error : ''
+                    error : 'This username is taken! Try another '
                 }
 
             case 'SIGNIN_SUCCESS' :

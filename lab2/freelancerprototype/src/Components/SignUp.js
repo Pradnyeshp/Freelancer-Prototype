@@ -29,7 +29,7 @@ class Signup extends Component {
             [events.target.name]: events.target.value
         })
 
-    }
+    };
 
     createUser = (events) => {
         events.preventDefault();
@@ -39,9 +39,9 @@ class Signup extends Component {
             username: this.state.username,
             password: this.state.password,
             email: this.state.email
-        }
+        };
         this.props.insertUser(userDetails);
-    }
+    };
 
     render() {
         let validUser = null;
@@ -63,6 +63,10 @@ class Signup extends Component {
                         <div id="divSignupForm">
                             <div className="form">
                                 <h1> <img src={image} alt="Freelancer Logo" /> <br/> <br/> </h1>
+                                <div className='alert-danger'>
+                                    {this.props.error}
+                                </div>
+                                <br/>
                                 <form className="login-form" onSubmit={this.createUser}>
                                     <input type="text" 
                                         onChange={this.handleChange} 
@@ -123,12 +127,14 @@ function mapDispatchToProps(dispatch) {
             axios.post( url + '/signup', newUser)
                 .then((response) => {
                     if( response.data === 'Username') {
-                        alert("Username already exists, try your luck with another")
+                        // alert("Username already exists, try your luck with another")
                         dispatch({ type: 'SIGNUP_ERROR', payload: response })
                     }
-                    alert("Account Created Successfully");
-                    console.log(response.data);
-                    dispatch({ type: 'SIGNUP_SUCCESS', payload: response })
+                    else {
+                        alert("Account Created Successfully");
+                        console.log(response.data);
+                        dispatch({ type: 'SIGNUP_SUCCESS', payload: response })
+                    }
                 }
             );
         }
