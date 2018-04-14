@@ -4,7 +4,7 @@ function ConnectionProvider() {
     this.getConsumer = function(topic_name) {
 
             this.client = new kafka.Client("localhost:2181");
-            this.kafkaConsumerConnection = new kafka.Consumer( this.client, [ { topic: topic_name, partition: 0 }], {fromOffset:'latest'} );
+            this.kafkaConsumerConnection = new kafka.Consumer(this.client,[ { topic: topic_name, partition: 0 }]);
             this.client.on('ready', function () { console.log('client ready!') });
 
             console.log(this.kafkaConsumerConnection);
