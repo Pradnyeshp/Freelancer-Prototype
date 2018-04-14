@@ -143,9 +143,10 @@ class Projects extends Component {
         return (
             <div className="projects"><br/>
                 <div className='container-fluid'>
+                    <div className='container-fluid'>
                     <div className="col-lg-12">
                         <div className="input-group">
-                            <input type="text" className="form-control btn-outline-secondary" name='searchtext'
+                            <input type="text" className="form-control" name='searchtext'
                                    placeholder="Search by Technology Stack or Project Name ..."
                                    onChange={this.handleChange} /> &nbsp;&nbsp;&nbsp;
                             <div className="input-group-btn">
@@ -153,6 +154,7 @@ class Projects extends Component {
                             </div>
                         </div>
                     </div>
+
                     <br/>
 
                     <div className='container-fluid btn-group-sm  text-left' >
@@ -169,13 +171,14 @@ class Projects extends Component {
 
                 </div>
                 <div className='container-fluid'>
-                <div className='table-bordered table-striped'>
+
+                <div className='table-bordered table-light'>
                 <div className="table-responsive">
                     <table className='table table-hover'>
-                        <thead className="thead-dark" >
+                        <thead className='bg-info' >
                             <tr>
                                 <th className="text-left" >Project Name</th>
-                                <th>Employer</th>
+                                <th >Employer</th>
                                 <th>Number of Bids</th>
                                 <th>Budget Range</th>
                                 <th>Bid Now</th>
@@ -187,8 +190,10 @@ class Projects extends Component {
                     </table>
                 </div>
                 </div>
+
                 </div>
                 <br/>
+                </div>
                 <div>
                     <div className="container">
                         <div className="text-center">
