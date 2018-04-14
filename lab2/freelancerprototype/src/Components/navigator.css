@@ -3,6 +3,11 @@ nav {
     background-color:white;
 }
 
+.navigator {
+    margin-top: 1px;
+    /*margin-left: 50px;*/
+}
+
 .ftext {
-    margin: 7ex
+    margin: 12ex
 }
