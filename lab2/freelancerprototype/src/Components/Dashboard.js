@@ -17,7 +17,7 @@ class Dashboard extends Component {
             pageOfItems: [],
             status : '',
             temp : []
-        }
+        };
         this.handleSearch = this.handleSearch.bind(this)
         this.handleChange = this.handleChange.bind(this)
         this.onChangePage = this.onChangePage.bind(this);
@@ -179,13 +179,13 @@ class Dashboard extends Component {
             this.props.history.push('/freelancerdashboard');
 
         let projects = this.state.pageOfItems.map ( p => {
-            console.log(p)
+            // console.log(p);
             return (
                 <tr key={p.projectname}>
                     <td className='text-left' >
-                        <p><Link to={`/projectdetails/${p._id.id}`}> {p.projectname} </Link></p>
-                        <p> {p.desc} </p>
-                        <span> {p.skillsreq} </span>
+                        <b><Link to={`/projectdetails/${p._id.id}`}> {p.projectname} </Link></b> <br/>
+                            {p.desc} <br/>
+                            {p.skillsreq}
                     </td>
                     <td>
                         <div>
@@ -217,8 +217,10 @@ class Dashboard extends Component {
         });
 
         return (
-            <div className="dashboard">
+            <div className="dashboard ">
                 <NavigationBar/><br/>
+
+                <div className='container-fluid'>
 
                 <div className='EmployerOrFreelancer'>
                     <div className="btn-group" role="group" aria-label="Basic example">
@@ -241,7 +243,7 @@ class Dashboard extends Component {
                 <br/>
 
                 <div className='container-fluid text-right'>
-                    <div className='container-fluid btn-group-sm text-left' >
+                    <div className=' btn-group-sm text-left' >
                         <label className="btn btn-outline-dark ">
                             <input type="checkbox" name="options"
                                    id='open' onClick={this.handleCheck.bind(this)}
@@ -254,6 +256,7 @@ class Dashboard extends Component {
                         </label>
                     </div>
                 </div>
+
 
                 <div>
                     <div className="container">
@@ -280,6 +283,7 @@ class Dashboard extends Component {
                             {projects}
                         </tbody>
                     </table>
+                </div>
                 </div>
             </div>
         );

@@ -43,9 +43,9 @@ class AssignedProjects extends Component {
         } );
 
         return (
-            <div className="assignedprojects"><br/><br/>
+            <div className="assignedprojects">
                 <NavigationBar/> <br/>
-
+                <h2 className='text-left container-fluid'> Projects Assigned </h2> <br/>
                 <div className='container-fluid'>
                     <div className='table-bordered table-striped'>
                         <div className="table-responsive">

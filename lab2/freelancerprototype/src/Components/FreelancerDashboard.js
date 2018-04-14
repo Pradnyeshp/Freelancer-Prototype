@@ -151,9 +151,9 @@ class FreelancerDashboard extends Component {
 
                 <tr key={p.id}>
                     <td className='text-left' >
-                        <p><Link to={`/projectdetails/${p.id }`}> {p.projectname} </Link></p>
-                        <p> {p.desc} </p>
-                        <span> {p.skillsreq} </span>
+                        <b><Link to={`/projectdetails/${p.id }`}> {p.projectname} </Link></b> <br/>
+                         {p.desc} <br/>
+                         {p.skillsreq}
                     </td>
                     <td>
                         <div>
@@ -183,6 +183,8 @@ class FreelancerDashboard extends Component {
             <div className="dashboard">
                 <NavigationBar/> <br/>
 
+                <div className='container-fluid'>
+
                 <div className='EmployerOrFreelancer'>
                     <div className="btn-group" role="group" aria-label="Basic example">
                         <button onClick={() => this.handleEmployer()} 
@@ -204,7 +206,7 @@ class FreelancerDashboard extends Component {
                 <br/>
 
                 <div className='container-fluid text-right'>
-                    <div className='container-fluid btn-group-sm text-left' >
+                    <div className='btn-group-sm text-left' >
                         <label className="btn btn-outline-dark ">
                             <input type="checkbox" name="options"
                                    id='open' onClick={this.handleCheck.bind(this)}
@@ -235,7 +237,7 @@ class FreelancerDashboard extends Component {
                         </tbody>
                     </table>
                 </div>
-
+                </div>
                 <div>
                     <div className="container">
                         <div className="text-center">
