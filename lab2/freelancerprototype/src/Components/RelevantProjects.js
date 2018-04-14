@@ -58,7 +58,11 @@ class RelevantProjects extends Component {
                 <NavigationBar/>
                 <br/>
                 <div className='container-fluid'>
-                <div className="table-responsive table-striped table-bordered">
+                    <div className='container-fluid'>
+                    <h2 className='text-left'> Relevant Projects based on your Skills </h2> <br/>
+                    <div className="table-responsive table-striped table-bordered">
+                    {/*<caption className='captionrp' > */}
+                    {/*</caption>*/}
                     <table className='table table-hover'>
                         <thead className="thead-dark" >
                         <tr>
@@ -74,6 +78,7 @@ class RelevantProjects extends Component {
                         </tbody>
                     </table>
                 </div>
+                    </div>
                 </div>
             </div>
         );

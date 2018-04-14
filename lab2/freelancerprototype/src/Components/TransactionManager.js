@@ -115,13 +115,13 @@ class TransactionManager extends Component {
             )
         });
         return (
-            <div className="tm container-fluid"><br/>
+            <div className="tm ">
                 <NavigationBar/> <br/>
                 <div className='container-fluid' >
                 <div className='row'><br/>
                     <div className='col-lg-4 text-left'>
                         <form className='balance form-group'><br/>
-                            <h3 >Account Balance</h3><br/>
+                            <h4 className='balanceinfo'>Account Balance</h4><br/>
                             <div className='col-lg-7'>
                             <div>
                                 <input  className='form-control btn-outline-primary text-center' type='text' value={this.state.balance}/>
@@ -147,7 +147,7 @@ class TransactionManager extends Component {
                 </div>
 
                 <div className='container-fluid'><br/><br/>
-                    <h3>Transaction History Table</h3><br/>
+                    <h4>Transaction History Table</h4><br/>
                 </div>
                 <div className="container text-truncate">
                     <div className="row">
