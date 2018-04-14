@@ -1,18 +1,34 @@
 .userhome {
-    padding: 2ex ;
+    /*padding: 2ex ;*/
     /* background-color : ; */
+}
+
+.balanceinfo {
+    margin-left: 15px;
+}
+
+.captionrp {
+    margin-left: 20px;
+}
+
+.navigationbar {
+    margin-top: 15px;
 }
 
 .relevantprojects {
-    padding: 2ex ;
+    /*padding: 2ex ;*/
     /* background-color : ; */
 }
 
-.dashboard {
-    padding: 2ex;
-    margin: 1ex;
-    /* background-color : ; */
+.navibar {
+    margin-top: 10px;
 }
+
+/*.dashboard {*/
+    /*padding: 2ex;*/
+    /*margin: 1ex;*/
+    /*!* background-color : ; *!*/
+/*}*/
 
 /*.pagination #li {*/
     /*color: blue;*/
