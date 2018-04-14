@@ -65,19 +65,19 @@ render() {
 
         return (
             <div className="container-fluid piechart col-md-10"><br/>
-                <h3>Pie Chart</h3>
+                <h4>Pie Chart</h4>
                 <div className='row'>
 
                 <div className='container-fluid col-sm-5'>
                 <ReactSvgPieChart
                     data = { data }
-                    expandOnHover={true}
-                    expandSize={5}
-                    shrinkOnTouchEnd={true}
-                    strokeColor="#fff"
-                    strokeLinejoin="round"
-                    strokeWidth={1}
-                    viewBoxSize={100}
+                    expandOnHover = { true }
+                    // expandSize={5}
+                    // shrinkOnTouchEnd={true}
+                    // strokeColor="#fff"
+                    // strokeLinejoin="round"
+                    // strokeWidth={1}
+                    // viewBoxSize={100}
                 />
                 </div>
                     <div className='container-fluid col-sm-3'>
