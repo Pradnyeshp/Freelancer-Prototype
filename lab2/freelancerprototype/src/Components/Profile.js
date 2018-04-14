@@ -146,7 +146,7 @@ class Profile extends Component {
                         <br /><br />
                         <form onSubmit={this.handleUploadImage}>
                         <div className="row content ">
-                            <div className="col-sm-3 divStyle">
+                            <div className="profileimage col-sm-3 divStyle">
                                 {/*<img className="img-rounded" src={proimage} alt="Insert Photo here"></img>*/}
                                 <label> Profile Image :
                                 {/*<input ref={(ref) => { this.uploadInput = ref; }} type="file" />*/}
@@ -155,8 +155,8 @@ class Profile extends Component {
                                 {/*<button>Submit</button>*/}
                                 {/*<img src={this.state.imageURL} alt="img" />*/}
                                 imageupload1 = <ImageUpload/>
-                            </div>
-                            <div className="col-sm-6 divStyle">
+                            </div> &nbsp;&nbsp;
+                            <div className="col-sm-5 divStyle">
                                 <div className='text-left' disabled='true' >
                                     <h3> <label> Name : &nbsp;
                                         <input type="text" ref="name"
@@ -202,7 +202,7 @@ class Profile extends Component {
                                     </h5>
                                 </div>
                             </div>
-                            <div className="col-sm-2 div3Style">
+                            <div className="col-sm-1 div3Style">
                                 <button className='btn btn-primary'
                                     onClick={this.handleEdit} > Edit
                                 </button>
@@ -246,6 +246,7 @@ class Profile extends Component {
                             <div className="col-sm-3 divStyle">
                                 {/*<img src={this.state.imageURL} alt="img" />*/}
                                 {imageupload1}
+                                <img src = { require('E:/CMPE273/lab2/freelancerServer/public/' + localStorage.getItem('username') +'.png' )} alt = "img" width={'200px'} height={'200px'}  />
                                 {/*<img className="img-rounded" src={proimage} alt="Insert Photo here"></img>*/}
                             </div>
                             <div className="col-sm-6 divStyle">
@@ -258,7 +259,7 @@ class Profile extends Component {
                                     <h5> Skills : {this.state.skills} </h5>
                                 </div>
                             </div>
-                            <div className="col-sm-2 div3Style">
+                            <div className="col-sm-1 div3Style">
                                 <button className='btn btn-primary'
                                     onClick={this.handleEdit} > Edit
                                 </button>
