@@ -30,15 +30,17 @@ class Userhome extends Component {
         }
         else {
             bar = (
-            <ul className="nav navbar-nav navbar-right">
-                <li>
-                    <Link to={`/profile/${localStorage.getItem('username')}`}
-                        className="btn btn-primary"> Profile </Link> &nbsp;
-                    <Link to="/signin"
-                        className='btn btn-danger' onClick={this.handleSubmit}>
-                        Sign Out </Link>
-                </li>
-            </ul>
+                <div className='firstbar'>
+                    <ul className="nav navbar-nav navbar-right">
+                        <li>
+                            <Link to={`/profile/${localStorage.getItem('username')}`}
+                                className="btn btn-primary"> Profile </Link> &nbsp;
+                            <Link to="/signin"
+                                className='btn btn-danger' onClick={this.handleSubmit}>
+                                Sign Out </Link>
+                        </li>
+                    </ul>
+                </div>
             )
         }
 
