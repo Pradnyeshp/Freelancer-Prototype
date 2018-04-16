@@ -143,7 +143,6 @@ class Projects extends Component {
         return (
             <div className="projects"><br/>
                 <div className='container-fluid'>
-                    <div className='container-fluid'>
                     <div className="col-lg-12">
                         <div className="input-group">
                             <input type="text" className="form-control" name='searchtext'
@@ -169,13 +168,12 @@ class Projects extends Component {
                     </div>
                     <br/>
 
-                </div>
                 <div className='container-fluid'>
 
                 <div className='table-bordered table-light'>
                 <div className="table-responsive">
                     <table className='table table-hover'>
-                        <thead className='bg-info' >
+                        <thead className='bg-dark text-white' >
                             <tr>
                                 <th className="text-left" >Project Name</th>
                                 <th >Employer</th>

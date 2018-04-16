@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const mysql = require('mysql');
 const MongoClient = require('mongodb').MongoClient;
-const assert = require('assert');
+// const assert = require('assert');
 // const mongo = require('mongodb');
 // const crypto = require('crypto');
 // const mongoose = require('mongoose');
@@ -16,13 +16,13 @@ var fs = require('fs');
 var multiparty = require('multiparty');
 var util = require('util');
 
-let transporter = email.createTransport({
-    service: 'gmail',
-    auth: {
-        user: 'pradnyesh.patil07@gmail.com',
-        pass: 'Pr@d16071993'
-    }
-});
+// let transporter = email.createTransport({
+//     service: 'gmail',
+//     auth: {
+//         user: 'pradnyesh.patil07@gmail.com',
+//         pass: 'Pr@d16071993'
+//     }
+// });
 
   algorithm = 'aes192',
   password = '!QAZ@WSX';
@@ -106,33 +106,34 @@ router.post('/saveimage', (req, res) => {
 });
 
 router.get('/getuserimage', (req, res) => {
-    // kafka.make_request('getuserimage_topic', req.query ,(err, result) => {
-    //     console.log(result);
-    //     res.json(result);
-    // });
-    MongoClient.connect(url, (err, db) => {
-        if(err) {
-            console.log(err);
-            db.close();
-            throw err;
-        } else {
-            var dbo = db.db('freelancer');
-            dbo.collection('users').find({username: req.query.username}).toArray((err, result) => {
-                if(err) {
-                    console.log(err);
-                    db.close();
-                    res.json('No Image found');
-                } else {
-                    db.close();
-                    console.log(result);
-                    res.json({image_name: result[0]});
-                }
-            })
-        }
-    })
+
+    kafka.make_request('getuserimage_topic', req.query ,(err, result) => {
+        console.log(result);
+        res.json(result);
+    });
+
+    // MongoClient.connect(url, (err, db) => {
+    //     if(err) {
+    //         console.log(err);
+    //         db.close();
+    //         throw err;
+    //     } else {
+    //         var dbo = db.db('freelancer');
+    //         dbo.collection('users').find({username: req.query.username}).toArray((err, result) => {
+    //             if(err) {
+    //                 console.log(err);
+    //                 db.close();
+    //                 res.json('No Image found');
+    //             } else {
+    //                 db.close();
+    //                 console.log(result);
+    //                 res.json({image_name: result[0]});
+    //             }
+    //         })
+    //     }
+    // })
 
 });
-
 
 router.post('/signup', function(req, res) {
   console.log(req.body);
@@ -855,13 +856,13 @@ router.post('/getprojects', (req, res) => {
     });
 
     // MongoClient.connect(url, (err, connection) => {
-    //   if(err) throw  err
+    //   if(err) throw  err;
     //     else {
     //       const dbo = connection.db("freelancer");
     //       dbo.collection("projects").find({}).toArray(function(err, result) {
     //           if (err) throw err;
     //           console.log( 'All the Projects from Database are as follows ' ,result);
-    //           res.json(result)
+    //           res.json(result);
     //           connection.close();
     //       });
     //   }

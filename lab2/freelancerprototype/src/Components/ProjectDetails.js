@@ -6,6 +6,7 @@ import ListAllBids from './ListAllBids'
 import image from '../Image/freelancerlogo.png'
 import SubmissionPanel from "./SubmissionPanel";
 import url from '../serverurl';
+import './userhome.css';
 
 class ProjectDetails extends Component {
 
@@ -76,7 +77,7 @@ class ProjectDetails extends Component {
         }
 
         return (
-            <div className="userhome">
+            <div className="pdetails container-fluid">
                 <div className="container-fluid" >
                     <nav className="navbar navbar-inverse" >
                         <div className="container-fluid">
@@ -209,7 +210,7 @@ class ProjectDetails extends Component {
 
     renderBasic () {
         return (
-            <div className="userhome">
+            <div className="pdetails container-fluid">
                 <div className="container-fluid" >
                     <nav className="navbar navbar-inverse" >
                         <div className="container-fluid">

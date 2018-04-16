@@ -246,7 +246,7 @@ class Profile extends Component {
                             <div className="col-sm-3 divStyle">
                                 {/*<img src={this.state.imageURL} alt="img" />*/}
                                 {imageupload1}
-                                <img src = { require('E:/CMPE273/lab2/freelancerServer/public/' + localStorage.getItem('username') +'.png' )} alt = "img" width={'200px'} height={'200px'}  />
+                                {/*<img src = { require('/home/ec2-user/cmpe273/freelancer/freelancerServer/public/' + localStorage.getItem('username') +'.png' )} alt = "img" width={'200px'} height={'200px'}  />*/}
                                 {/*<img className="img-rounded" src={proimage} alt="Insert Photo here"></img>*/}
                             </div>
                             <div className="col-sm-6 divStyle">

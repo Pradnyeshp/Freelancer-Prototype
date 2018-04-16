@@ -29,7 +29,8 @@ function handle_request( msg, callback) {
                                 username: msg.username,
                                 password: resultpass,
                                 email: msg.email,
-                                balance : 10000
+                                balance : 10000,
+                                image_name : "default",
                             }).then( (result) => {
                                 // console.log("User Details Inserted Successfully");
                                 // console.log(result.insertedId);

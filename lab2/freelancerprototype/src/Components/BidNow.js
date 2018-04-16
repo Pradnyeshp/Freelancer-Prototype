@@ -97,22 +97,24 @@ class BidNow extends Component {
                             <div className="modal-header">
                                 <h4 className="modal-title"> Placing your Bid </h4>
                             </div>
+                            <form onSubmit={this.handleBid}>
                             <div className="modal-body">
                                 <div className='form-group'>
                                     Enter your Bid (USD) : 
                                     <input type='text' onChange={this.handleChange} className='form-control' 
-                                        id='txtBid' name='bid' required />
+                                        id='txtBid' name='bid' required pattern='[0-9]*' title='Enter Valid Amount'/>
                                 </div>
                                 <div className='form-group'>
                                     Deliver in (Days) :
                                     <input type='text' onChange={this.handleChange} className='form-control' 
-                                        id='txtDays' name='deliveryDays' required />
+                                        id='txtDays' name='deliveryDays' required pattern='[0-9]*' title='Enter valid number of days' />
                                 </div><br/>
                                 <div className='form-group'>
                                     <input type='submit' value='Place Bid' className='form-control btn btn-success' 
-                                        id='btnSubmitBid' name='submitBid' onClick={this.handleBid} />
+                                        id='btnSubmitBid' name='submitBid'  />
                                 </div>
                             </div>
+                            </form>
                             <div className="modal-footer">
                                 <button type="button" className="btn btn-default" data-dismiss="modal">Close</button>
                             </div>

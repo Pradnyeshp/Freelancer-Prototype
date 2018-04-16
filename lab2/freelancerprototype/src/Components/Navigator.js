@@ -17,7 +17,7 @@ class Navigator extends Component {
 
             <div className='navigator '>
                 <Helmet>
-                    <style>{'body { background-color: #467AFF; }'}</style>
+                    <style>{'body { background-color: #53BEFF; }'}</style>
                 </Helmet>
                 {profile}
 

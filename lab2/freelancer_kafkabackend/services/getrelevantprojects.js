@@ -45,7 +45,7 @@ function handle_request(msg, callback) {
                                     }
                                 }
                                 console.log("Final Skills matched count...", count);
-                                if(count >= 2) {
+                                if(count >= 3) {
                                     finalRelevantProjectsArray.push(allOpenProjectsArray[i]);
                                 }
                             }

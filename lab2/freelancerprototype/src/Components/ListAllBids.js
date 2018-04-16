@@ -134,11 +134,10 @@ class ListAllBids extends Component {
         let allbids = this.state.bids.map( b => {
             return (
                 <tr key={b._id} >
-                    <td className="text-left">
-                        <b> Profile Image Here
-                            {/*<img src={this.state.imageURL} alt="img" />*/}
+                    <td className="text-center">
+                        <b> {/*<img src={this.state.imageURL} alt="img" />*/}
                             <div id = 'bidimage'>
-                                <img src = { require('E:/CMPE273/lab2/freelancerServer/public/' + b.freelancer +'.png' )} alt = "img" width={'100px'} height={'100px'}  />
+                                {/*<img src = { require('/home/ec2-user/cmpe273/freelancer/freelancerServer/public/' + b.freelancer +'.png' )} alt = "img" width={'100px'} height={'100px'}  />*/}
                                 {/*<img src={`http:////localhost:3001/public/${b.freelancer}.jpg`} alt="img" width={'100px'} height={'100px'} />*/}
                             </div>
                         </b>

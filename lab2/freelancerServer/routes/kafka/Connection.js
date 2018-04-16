@@ -22,7 +22,7 @@ function ConnectionProvider() {
             //this.kafkaConnection = new kafka.Producer(this.client);
             console.log('producer ready');
         }
-        return this.kafkaProducerConnection;
+        return this.kafkaProducerConnection ;
     };
 }
 exports = module.exports = new ConnectionProvider;

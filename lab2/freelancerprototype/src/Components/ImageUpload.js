@@ -95,7 +95,7 @@ class Imageuploader extends Component {
         if (this.state.filename) {
 
             // $imagePreviewFinal = (<img src = { require('/Users/venkateshdevale/Desktop/private git/cmpe273/lab2/Freelancer/freelancer-server/images/' + this.state.filename) } alt = "This is user's display pic"/>);
-            $imagePreviewFinal = (<img src = { require('E:/CMPE273/lab2/freelancerServer/public/' + this.state.filename) } alt = "This is display pic"/>);
+            // $imagePreviewFinal = (<img src = { require('/home/ec2-user/cmpe273/freelancer/freelancerServer/public/' + this.state.filename) } alt = "This is display pic"/>);
         }
         const style = {
             display : this.state.display

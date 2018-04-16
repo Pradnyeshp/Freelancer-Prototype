@@ -111,7 +111,7 @@ class Payment extends Component {
                                            id="cc-name"
                                            required
                                            pattern='[A-Za-z]*'
-                                           title='Please Enter Valid Name' />
+                                           title='Please enter valid name' />
                                         <small className="text-muted">Full name as displayed on card</small>
                                 </div>
                                 <div className="col-md-12 mb-3">
@@ -121,7 +121,7 @@ class Payment extends Component {
                                            id="cc-number"
                                            required
                                            pattern='[0-9]{16}'
-                                           title='Enter valid Credit Card Number' />
+                                           title='Enter valid Credit Card Number of 16 digits' />
                                     <small className="text-muted">Enter your 16 digit Card Number</small>
                                 </div>
                                 <div className="col-md-12 mb-3">
@@ -165,7 +165,10 @@ class Payment extends Component {
                                 </div>
                                 <div className="col-md-4 mb-3">
                                     <label htmlFor="cc-expiration">CVV</label>
-                                    <input type="text" className="form-control" id="cc-cvv" placeholder="CVV" />
+                                    <input type="text" className="form-control" id="cc-cvv"
+                                           placeholder="CVV"
+                                           pattern='[0-9]{3}'
+                                           title='Enter valid 3 digit CVV' required />
                                 </div>
                             </div>
                             <hr className="mb-4"/>
