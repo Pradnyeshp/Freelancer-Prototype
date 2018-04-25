@@ -189,7 +189,7 @@ class Dashboard extends Component {
                     </td>
                     <td>
                         <div>
-                            <p>$ {  p.average.toFixed(2)} </p>
+                            <p>$ {  p.average} </p>
                         </div>
                     </td>
                     <td>

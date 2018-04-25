@@ -37,7 +37,7 @@ app.use(logger('dev'));
 
 //cors
 app.use(cors({
-    origin: 'http://localhost:3000',
+    origin: 'http://ec2-34-207-142-114.compute-1.amazonaws.com:3000',
     credentials: true
 }));
 

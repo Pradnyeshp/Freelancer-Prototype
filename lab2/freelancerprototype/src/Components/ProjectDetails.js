@@ -52,7 +52,7 @@ class ProjectDetails extends Component {
                         worker : response.data[0].worker,
                         budgetrange: response.data[0].budget,
                         bids : response.data[0].bids,
-                        avg : response.data[0].average.toFixed(2),
+                        avg : response.data[0].average,
                         status : response.data[0].status,
                         comment : response.data[0].comment
                         // freelancer : response.data[0].freelancer
