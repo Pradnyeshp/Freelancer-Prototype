@@ -3,3 +3,6 @@ lab2/freelancer_kafkabackend/.idea/workspace.xml
 lab2/freelancer_kafkabackend/.idea/workspace.xml
 lab2/freelancer_kafkabackend/.idea/workspace.xml
 *.xml
+*.iml 
+
+.node_modules\
