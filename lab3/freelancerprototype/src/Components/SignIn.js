@@ -6,7 +6,6 @@ import './signin.css';
 import { Link } from 'react-router-dom';
 import image from '../Image/freelancerlogo.png'
 import { Helmet } from 'react-helmet'
-import url from '../serverurl';
 
 class SignIn extends Component {
     constructor() {
@@ -14,7 +13,7 @@ class SignIn extends Component {
         this.state = {
             username: "",
             password: "",
-            error : '' ,
+            error: "",
             signin_success: ""
         }
     }
@@ -41,21 +40,11 @@ class SignIn extends Component {
         if (localStorage.getItem('username') !== null ) {
             profile = <Redirect to="/Userhome" />
         }
-        //
-        // function toggleAlert(){
-        //     $(".alert").toggleClass('in out');
-        //     return false; // Keep close.bs.alert event from removing from DOM
-        // }
-        //
-        //
-        // $("#btn").on("click", toggleAlert);
-        // $('#bsalert').on('close.bs.alert', toggleAlert)
 
         return (
             <div className="Login">
             {profile}
                 <div className="login-page">
-
                     {/*{{#if errors}}*/}
                     {/*{{#each errors}}*/}
                     {/*<div className="alert-danger" > {{msg}} </div>*/}
@@ -66,11 +55,6 @@ class SignIn extends Component {
                     </Helmet>
                     <div className="form">
                         <h1><img src={image} alt="Freelancer Logo" /><br /><br /> </h1>
-                        <div className='container-fluid text-center'>
-                        <div className='alert-danger'>
-                            {this.props.error}
-                        </div>
-                        </div><br/>
                         <form className="login-form" onSubmit={this.handleSignIn.bind(this)}>
                             <input type="text" 
                                 placeholder="Username" 
@@ -86,7 +70,7 @@ class SignIn extends Component {
                                 className="form-control" 
                                 id="txtPassword" 
                                 name="password" required/>
-                            <button id='btn' className="form-control btn btn-primary"
+                            <button className="form-control btn btn-primary" 
                                 value="Login">login
                             </button>
                             <dt className="message"> 
@@ -97,10 +81,6 @@ class SignIn extends Component {
                             </dt>
                         </form>
                     </div>
-                    {/*<div className="alert alert-info fade out" id="bsalert">*/}
-                        {/*<a href="#" className="close" data-dismiss="alert" aria-label="close">&times;</a>*/}
-                        {/*<strong>Info!</strong> This alert box could indicate a neutral informative or action*/}
-                    {/*</div>*/}
                 </div>
             </div>
         );
@@ -111,8 +91,7 @@ function mapStateToProps(state) {
     return {
         username: state.username,
         password: state.password,
-        signin_success: state.signin_success,
-        error : state.error
+        signin_success: state.signin_success
     }
 }
 
@@ -120,19 +99,19 @@ function mapDispatchToProps(dispatch) {
     return {
         loginUser: (userData) => {
             console.log("In Login dispatch", userData);
-            axios.post( url + '/signin', userData, { withCredentials : true})
+            axios.post('http://localhost:3001/signin', userData)
                 .then((response) => {
                     console.log(response);
+
                     console.log("After login dispatch", response.data);
                     if (response.data === 'ERROR') {
-                        // alert("Error In Logging In, Please Check Username and Password");
+                        alert("Error In Logging In, Please Check Username and Password");
                         dispatch({ type: 'ERROR', payload: response })
                     }
-                    else {
-                        console.log("In Login ", response.data)
-                        console.log("Session Started " )
-                        localStorage.setItem('username', response.data.session)
-                        console.log(localStorage.getItem('username') )
+                        
+                    else {                        
+                        localStorage.setItem('username', response.data[0].Username)
+                        localStorage.setItem('userid', response.data[0].UserId )
                         console.log(localStorage.username);
                         dispatch({ type: 'SIGNIN_SUCCESS', payload: response })
                     }

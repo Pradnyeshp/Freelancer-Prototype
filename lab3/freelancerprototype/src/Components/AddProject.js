@@ -3,15 +3,12 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet'
-import url from '../serverurl';
-import './userhome.css';
 
 class AddProject extends Component {
 
     constructor() {
         super();
         this.state = ({
-            username: '',
             userid : '',
             freelancer : '',
             projectname : '',
@@ -21,39 +18,34 @@ class AddProject extends Component {
             startdate : '' ,
             compdate : '',
             projectpost_success : ''
-        });
+        })
         this.postProject = this.postProject.bind(this)
         this.handleChange = this.handleChange.bind(this)
     }
 
     componentWillMount () {
         
-        let user = localStorage.getItem('username');
+        let username = localStorage.getItem('username');
         const usernameJSON = {
-            username : user
+            username : username
         }
-        console.log(usernameJSON);
-        this.setState({
-                username : user
-        }, () => {
-            console.log('In componentWillMount', this.state)
-        })
-        // axios.post('http://localhost:3001/checksession', null, { withCredentials : true } )
-        //     .then((response => {
-        //         console.log('In CheckSession ', response.data);
-        //         this.setState( {
-        //             freelancer : response.data[0].username
-        //         }, () => {
-        //             console.log( 'After check Session ' , this.state );
-        //         })
-        //     }))
+
+        axios.post('http://localhost:3001/getuserid', usernameJSON )
+            .then((response => {
+                console.log('In Get UserId ',response.data);
+                this.setState( {
+                    userid : response.data[0].UserId,
+                    freelancer : response.data[0].Username
+                }, () => {
+                    console.log(this.state);
+                })
+            })) 
     }
 
     postProject = (e) => {
         e.preventDefault();
 
         const projectDetails = {
-            username : this.state.username,
             userid : this.state.userid,
             freelancer : this.state.freelancer,
             projectname: this.state.projectname,
@@ -62,9 +54,9 @@ class AddProject extends Component {
             budgetrange: this.state.budgetrange,
             startdate: this.state.startdate,
             compdate: this.state.compdate,
-        };
+        }
         this.props.addProject(projectDetails)
-    };
+    }
 
     handleChange = (e) => {
         e.preventDefault();
@@ -74,7 +66,7 @@ class AddProject extends Component {
         }, () => {
             console.log(this.state);
         })
-    };
+    }
 
     render() {
         let projectpost = null;
@@ -90,36 +82,36 @@ class AddProject extends Component {
                     <style>{'body { background-color: lightblue; }'}</style>
                 </Helmet>
                 {projectpost}
-                        <div id='postprojectform' >
-                <form onSubmit={this.postProject}><br />
+                <div className='container' >
+                <form onSubmit={this.postProject} ><br />
                     <h2>Tell us what you need done</h2>
                     <p>Get free quotes from skilled freelancers within minutes</p><br/>
-                    <div className=' container' >
+                    <div className='form-group' >
                         <label><h5>Choose a name for your project</h5> <br/>
-                            <input type="text"
-                                className='form-control'
-                                name="projectname"
+                            <input type="text" 
+                                className="form-control"
+                                name="projectname" 
                                 placeholder="Build me a website" 
                                 onChange={this.handleChange} required />
                         </label><br/>
                     </div>
-                    <div className=''>
+                    <div className='form-group'>
                         <label><h5>Tell us more about your project</h5> <br />
-                            <textarea className="form-control"
+                            <textarea className="form-control" 
                                 rows="4" name="projectdesc"
                                 placeholder = 'Describe your Project here...'
                                 onChange={this.handleChange} required>
                             </textarea>
                         </label><br />
                     </div>
-                    <div className=''>
+                    <div className='form-group'>
                         <label><h5>Upload your Files here </h5><br/>
                             <input type="file" 
                                 className="form-control" 
                                 name="fileupload" />
                         </label><br />
                     </div> 
-                    <div className='' >
+                    <div className='form-group' >   
                         <label><h5>What skills are required?</h5> <br/>
                             <input type="text" 
                                 className="form-control"
@@ -128,12 +120,9 @@ class AddProject extends Component {
                                 onChange={this.handleChange}required />
                         </label><br />
                     </div>
-                    <div className='' >
+                    <div className='form-group' >
                         <label> <h5> What is your estimated budget? </h5> <br/>
-                                <select className="form-control"
-                                        defaultValue="Micro Project ($10 - 30 USD)"
-                                        name="budgetrange"
-                                        onChange={this.handleChange} required >
+                                <select className="form-control" defaultValue="Micro Project ($10 - 30 USD)" name="budgetrange" onChange={this.handleChange} required>
                                     <option value="Micro Project ($10 - 30 USD)">
                                         Micro Project ($10 - 30 USD)</option>
                                     <option value="Simple project ($30 - 250 USD)">
@@ -142,21 +131,30 @@ class AddProject extends Component {
                                         Very small project ($250 - 750 USD)</option>
                                     <option value="Small project ($750 - 1500 USD)">
                                         Small project ($750 - 1500 USD)</option>
-                                    <option value="Large project ($3000 - 5000 USD)">
-                                        Large project ($3000 - 5000 USD)</option>
-                                    <option value="Larger project ($5000 - 10000 USD)">
-                                        Larger project ($5000 - 10000 USD)</option>
-                                    <option value="Huge project ($20000 - 50000 USD)">
-                                        Huge project ($20000 - 50000 USD)</option>
                                 </select>
                         </label> <br />
                     </div>
-                    <br/>
-                    <button className="btn btn-success"
-                            onSubmit={this.handleSubmit} >Post My Project</button>
+                    <div className='form-group' >
+                        <label> <h5>Starting Date</h5> <br />
+                            <input type="date" 
+                                className="form-control"
+                                name="startdate"
+                                onChange={this.handleChange} required />
+                        </label> <br />
+                    </div>
+                    <div className='form-group' >
+                        <label> <h5> Completion Date </h5> <br />
+                            <input type="date" 
+                                className="form-control"
+                                name="compdate"
+                                onChange={this.handleChange} required />
+                        </label> <br />
+                    </div>
+                    <br/> 
+                    <button className="btn btn-success" onSubmit={this.handleSubmit} >Post My Project</button> 
                 </form>
                 <br/> <br/>
-                    </div>
+                </div>
             </div>
         );
     }
@@ -180,11 +178,11 @@ function mapDispatchToProps(dispatch) {
     return {
         addProject : (project) => {
             console.log(project);
-            axios.post( url + '/addproject', project)
+            axios.post('http://localhost:3001/addproject', project)
                 .then((response) => 
                 {
                     if (response.data === 'ERROR') {
-                        // alert("Incorrect datetime value");
+                        alert("Incorrect datetime value");
                         dispatch({ type: 'ERROR', payload: response })
                     }
                     else {
@@ -192,6 +190,7 @@ function mapDispatchToProps(dispatch) {
                         dispatch({ type: 'PROJECTPOST_SUCCESS', payload: response })
                     }
                 }
+               
             );
         }
     }

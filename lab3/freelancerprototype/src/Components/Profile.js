@@ -4,14 +4,13 @@ import { connect } from 'react-redux';
 import axios from 'axios'
 import { Link } from 'react-router-dom' ;
 import image from '../Image/freelancerlogo.png'
-import url from '../serverurl';
-import ImageUpload from './ImageUpload';
-// let imagestring ;
+import proimage from '../Image/PassportPhoto.jpg'
+import ImageUpload from './ImageUpload'
 
 class Profile extends Component {
 
-    constructor(props) {
-        super(props);
+    constructor() {
+        super();
         this.state = ({
             isEditing : false,
             username : '',
@@ -20,37 +19,12 @@ class Profile extends Component {
             phone : '',
             aboutme : '',
             skills : '', 
-            imageURL : '',
             image : ''
         });
-        this.handleSave = this.handleSave.bind(this);
-        this.handleChange = this.handleChange.bind(this);
-        this.handleEdit = this.handleEdit.bind(this);
-        // this.handleUploadImage = this.handleUploadImage.bind(this);
+        this.handleSave = this.handleSave.bind(this)
+        this.handleChange = this.handleChange.bind(this)
+        this.handleEdit = this.handleEdit.bind(this)
     }
-
-    // handleUploadImage = (e) => {
-    //     e.preventDefault();
-    //
-    //     const data = new FormData();
-    //     data.append('file', this.uploadInput.files[0]);
-    //     // data.append('filename', this.fileName.value);
-    //     data.append('username', localStorage.getItem('username'));
-    //
-    //     axios.post( url + '/upload', data , {withCredentials : true})
-    //         .then((response) => {
-    //                 console.log(response);
-    //                 console.log(response.data);
-    //                 this.setState({
-    //                     imageURL : `${url}/${response.data.file}`
-    //                 }, () => {
-    //                     // imagestring = this.state.imageURL;
-    //                     console.log(this.state.imageURL);
-    //                     // console.log(imagestring)
-    //                 })
-    //             }
-    //         )
-    // };
 
     componentWillMount() {
         console.log(this.props.match.params);
@@ -58,37 +32,26 @@ class Profile extends Component {
         let username = this.props.match.params.value ;
         const usernameJSON = {
             username: username
-        };
-
-        axios.post( url + '/getprofile', usernameJSON, { withCredentials : true } )
+        }
+        axios.post('http://localhost:3001/getprofile', usernameJSON )
             .then((response)=>{
                 console.log("User Details from Database :", response.data[0]);
-                console.log(response.data[0].email);
+                console.log(response.data[0].Email);
                 
                 this.setState ({
-                        username : response.data[0].username,
-                        name : response.data[0].name,
-                        email : response.data[0].email,
-                        phone: response.data[0].phone,
-                        aboutme: response.data[0].aboutme,
-                        skills: response.data[0].skills,
-                        // imageURL : imagestring
+                        username : response.data[0].Username,
+                        name : response.data[0].Name,
+                        email : response.data[0].Email,
+                        phone: response.data[0].Phone,
+                        aboutme: response.data[0].AboutMe,
+                        skills: response.data[0].Skills,
+                        image: response.data[0].Image
                     }, () => {
-                        console.log('In getProfile, After setState :', this.state)
+                        console.log('After setState :', this.state)
                     }
                 )        
             }
-        );
-
-        // axios.post( url + '/getimageurl', usernameJSON, {withCredentials:true} )
-        //     .then((response) => {
-        //         console.log(response);
-        //         this.setState({
-        //                 imageURL : `${url}/${response.data.file}`
-        //             }
-        //         )
-        //     }
-        //     )
+        )
     }
 
     handleChange = (e) => {
@@ -97,10 +60,10 @@ class Profile extends Component {
         this.setState ({
             [e.target.name] : [e.target.value]
         })
-    };
+    }
 
     handleSave = () => {
-
+        
         const profile = {
             username : this.state.username,
             name : this.state.name,
@@ -108,25 +71,24 @@ class Profile extends Component {
             phone: this.state.phone,
             aboutme: this.state.aboutme,
             skills: this.state.skills,
-            // image: this.state.image
-        };
+            image: this.state.image
+        }
+        
         this.props.profileUpdate(profile);
         console.log(profile);
-    };
+    }
 
     handleEdit = (e) => {
-        e.preventDefault();
+        e.preventDefault()
         this.setState ( {isEditing : !this.state.isEditing });
-    };
+        
+    }
 
     render() {
-
-        let imageupload1 = null;
-
         if(this.state.isEditing)
         {   
             return (
-                <div className="profile"><br/>
+                <div className="profile">
                     <div className="container-fluid" >
                         <nav className="navbar navbar-inverse" >
                             <div className="container-fluid">
@@ -144,19 +106,16 @@ class Profile extends Component {
                     </div>
                     <div className="container-fluid ">
                         <br /><br />
-                        <form onSubmit={this.handleUploadImage}>
                         <div className="row content ">
-                            <div className="profileimage col-sm-3 divStyle">
-                                {/*<img className="img-rounded" src={proimage} alt="Insert Photo here"></img>*/}
+                            <div className="col-sm-3 divStyle">
+                                <img className="img-rounded" src={proimage} alt="Insert Photo here"></img>
                                 <label> Profile Image :
-                                {/*<input ref={(ref) => { this.uploadInput = ref; }} type="file" />*/}
-                                    {/*<input ref={(ref) => { this.fileName = ref; }} type="text" placeholder="Enter the desired name of file" />*/}
+                                <input type="file"
+                                        className="form-control-file"
+                                        name="avatar" />
                                 </label>
-                                {/*<button>Submit</button>*/}
-                                {/*<img src={this.state.imageURL} alt="img" />*/}
-                                imageupload1 = <ImageUpload/>
-                            </div> &nbsp;&nbsp;
-                            <div className="col-sm-5 divStyle">
+                            </div>
+                            <div className="col-sm-6 divStyle">
                                 <div className='text-left' disabled='true' >
                                     <h3> <label> Name : &nbsp;
                                         <input type="text" ref="name"
@@ -172,13 +131,6 @@ class Profile extends Component {
                                             value={this.state.email}
                                             onChange={this.handleChange} />
                                         </label></h5>
-                                    <h5> <label> Username : &nbsp;
-                                        <input type="text" ref="email"
-                                               className="form-control"
-                                               name="email"
-                                               value={this.state.username}
-                                               disabled />
-                                    </label></h5>
                                     <h5> Phone : &nbsp;
                                         <input type="text" ref="phone"
                                             className="form-control"
@@ -187,7 +139,7 @@ class Profile extends Component {
                                             onChange={this.handleChange} />
                                     </h5>
                                     <h5> About Me : 
-                                        <textarea typeof="text-area" ref="aboutme"
+                                        <textarea type="text-area" ref="aboutme"
                                             className="form-control"
                                             name="aboutme"
                                             value={this.state.aboutme}
@@ -202,18 +154,17 @@ class Profile extends Component {
                                     </h5>
                                 </div>
                             </div>
-                            <div className="col-sm-1 div3Style">
+                            <div className="col-sm-2 div3Style">
                                 <button className='btn btn-primary'
                                     onClick={this.handleEdit} > Edit
                                 </button>
                             </div>
                         </div>
-                        </form>
                     </div>
                     <form>
                         <br />
                         <button className='btn btn-primary'
-                            onClick={this.handleSave} > Save
+                            onClick={this.handleSave} > Save 
                         </button> &nbsp;
                         <button className='btn btn-danger'> 
                             <Link to='/profile' onClick={this.handleEdit} ><font color="white">Cancel</font></Link>
@@ -224,7 +175,7 @@ class Profile extends Component {
         else {
             return(
                 < div className = "profile" >
-                    <br/>
+                    
                     <div className="container-fluid" >
                         <nav className="navbar navbar-inverse" >
                             <div className="container-fluid">
@@ -244,22 +195,18 @@ class Profile extends Component {
                         <br /><br />
                         <div className="row content ">
                             <div className="col-sm-3 divStyle">
-                                {/*<img src={this.state.imageURL} alt="img" />*/}
-                                {imageupload1}
-                                {/*<img src = { require('/home/ec2-user/cmpe273/freelancer/freelancerServer/public/' + localStorage.getItem('username') +'.png' )} alt = "img" width={'200px'} height={'200px'}  />*/}
-                                {/*<img className="img-rounded" src={proimage} alt="Insert Photo here"></img>*/}
+                                <img className="img-rounded" src={proimage} alt="Insert Photo here"></img>
                             </div>
                             <div className="col-sm-6 divStyle">
                                 <div className='text-left'>
                                     <h3> {this.state.name}</h3>
                                     <h5> Email : {this.state.email}</h5>
-                                    <h5> Username : {this.state.username}</h5>
                                     <h5> Phone : {this.state.phone}</h5>
                                     <h5> About Me : {this.state.aboutme} </h5>
                                     <h5> Skills : {this.state.skills} </h5>
                                 </div>
                             </div>
-                            <div className="col-sm-1 div3Style">
+                            <div className="col-sm-2 div3Style">
                                 <button className='btn btn-primary'
                                     onClick={this.handleEdit} > Edit
                                 </button>
@@ -282,7 +229,8 @@ function mapDispatchToProps(dispatch) {
     return {
         profileUpdate : (profile) => {
             console.log('Updated User', profile);
-            axios.post( url + '/updateprofile', profile, { withCredentials : true })
+            
+            axios.post('http://localhost:3001/updateprofile', profile)
                 .then((response) => {
                     console.log(response);
                     if (response.data === 'ERROR')

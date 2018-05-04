@@ -2,9 +2,7 @@ import React, { Component } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import './userhome.css'
-import Pagination from "./Pagination";
-import NavigationBar from "./NavigationBar";
-import url from '../serverurl';
+import image from '../Image/freelancerlogo.png'
 
 class FreelancerDashboard extends Component {
     
@@ -13,63 +11,21 @@ class FreelancerDashboard extends Component {
         this.state = {
             projects: [],
             employerButton: false,
-            userid : '',
-            searchtext : '',
-            pageOfItems: [],
-            temp : []
+            userid : ''
         }
-        this.handleSearch = this.handleSearch.bind(this)
-        this.handleChange = this.handleChange.bind(this)
-        this.onChangePage = this.onChangePage.bind(this);
     }
-
-    onChangePage(pageOfItems) {
-        // update state with new page of items
-        this.setState({ pageOfItems: pageOfItems });
-    }
-
-    handleSearch= (e) => {
-        e.preventDefault()
-        let search = {
-            search : this.state.searchtext,
-            username: localStorage.getItem('username')
-        }
-
-        axios.post( url + '/searchtextfreelancer', search)
-            .then( (response) => {
-                console.log('Receive Projects from Db :', response.data)
-                if( response.data.toString() ===  'No Project found in database' ) {
-                    this.setState ({
-                        projects : [],
-                        temp : []
-                    })
-                }
-                else {
-                    this.setState({
-                        projects : response.data,
-                        temp : response.data
-                    })
-                }
-            })
-    };
-
-    handleChange = (e) => {
-        this.setState({
-            [e.target.name] : e.target.value
-        }, () => {
-            console.log("After entering Text in Searchbar", this.state.searchtext )
-        })
-    };
 
     componentWillMount() {
 
+        
         console.log('In Freelancer Dashboard');
         const userDetails = {
             username : localStorage.getItem('username'),
             userid : localStorage.getItem('userid')
-        };
+        }
 
-        axios.post( url + '/getmybiddedprojects', userDetails )
+
+        axios.post('http://localhost:3001/getmybiddedprojects', userDetails )
             .then((response) => {
                 console.log("Your Bidded Projects : ", response.data);
                 if (response.data === 'ERROR') {
@@ -80,8 +36,7 @@ class FreelancerDashboard extends Component {
                     })
                 } else {
                     this.setState({
-                        projects: response.data,
-                        temp : response.data
+                        projects: response.data
                     }, () => {
                         console.log(this.state); 
                     })
@@ -99,80 +54,40 @@ class FreelancerDashboard extends Component {
     handleSubmit = () => {
         localStorage.removeItem('username');
     }
-
-    handleCheck = () => {
-        let array = []
-
-        if( document.getElementById('open').checked && document.getElementById('closed').checked ) {
-            this.setState({
-                projects : this.state.temp
-            })
-        }
-        else if( document.getElementById('open').checked ) {
-            console.log("Open Checkbox selected")
-            for(let i=0; i< this.state.projects.length ; i++) {
-                if(this.state.projects[i].status === 'Open') {
-                    array.push(this.state.projects[i])
-                    console.log(array);
-                }
-            }
-            this.setState({
-                projects : array
-            })
-        }
-        else if( document.getElementById('closed').checked ) {
-            console.log("Closed Checkbox selected")
-            for(let i=0; i< this.state.projects.length ; i++) {
-                if(this.state.projects[i].status === 'closed') {
-                    array.push(this.state.projects[i])
-                    console.log(array);
-                }
-            }
-            this.setState({
-                projects : array
-            })
-        }
-        else {
-            console.log('No checkbox Selected')
-            this.setState({
-                projects : this.state.temp
-            })
-        }
-    }
-
+    
     render() {
 
         if (this.state.employerButton === true)
             this.props.history.push('/dashboard');
 
-        let projects = this.state.pageOfItems.map( p => {
-            console.log(p)
-            return (
+        let projects = [];
+        projects = this.state.projects.map(p => {
 
-                <tr key={p.id}>
+            return (
+                <tr key={p.ProjectId}>
                     <td className='text-left' >
-                        <b><Link to={`/projectdetails/${p.id }`}> {p.projectname} </Link></b> <br/>
-                         {p.desc} <br/>
-                         {p.skillsreq}
+                        <p><Link to={`/projectdetails/${p.ProjectId}`}> {p.Title} </Link></p>
+                        <p> {p.Description} </p>
+                        <span> {p.SkillsReq} </span>
                     </td>
                     <td>
                         <div>
-                            <p> $ {p.average.toFixed(2)} </p>
+                            <p> $ {p.AvgBid} </p>
                         </div>
                     </td>
                     <td>
                         <div>
-                            <p><Link to={`/profile/${p.employer}`}>{p.employer}</Link></p>
+                            <p><Link to={`/profile/${p.Freelancer}`}>{p.Freelancer}</Link></p>
                         </div>
                     </td>
                     <td>
                         <div>
-                            <p>{p.bid}</p>
+                            <p>{p.Bid}</p>
                         </div>
                     </td>
                     <td>
                         <div>
-                            <p>{p.status}</p>
+                            <p>{p.Status}</p>
                         </div>
                     </td>
                 </tr>
@@ -181,9 +96,46 @@ class FreelancerDashboard extends Component {
 
         return (
             <div className="dashboard">
-                <NavigationBar/> <br/>
+                <div className="container-fluid" >
+                    <nav className="navbar navbar-inverse" >
+                        <div className="container-fluid">
+                            <div className="navbar-header">
+                                <a className="navbar-brand"> <img src={image} alt="Freelancer Logo" /> </a>
+                            </div>
+                            <ul className="nav navbar-nav navbar-right">
+                                <li> <Link to={`/profile/${localStorage.getItem('username')}`}
+                                    className="btn btn-primary"> Profile </Link> &nbsp;
+                                <Link to="/signin" className='btn btn-danger' onClick={this.handleSubmit}>
+                                        Sign Out </Link></li>
+                            </ul>
+                        </div>
+                    </nav>
+                </div> <br />
 
-                <div className='container-fluid'>
+                <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                    <button className="navbar-toggler" type="button" data-toggle="collapse"
+                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                        aria-expanded="false" aria-label="Toggle navigation">
+                        <span className="navbar-toggler-icon"></span>
+                    </button>
+                    <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                        <ul className="navbar-nav mr-auto">
+                            <li className="nav-item active">
+                                <Link to='/userhome'
+                                    className="nav-link" > Home <span className="sr-only">(current)</span>
+                                </Link>
+                            </li>
+                            <li className="nav-item">
+                                <Link to='/dashboard' className="nav-link" href=""> Dashboard </Link>
+                            </li>
+                        </ul>
+                        <form className="form-inline my-2 my-lg-0">
+                            <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
+                                <Link to='/addproject' > Post a Project </Link>
+                            </button>
+                        </form>
+                    </div>
+                </nav><br />
 
                 <div className='EmployerOrFreelancer'>
                     <div className="btn-group" role="group" aria-label="Basic example">
@@ -192,37 +144,8 @@ class FreelancerDashboard extends Component {
                         <button type="button" className="btn btn-dark">Freelancer</button>
                     </div>
                 </div><br />
-
-                <div className="col-lg-12">
-                    <div className="input-group">
-                        <input type="text" className="form-control" name='searchtext'
-                               placeholder="Search by Technology Stack or Project Name ..."
-                               onChange={this.handleChange} /> &nbsp;&nbsp;&nbsp;
-                        <div className="input-group-btn">
-                            <button className="btn btn-outline-primary" type="button" onClick={this.handleSearch}> Search </button>
-                        </div>
-                    </div>
-                </div>
-                <br/>
-
-                <div className='container-fluid text-right'>
-                    <div className='btn-group-sm text-left' >
-                        <label className="btn btn-outline-dark ">
-                            <input type="checkbox" name="options"
-                                   id='open' onClick={this.handleCheck.bind(this)}
-                            /> Status (Open)
-                        </label> &nbsp;
-                        <label className="btn btn-outline-dark">
-                            <input type="checkbox" name="options"
-                                   id='closed' onClick={this.handleCheck.bind(this)}
-                            /> Status (Closed)
-                        </label>
-                    </div>
-                </div>
-                <br/>
-
-                <div className='dashboardprojecttable container-fluid'>
-                    <table className='table table-hover table-bordered'>
+                <div className='dashboardprojecttable'>
+                    <table className='table table-hover'>
                         <thead className="thead-dark">
                             <tr>
                                 <th className='text-left'>Project Name</th>
@@ -237,15 +160,6 @@ class FreelancerDashboard extends Component {
                         </tbody>
                     </table>
                 </div>
-                </div>
-                <div>
-                    <div className="container">
-                        <div className="text-center">
-                            <Pagination items={this.state.projects} onChangePage={this.onChangePage} />
-                        </div>
-                    </div>
-                </div>
-                <br/>
 
             </div>
         );

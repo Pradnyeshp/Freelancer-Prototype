@@ -6,7 +6,6 @@ import './signin.css';
 import { Link } from 'react-router-dom';
 import image from '../Image/freelancerlogo.png'
 import { Helmet } from 'react-helmet'
-import url from '../serverurl';
 
 class Signup extends Component {
 
@@ -16,9 +15,8 @@ class Signup extends Component {
             name : "",
             username: "",
             password: "",
-            email: "",
-            error : ''
-        };
+            email: ""
+        }
         this.handleChange = this.handleChange.bind(this);
         this.createUser = this.createUser.bind(this);
     }
@@ -29,7 +27,7 @@ class Signup extends Component {
             [events.target.name]: events.target.value
         })
 
-    };
+    }
 
     createUser = (events) => {
         events.preventDefault();
@@ -39,9 +37,9 @@ class Signup extends Component {
             username: this.state.username,
             password: this.state.password,
             email: this.state.email
-        };
+        }
         this.props.insertUser(userDetails);
-    };
+    }
 
     render() {
         let validUser = null;
@@ -63,10 +61,6 @@ class Signup extends Component {
                         <div id="divSignupForm">
                             <div className="form">
                                 <h1> <img src={image} alt="Freelancer Logo" /> <br/> <br/> </h1>
-                                <div className='alert-danger'>
-                                    {this.props.error}
-                                </div>
-                                <br/>
                                 <form className="login-form" onSubmit={this.createUser}>
                                     <input type="text" 
                                         onChange={this.handleChange} 
@@ -115,8 +109,7 @@ function mapStateToProps(state) {
         username: state.username,
         password: state.password,
         email: state.email,
-        signupSuccess: state.signup_success,
-        error: state.error
+        signupSuccess: state.signup_success
     }
 }
 
@@ -124,17 +117,10 @@ function mapDispatchToProps(dispatch) {
     return {
         insertUser: (newUser) => {
             console.log(newUser);
-            axios.post( url + '/signup', newUser)
+            axios.post('http://localhost:3001/signup', newUser)
                 .then((response) => {
-                    if( response.data === 'Username') {
-                        // alert("Username already exists, try your luck with another")
-                        dispatch({ type: 'SIGNUP_ERROR', payload: response })
-                    }
-                    else {
-                        alert("Account Created Successfully");
-                        console.log(response.data);
-                        dispatch({ type: 'SIGNUP_SUCCESS', payload: response })
-                    }
+                    console.log(response);
+                    dispatch({ type: 'SIGNUP_SUCCESS', payload: response })
                 }
             );
         }

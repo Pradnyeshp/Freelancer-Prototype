@@ -1,77 +1,11 @@
 .userhome {
-    /*padding: 2ex ;*/
+    padding: 2ex ;
     /* background-color : ; */
 }
 
-.pdetails {
-    margin-top: 10px;
-}
-
-.balanceinfo {
-    margin-left: 15px;
-}
-
-#profilebutton {
-    margin-right: 10px;
-}
-
-.listallbids {
-    margin-top: 5px;
-}
-
-.captionrp {
-    margin-left: 20px;
-}
-
-.navigationbar {
-    margin-top: 15px;
-}
-
-.relevantprojects {
-    /*padding: 2ex ;*/
+.dashboard {
+    padding: 2ex;
+    margin: 1ex;
     /* background-color : ; */
 }
 
-.navibar {
-    margin-top: 10px;
-}
-
-/*.dashboard {*/
-    /*padding: 2ex;*/
-    /*margin: 1ex;*/
-    /*!* background-color : ; *!*/
-/*}*/
-
-/*.pagination #li {*/
-    /*color: blue;*/
-    /*color-interpolation: red;*/
-/*}*/
-
-.debit #debit {
-     background-color : #4CAF50;
- }
-
-.debit #credit {
-    background-color : #EF3B3A;
-}
-
-.payment1 {
-    margin-left: 500px;
-}
-
-#postproject {
-    background-color: darkorange;
-}
-
-.balance {
-    margin-left: 150px;
-}
-
-#postprojectform {
-    width: auto;
-    height: auto;
-}
-
-#bidimage {
-    width: 100px ;
-}

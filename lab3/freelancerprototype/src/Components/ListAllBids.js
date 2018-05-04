@@ -1,73 +1,41 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
-import url from '../serverurl';
-import './userhome.css';
-import img from '../Image/default.png';
 
 class ListAllBids extends Component {
 
     constructor() {
-        super();
+        super()
         this.state = ({
             userid : '',
             projectid : '',
             bids : [],
-            display: "none",
-            employer : ''
+            display: "none"
         })
     }
 
     componentWillMount() {
         console.log('In List All Bids: ' + this.props.id );
-        let usr = localStorage.getItem('username');
         let pid = ({
-            projectid : this.props.id,
-            username : usr
-        });
-
-        axios.post( url + '/getemployer', pid , {withCredentials : true})
-            .then( (response) => {
-                console.log('Employer is', response);
-                    this.setState({
-                        employer : response.data
-                    }, () => {
-                        console.log(this.state.employer)
-                    })
-            });
-
-        axios.post(url + '/getallbids', pid, {withCredentials:true} )
+            projectid : this.props.id
+        })
+        axios.post('http://localhost:3001/getallbids', pid)
             .then((response) => {
                 console.log('In getallbids :', response.data);
                 if (response.data.length === 0) {
+                    let temp = [];
+                    temp.push('No projects to show');
                     this.setState ({
                         bids: []
                     })
                 } 
                 else 
                 {
-                    if ( this.state.employer === localStorage.getItem('username')) {
+                    if (response.data[0].Username === localStorage.getItem('username')) {
                         this.setState({
                             display: "block"
                         })
                     }
-
-                    // for( let i = 0; i < response.data[i].length; i++)
-                    // {
-                    //     axios.post('http://localhost:3001/getimageurl', response.data[i].freelancer, {withCredentials:true} )
-                    //         .then((response) => {
-                    //                 console.log(response);
-                    //                 this.setState({
-                    //                         imageURL : `http://localhost:3001/${response.data.file}`
-                    //                     },
-                    //                     () => {
-                    //                         console.log(this.state.imageURL)
-                    //                     }
-                    //                 )
-                    //             }
-                    //         )
-                    // }
-
                     this.setState({
                         bids: response.data
                     }, () => {
@@ -76,104 +44,54 @@ class ListAllBids extends Component {
                 }
             }
         )
-
-        // let usernameJSON = {
-        //     username: localStorage.getItem('username')
-        // };
-
-        // axios.post( url + '/getimageurl', usernameJSON, {withCredentials:true} )
-        //     .then((response) => {
-        //             console.log(response);
-        //             this.setState({
-        //                     imageURL : `http://localhost:3001/${response.data.file}`
-        //                 },
-        //                 () => {
-        //                 console.log(this.state.imageURL)
-        //                 }
-        //             )
-        //         }
-        //     )
-
     }
 
-    handleClick( freelancer , deliverydays ) {
-        console.log("Hire button clicked and freelancer is :" + freelancer, this.props.id );
-        const fdetails = ({
-            pid: this.props.id,
-            freelancer: freelancer,
-            deliverydays : deliverydays
-        });
-        axios.post( url + '/setworker', fdetails )
+    handleClick(freelancer) {
+        console.log("Hire button click and freelancer is :" + freelancer, this.props.id);
+        const details = {
+            pid: this.props.projectid,
+            freelancer: freelancer
+        }
+        axios.post('http://localhost:3001/setworkerforproject', details )
             .then((response) => {
-                console.log("In hire button handle click", response.data );
-                window.location.reload(true);
+                console.log("In hire button handle click", response.data);
+                alert('Freelancer hired...check in your dashboard now...thanks');
             })
     }
 
-    handleSortAsc = () => {
-          let  temp = this.state.bids.sort( (a, b) => a.bid - b.bid );
-          this.setState({
-              bids : temp
-          })
-    };
-
-    handleSortDsc = () => {
-        let  temp = this.state.bids.sort( (a, b) => b.bid - a.bid );
-        this.setState({
-            bids : temp
-        })
-    };
-
     render() {
 
-        let Style = this.state.display;
-        const divStyle = {
-            display: Style
-        };
+        let allbids = []
 
-        let allbids = this.state.bids.map( b => {
+        var displayStyle = this.state.display;
+        const divStyle = {
+            display: displayStyle
+        }
+
+        allbids = this.state.bids.map( b => {
             return (
-                <tr key={b._id} >
-                    <td className="text-center">
-                        <b> {/*<img src={this.state.imageURL} alt="img" />*/}
-                            <div id = 'bidimage'>
-                                {/*<img src = { require('/home/ec2-user/cmpe273/freelancer/freelancerServer/public/' + b.freelancer +'.png' )} alt = "img" width={'100px'} height={'100px'}  />*/}
-                                {/*<img src={`http:////localhost:3001/public/${b.freelancer}.jpg`} alt="img" width={'100px'} height={'100px'} />*/}
-                            </div>
-                        </b>
+                <tr key={b.Date} >
+                    <td className="text-left">
+                        <b> Profile Image Here </b> 
                     </td>
-                    <td> <Link to={`/profile/${b.freelancer}`}> {b.freelancer} </Link> </td>
-                    <td> $ {b.bid} </td>
-                    <td> {b.deliverydays} </td>
+                    <td> <Link to={`/profile/${b.Username}`}> {b.Username} </Link> </td>
+                    <td> {b.Bid} </td>
+                    <td> {b.DeliveryDays} </td>
                     <td> 
-                            <input type="button" id="btnHire" style={ divStyle }
+                            <input type="button" id="btnHire" 
                                 className='btn btn-success' value="Hire Now" 
-                                onClick={this.handleClick.bind(this, b.freelancer , b.deliverydays )} />
+                                onClick={this.handleClick.bind(this, b.freelancer)} />
                     </td>
                 </tr>
             )
-        });
+        })
 
         return (
             <div className="listallbids"><br />
                 <div className="projects">
-                    <h3 className="text-left" > List of all bids on this project </h3>
-
-
-
-                    <div className='container-fluid text-right '>
-                        <div className="btn-group-sm" role="group" aria-label="Basic example">
-                            <button type="button" className="btn btn-success"
-                                onClick={this.handleSortAsc.bind(this)} > Sort by Bid (Asc)</button>&nbsp;
-                            <button type="btn-group-sm" className="btn btn-success"
-                                onClick={this.handleSortDsc.bind(this)} > Sort by Bid (Dsc)</button>
-                        </div>
-                    </div>
-                    <br/>
-
-                    <div className="table-responsive table-bordered">
+                    <div className="table-responsive">
                         <div id='divListHeader'>
-
+                            <h3 className="text-left" > List of all bids on this project </h3>
                         </div>
                         <table className="table">
                             <thead className="thead-dark">
