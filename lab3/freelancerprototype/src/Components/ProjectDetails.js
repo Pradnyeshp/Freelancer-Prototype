@@ -8,7 +8,7 @@ import image from '../Image/freelancerlogo.png'
 class ProjectDetails extends Component {
 
     constructor() {
-        super()
+        super();
         this.state = ({
             projectid: '',
             title: '',
@@ -30,21 +30,21 @@ class ProjectDetails extends Component {
             projectid: this.props.match.params.value
         }, () => {
             const pid = {
-                projectid: this.state.projectid
-            }
-            axios.post('http://localhost:3001/getproject', pid)
+                id : this.state.projectid
+            };
+            axios.post('http://localhost:3001/project/getproject', pid)
                 .then( (response) => {
                     console.log("In project details : ",response.data);
                     this.setState({
-                        title: response.data[0].Title,
-                        desc: response.data[0].Description,
-                        skillsreq: response.data[0].SkillsReq,
-                        employer : response.data[0].Employer,
+                        title: response.data[0].title,
+                        desc: response.data[0].description,
+                        skillsreq: response.data[0].skills_required,
+                        employer : response.data[0].employer,
                         employee : response.data[0].Employee,
-                        budgetrange: response.data[0].BudgetMin,
-                        bids : response.data[0].Bids,
-                        avg : response.data[0].Average,
-                        freelancer : response.data[0].Freelancer
+                        budgetrange: response.data[0].budgetrange,
+                        bids : response.data[0].number_of_bids,
+                        avg : response.data[0].averagebid,
+                        freelancer : response.data[0].freelancer
                     })
                 })
         })
