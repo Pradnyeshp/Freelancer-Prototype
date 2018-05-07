@@ -13,6 +13,26 @@ public class Bids {
     private int period;
     private int bidamount;
 
+    public int getNumber_of_bids() {
+        return number_of_bids;
+    }
+
+    public void setNumber_of_bids(int number_of_bids) {
+        this.number_of_bids = number_of_bids;
+    }
+
+    private int number_of_bids;
+
+    public int getAveragebid() {
+        return averagebid;
+    }
+
+    public void setAveragebid(int averagebid) {
+        this.averagebid = averagebid;
+    }
+
+    private int averagebid;
+
     public int getId() {
         return id;
     }

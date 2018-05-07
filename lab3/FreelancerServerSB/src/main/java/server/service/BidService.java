@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import server.entity.Bids;
 import server.repository.BidRepository;
+import server.repository.ProjectRepository;
 
 import java.util.List;
 
@@ -13,11 +14,18 @@ public class BidService {
 
     @Autowired
     private BidRepository bidRepository;
+    @Autowired
+    private ProjectRepository projectRepository;
 
     public String registerBid( Bids bid ) {
-        System.out.println("In Bid Service, : " + bid.getBidamount() );
+        System.out.println("In Bid Service, Bid Amount : " + bid.getBidamount() );
+        System.out.println("In Bid Service, Avg Bid : " + bid.getAveragebid() );
         bidRepository.save(bid);
-        return "Bid Saved";
+        int averagebid =  bid.getAveragebid();
+        int projectid = bid.getProjectid();
+        int number_of_bids = bid.getNumber_of_bids();
+        projectRepository.updateProjectforAvg( averagebid , number_of_bids , projectid);
+        return "Bid Saved, Number of Bids & Average Updated.";
     }
 
 }

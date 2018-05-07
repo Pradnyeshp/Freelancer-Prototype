@@ -10,9 +10,7 @@ class BidNow extends Component {
         super();
         this.state = ({
             bid: '',
-            userid: '',
             deliveryDays: '',
-            pname : '',
             projectid : ''
         })
     }
@@ -54,9 +52,11 @@ class BidNow extends Component {
                 .then( (response) => {
                     console.log("In project details : ", response.data);
                     this.setState({
-                        pname : response.data[0].title,
+                        projectid : response.data[0].id,
+                        averagebid : response.data[0].averagebid,
+                        number_of_bids : response.data[0].number_of_bids
                     }, () => {
-                        console.log(this.state.pname);
+                        console.log(this.state);
                     })
                 })
         })
@@ -64,25 +64,52 @@ class BidNow extends Component {
 
     handleBid = (e) => {
         e.preventDefault();
-        // let pid = localStorage.getItem("ProjectId");
-        // console.log("In HandleBid pid = ", pid);
-    
-        const bid = {
-            projectid : Number(this.state.projectid),
-            freelancer : localStorage.username,
-            period : Number(this.state.deliveryDays),
-            bidamount : Number(this.state.bid)
-        };
-        // this.props.bidUpdate(bid);
-        console.log(bid);
-
-        axios.post('http://localhost:3001/bid/updatebid', bid)
-            .then((response) => {
-                    console.log(response);
+        let averagebid =  this.state.averagebid;
+        if( averagebid === 0 ) {
+            console.log("Average Bid is 0  ");
+            const bid = {
+                projectid : Number(this.state.projectid),
+                freelancer : localStorage.username,
+                period : Number(this.state.deliveryDays),
+                bidamount : Number(this.state.bid),
+                averagebid : Number(this.state.bid),
+                number_of_bids : 1
+            };
+            console.log(bid);
+            axios.post('http://localhost:3001/bid/updatebid', bid)
+                .then((response) => {
+                        console.log(response);
                         alert('Your bid is placed successfully...');
                         window.location.reload(true);
-                }
-            );
+                    }
+                );
+        }
+        else {
+            console.log("Average Bid is not 0 ", this.state.averagebid );
+            console.log("Number of Bids : ", this.state.number_of_bids );
+            let averagebid = (this.state.averagebid + Number(this.state.bid))/( this.state.number_of_bids + 1 );
+            console.log(averagebid);
+            const bid = {
+                averagebid : averagebid,
+                projectid : Number(this.state.projectid),
+                freelancer : localStorage.username,
+                period : Number(this.state.deliveryDays),
+                bidamount : Number(this.state.bid),
+                number_of_bids : Number(this.state.number_of_bids + 1 )
+            };
+            console.log(bid);
+
+            axios.post('http://localhost:3001/bid/updatebid', bid)
+                .then((response) => {
+                        console.log(response);
+                        alert('Your bid is placed successfully...');
+                        window.location.reload(true);
+                    }
+                );
+
+        }
+    
+
 
     };
 

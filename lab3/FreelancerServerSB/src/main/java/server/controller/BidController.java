@@ -20,6 +20,9 @@ public class BidController {
     @PostMapping(path = "/updatebid")
     public ResponseEntity<?> registerBid(@RequestBody Bids bid) {
         System.out.println("In Bid Controller, Bid Amount  : " + bid.getBidamount());
+        System.out.println("In Bid Controller, Average Bid Amount  : " + bid.getAveragebid());
+        System.out.println("In Bid Controller, Number of Bids  : " + bid.getNumber_of_bids());
+
         return new ResponseEntity(bidService.registerBid(bid), HttpStatus.OK);
     }
 
