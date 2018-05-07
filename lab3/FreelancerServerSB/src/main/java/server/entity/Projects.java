@@ -13,6 +13,16 @@ public class Projects {
     private String title;
     private String description;
 
+    public int getAveragebid() {
+        return averagebid;
+    }
+
+    public void setAveragebid(int averagebid) {
+        this.averagebid = averagebid;
+    }
+
+    private int averagebid;
+
 //    @OneToMany
 //    private List<Bids> bids;
 

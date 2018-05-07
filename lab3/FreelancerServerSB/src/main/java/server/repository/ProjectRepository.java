@@ -11,5 +11,6 @@ import java.util.List;
 public interface ProjectRepository extends CrudRepository<Projects, Long > {
 
 //    ResponseEntity<Projects> findAll
+    List<Projects> findById(int id);
 
 }

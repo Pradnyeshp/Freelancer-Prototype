@@ -23,4 +23,9 @@ public class ProjectService {
         projectRepository.save(project);
     }
 
+    public Iterable<Projects> getProjectbyId( int id ) {
+        System.out.println( "In Project service "+ id );
+        return projectRepository.findById(id);
+    }
+
 }

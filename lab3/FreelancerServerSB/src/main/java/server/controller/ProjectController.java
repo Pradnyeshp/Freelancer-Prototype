@@ -29,5 +29,11 @@ public class ProjectController {
         return new ResponseEntity("Project Added", HttpStatus.OK) ;
     }
 
+    @PostMapping(path = "/getproject")
+    public ResponseEntity<Projects> getProjectbyId(@RequestBody Projects project ){
+        System.out.println("In Project Controller, Get Project By Id : " + project.getId() );
+        return new ResponseEntity( projectService.getProjectbyId(project.getId()), HttpStatus.OK);
+    }
+
 
 }

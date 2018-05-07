@@ -57,7 +57,7 @@ class Projects extends Component {
                      </td>
                 </tr>
             )
-        })
+        });
 
         return (
             <div className="projects"><br/>

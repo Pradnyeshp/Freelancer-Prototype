@@ -6,7 +6,7 @@ import axios from 'axios';
 class BidNow extends Component {
 
     constructor(){
-        super()
+        super();
         this.state = ({
             bid: '',
             userid: '',
@@ -18,51 +18,52 @@ class BidNow extends Component {
 
     componentWillMount() {
 
-        let username = localStorage.getItem('username');
-        const usernameJSON = {
-            username: username
-        }
-
-        axios.post('http://localhost:3001/getuserid', usernameJSON)
-            .then((response => {
-                console.log(response.data);
-                this.setState({
-                    userid: response.data[0].UserId
-                })
-                console.log(this.state);
-            }))
+        // let username = localStorage.getItem('username');
+        // const usernameJSON = {
+        //     username: username
+        // };
+        //
+        // axios.post('http://localhost:3001/getuserid', usernameJSON)
+        //     .then((response => {
+        //         console.log(response.data);
+        //         this.setState({
+        //             userid: response.data[0].UserId
+        //         })
+        //         console.log(this.state);
+        //     }))
         }
 
     handleChange = (e) => {
         this.setState({
             [e.target.name]: e.target.value
         })       
-    }
+    };
 
     handleClick = (e) => {
-        localStorage.setItem("ProjectId", e.target.dataset.id)
-        let pid = localStorage.getItem("ProjectId")
-        console.log(pid);
+        localStorage.setItem("ProjectId", e.target.dataset.id);
+        let pid = localStorage.getItem("ProjectId");
+        console.log("Project ID : ", pid);
         this.setState({
             projectid : pid
         }, () => {
             const pid = {
-                projectid : this.state.projectid
-            }
-            axios.post('http://localhost:3001/getproject', pid)
+                id : Number(this.state.projectid)
+            };
+            console.log(pid);
+            axios.post('http://localhost:3001/project/getproject', pid)
                 .then( (response) => {
                     console.log("In project details : ", response.data);
                     this.setState({
-                        pname : response.data[0].Title,
+                        pname : response.data[0].title,
                     }, () => {
                         console.log(this.state.pname);
                     })
                 })
         })
-}
+};
 
     handleBid = (e) => {
-        e.preventDefault()
+        e.preventDefault();
         let pid = localStorage.getItem("ProjectId");
         console.log("In HandleBid pid = ", pid);
     
@@ -71,10 +72,10 @@ class BidNow extends Component {
             projectid : pid,
             userid : this.state.userid,
             deliveryDays : this.state.deliveryDays
-        }
+        };
         this.props.bidUpdate(bid);
         console.log(bid);
-    }
+    };
 
     render() {
         return (
