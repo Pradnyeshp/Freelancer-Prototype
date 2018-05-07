@@ -33,26 +33,26 @@ class Projects extends Component {
         e.preventDefault()
         console.log(e.target.value);        
         this.setState({
-            [e.target.name] : [e.target.value]
+            [e.target.name] : e.target.value
         }, () => {
             console.log(this.state);       
         })
-    }
+    };
     
     render() {
         let projectsArray = [];
         projectsArray = this.state.projects.map( p => {
             return(
-                <tr key={p.ProjectId} >
+                <tr key={p.id} >
                     <td className="text-left"> 
                         <b> <Link to={`/projectdetails/${p.id}`}> {p.title} </Link>
                         </b> <br/> 
                             {p.description} <br/>
                             {p.skills_required}
                     </td>
-                    <td> <Link to={`/projectdetails/${p.id}`}> {p.employer} </Link> </td>
+                    <td> <Link to={`/profile/${p.employer}`}> {p.employer} </Link> </td>
                     <td> {p.number_of_bids} </td>
-                    <td> {p.budget_range} </td>
+                    <td> {p.budgetrange} </td>
                     <td> <BidNow id={p.id}  />
                      </td>
                 </tr>

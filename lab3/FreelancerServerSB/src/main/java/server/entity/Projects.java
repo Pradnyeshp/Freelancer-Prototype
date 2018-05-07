@@ -1,10 +1,8 @@
 package server.entity;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 public class Projects {
@@ -14,6 +12,9 @@ public class Projects {
     private int id;
     private String title;
     private String description;
+
+//    @OneToMany
+//    private List<Bids> bids;
 
     public int getId() {
         return id;
@@ -45,14 +46,6 @@ public class Projects {
 
     public void setSkills_required(String skills_required) {
         this.skills_required = skills_required;
-    }
-
-    public String getBudget_range() {
-        return budget_range;
-    }
-
-    public void setBudget_range(String budget_range) {
-        this.budget_range = budget_range;
     }
 
     public int getNumber_of_bids() {
@@ -88,7 +81,16 @@ public class Projects {
     }
 
     private String skills_required;
-    private String budget_range;
+
+    public String getBudgetrange() {
+        return budgetrange;
+    }
+
+    public void setBudgetrange(String budgetrange) {
+        this.budgetrange = budgetrange;
+    }
+
+    private String budgetrange;
     private int number_of_bids;
     private String employer;
     private String worker;
