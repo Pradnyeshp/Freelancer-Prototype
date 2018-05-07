@@ -23,9 +23,10 @@ public class ProjectController {
     }
 
     @PostMapping(path = "/addproject")
-    public String addProject(@RequestBody Projects project) {
-        
-        return "Project Added";
+    public ResponseEntity<String> addProject(@RequestBody Projects project) {
+        System.out.println("In Project Controller, Add Project : " + project.getEmployer());
+        projectService.addProject(project);
+        return new ResponseEntity("Project Added", HttpStatus.OK) ;
     }
 
 

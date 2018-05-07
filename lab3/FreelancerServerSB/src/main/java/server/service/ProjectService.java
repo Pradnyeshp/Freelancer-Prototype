@@ -15,9 +15,12 @@ public class ProjectService {
     private ProjectRepository projectRepository;
 
     public Iterable<Projects> getAllProjects() {
-
         return projectRepository.findAll();
+    }
 
+    public void addProject( Projects project ) {
+        System.out.println( "In Project service "+ project);
+        projectRepository.save(project);
     }
 
 }

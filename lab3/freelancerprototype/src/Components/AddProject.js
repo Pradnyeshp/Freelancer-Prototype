@@ -3,14 +3,14 @@ import axios from 'axios';
 import { Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { Helmet } from 'react-helmet'
+import swal from 'sweetalert';
 
 class AddProject extends Component {
 
     constructor() {
         super();
         this.state = ({
-            userid : '',
-            freelancer : '',
+            employer : '',
             projectname : '',
             projectdesc : '',
             skillsreq : '' ,
@@ -18,70 +18,64 @@ class AddProject extends Component {
             startdate : '' ,
             compdate : '',
             projectpost_success : ''
-        })
-        this.postProject = this.postProject.bind(this)
-        this.handleChange = this.handleChange.bind(this)
+        });
+        this.postProject = this.postProject.bind(this);
+        this.handleChange = this.handleChange.bind(this);
     }
 
     componentWillMount () {
         
-        let username = localStorage.getItem('username');
-        const usernameJSON = {
-            username : username
-        }
+        this.setState({
+            employer : localStorage.username
+        });
 
-        axios.post('http://localhost:3001/getuserid', usernameJSON )
-            .then((response => {
-                console.log('In Get UserId ',response.data);
-                this.setState( {
-                    userid : response.data[0].UserId,
-                    freelancer : response.data[0].Username
-                }, () => {
-                    console.log(this.state);
-                })
-            })) 
     }
 
     postProject = (e) => {
         e.preventDefault();
 
         const projectDetails = {
-            userid : this.state.userid,
-            freelancer : this.state.freelancer,
-            projectname: this.state.projectname,
-            projectdesc: this.state.projectdesc,
-            skillsreq: this.state.skillsreq,
-            budgetrange: this.state.budgetrange,
-            startdate: this.state.startdate,
-            compdate: this.state.compdate,
-        }
-        this.props.addProject(projectDetails)
-    }
+            employer : this.state.employer,
+            title : this.state.projectname,
+            description : this.state.projectdesc,
+            skills_required : this.state.skillsreq,
+            budgetrange : this.state.budgetrange,
+            startdate : this.state.startdate,
+            compdate : this.state.compdate,
+        };
+
+        axios.post('http://localhost:3001/project/addproject', projectDetails)
+            .then((response) =>
+                {
+                    if (response.data === 'ERROR') {
+                        alert("Incorrect values");
+                    }
+                    else {
+                        console.log("Receive response in after add project", response.data);
+                        swal('Add Project','Project Posted Successfully','success');
+                        this.props.history.push('/Userhome');
+                    }
+                }
+            );
+    };
 
     handleChange = (e) => {
         e.preventDefault();
         console.log(e.target.value);
         this.setState({
-            [e.target.name] : [e.target.value]
+            [e.target.name] : e.target.value
         }, () => {
             console.log(this.state);
         })
-    }
+    };
 
     render() {
-        let projectpost = null;
-        if (this.props.projectpost_success === 'PROJECTPOST_SUCCESS') {
-            console.log(this.state.projectpost_success); 
-            alert('Project Posted Successfully')    
-            projectpost = <Redirect to="/Userhome" />
-        }
 
         return (
             <div className="project">
                 <Helmet>
                     <style>{'body { background-color: lightblue; }'}</style>
                 </Helmet>
-                {projectpost}
                 <div className='container' >
                 <form onSubmit={this.postProject} ><br />
                     <h2>Tell us what you need done</h2>
@@ -160,41 +154,41 @@ class AddProject extends Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        userid : state.userid,
-        freelancer : state.freelancer,
-        projectname: state.projectname,
-        projectdesc: state.projectdesc,
-        skillsreq: state.skillsreq,
-        budgetrange: state.budgetrange,
-        startdate: state.startdate,
-        compdate: state.compdate,
-        projectpost_success : state.projectpost_success
-    }
-}
+// function mapStateToProps(state) {
+//     return {
+//         userid : state.userid,
+//         freelancer : state.freelancer,
+//         projectname: state.projectname,
+//         projectdesc: state.projectdesc,
+//         skillsreq: state.skillsreq,
+//         budgetrange: state.budgetrange,
+//         startdate: state.startdate,
+//         compdate: state.compdate,
+//         projectpost_success : state.projectpost_success
+//     }
+// }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        addProject : (project) => {
-            console.log(project);
-            axios.post('http://localhost:3001/addproject', project)
-                .then((response) => 
-                {
-                    if (response.data === 'ERROR') {
-                        alert("Incorrect datetime value");
-                        dispatch({ type: 'ERROR', payload: response })
-                    }
-                    else {
-                        console.log("Receive response in after add project", response);
-                        dispatch({ type: 'PROJECTPOST_SUCCESS', payload: response })
-                    }
-                }
-               
-            );
-        }
-    }
-}
+// function mapDispatchToProps(dispatch) {
+//     return {
+//         addProject : (project) => {
+//             console.log(project);
+//             axios.post('http://localhost:3001/addproject', project)
+//                 .then((response) =>
+//                 {
+//                     if (response.data === 'ERROR') {
+//                         alert("Incorrect datetime value");
+//                         dispatch({ type: 'ERROR', payload: response })
+//                     }
+//                     else {
+//                         console.log("Receive response in after add project", response);
+//                         dispatch({ type: 'PROJECTPOST_SUCCESS', payload: response })
+//                     }
+//                 }
+//
+//             );
+//         }
+//     }
+// }
 
 
-export default connect(mapStateToProps,mapDispatchToProps) (AddProject);
+export default AddProject;
