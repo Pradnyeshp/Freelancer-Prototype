@@ -6,3 +6,4 @@ lab2/freelancer_kafkabackend/.idea/workspace.xml
 *.iml 
 
 .node_modules\
+*.class
