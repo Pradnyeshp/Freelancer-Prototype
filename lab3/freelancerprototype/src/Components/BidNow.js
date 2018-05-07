@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import axios from 'axios';
+import swal from 'sweetalert'
 
 
 class BidNow extends Component {
@@ -17,7 +18,6 @@ class BidNow extends Component {
     }
 
     componentWillMount() {
-
         // let username = localStorage.getItem('username');
         // const usernameJSON = {
         //     username: username
@@ -64,17 +64,26 @@ class BidNow extends Component {
 
     handleBid = (e) => {
         e.preventDefault();
-        let pid = localStorage.getItem("ProjectId");
-        console.log("In HandleBid pid = ", pid);
+        // let pid = localStorage.getItem("ProjectId");
+        // console.log("In HandleBid pid = ", pid);
     
         const bid = {
-            bid: this.state.bid,
-            projectid : pid,
-            userid : this.state.userid,
-            deliveryDays : this.state.deliveryDays
+            projectid : Number(this.state.projectid),
+            freelancer : localStorage.username,
+            period : Number(this.state.deliveryDays),
+            bidamount : Number(this.state.bid)
         };
-        this.props.bidUpdate(bid);
+        // this.props.bidUpdate(bid);
         console.log(bid);
+
+        axios.post('http://localhost:3001/bid/updatebid', bid)
+            .then((response) => {
+                    console.log(response);
+                        alert('Your bid is placed successfully...');
+                        window.location.reload(true);
+                }
+            );
+
     };
 
     render() {
@@ -118,30 +127,30 @@ class BidNow extends Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
+// function mapStateToProps(state) {
+//     return {
+//
+//     }
+// }
 
-    }
-}
+// function mapDispatchToProps(dispatch) {
+//     return {
+//         bidUpdate: (bid) => {
+//             console.log('In Bid dispatcher', bid);
+//             axios.post('http://localhost:3001/updatebid', bid)
+//                 .then((response) => {
+//                     console.log(response);
+//                     if (response.data === 'BID_PLACED') {
+//                         alert('Your bid is placed successfully...');
+//                         window.location.reload(true);
+//                     }
+//                     else {
+//                         alert('You can bid only once for one project');
+//                     }
+//                 }
+//             );
+//         }
+//     }
+// }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        bidUpdate: (bid) => {
-            console.log('In Bid dispatcher', bid);
-            axios.post('http://localhost:3001/updatebid', bid)
-                .then((response) => {
-                    console.log(response);
-                    if (response.data === 'BID_PLACED') {
-                        alert('Your bid is placed successfully...');
-                        window.location.reload(true);
-                    } 
-                    else {
-                        alert('You can bid only once for one project');
-                    }
-                }
-            );
-        }
-    }
-}
-
-export default connect(mapStateToProps,mapDispatchToProps) (BidNow);
+export default BidNow;
