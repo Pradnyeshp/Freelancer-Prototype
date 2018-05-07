@@ -7,3 +7,4 @@ lab2/freelancer_kafkabackend/.idea/workspace.xml
 
 .node_modules\
 *.class
+*.iws

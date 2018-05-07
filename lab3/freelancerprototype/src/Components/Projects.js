@@ -16,7 +16,7 @@ class Projects extends Component {
 
     componentWillMount() {
 
-        axios.post('http://localhost:3001/getprojects')
+        axios.post('http://localhost:3001/project/getprojects')
             .then((response) => {
                 console.log(response.data);
                 this.setState ({
@@ -45,15 +45,15 @@ class Projects extends Component {
             return(
                 <tr key={p.ProjectId} >
                     <td className="text-left"> 
-                        <b> <Link to={`/projectdetails/${p.ProjectId}`}> {p.Title} </Link>
+                        <b> <Link to={`/projectdetails/${p.id}`}> {p.title} </Link>
                         </b> <br/> 
-                            {p.Description} <br/> 
-                            {p.SkillsReq}
+                            {p.description} <br/>
+                            {p.skills_required}
                     </td>
-                    <td> <Link to={`/projectdetails/${p.Name}`}> {p.Name} </Link> </td>
-                    <td> {p.Bids} </td>
-                    <td> {p.BudgetMin} </td>
-                    <td> <BidNow id={p.ProjectId}  /> 
+                    <td> <Link to={`/projectdetails/${p.id}`}> {p.employer} </Link> </td>
+                    <td> {p.number_of_bids} </td>
+                    <td> {p.budget_range} </td>
+                    <td> <BidNow id={p.id}  />
                      </td>
                 </tr>
             )
