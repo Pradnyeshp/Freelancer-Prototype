@@ -5,7 +5,8 @@ import axios from 'axios';
 import './signin.css';
 import { Link } from 'react-router-dom';
 import image from '../Image/freelancerlogo.png'
-import { Helmet } from 'react-helmet'
+import { Helmet } from 'react-helmet';
+import swal from 'sweetalert';
 
 class Signup extends Component {
 
@@ -16,7 +17,7 @@ class Signup extends Component {
             username: "",
             password: "",
             email: ""
-        }
+        };
         this.handleChange = this.handleChange.bind(this);
         this.createUser = this.createUser.bind(this);
     }
@@ -27,7 +28,7 @@ class Signup extends Component {
             [events.target.name]: events.target.value
         })
 
-    }
+    };
 
     createUser = (events) => {
         events.preventDefault();
@@ -37,9 +38,18 @@ class Signup extends Component {
             username: this.state.username,
             password: this.state.password,
             email: this.state.email
-        }
-        this.props.insertUser(userDetails);
-    }
+        };
+        // this.props.insertUser(userDetails);
+
+        axios.post('http://localhost:3001/user/signup', userDetails )
+            .then((response) => {
+                    console.log( ' Response from DB : ' , response);
+                    swal("Account Created Successfully");
+                    this.props.history.push('/signin');
+                }
+            );
+
+    };
 
     render() {
         let validUser = null;
@@ -62,12 +72,13 @@ class Signup extends Component {
                             <div className="form">
                                 <h1> <img src={image} alt="Freelancer Logo" /> <br/> <br/> </h1>
                                 <form className="login-form" onSubmit={this.createUser}>
-                                    <input type="text" 
-                                        onChange={this.handleChange} 
-                                        className="form-control"
-                                        id="txtFirstName" 
-                                        placeholder="Name" 
-                                        name="name" required />
+                                    {/*<input type="text"*/}
+                                        {/*onChange={this.handleChange}*/}
+                                        {/*className="form-control"*/}
+                                        {/*id="txtFirstName"*/}
+                                        {/*placeholder="Name"*/}
+                                        {/*name="name" required />*/}
+                                    <br/>
                                     <input type="email" 
                                         onChange={this.handleChange} 
                                         className="form-control"
@@ -103,28 +114,28 @@ class Signup extends Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        name : state.name,
-        username: state.username,
-        password: state.password,
-        email: state.email,
-        signupSuccess: state.signup_success
-    }
-}
+// function mapStateToProps(state) {
+//     return {
+//         name : state.name,
+//         username: state.username,
+//         password: state.password,
+//         email: state.email,
+//         signupSuccess: state.signup_success
+//     }
+// }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        insertUser: (newUser) => {
-            console.log(newUser);
-            axios.post('http://localhost:3001/signup', newUser)
-                .then((response) => {
-                    console.log(response);
-                    dispatch({ type: 'SIGNUP_SUCCESS', payload: response })
-                }
-            );
-        }
-    }
-}
+// function mapDispatchToProps(dispatch) {
+//     return {
+//         insertUser: (newUser) => {
+//             console.log(newUser);
+//             axios.post('http://localhost:3001/user/signup', newUser)
+//                 .then((response) => {
+//                     console.log(response);
+//                     dispatch({ type: 'SIGNUP_SUCCESS', payload: response })
+//                 }
+//             );
+//         }
+//     }
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Signup);
+export default Signup;
