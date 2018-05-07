@@ -28,4 +28,10 @@ public class BidService {
         return "Bid Saved, Number of Bids & Average Updated.";
     }
 
+    public List<Bids> getallbids( Bids bid ) {
+        System.out.println("In Bid Service, ID : " + bid.getProjectid());
+        int projectid = bid.getProjectid();
+        return bidRepository.findByProjectid(projectid);
+    }
+
 }

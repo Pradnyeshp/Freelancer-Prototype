@@ -26,4 +26,10 @@ public class BidController {
         return new ResponseEntity(bidService.registerBid(bid), HttpStatus.OK);
     }
 
+    @PostMapping(path = "/getallbids")
+    public ResponseEntity<?> getallbids(@RequestBody Bids bid) {
+        System.out.println("In Bid Controller, Get All Bids by ID  : " + bid.getProjectid());
+        return new ResponseEntity(bidService.getallbids(bid), HttpStatus.OK);
+    }
+
 }
