@@ -31,21 +31,20 @@ class Profile extends Component {
         
         let username = this.props.match.params.value ;
         const usernameJSON = {
-            username: username
-        }
-        axios.post('http://localhost:3001/getprofile', usernameJSON )
+            username : username
+        };
+        axios.post('http://localhost:3001/user/getprofile', usernameJSON )
             .then((response)=>{
                 console.log("User Details from Database :", response.data[0]);
-                console.log(response.data[0].Email);
-                
+                // console.log(response.data[0].Email);
                 this.setState ({
-                        username : response.data[0].Username,
-                        name : response.data[0].Name,
-                        email : response.data[0].Email,
-                        phone: response.data[0].Phone,
-                        aboutme: response.data[0].AboutMe,
-                        skills: response.data[0].Skills,
-                        image: response.data[0].Image
+                        username : response.data[0].username,
+                        name : response.data[0].name,
+                        email : response.data[0].email,
+                        phone: response.data[0].phone,
+                        aboutme: response.data[0].aboutme,
+                        skills: response.data[0].skills,
+                        // image: response.data[0].Image
                     }, () => {
                         console.log('After setState :', this.state)
                     }
@@ -58,11 +57,13 @@ class Profile extends Component {
         e.preventDefault();
         console.log(e.target.value);
         this.setState ({
-            [e.target.name] : [e.target.value]
+            [e.target.name] : e.target.value
         })
-    }
+    };
 
-    handleSave = () => {
+    handleSave = (e) => {
+
+        e.preventDefault();
         
         const profile = {
             username : this.state.username,
@@ -72,17 +73,26 @@ class Profile extends Component {
             aboutme: this.state.aboutme,
             skills: this.state.skills,
             image: this.state.image
-        }
+        };
         
-        this.props.profileUpdate(profile);
+        // this.props.profileUpdate(profile);
         console.log(profile);
-    }
+
+        axios.post('http://localhost:3001/user/updateprofile', profile)
+            .then((response) => {
+                console.log("After Updating Profile", response.data);
+                    this.setState ( { isEditing : !this.state.isEditing });
+                    console.log("Profile Updated");
+            }
+        )
+    };
 
     handleEdit = (e) => {
-        e.preventDefault()
-        this.setState ( {isEditing : !this.state.isEditing });
-        
-    }
+        e.preventDefault();
+        this.setState (
+                { isEditing : !this.state.isEditing }
+        );
+    };
 
     render() {
         if(this.state.isEditing)
@@ -219,29 +229,19 @@ class Profile extends Component {
     }
 }
 
-function mapStateToProps(state) {
-    return {
-        profile_updation: state.profile_updation
-    }
-}
+// function mapStateToProps(state) {
+//     return {
+//         profile_updation: state.profile_updation
+//     }
+// }
 
-function mapDispatchToProps(dispatch) {
-    return {
-        profileUpdate : (profile) => {
-            console.log('Updated User', profile);
-            
-            axios.post('http://localhost:3001/updateprofile', profile)
-                .then((response) => {
-                    console.log(response);
-                    if (response.data === 'ERROR')
-                        dispatch({ type: 'ERROR', payload: response })
-                    else {
-                        dispatch({ type: 'PROFILE_UPDATE', payload: response })
-                    }
-                }
-            );
-        }
-    }
-}
+// function mapDispatchToProps(dispatch) {
+//     return {
+//         profileUpdate : (profile) => {
+//             console.log('Updated User', profile);
+//
+//         }
+//     }
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps) (Profile);
+export default Profile;
