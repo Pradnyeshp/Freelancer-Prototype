@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
+import proimage from '../Image/PassportPhoto.jpg'
 
 class ListAllBids extends Component {
 
@@ -59,7 +60,8 @@ class ListAllBids extends Component {
             return (
                 <tr key={b.id} >
                     <td className="text-left">
-                        <b> Profile Image Here </b> 
+                        <b> Profile Image Here </b>
+                        {/*<img src={proimage} alt="Insert Photo here" width={100} height={100} ></img>*/}
                     </td>
                     <td> <Link to={`/profile/${b.freelancer}`}> {b.freelancer} </Link> </td>
                     <td> {b.bidamount} </td>
