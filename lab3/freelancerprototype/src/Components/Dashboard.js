@@ -51,9 +51,13 @@ class Dashboard extends Component {
             return (
                 <tr key={p.id}>
                     <td className='text-left' >
-                        <p><Link to={`/projectdetails/${p.id}`}> {p.title} </Link></p>
-                        <p> {p.description} </p>
-                        <span> {p.skills_required} </span>
+                        <b>
+                            <Link to={`/projectdetails/${p.id}`}> {p.title} </Link>
+                        </b>
+                        <br/>
+                         {p.description}
+                         <br/>
+                         {p.skills_required}
                     </td>
                     <td>
                         <div>
@@ -80,8 +84,8 @@ class Dashboard extends Component {
         });
 
         return (
-            <div className="dashboard">
-                <div className="container-fluid" >
+            <div className="dashboard"><br/>
+                <div className="" >
                     <nav className="navbar navbar-inverse" >
                         <div className="container-fluid">
                             <div className="navbar-header">
@@ -89,15 +93,16 @@ class Dashboard extends Component {
                             </div>
                             <ul className="nav navbar-nav navbar-right">
                                 <li><Link to={`/profile/${localStorage.getItem('username')}`}
-                                    className="btn btn-primary"> Profile </Link> &nbsp;
+                                    className="btn btn-primary"> Profile </Link> &nbsp; &nbsp;
                                 <Link to="/signin" className='btn btn-danger' onClick={this.handleSubmit}>
                                         Sign Out </Link></li>
                             </ul>
                         </div>
                     </nav>
-                </div> <br />
+                </div>
+                <br />
 
-                <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                     <button className="navbar-toggler" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -115,22 +120,23 @@ class Dashboard extends Component {
                             </li>
                         </ul>
                         <form className="form-inline my-2 my-lg-0">
-                            <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
-                                <Link to='/addproject' > Post a Project </Link>
+                            <button className ="postproject btn " type="submit">
+                                <Link id='postproject' to='/addproject' > Post a Project </Link>
                             </button>
                         </form>
                     </div>
                 </nav><br/>
 
-                <div className='EmployerOrFreelancer'>
+                <div className='container-fluid EmployerOrFreelancer'>
                     <div className="btn-group" role="group" aria-label="Basic example">
-                        <button onClick={() => this.componentWillMount()} type="button" className="btn btn-dark">Employer</button>
-                        <button onClick={() => this.handleFreelancer()} type="button"  className="btn btn-dark">Freelancer</button>
+                        <button onClick={ () => this.componentWillMount() } type="button" className="btn btn-dark">Employer</button>
+                        <button onClick={ () => this.handleFreelancer() } type="button"  className="btn btn-dark">Freelancer</button>
                     </div>
-                </div><br/>
-                <div className='dashboardprojecttable'>
-                    <table className='table table-hover'>
-                        <thead className="thead-dark">
+                </div>
+                <br/>
+                <div className='container-fluid dashboardprojecttable'>
+                    <table className=' container-fluid table table-hover table-bordered'>
+                        <thead className="thead">
                             <tr>
                                 <th className='text-left'>Project Name</th>
                                 <th>Average Bid</th>
@@ -144,6 +150,8 @@ class Dashboard extends Component {
                         </tbody>
                     </table>
                 </div>
+                <br/>
+                <hr/>
             </div>
         );
     }

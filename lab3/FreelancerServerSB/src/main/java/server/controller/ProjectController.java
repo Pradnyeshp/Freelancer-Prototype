@@ -35,5 +35,16 @@ public class ProjectController {
         return new ResponseEntity( projectService.getProjectbyId(project.getId()), HttpStatus.OK);
     }
 
+    @PostMapping(path = "/getmypostedprojects")
+    public ResponseEntity<Projects> getmypostedprojects(@RequestBody Projects project ){
+        System.out.println("In Project Controller, getmypostedprojects, Id : " + project.getId() );
+        return new ResponseEntity( projectService.getmypostedprojects(project.getEmployer()), HttpStatus.OK);
+    }
+
+    @PostMapping(path = "/getmybiddedprojects")
+    public ResponseEntity<Projects> getmybiddedprojects(@RequestBody Projects project ){
+        System.out.println("In Project Controller, getmybiddedprojects, Id : " + project );
+        return new ResponseEntity( projectService.getmybiddedprojects( project ), HttpStatus.OK);
+    }
 
 }

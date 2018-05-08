@@ -17,30 +17,20 @@ class FreelancerDashboard extends Component {
 
     componentWillMount() {
 
-        
         console.log('In Freelancer Dashboard');
         const userDetails = {
-            username : localStorage.getItem('username'),
-            userid : localStorage.getItem('userid')
-        }
+            freelancer : localStorage.getItem('username')
+        };
 
-
-        axios.post('http://localhost:3001/getmybiddedprojects', userDetails )
+        axios.post('http://localhost:3001/project/getmybiddedprojects', userDetails )
             .then((response) => {
                 console.log("Your Bidded Projects : ", response.data);
-                if (response.data === 'ERROR') {
-                    let temp = [];
-                    temp.push('No projects');
-                    this.setState({
-                        projects: temp
-                    })
-                } else {
                     this.setState({
                         projects: response.data
                     }, () => {
-                        console.log(this.state); 
-                    })
-                }
+                        console.log(this.state);
+                    }
+                )
             }
         )
     }
@@ -53,7 +43,7 @@ class FreelancerDashboard extends Component {
 
     handleSubmit = () => {
         localStorage.removeItem('username');
-    }
+    };
     
     render() {
 
@@ -64,30 +54,34 @@ class FreelancerDashboard extends Component {
         projects = this.state.projects.map(p => {
 
             return (
-                <tr key={p.ProjectId}>
+                <tr key={p.id}>
                     <td className='text-left' >
-                        <p><Link to={`/projectdetails/${p.ProjectId}`}> {p.Title} </Link></p>
-                        <p> {p.Description} </p>
-                        <span> {p.SkillsReq} </span>
+                        <b>
+                            <Link to={`/projectdetails/${p.id}`}> {p.title} </Link>
+                        </b>
+                        <br/>
+                         {p.description}
+                         <br/>
+                         {p.skills_required}
                     </td>
                     <td>
                         <div>
-                            <p> $ {p.AvgBid} </p>
+                            <p> $ {p.averagebid} </p>
                         </div>
                     </td>
                     <td>
                         <div>
-                            <p><Link to={`/profile/${p.Freelancer}`}>{p.Freelancer}</Link></p>
+                            <p><Link to={`/profile/${p.freelancer}`}>{p.freelancer}</Link></p>
                         </div>
                     </td>
                     <td>
                         <div>
-                            <p>{p.Bid}</p>
+                            <p>{p.bidamount}</p>
                         </div>
                     </td>
                     <td>
                         <div>
-                            <p>{p.Status}</p>
+                            <p>{p.open}</p>
                         </div>
                     </td>
                 </tr>
@@ -95,8 +89,8 @@ class FreelancerDashboard extends Component {
         });
 
         return (
-            <div className="dashboard">
-                <div className="container-fluid" >
+            <div className="dashboard"><br/>
+                <div className="" >
                     <nav className="navbar navbar-inverse" >
                         <div className="container-fluid">
                             <div className="navbar-header">
@@ -104,7 +98,7 @@ class FreelancerDashboard extends Component {
                             </div>
                             <ul className="nav navbar-nav navbar-right">
                                 <li> <Link to={`/profile/${localStorage.getItem('username')}`}
-                                    className="btn btn-primary"> Profile </Link> &nbsp;
+                                    className="btn btn-primary"> Profile </Link> &nbsp; &nbsp;
                                 <Link to="/signin" className='btn btn-danger' onClick={this.handleSubmit}>
                                         Sign Out </Link></li>
                             </ul>
@@ -112,7 +106,7 @@ class FreelancerDashboard extends Component {
                     </nav>
                 </div> <br />
 
-                <nav className="navbar navbar-expand-lg navbar-light bg-light">
+                <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
                     <button className="navbar-toggler" type="button" data-toggle="collapse"
                         data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
@@ -130,8 +124,8 @@ class FreelancerDashboard extends Component {
                             </li>
                         </ul>
                         <form className="form-inline my-2 my-lg-0">
-                            <button className="btn btn-outline-success my-2 my-sm-0" type="submit">
-                                <Link to='/addproject' > Post a Project </Link>
+                            <button className ="postproject btn " type="submit">
+                                <Link id='postproject' to='/addproject' > Post a Project </Link>
                             </button>
                         </form>
                     </div>
@@ -144,9 +138,9 @@ class FreelancerDashboard extends Component {
                         <button type="button" className="btn btn-dark">Freelancer</button>
                     </div>
                 </div><br />
-                <div className='dashboardprojecttable'>
-                    <table className='table table-hover'>
-                        <thead className="thead-dark">
+                <div className=' container-fluid dashboardprojecttable'>
+                    <table className=' table table-hover table-bordered'>
+                        <thead className="thead">
                             <tr>
                                 <th className='text-left'>Project Name</th>
                                 <th>Average Bid</th>
@@ -160,7 +154,8 @@ class FreelancerDashboard extends Component {
                         </tbody>
                     </table>
                 </div>
-
+                <br/>
+                <hr/>
             </div>
         );
     }
