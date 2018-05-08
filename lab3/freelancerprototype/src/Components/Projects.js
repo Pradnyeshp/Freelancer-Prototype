@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import axios from 'axios'
 import { Link } from 'react-router-dom' ;
 import BidNow from './BidNow'
-
+import './userhome.css'
 
 
 class Projects extends Component {
@@ -30,7 +30,7 @@ class Projects extends Component {
     }
 
     handleChange = (e) => {
-        e.preventDefault()
+        e.preventDefault();
         console.log(e.target.value);        
         this.setState({
             [e.target.name] : e.target.value
@@ -60,10 +60,12 @@ class Projects extends Component {
         });
 
         return (
-            <div className="projects"><br/>
-                <div className="table-responsive">
-                    <table className='table table-hover'>
-                        <thead className="thead-dark" >
+            <div className="container-fluid projects"><br/>
+                <div className="allprojects table-responsive container-fluid">
+                    <h3 className='heading text-left'>ALL OPEN PROJECTS</h3>
+                    <hr/>
+                    <table className=' table table-hover table-bordered'>
+                        <thead className="thead" >
                             <tr>
                                 <th className="text-left" >Project Name</th>
                                 <th>Employer</th>
