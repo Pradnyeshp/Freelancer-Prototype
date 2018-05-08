@@ -30,3 +30,25 @@
 /*.profileinfo{*/
   /*border: 1px solid;*/
 /*}*/
+
+.img-rounded{
+  border-radius: 50%;
+  border-color: #EF3B3A;
+}
+
+.profilenavbar{
+  margin-bottom: 10px;
+}
+
+.input {
+  margin-top : 5px;
+  margin-bottom: 10px;
+}
+
+label{
+  margin-bottom: 10px ;
+}
+
+.profilename{
+  width: 100%;
+}

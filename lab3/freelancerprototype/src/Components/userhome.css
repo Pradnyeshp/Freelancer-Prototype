@@ -1,11 +1,38 @@
-.userhome {
-    padding: 2ex ;
-    /* background-color : ; */
+/*.userhome {*/
+    /*padding: 2ex ;*/
+    /*!* background-color : ; *!*/
+/*}*/
+
+/*.dashboard {*/
+    /*!*padding: 2ex;*!*/
+    /*margin: 1ex;*/
+    /*!* background-color : ; *!*/
+/*}*/
+
+.postproject {
+    color: inherit;
+    text-decoration: none;
+    background-color: white;
 }
 
-.dashboard {
-    padding: 2ex;
-    margin: 1ex;
-    /* background-color : ; */
+#postproject {
+    text-decoration: none
+}
+
+.thead {
+    background-color: #cccc;
+}
+
+.heading{
+    word-spacing: 4px;
+    letter-spacing: 2px;
+}
+
+/*.allprojects{*/
+    /*border: #1a1a1a solid 1px;*/
+/*}*/
+
+.addprojectform{
+    width: 500px;
 }
 

@@ -6,3 +6,8 @@ nav {
 .ftext {
     margin: 7ex
 }
+
+.homepage{
+    background-image: url("../Image/background1.JPG");
+    background-repeat: no-repeat;
+}
