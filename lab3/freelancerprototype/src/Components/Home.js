@@ -30,14 +30,16 @@ const Home = () => (
       <Route path = '*' component = {NotFound} />
     </Switch>
   </div>
-)
+);
 
 const NotFound = () => (
-  <div><br/>
-    <h2> 404... This page is not found</h2>
+  <div>
+      <br/>
+    <h2> 404... This page doen't exist </h2><br/>
     <p> Whoops! Sorry, there is nothing to see here </p>
-    <p><Link to="/">Back to Home</Link></p>
+    <p> Learn your routes mate !</p>
+    <p> <Link to="/">Back to Home</Link> </p>
   </div>
-)
+);
 
 export default Home;
