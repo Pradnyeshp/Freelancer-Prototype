@@ -13,6 +13,16 @@ public class Projects {
     private String title;
     private String description;
 
+    public String getOpen() {
+        return open;
+    }
+
+    public void setOpen(String open) {
+        this.open = open;
+    }
+
+    private String open;
+
     public int getAveragebid() {
         return averagebid;
     }
@@ -105,6 +115,16 @@ public class Projects {
     private String employer;
     private String worker;
     private Date estimated_completion_date;
+
+    public String getFreelancer() {
+        return freelancer;
+    }
+
+    public void setFreelancer(String freelancer) {
+        this.freelancer = freelancer;
+    }
+
+    private String freelancer;
 
 
 }
