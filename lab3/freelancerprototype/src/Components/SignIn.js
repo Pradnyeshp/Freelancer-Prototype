@@ -67,7 +67,7 @@ class SignIn extends Component {
                         <style>{'body { background-color: rgb(220,220,220); }'}</style>
                     </Helmet>
                     <div className="form">
-                        <h1><img src={image} alt="Freelancer Logo" /><br /><br /> </h1>
+                        <h1><img src={image} alt="Freelancer Logo" /><br /> </h1><br/>
                         <form className="login-form" onSubmit={this.handleSignIn.bind(this)}>
                             <input type="text" 
                                 placeholder="Username" 
@@ -82,7 +82,7 @@ class SignIn extends Component {
                                 onChange={this.handleChange} 
                                 className="form-control" 
                                 id="txtPassword" 
-                                name="password" required/>
+                                name="password" required/><br/>
                             <button className="form-control btn btn-primary" 
                                 value="Login">login
                             </button>

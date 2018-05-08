@@ -59,7 +59,7 @@ class Signup extends Component {
         }
 
         return (
-            <div className="signup">
+            <div className="signup"><br/><br/><br/><br/>
                 {validUser}
                 <div id="mainDiv">
                     <Helmet>
@@ -70,7 +70,7 @@ class Signup extends Component {
                         </div>
                         <div id="divSignupForm">
                             <div className="form">
-                                <h1> <img src={image} alt="Freelancer Logo" /> <br/> <br/> </h1>
+                                <h1> <img src={image} alt="Freelancer Logo" /> <br/> </h1>
                                 <form className="login-form" onSubmit={this.createUser}>
                                     {/*<input type="text"*/}
                                         {/*onChange={this.handleChange}*/}
@@ -96,7 +96,7 @@ class Signup extends Component {
                                         className="form-control"
                                         id="txtPassword" 
                                         placeholder="Password" 
-                                        name="password" required />
+                                        name="password" required /><br/>
                                     <button className="form-control btn btn-primary" 
                                         id="btnSubmitSignUpForm" 
                                         value="Create Account"> Create Account
