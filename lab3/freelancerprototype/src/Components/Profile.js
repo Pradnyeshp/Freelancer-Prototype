@@ -5,7 +5,9 @@ import axios from 'axios'
 import { Link } from 'react-router-dom' ;
 import image from '../Image/freelancerlogo.png'
 import proimage from '../Image/PassportPhoto.jpg'
+import proimage1 from '../Image/Sample.jpg'
 import ImageUpload from './ImageUpload'
+import Navigator from "./Navigator";
 
 class Profile extends Component {
 
@@ -95,11 +97,31 @@ class Profile extends Component {
     };
 
     render() {
+
+        let bar = null;
+
+        if (localStorage.getItem('username') === null) {
+            bar = ( <Navigator /> )
+        }
+        else {
+            bar = (
+                <ul className="nav navbar-nav navbar-right">
+                    <li>
+                        <Link to={`/profile/${localStorage.getItem('username')}`}
+                              className="btn btn-primary"> Profile </Link> &nbsp; &nbsp;
+                        <Link to="/signin"
+                              className='btn btn-danger' onClick={this.handleSubmit}>
+                            Sign Out </Link>
+                    </li>
+                </ul>
+            )
+        }
+
         if(this.state.isEditing)
         {   
             return (
                 <div className="profile">
-                    <div className="container-fluid" >
+                    <div className="profilenavbar container-fluid" >
                         <nav className="navbar navbar-inverse" >
                             <div className="container-fluid">
                                 <div className="navbar-header">
@@ -114,49 +136,76 @@ class Profile extends Component {
                             </div>
                         </nav>
                     </div>
+
+                    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+                        <button className="navbar-toggler" type="button" data-toggle="collapse"
+                                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span className="navbar-toggler-icon"></span>
+                        </button>
+                        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul className="navbar-nav mr-auto">
+                                <li className="nav-item active">
+                                    <Link to='/userhome'
+                                          className="nav-link" > Home <span className="sr-only">(current)</span>
+                                    </Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link to='/dashboard' className="nav-link" href=""> Dashboard </Link>
+                                </li>
+                            </ul>
+                            <form className="form-inline my-2 my-lg-0">
+                                <button className="postproject btn " type="submit">
+                                    <Link id='postproject' to='/addproject' > Post a Project </Link>
+                                </button>
+                            </form>
+                        </div>
+                    </nav>
+                    <br/>
+
                     <div className="container-fluid ">
                         <br /><br />
                         <div className="row content ">
                             <div className="col-sm-3 divStyle">
                                 <img className="img-rounded" src={proimage} alt="Insert Photo here"></img>
                                 <label> Profile Image :
-                                <input type="file"
+                                <input style={ {marginTop : 5} } type="file"
                                         className="form-control-file"
                                         name="avatar" />
                                 </label>
                             </div>
                             <div className="col-sm-6 divStyle">
                                 <div className='text-left' disabled='true' >
-                                    <h3> <label> Name : &nbsp;
-                                        <input type="text" ref="name"
-                                            className="form-control"
+                                    <h5> <label> Name : &nbsp;
+                                        <input style={ {marginTop : 5} } type="text" ref="name"
+                                            className="profilename form-control"
                                             name= "name"
                                             value={this.state.name}
                                             onChange={this.handleChange}  />
-                                        </label></h3>
+                                        </label></h5>
                                     <h5> <label> Email : &nbsp;
-                                        <input type="text" ref="email"
+                                        <input style={ {marginTop : 5} } type="text" ref="email"
                                             className="form-control"
                                             name="email"
                                             value={this.state.email}
                                             onChange={this.handleChange} />
                                         </label></h5>
                                     <h5> Phone : &nbsp;
-                                        <input type="text" ref="phone"
+                                        <input style={ {marginTop : 5} } type="text" ref="phone"
                                             className="form-control"
                                             name="phone"
                                             value={this.state.phone}
                                             onChange={this.handleChange} />
                                     </h5>
                                     <h5> About Me : 
-                                        <textarea type="text-area" ref="aboutme"
+                                        <textarea style={ {marginTop : 5} } type="text-area" ref="aboutme"
                                             className="form-control"
                                             name="aboutme"
                                             value={this.state.aboutme}
                                             onChange={this.handleChange} />
                                          </h5>
                                     <h5> Skills :
-                                        <input type="text" ref="email"
+                                        <input style={ {marginTop : 5} } type="text" ref="email"
                                             className="form-control"
                                             name="skills"
                                             value={this.state.skills}
@@ -185,8 +234,7 @@ class Profile extends Component {
         else {
             return(
                 < div className = "profile" >
-                    
-                    <div className="container-fluid" >
+                    <div className="profilenavbar container-fluid" >
                         <nav className="navbar navbar-inverse" >
                             <div className="container-fluid">
                                 <div className="navbar-header">
@@ -201,15 +249,43 @@ class Profile extends Component {
                         </nav>
                     </div>
 
+                    <nav className="navbar navbar-expand-lg navbar-dark bg-dark">
+                        <button className="navbar-toggler" type="button" data-toggle="collapse"
+                                data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                                aria-expanded="false" aria-label="Toggle navigation">
+                            <span className="navbar-toggler-icon"></span>
+                        </button>
+                        <div className="collapse navbar-collapse" id="navbarSupportedContent">
+                            <ul className="navbar-nav mr-auto">
+                                <li className="nav-item active">
+                                    <Link to='/userhome'
+                                          className="nav-link" > Home <span className="sr-only">(current)</span>
+                                    </Link>
+                                </li>
+                                <li className="nav-item">
+                                    <Link to='/dashboard' className="nav-link" href=""> Dashboard </Link>
+                                </li>
+                            </ul>
+                            <form className="form-inline my-2 my-lg-0">
+                                <button className="postproject btn " type="submit">
+                                    <Link id='postproject' to='/addproject' > Post a Project </Link>
+                                </button>
+                            </form>
+                        </div>
+                    </nav>
+
+                    <br/>
+
                     <div className="container-fluid ">
                         <br /><br />
-                        <div className="row content ">
-                            <div className="col-sm-3 divStyle">
-                                <img className="img-rounded" src={proimage} alt="Insert Photo here"></img>
+                        <div className=" row content ">
+                            <div className=" col-sm-3 divStyle">
+                                <img className="img-rounded" src={proimage} alt="Insert Photo here"/>
                             </div>
-                            <div className="col-sm-6 divStyle">
+                            <div className="profileinfo col-sm-6 divStyle">
                                 <div className='text-left'>
                                     <h3> {this.state.name}</h3>
+                                    <h5> Username : {this.state.username}</h5>
                                     <h5> Email : {this.state.email}</h5>
                                     <h5> Phone : {this.state.phone}</h5>
                                     <h5> About Me : {this.state.aboutme} </h5>
