@@ -17,6 +17,8 @@ public interface ProjectRepository extends CrudRepository<Projects, Long > {
 //    ResponseEntity<Projects> findAll
     List<Projects> findById(int id);
 
+    List<Projects> findByEmployer(String employer);
+
     @Modifying
     @Transactional
     @Query("UPDATE Projects SET averagebid = :averagebid, number_of_bids = :number_of_bids WHERE id = :projectid ")
@@ -24,5 +26,7 @@ public interface ProjectRepository extends CrudRepository<Projects, Long > {
                        @Param("number_of_bids") int number_of_bids,
                        @Param("projectid") int projectid
     );
+
+
 
 }

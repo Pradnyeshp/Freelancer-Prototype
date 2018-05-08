@@ -17,24 +17,16 @@ class Dashboard extends Component {
     componentWillMount() {
         console.log('In Dashboard');
         const userDetails = {
-            username : localStorage.getItem('username')
-        }
-        axios.post('http://localhost:3001/getmypostedprojects', userDetails)
+            employer : localStorage.getItem('username')
+        };
+        axios.post('http://localhost:3001/project/getmypostedprojects', userDetails)
             .then((response) => {
                 console.log(response.data);
-                if (response.data === 'ERROR') {
-                    let temp = [];
-                    temp.push('No projects to show');
                     this.setState({
-                        projects: temp
-                    })
-                } else {
-                    this.setState({
-                        projects: response.data
+                        projects : response.data
                     }, () => {
-                        console.log(this.state); 
+                        console.log(this.state);
                     })
-                }
             }
         )
     }
@@ -47,7 +39,7 @@ class Dashboard extends Component {
 
     handleSubmit = () => {
         localStorage.removeItem('username');
-    }
+    };
 
     render() {
 
@@ -56,35 +48,31 @@ class Dashboard extends Component {
 
         let projects = [];
         projects = this.state.projects.map ( p => {
-            // var finalDate = null
-            // if (p.estimated_completion_date !== null) {
-            //     finalDate = p.estimated_completion_date.slice(0, 10);
-            // }
             return (
-                <tr key={p.ProjectId}>
+                <tr key={p.id}>
                     <td className='text-left' >
-                        <p><Link to={`/projectdetails/${p.ProjectId}`}> {p.Title} </Link></p>
-                        <p> {p.Description} </p>
-                        <span> {p.SkillsReq} </span>
+                        <p><Link to={`/projectdetails/${p.id}`}> {p.title} </Link></p>
+                        <p> {p.description} </p>
+                        <span> {p.skills_required} </span>
                     </td>
                     <td>
                         <div>
-                            <p>$ {p.Average} </p>
+                            <p>$ {p.averagebid} </p>
                         </div>
                     </td>
                     <td>
                         <div>
-                            <p><Link to={`/profile/${p.Freelancer}`}>{p.Freelancer}</Link></p>
+                            <p><Link to={`/profile/${p.worker}`}>{p.worker}</Link></p>
                         </div>
                     </td>
                     <td>
                         <div>
-                            <p>{p.Bids}</p>
+                            <p>{p.number_of_bids}</p>
                         </div>
                     </td>
                     <td>
                         <div>
-                            <p>{p.Status}</p>
+                            <p>{p.open}</p>
                         </div>
                     </td>
                 </tr>
