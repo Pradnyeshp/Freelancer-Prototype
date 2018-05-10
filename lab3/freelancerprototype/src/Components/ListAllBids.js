@@ -2,6 +2,8 @@ import React, { Component } from 'react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 import proimage from '../Image/PassportPhoto.jpg'
+import proimage1 from '../Image/Sample.jpg'
+
 
 class ListAllBids extends Component {
 
@@ -60,15 +62,15 @@ class ListAllBids extends Component {
             return (
                 <tr key={b.id} >
                     <td className="text-left">
-                        <b> Profile Image Here </b>
-                        {/*<img src={proimage} alt="Insert Photo here" width={100} height={100} ></img>*/}
+                        {/*<b> Profile Image Here </b>*/}
+                        <img src={proimage1} alt="Insert Photo here" width={80} height={80} ></img>
                     </td>
                     <td> <Link to={`/profile/${b.freelancer}`}> {b.freelancer} </Link> </td>
                     <td> {b.bidamount} </td>
                     <td> {b.period} </td>
                     <td> 
-                            <input type="button" id="btnHire" 
-                                className='btn btn-success' value="Hire Now" 
+                            <input type="button" id="btnHire"
+                                className='btn btn-success' value="Hire Now"
                                 onClick={this.handleClick.bind(this, b.freelancer)} />
                     </td>
                 </tr>

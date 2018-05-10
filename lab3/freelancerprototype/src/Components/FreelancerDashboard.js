@@ -133,11 +133,12 @@ class FreelancerDashboard extends Component {
 
                 <div className='EmployerOrFreelancer'>
                     <div className="btn-group" role="group" aria-label="Basic example">
-                        <button onClick={() => this.handleEmployer()} 
+                        <button onClick={ () => this.handleEmployer() }
                             type="button" className="btn btn-dark">Employer</button>
                         <button type="button" className="btn btn-dark">Freelancer</button>
                     </div>
-                </div><br />
+                </div>
+                <br />
                 <div className=' container-fluid dashboardprojecttable'>
                     <table className=' table table-hover table-bordered'>
                         <thead className="thead">

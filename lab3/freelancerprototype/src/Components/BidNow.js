@@ -93,7 +93,7 @@ class BidNow extends Component {
             axios.post('http://localhost:3001/bid/updatebid', bid1)
                 .then((response) => {
                         console.log(response);
-                        alert('Your bid is placed successfully...');
+                        swal('Project Bid','Your bid is placed successfully...', 'success');
                         window.location.reload(true);
                     }
                 );
@@ -122,7 +122,7 @@ class BidNow extends Component {
             axios.post('http://localhost:3001/bid/updatebid', bid2 )
                 .then((response) => {
                         console.log(response);
-                        alert('Your bid is placed successfully...');
+                        swal('Project Bid','Your bid is placed successfully...', 'success');
                         window.location.reload(true);
                     }
                 );

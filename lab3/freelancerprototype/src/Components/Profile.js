@@ -23,8 +23,8 @@ class Profile extends Component {
             skills : '', 
             image : ''
         });
-        this.handleSave = this.handleSave.bind(this)
-        this.handleChange = this.handleChange.bind(this)
+        this.handleSave = this.handleSave.bind(this);
+        this.handleChange = this.handleChange.bind(this);
         this.handleEdit = this.handleEdit.bind(this)
     }
 

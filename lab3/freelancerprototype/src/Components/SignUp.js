@@ -44,7 +44,7 @@ class Signup extends Component {
         axios.post('http://localhost:3001/user/signup', userDetails )
             .then((response) => {
                     console.log( ' Response from DB : ' , response);
-                    swal("Account Created Successfully");
+                    swal("Good job!","Account Created Successfully","success");
                     this.props.history.push('/signin');
                 }
             );
