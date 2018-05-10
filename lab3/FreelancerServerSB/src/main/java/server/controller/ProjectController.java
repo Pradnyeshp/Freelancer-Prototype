@@ -2,6 +2,7 @@ package server.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,7 +30,7 @@ public class ProjectController {
         return new ResponseEntity("Project Added", HttpStatus.OK) ;
     }
 
-    @PostMapping(path = "/getproject")
+    @PostMapping(value = "/getproject", consumes = MediaType.APPLICATION_JSON_VALUE)
     public ResponseEntity<Projects> getProjectbyId(@RequestBody Projects project ){
         System.out.println("In Project Controller, Get Project By Id : " + project.getId() );
         return new ResponseEntity( projectService.getProjectbyId(project.getId()), HttpStatus.OK);
